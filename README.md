@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/myspecialway/my-special-way-android.svg?branch=master)](https://travis-ci.org/myspecialway/my-special-way-android)
+
 ## Project title
 My Special Way - Android Client.
 

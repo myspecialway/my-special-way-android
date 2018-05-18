@@ -58,7 +58,8 @@ before_deploy:
 - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/myspecial.jks
   -storepass $storepass -keypass $keypass app-release-unsigned.apk key0
 - jarsigner -verify app-release-unsigned.apk
-- "${ANDROID_HOME}/build-tools/$ANDROID_BUILD_TOOLS/zipalign -v 4 app-release-unsigned.apk my-special-way.apk"
+- "${ANDROID_HOME}/build-tools/$ANDROID_BUILD_TOOLS/zipalign -v 4 app-release-unsigned.apk
+  my-special-way.apk"
 deploy:
   provider: releases
   file: my-special-way.apk
@@ -69,3 +70,6 @@ deploy:
     jdk: oraclejdk8
   api_key:
     secure: YeUagAU1NMujqW90CuutO0OypG39wtD9kOWEfu8xDIHv0ydCnGrGNIri0sPEwrazJjc/+SJHB52ePaoaSKyWnzw6ft1QsFCnsBx2a3y2hGMJ8eWuXRRHjRP6NkbDhnYBhUFZwwPiUupUieFd5MsyoM7hi6iXvM908arNTxYAwEkFBXNl45c6wpLxi9w8pE2L3CZbyNHS2yQ1Z5JQF6cw3m0qYr7t7/2FTOApoTmvSogTrNvYDrbCrzi+dwUnR5+aMxrUcyxJh6b8sT1/CZ9WzP3mBxoHoi06K5rFcIM7PT40xrIM/vzfaaggA7xPlHFVJbpCWivJAQrwtgov4P0N9d9k3BAYkdbKOpJYrS+dC+HyNcbJ7/BhMog31hVcjf9rwEzVkR6k6DZDkAxRv8cAwy7lh38TEQ/npQSegGGg/QWvG3FRq+ratj0WAkYcIIp+BcLG/kGNdkBmq2mXsUZVFdOJsue/1t6JznuDLOcjyqRSS7kw7HkBTwzWBXjGqVOPBd9V2dymSn9NNOUU+N+XrrtwNRx0BdHSx1t6Qh+eHm9xkIZ31JiwVjCcC89/J2G+ikm3AD79teOXoc7o0RgEvDYXYhLy6xMLA0oiwjBitv8NCIPYsvJJ7ke8pOWEQyxRV1bxpQKxRwyXldrblVX8BkfDOw1MEov6avNrdFFeKZ4=
+notifications:
+  slack:
+    secure: lz6IDTqmHIc43PT3ieMBK88n3cLx85dDAHF/kBbtfQ1kNcyaQfqjl19JLOSPK6TwRTl/kDRjX1G0AvnNvCwhnGaT1tE8BkHRHSwK4l5kDxXkgkFMXi/DR4QSUFVhKTdjCw3bz3N8YElC78t6v7oQLW5dX7nRB5fAioM01j6KhOFbXvJh/a2FuNU6zectuELj5fv2Ynn42Hp/Utdg1nt02HlefzNCXiktAzffA8ubPsO9u2kxf9x+si79Twoue9qa3Mf158Tw/AA7jFMXdWYzitKr71mL/eUTOkztYg0l1xsNi+nL2kys/qlrxILqDqwMP0NamRmkc28CgkedV0gP7mORAbi0FZ66jayWMUWC14OqIqPRJDI3WdmCFF4SWRSEcwao7u2Ur2C1tDy666BiXUVWq+/mRvEAB0wJR2zGOjfIL/5Fj5/24rQH7xBTzy/nUCNCXbolqs31bynt5Pv0+vKKnSfIhWxbIVwwjSPZhJCiSfBwezvlVHsnSTFOZWpA/zCc3FQCKnY+w+/Cnx7uIdYMW8xkaXfgIquBzygH2a6Bl24XDT3D11nW+oSal0Lad2giDIZ9SZZuvwVDTKcZDVLRGqRMb/rtCrcpaCt70y2j89b4/y9BmCuOIfrxRt1s/K8/4xU0d3fQqZ+FffDR6lN7sVknplJ3mgZ8vFusATc=
