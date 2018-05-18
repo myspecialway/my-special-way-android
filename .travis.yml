@@ -52,7 +52,7 @@ before_script:
 script:
 - "./gradlew clean build test" # instead of using the non functional connectedCheck -PdisablePreDex --stacktrace"
 before_deploy:
-- cp $TRAVIS_BUILD_DIR/example_keystore.jks $HOME
+- cp $TRAVIS_BUILD_DIR/myspecial.jks $HOME
 - cd app/build/outputs/apk/
 - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/myspecial.jks
   -storepass $storepass -keypass $keypass app-release-unsigned.apk key0
