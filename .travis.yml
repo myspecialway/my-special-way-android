@@ -1,21 +1,21 @@
 language: android
 sudo: required
 jdk: oraclejdk8
-cache: false
-
-before_cache:
-- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
   - "$HOME/.gradle/caches/"
   - "$HOME/.gradle/wrapper/"
+before_cache:
+- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 env:
   global:
   - ANDROID_API=27
   - EMULATOR_API_LEVEL=16
   - ANDROID_BUILD_TOOLS=27.0.3
   - ADB_INSTALL_TIMEOUT=5
+  - secure: a8Ii0gbBEg2rwIvS/ZSH7HUuamfyP4/sFc84sEgI8+ruKhUrKARxVVSCQoW1UA5iXd/dvMkI2Y3kkYV44Q6NSrZy0uZylmW5Bv0fh0hgTiPQZ5iP2rn+Nx/IQCjTOqvoeMaSSUhd9BmOK6PtVXMCyI9oISoMSpwc0AxzxmcxCQw46P6wwfLz+BxCxZPeuO4AD/Itjy/J9jV0kWMYKrrT9zzQg53OjfGGRc/6AkIJe6J3eR8N1/JdTqce4gnFjKmMLDrrX0YM1IBpbtLtaklsd8z+H4tgUL0VnUNDLVeeepcaw5ZvUcrztdu9ikXmTslEO5vusj7a6LsPGMymYshsPpWZ3t2RKvRBYmatSRKdE1MEFAzM94O5fvCFC3xqqWNClnJuLolbR1qgqcEx5JhIe2P3vY/HT84XXHPEZjaJxC7kfHKWzIsIXKI++Q0o3qtGGziuo8SiSJA2sZ3PNEYdJKc2isHgQiXJ+FLwCNrTs3snggzvb2g4LLwx4i+IRxWJoYZJj7xJvPkd66aUoAVCesTjmqC+pgnf7XQaT98VRtnOoT30Ue1z5WQA64gJ1wgQrYqJV4Ye3JLNvy34lR4mTHY6Urgn+RV08G6gFxlkacv+bU4zAM6uln4QdC0WllWln1Q80ObwdxGTprU6EUm4WF714Bmd1qzhPym7bfFly6g=
+  - secure: S9R7AxNrCmNzvImjXD0fDU4lDTk4x21M3VuKJOOnsTFljTsDlT7QlPPJFuv9LiNrqo2mVO5TnCWJYwCVYbvp15AQtzcmF4Ppf0SyDb2IgB7WjO7JAWDlhHhgGfAItI/LaeQy3malKScQ6FClFF/EyFl+afNoNxdGQQL9QmzFabIJ53S5otQs/sA87C2OnS33ROfRBI2H8ZXI8a1sn5Cz1lgHwe0UW9WpzQ1XAJR30hFEf657qu6UNcPtrTp6Aq3nTu4A/XBN91LT+QPexC+DggAMMR9sVF9aqfbOiOXQb/qYxk+wDkRNfLan/3GPzjlF/yaIGAYXSGwTSxYZANVB65/kfO711NXHI/DPxSmtKgU38bSdJC1gW7x5MYcEwKOYoOfS0Ojt8KZAFa38CrmiDqAC6bZrG+XV9tJBMFuvTTir4JqJxYd6Ad9zTICuB3x3DqCaFnwuITngiePFbGciktECgkL7rc9FpuM5PpbgDpWGES5dCKdSrlDap1HBgLfgOGzOBkrIOU58nBhuGAJ9Qj7bXIqZZvJUO+l/0/js1IbcAHuE4j/r8mogWIKHDWl/iGfWquCwYhg321/orf9D6PBQ2ac+LSSbcVCEF/pM1V+wsJ9Va+uvcJwncqp5znQkos7y2vla+Me7ORVjca4FUO7fuGgNdbjEaEK+1b8kH1E=
 android:
   components:
   - tools
@@ -45,12 +45,13 @@ before_script:
 - echo "y" | android update sdk -a --no-ui --filter android-$EMULATOR_API_LEVEL
 - echo "y" | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-$EMULATOR_API_LEVEL
 - android list targets | grep -E '^id:' | awk -F '"' '{$1=""; print $2}'
-- echo no | android create avd --force -c 10M -n test -t android-$EMULATOR_API_LEVEL --abi armeabi-v7a
+- echo no | android create avd --force -c 10M -n test -t android-$EMULATOR_API_LEVEL
+  --abi armeabi-v7a
 - QEMU_AUDIO_DRV=none emulator -avd test -no-window &
 - android-wait-for-emulator
 - adb shell input keyevent 82 &
 script:
-- "./gradlew clean build test" # instead of using the non functional connectedCheck -PdisablePreDex --stacktrace"
+- "./gradlew clean build test"
 before_deploy:
 - cp $TRAVIS_BUILD_DIR/myspecial.jks $HOME
 - cd app/build/outputs/apk/
