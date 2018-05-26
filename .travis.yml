@@ -45,13 +45,6 @@ before_script:
 - echo "y" | android update sdk -a --no-ui --filter android-$EMULATOR_API_LEVEL
 - echo "y" | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-$EMULATOR_API_LEVEL
 - android list targets | grep -E '^id:' | awk -F '"' '{$1=""; print $2}'
-  # comment out emulator based tests until Travis solved the connceted tests issue
-  #- echo no | android create avd --force -c 10M -n test -t android-$EMULATOR_API_LEVEL
-  #--abi armeabi-v7a
-  #- QEMU_AUDIO_DRV=none emulator -avd test -no-window &
-  #- android-wait-for-emulator
-  #- adb shell input keyevent 82 &
-  # end of comment out emulator based tests
 script:
 - "./gradlew clean build test"
 before_deploy:
@@ -74,4 +67,4 @@ deploy:
     secure: YeUagAU1NMujqW90CuutO0OypG39wtD9kOWEfu8xDIHv0ydCnGrGNIri0sPEwrazJjc/+SJHB52ePaoaSKyWnzw6ft1QsFCnsBx2a3y2hGMJ8eWuXRRHjRP6NkbDhnYBhUFZwwPiUupUieFd5MsyoM7hi6iXvM908arNTxYAwEkFBXNl45c6wpLxi9w8pE2L3CZbyNHS2yQ1Z5JQF6cw3m0qYr7t7/2FTOApoTmvSogTrNvYDrbCrzi+dwUnR5+aMxrUcyxJh6b8sT1/CZ9WzP3mBxoHoi06K5rFcIM7PT40xrIM/vzfaaggA7xPlHFVJbpCWivJAQrwtgov4P0N9d9k3BAYkdbKOpJYrS+dC+HyNcbJ7/BhMog31hVcjf9rwEzVkR6k6DZDkAxRv8cAwy7lh38TEQ/npQSegGGg/QWvG3FRq+ratj0WAkYcIIp+BcLG/kGNdkBmq2mXsUZVFdOJsue/1t6JznuDLOcjyqRSS7kw7HkBTwzWBXjGqVOPBd9V2dymSn9NNOUU+N+XrrtwNRx0BdHSx1t6Qh+eHm9xkIZ31JiwVjCcC89/J2G+ikm3AD79teOXoc7o0RgEvDYXYhLy6xMLA0oiwjBitv8NCIPYsvJJ7ke8pOWEQyxRV1bxpQKxRwyXldrblVX8BkfDOw1MEov6avNrdFFeKZ4=
 notifications:
   slack:
-    secure: lz6IDTqmHIc43PT3ieMBK88n3cLx85dDAHF/kBbtfQ1kNcyaQfqjl19JLOSPK6TwRTl/kDRjX1G0AvnNvCwhnGaT1tE8BkHRHSwK4l5kDxXkgkFMXi/DR4QSUFVhKTdjCw3bz3N8YElC78t6v7oQLW5dX7nRB5fAioM01j6KhOFbXvJh/a2FuNU6zectuELj5fv2Ynn42Hp/Utdg1nt02HlefzNCXiktAzffA8ubPsO9u2kxf9x+si79Twoue9qa3Mf158Tw/AA7jFMXdWYzitKr71mL/eUTOkztYg0l1xsNi+nL2kys/qlrxILqDqwMP0NamRmkc28CgkedV0gP7mORAbi0FZ66jayWMUWC14OqIqPRJDI3WdmCFF4SWRSEcwao7u2Ur2C1tDy666BiXUVWq+/mRvEAB0wJR2zGOjfIL/5Fj5/24rQH7xBTzy/nUCNCXbolqs31bynt5Pv0+vKKnSfIhWxbIVwwjSPZhJCiSfBwezvlVHsnSTFOZWpA/zCc3FQCKnY+w+/Cnx7uIdYMW8xkaXfgIquBzygH2a6Bl24XDT3D11nW+oSal0Lad2giDIZ9SZZuvwVDTKcZDVLRGqRMb/rtCrcpaCt70y2j89b4/y9BmCuOIfrxRt1s/K8/4xU0d3fQqZ+FffDR6lN7sVknplJ3mgZ8vFusATc=
+    secure: kxmck/5Yw2TCPXWOnN3T4xnCurs5gb48qbpdLx7oCYFAZVdt1HEv0yxkUimRzWngPLBpQkIFJ/2v+gsOimcuGFhHVl1DXlLp28BdIajGhWwsvKHmJE2i5QELzhpXKmdRrXdDGllfp59QCsTth+Suj58sClOOtWaPOJB+kAbKLy7jFufRHT+O4olfL2sX5G9YZirLEwtdTXecS1pW8gQxhJb/AR9t2IlCrW4nMNa78LZWo6eaeRT2sd6DgNCC1EX9HCSn+i5q2p6kzd7Xd6g55xRJr5A6NSsE91o1uX40oH91s2H8714mdRO8k2wVS2pK8g6asTSh5LMRkcp4FzXUAJv4mXt9tsIalyEk08de9pk+9iy4Z4mCSPpaxuRQP4pFi3nFCEDue/sTjBpHzQoWs2G0DfUp6VkXiDlFzc+92qcz5PgJO2Md9LDZPxRlM5BIpR4aQhvqig9qKmXmvxNEHwgpGlmlGB5EH1jv0fKHrzJW9Tn4xBsuO+zKZ2tUt0q/oo3yAXLKQmZ9JCeUyOR9RTbizZ6+zRjQS6plkkt7+HLXMHPrPF/FVj9g2/jXa+LbX0f+dzmc0OcAhDT/V5PXYkERg8ksA0YJ0Mau69vYo1QSIp+vX1ZOAS7iVkoyqDSJV+cczcp0VFuJF2y5pJouIk6wXb0PruXDfHaxhOtgCLo=
