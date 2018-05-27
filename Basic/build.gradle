@@ -49,18 +49,18 @@ android {
 }
 
 dependencies {
-    compile "com.indooratlas.android:indooratlas-android-sdk:2.7.0-beta-848@aar"
-    compile 'com.indooratlas.android:indooratlas-android-wayfinding:2.7.0-beta-9'
+    implementation "com.indooratlas.android:indooratlas-android-sdk:2.7.0-beta-848@aar"
+    implementation 'com.indooratlas.android:indooratlas-android-wayfinding:2.7.0-beta-9'
 
-    compile 'com.android.support:appcompat-v7:23.1.0'
-    compile 'com.google.android.gms:play-services-maps:8.1.0'
-    compile 'com.google.maps.android:android-maps-utils:0.3.+'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.2.0'
-    compile 'com.pubnub:pubnub-android:3.7.5'
-    compile 'com.android.support:design:23.0.1'
+    implementation 'com.android.support:appcompat-v7:23.2.1'
+    implementation 'com.google.android.gms:play-services-maps:8.1.0'
+    implementation 'com.google.maps.android:android-maps-utils:0.3.+'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.2.0'
+    implementation 'com.pubnub:pubnub-android:3.7.5'
+    implementation 'com.android.support:design:23.2.1'
 
     // for Open Street Map support
-    compile 'org.osmdroid:osmdroid-android:5.6.4'
-    compile 'com.github.MKergall:osmbonuspack:6.2'
+    implementation 'org.osmdroid:osmdroid-android:5.6.4'
+    implementation 'com.github.MKergall:osmbonuspack:6.2'
 }
