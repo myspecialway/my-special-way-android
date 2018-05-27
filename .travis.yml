@@ -49,7 +49,7 @@ script:
 - "./gradlew clean build test"
 before_deploy:
 - cp $TRAVIS_BUILD_DIR/myspecial.jks $HOME
-- cd Basic/build/outputs/apk
+- cd Basic/build/outputs/apk/release
 - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/myspecial.jks
   -storepass $storepass -keypass $keypass Basic-release-unsigned.apk key0
 - jarsigner -verify Basic-release-unsigned.apk
