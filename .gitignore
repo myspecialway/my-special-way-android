@@ -77,6 +77,7 @@ obj/
 /out/
 
 # User-specific configurations
+.idea/assetWizardSettings.xml
 .idea/caches/
 .idea/libraries/
 .idea/shelf/
