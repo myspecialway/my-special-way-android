@@ -456,6 +456,9 @@ public class WayfindingOverlayActivity extends FragmentActivity implements Locat
 
     @Override
     public void onMapClick(LatLng point) {
+        if (mFloor == null) {
+            return;
+        }
         if (mMap != null) {
 
             mDestination = point;
