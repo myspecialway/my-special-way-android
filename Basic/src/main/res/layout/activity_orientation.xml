@@ -8,7 +8,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context="com.indooratlas.android.sdk.examples.orientation.OrientationActivity">
+    tools:context="org.myspecialway.android.orientation.OrientationActivity">
 
     <android.opengl.GLSurfaceView
         android:id="@+id/gl_view"

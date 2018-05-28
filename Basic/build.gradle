@@ -13,7 +13,7 @@ android {
 
 
     defaultConfig {
-        applicationId "com.indooratlas.android.sdk.examples"
+        applicationId "org.myspecialway.examples"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1

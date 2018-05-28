@@ -8,7 +8,7 @@
     android:keepScreenOn="true"
     tools:context=".MainActivity">
 
-    <com.indooratlas.android.sdk.examples.sharelocation.view.MultiLocationMapView
+    <org.myspecialway.android.sharelocation.view.MultiLocationMapView
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
