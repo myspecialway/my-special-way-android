@@ -474,7 +474,7 @@ public class WayfindingOverlayActivity extends FragmentActivity implements Locat
             }
             Log.d(TAG, "Set destination: (" + mDestination.latitude + ", " +
                     mDestination.longitude + "), floor=" + mFloor);
-
+;fkdfdsfj''
             updateRoute();
         }
     }
