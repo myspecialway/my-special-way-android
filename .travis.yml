@@ -47,6 +47,9 @@ before_script:
 - android list targets | grep -E '^id:' | awk -F '"' '{$1=""; print $2}'
 script:
 - "./gradlew clean build test"
+- "./gradlew build jacocoTestReport"
+after_success:
+- bash <(curl -s https://codecov.io/bash)
 before_deploy:
 - cp $TRAVIS_BUILD_DIR/myspecial.jks $HOME
 - cd Basic/build/outputs/apk/release

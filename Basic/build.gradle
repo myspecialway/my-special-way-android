@@ -37,6 +37,7 @@ android {
     buildTypes {
         debug {
             debuggable true
+            testCoverageEnabled true
         }
         release {
             minifyEnabled true
@@ -46,7 +47,22 @@ android {
     lintOptions {
         abortOnError false
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
 }
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'jacoco-android'
 
 dependencies {
     implementation "com.indooratlas.android:indooratlas-android-sdk:2.7.0-beta-848@aar"
@@ -63,4 +79,10 @@ dependencies {
     // for Open Street Map support
     implementation 'org.osmdroid:osmdroid-android:5.6.4'
     implementation 'com.github.MKergall:osmbonuspack:6.2'
+    // Required -- JUnit 4 framework
+    testImplementation 'junit:junit:4.12'
+    // Optional -- Mockito framework
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+
+
 }
