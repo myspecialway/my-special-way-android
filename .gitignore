@@ -54,7 +54,7 @@ gen-external-apklibs
 .externalNativeBuild
 
 # Google Services (e.g. APIs or Firebase)
-google-services.json
+Basic/google-services.json
 
 # Freeline
 freeline.py
@@ -158,6 +158,6 @@ fabric.properties
 
 !/gradle/wrapper/gradle-wrapper.jar
 
-#test coverage output folder
+#test coverage output fo
 coverage
 # End of https://www.gitignore.io/api/androidstudio
