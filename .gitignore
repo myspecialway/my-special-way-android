@@ -158,5 +158,6 @@ fabric.properties
 
 !/gradle/wrapper/gradle-wrapper.jar
 
-
+#test coverage output folder
+coverage
 # End of https://www.gitignore.io/api/androidstudio
