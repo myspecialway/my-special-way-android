@@ -46,7 +46,7 @@ before_script:
 - echo "y" | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-$EMULATOR_API_LEVEL
 - android list targets | grep -E '^id:' | awk -F '"' '{$1=""; print $2}'
 script:
-- "./gradlew clean build test"
+- "./gradlew clean assembleDebug testDebugUnitTest"
 - "./gradlew build jacocoTestReport"
 after_success:
 - bash <(curl -s https://codecov.io/bash)
