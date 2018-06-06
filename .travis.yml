@@ -34,6 +34,8 @@ android:
   - android-sdk-license-.+
   - google-gdk-license-.+
 before_install:
+- openssl aes-256-cbc -K $encrypted_7cd3aee53869_key -iv $encrypted_7cd3aee53869_iv
+  -in google-services.json.enc -out google-services.json -d
 - openssl aes-256-cbc -K $encrypted_9f2e73e00df0_key -iv $encrypted_9f2e73e00df0_iv
   -in myspecial.jks.enc -out myspecial.jks -d
 - mkdir "$ANDROID_HOME/licenses" || true
@@ -78,4 +80,3 @@ notifications:
       secure: RwTBd9M53CGfQ14e9K+JgqKPf4KxULDQXX2FXdYFcmhkVLXpKk0zo5R64v4b7wQ8L47VHPSpvIBoDGOItHix5ASi61O5NGpntSDCJfJAlw6H+9haGerCUkLX1PovUZ847bZ3E6zPNsEJhf3vk9+qfFmVDtjlX9dgwq/RumwUZjrXCSgDbYBLfg7FrvjBegNimGoXZvNi45VCVubaFpEZZM+Ky3falTv0IXJaoXWTmkkcRQxihzr6W5HTiIn7PuxDy2wivEOAdvW91dhRcxQZR+3JMxdzC0qooO53utoMOw2/5Ey0WkMovVbV61j5gBp7tOfxq5Fq7ChGSLGCYa+9r/n3a1izwe8AauT58AAqemz4sx1ydgQQtUVU4hvBradR8nP11/mK7v6Doy6hCM005D2XSGJfg7R1k4xRP4DHTGXtuhBneyYzsc/TAR+ODzH3qf+vz+JP6JLqQSr9c4TwNIDue9xqFPktWulxoiIwVj3qLO5otUJDsXNe79WpzoJueaE0K98OJPMEY2/0JutUAP0bpVI++Pa8eOzornceF4Oa8kc3xuiejSpuJS0nrZs4ZfYRkRvj6wtWR9fMc69RxlqzmxXcef9iLcxtRyjFQ7UXZQAyoJAq4gxFbIXiBazyA9Dvm7d3LCfwe0XeGJiQSJDC3OPKTIg6Ns6iEPUWbvo=
     on_success: never
     on_failure: always
-
