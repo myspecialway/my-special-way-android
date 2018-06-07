@@ -34,6 +34,8 @@ android:
   - android-sdk-license-.+
   - google-gdk-license-.+
 before_install:
+- openssl aes-256-cbc -K $encrypted_7ed12be32546_key -iv $encrypted_7ed12be32546_iv
+  -in google-services.json.enc -out Basic/google-services.json -d
 - openssl aes-256-cbc -K $encrypted_23aac4940427_key -iv $encrypted_23aac4940427_iv
   -in google-services.json.enc -out Basic/google-services.json -d
 - mkdir "$ANDROID_HOME/licenses" || true
