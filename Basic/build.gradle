@@ -55,6 +55,7 @@ android {
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
