@@ -36,7 +36,7 @@ public class NotificationManager {
      * Show a navigation notification to the user
      * @param navigateTo
      */
-    public void showNavigationNotification(ClassCoordinates navigateTo) {
+    public void showNavigationNotification(ClassDetails navigateTo) {
         String userName = getUserName();
         showNotification(context.getString(R.string.notification_navigation_title, navigateTo.getClassName()),
                 context.getString(R.string.notification_navigation_text, navigateTo.getClassName(), userName));
