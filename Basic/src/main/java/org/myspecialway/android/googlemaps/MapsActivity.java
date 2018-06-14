@@ -54,8 +54,7 @@ public class MapsActivity extends FragmentActivity implements IALocationListener
     protected void onResume() {
         super.onResume();
         if (mMap == null) {
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
+            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
         }
         mIALocationManager.requestLocationUpdates(IALocationRequest.create(), this);
 

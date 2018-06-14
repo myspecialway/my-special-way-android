@@ -25,6 +25,7 @@
 -keep class com.google.android.gms.** { *; }
 -dontwarn com.google.android.gms.**
 -dontwarn java.nio.**
+-dontwarn org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck
 
 # Required by IndoorAtlas SDK
 -keep public class com.indooratlas.algorithm.ClientProcessingManager { *; }

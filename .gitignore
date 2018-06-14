@@ -54,7 +54,11 @@ gen-external-apklibs
 .externalNativeBuild
 
 # Google Services (e.g. APIs or Firebase)
-google-services.json
+Basic/google-services.json
+/google-services.json
+
+# Assets tar - used for travis.ci
+/assets.tar
 
 # Freeline
 freeline.py
@@ -158,5 +162,6 @@ fabric.properties
 
 !/gradle/wrapper/gradle-wrapper.jar
 
-
+#test coverage output fo
+coverage
 # End of https://www.gitignore.io/api/androidstudio
