@@ -55,6 +55,10 @@ gen-external-apklibs
 
 # Google Services (e.g. APIs or Firebase)
 Basic/google-services.json
+/google-services.json
+
+# Assets tar - used for travis.ci
+/assets.tar
 
 # Freeline
 freeline.py
