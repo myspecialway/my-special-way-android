@@ -91,6 +91,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.google.firebase:firebase-core:16.0.0'
 
 
     def room_version = "1.1.0" // or, for latest rc, use "1.1.1-rc1"
