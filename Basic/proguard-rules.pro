@@ -24,6 +24,7 @@
 -dontwarn android.net.http.**
 -keep class com.google.android.gms.** { *; }
 -dontwarn com.google.android.gms.**
+-dontwarn org.conscrypt.**
 -dontwarn java.nio.**
 -dontwarn org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck
 
