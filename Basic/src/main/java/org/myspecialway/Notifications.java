@@ -10,13 +10,14 @@ import android.support.v4.app.NotificationManagerCompat;
 import org.myspecialway.android.ListExamplesActivity;
 import org.myspecialway.android.R;
 
-public class NotificationManager {
+public class Notifications {
 
     NotificationCompat.Builder mBuilder;
     Context context;
+    public static final String CHANNEL_ID = "47ry65t";
     private int NOTIFICATIONID = 1452673;
 
-    public NotificationManager(Context cont){
+    public Notifications(Context cont){
         context = cont;
     }
 
@@ -38,8 +39,9 @@ public class NotificationManager {
      */
     public void showNavigationNotification(ClassDetails navigateTo) {
         String userName = getUserName();
-        showNotification(context.getString(R.string.notification_navigation_title, navigateTo.getClassName()),
-                context.getString(R.string.notification_navigation_text, navigateTo.getClassName(), userName));
+        String title = context.getString(R.string.notification_navigation_title, navigateTo.getClassName());
+        String text = context.getString(R.string.notification_navigation_text, navigateTo.getClassName(), userName);
+        showNotification(title, text);
 
     }
 
@@ -65,6 +67,7 @@ public class NotificationManager {
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
+                .setChannelId(CHANNEL_ID)
                 .setVisibility(Notification.VISIBILITY_PUBLIC);
 
         return mBuilder.build();
