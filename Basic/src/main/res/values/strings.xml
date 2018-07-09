@@ -11,8 +11,10 @@
     <string name="example_googlemaps_overlay_title">04. Google Maps - Overlay</string>
     <string name="example_googlemaps_overlay_description">Demonstrates showing location over a floor plan which is loaded as map overlay. Shows both IndoorAtlas location and platform location (GPS).</string>
     <string name="example_osm_overlay_title">08. Overlay with Open Street Map</string>
+    <string name="example_arrow_camera_title">Arrow on Camera</string>
     <string name="example_osm_overlay_description">Maps overlay with Open Street Map</string>
     <string name="example_googlemaps_indoor_title">13. Google Indoor Maps</string>
+    <string name="example_arrow_on_camera">Show the direction on screen using an arrow</string>
     <string name="example_googlemaps_indoor_description">Demonstrates using IndoorAtlas locations on Google Indoor Maps</string>
     <string name="location_permission_request_title">Permission required</string>
     <string name="location_permission_request_rationale">Access to coarse location is required for faster first fix.</string>

@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -102,6 +103,11 @@
         <activity
             android:name=".googlemapsindoor.GoogleMapsIndoorActivity"
             android:label="@string/example_googlemaps_indoor_title"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".arrow.ArrowActivity"
+            android:label="@string/example_arrow_camera_title"
             android:screenOrientation="portrait" />
 
         <provider

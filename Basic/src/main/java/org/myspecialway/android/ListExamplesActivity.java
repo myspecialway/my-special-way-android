@@ -77,8 +77,8 @@ public class ListExamplesActivity extends AppCompatActivity {
      */
     private void ensurePermissions() {
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                ||ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
             // we don't have access to coarse locations, hence we have not access to wifi either
             // check if this requires explanation to user
@@ -93,7 +93,7 @@ public class ListExamplesActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 Log.d(TAG, "request permissions");
                                 ActivityCompat.requestPermissions(ListExamplesActivity.this,
-                                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA},
                                         REQUEST_CODE_ACCESS_COARSE_LOCATION);
                             }
                         })
@@ -111,7 +111,7 @@ public class ListExamplesActivity extends AppCompatActivity {
 
                 // ask user for permission
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA},
                         REQUEST_CODE_ACCESS_COARSE_LOCATION);
 
             }
