@@ -1,7 +1,10 @@
 package org.myspecialway;
 
 import android.app.Dialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -13,6 +16,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import org.myspecialway.android.ListExamplesActivity;
+import org.myspecialway.android.R;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -22,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Notifications.createNotificationChannel(this);
         startMainActivity();
     }
 

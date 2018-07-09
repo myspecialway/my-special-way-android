@@ -1,22 +1,26 @@
 package org.myspecialway;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
 import org.myspecialway.android.ListExamplesActivity;
 import org.myspecialway.android.R;
 
-public class NotificationManager {
+public class Notifications {
 
     NotificationCompat.Builder mBuilder;
     Context context;
+    public static final String CHANNEL_ID = "47ry65t";
     private int NOTIFICATIONID = 1452673;
 
-    public NotificationManager(Context cont){
+    public Notifications(Context cont){
         context = cont;
     }
 
@@ -38,8 +42,9 @@ public class NotificationManager {
      */
     public void showNavigationNotification(ClassDetails navigateTo) {
         String userName = getUserName();
-        showNotification(context.getString(R.string.notification_navigation_title, navigateTo.getClassName()),
-                context.getString(R.string.notification_navigation_text, navigateTo.getClassName(), userName));
+        String title = context.getString(R.string.notification_navigation_title, navigateTo.getClassName());
+        String text = context.getString(R.string.notification_navigation_text, navigateTo.getClassName(), userName);
+        showNotification(title, text);
 
     }
 
@@ -65,9 +70,26 @@ public class NotificationManager {
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
+                .setChannelId(CHANNEL_ID)
                 .setVisibility(Notification.VISIBILITY_PUBLIC);
 
         return mBuilder.build();
+    }
+
+    public static void createNotificationChannel(Context context) {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = context.getResources().getString(R.string.channel_name);
+            String description = context.getResources().getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(Notifications.CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            android.app.NotificationManager notificationManager = context.getSystemService(android.app.NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
 }
