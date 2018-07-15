@@ -74,6 +74,7 @@ dependencies {
     implementation "com.indooratlas.android:indooratlas-android-sdk:2.7.0-beta-848@aar"
     implementation 'com.indooratlas.android:indooratlas-android-wayfinding:2.7.0-beta-9'
 
+    implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.google.android.gms:play-services-maps:9.0.0'
     implementation 'com.google.maps.android:android-maps-utils:0.3.+'
