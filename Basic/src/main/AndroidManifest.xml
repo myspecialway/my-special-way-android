@@ -40,11 +40,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ListExamplesActivity"
-            android:label="@string/app_name">
-        </activity>
+            android:label="@string/app_name"></activity>
         <activity
             android:name=".simple.SimpleActivity"
             android:configChanges="orientation|screenSize"
@@ -98,7 +96,7 @@
         <activity
             android:name=".wayfinding.WayfindingOverlayActivity"
             android:label="@string/example_wayfinding_title"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".googlemapsindoor.GoogleMapsIndoorActivity"
             android:label="@string/example_googlemaps_indoor_title"
@@ -119,14 +117,13 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service
-            android:name="org.myspecialway.FCM.FCMMessagingService">
+        <service android:name="org.myspecialway.FCM.FCMMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-
+        <activity android:name="org.myspecialway.AgendaActivity"></activity>
     </application>
 
 </manifest>
