@@ -61,10 +61,6 @@ public class MainScreenActivity extends AppCompatActivity {
         });
     }
 
-    private void initToolbar() {
-        ActionBar supportActionBar = getSupportActionBar();
-        supportActionBar.setTitle("בדרכי שלי");
-    }
 
     private void observeUserName() {
         final Observer<String> userNameObserver = new Observer<String>() {

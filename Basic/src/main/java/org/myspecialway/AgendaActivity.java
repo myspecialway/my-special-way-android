@@ -49,7 +49,6 @@ public class AgendaActivity extends AppCompatActivity {
         ActionBar supportActionBar = getSupportActionBar();
         supportActionBar.setDisplayHomeAsUpEnabled(true);
         supportActionBar.setDisplayShowHomeEnabled(true);
-        supportActionBar.setTitle("בדרכי שלי");
     }
 
     private void initAgendaDetails() {

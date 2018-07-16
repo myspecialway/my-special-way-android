@@ -131,7 +131,7 @@
 
         <receiver android:name="org.myspecialway.Alarm$AlarmReceiver"/>
 
-        <activity android:name="org.myspecialway.AgendaActivity"></activity>
+        <activity android:name="org.myspecialway.AgendaActivity" android:label="@string/msw_hebrew"></activity>
     </application>
 
 </manifest>
