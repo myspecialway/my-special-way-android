@@ -17,9 +17,9 @@ buildscript {
 allprojects {
 
     repositories {
+        google()
         jcenter()
         mavenCentral()
-        google()
         maven {
             url "http://indooratlas-ltd.bintray.com/mvn-public"
         }

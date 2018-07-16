@@ -2,7 +2,7 @@ package org.myspecialway.android;
 
 public class UserDataRepository {
 
-    UserData userData = new UserData("User1");
+    UserData userData = new UserData("טל בוכשרייבר");
 //
 //    public UserDataRepository(UserData userData) {
 //        this.userData = userData;

@@ -34,12 +34,14 @@
         <activity
             android:name="org.myspecialway.SplashActivity"
             android:label="@string/app_name">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".mainscreen.MainScreenActivity"></activity>
         <activity
             android:name=".ListExamplesActivity"
             android:label="@string/app_name"></activity>

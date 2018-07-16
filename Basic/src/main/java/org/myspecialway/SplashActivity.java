@@ -17,6 +17,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import org.myspecialway.android.ListExamplesActivity;
 import org.myspecialway.android.R;
+import org.myspecialway.android.mainscreen.MainScreenActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -39,7 +40,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void startMainActivity() {
         if(checkGooglePlayServices()){
-            Intent intent = new Intent(this, ListExamplesActivity.class);
+            Intent intent = new Intent(this, MainScreenActivity.class);
             startActivity(intent);
             finish();
         }
