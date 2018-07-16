@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -58,6 +59,11 @@ public class MainScreenActivity extends AppCompatActivity {
                 startActivity(new Intent(MainScreenActivity.this,ListExamplesActivity.class));
             }
         });
+    }
+
+    private void initToolbar() {
+        ActionBar supportActionBar = getSupportActionBar();
+        supportActionBar.setTitle("בדרכי שלי");
     }
 
     private void observeUserName() {

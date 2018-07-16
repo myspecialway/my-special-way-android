@@ -100,5 +100,8 @@
     <string name="notification_navigation_text">%2$s, בוא נצא לשיעור %1$s!</string>
     <string name="channel_name">MSW</string>
     <string name="channel_description">Used for MSW notifications</string>
+    <string name="example_notification">set alarm for notificaiton</string>
+    <string name="notifiaction_activity">Notification alarm</string>
+    <string name="msw_hebrew">בדרכי שלי</string>
 
 </resources>
