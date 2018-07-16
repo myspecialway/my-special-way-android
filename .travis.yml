@@ -49,7 +49,7 @@ before_script:
 - android list targets | grep -E '^id:' | awk -F '"' '{$1=""; print $2}'
 script:
 - "./gradlew clean assembleDebug testDebugUnitTest"
-- "./gradlew build jacocoTestReport"
+- "./gradlew build"
 after_success:
 - bash <(curl -s https://codecov.io/bash)
 before_deploy:
