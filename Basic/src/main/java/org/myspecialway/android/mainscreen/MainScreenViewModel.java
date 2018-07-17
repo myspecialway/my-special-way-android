@@ -11,7 +11,13 @@ public class MainScreenViewModel extends ViewModel {
     UserDataRepository userDataRepository;
     ScheduleRepository scheduleRepository;
 
-    public MainScreenViewModel(UserDataRepository userDataRepository, ScheduleRepository scheduleRepository) {
+
+
+    public MainScreenViewModel() {
+
+    }
+
+    public void setRepos(UserDataRepository userDataRepository, ScheduleRepository scheduleRepository){
         this.userDataRepository = userDataRepository;
         this.scheduleRepository = scheduleRepository;
     }

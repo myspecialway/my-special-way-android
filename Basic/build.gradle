@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+//apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 27
@@ -56,15 +56,14 @@ android {
         unitTests.returnDefaultValues = true
     }
 
-    dataBinding {
-        enabled = true
-    }
+//    dataBinding {
+//        enabled = true
+//    }
 
 }
 buildscript {
     repositories {
         jcenter()
-        mavenCentral()
         google()
     }
     dependencies {
@@ -79,6 +78,7 @@ dependencies {
     implementation "com.indooratlas.android:indooratlas-android-sdk:2.7.0-beta-848@aar"
     implementation 'com.indooratlas.android:indooratlas-android-wayfinding:2.7.0-beta-9'
 
+    implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.google.android.gms:play-services-maps:9.0.0'
     implementation 'com.google.maps.android:android-maps-utils:0.3.+'
@@ -88,7 +88,7 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.google.firebase:firebase-core:+'
     implementation 'com.google.firebase:firebase-messaging:17.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 
 
     // for Open Street Map support

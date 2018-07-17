@@ -2,7 +2,32 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <item name="toolbarStyle">@style/toolbar_style</item>
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="toolbar_style" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@android:color/white</item>
+
+    </style>
+
+    <style name="HeaderBar">
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style parent="android:Theme" name="Theme.Transparent">
+
+        <item name="android:windowIsTranslucent">true</item>
+
+        <item name="android:windowBackground">@android:color/transparent</item>
+
+        <item name="android:windowContentOverlay">@null</item>
+
+        <item name="android:windowNoTitle">true</item>
+
+        <item name="android:windowIsFloating">true</item>
+
+        <item name="android:backgroundDimEnabled">false</item>
+
+    </style>
 </resources>

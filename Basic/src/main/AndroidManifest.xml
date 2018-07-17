@@ -34,17 +34,17 @@
         <activity
             android:name="org.myspecialway.SplashActivity"
             android:label="@string/app_name">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".mainscreen.MainScreenActivity" android:label="@string/msw_hebrew"></activity>
         <activity
             android:name=".ListExamplesActivity"
-            android:label="@string/app_name">
-        </activity>
+            android:label="@string/app_name"></activity>
         <activity
             android:name=".simple.SimpleActivity"
             android:configChanges="orientation|screenSize"
@@ -98,11 +98,15 @@
         <activity
             android:name=".wayfinding.WayfindingOverlayActivity"
             android:label="@string/example_wayfinding_title"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".googlemapsindoor.GoogleMapsIndoorActivity"
             android:label="@string/example_googlemaps_indoor_title"
             android:screenOrientation="portrait" />
+
+        <activity android:name="org.myspecialway.NotificationActivity" android:theme="@style/Theme.Transparent" android:label="@string/notifiaction_activity" android:screenOrientation="portrait"/>
+
+        <activity android:name="org.myspecialway.NotificationSchedulerTemp" android:label="@string/notifiaction_activity" android:screenOrientation="portrait"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -119,14 +123,15 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service
-            android:name="org.myspecialway.FCM.FCMMessagingService">
+        <service android:name="org.myspecialway.FCM.FCMMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
+        <receiver android:name="org.myspecialway.Alarm$AlarmReceiver"/>
 
+        <activity android:name="org.myspecialway.AgendaActivity" android:label="@string/msw_hebrew"></activity>
     </application>
 
 </manifest>

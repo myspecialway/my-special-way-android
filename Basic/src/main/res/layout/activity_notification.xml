@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:visibility="visible"
+        android:background="@android:color/white">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+
+            android:background="@android:color/transparent"
+            android:contentDescription=""
+            android:src="@drawable/notification_img" />
+
+        <TextView
+            android:id="@+id/dialog_notification_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/dialog_notification_button"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/temp_notification_button" />
+    </LinearLayout>
+</RelativeLayout>

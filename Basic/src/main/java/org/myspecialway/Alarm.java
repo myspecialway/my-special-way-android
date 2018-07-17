@@ -31,6 +31,7 @@ public class Alarm {
      */
     public void scheduleAlarm(int secondsFromNow){
         Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
         long triggerAtMillis = System.currentTimeMillis() + (secondsFromNow * 1000);
@@ -56,9 +57,13 @@ public class Alarm {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d("Peleg", "Alarm fired");
-            Notifications nm = new Notifications(context);
-            ClassDetails cd = new ClassDetails("32","34","מדעים", "1");
-            nm.showNavigationNotification(cd);
+//            Notifications nm = new Notifications(context);
+//            ClassDetails cd = new ClassDetails("32","34","מדעים", "1");
+//            nm.showNavigationNotification(cd);
+
+            Intent intent1 = new Intent(context, NotificationActivity.class);
+            intent1.putExtra(NotificationActivity.MESSAGE_TEXT, "בוקר טוב, זמן לשיעור חשבון!");
+            context.startActivity(intent1);
         }
     }
 
