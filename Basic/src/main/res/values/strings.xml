@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">My Special Way</string>
+    <string name="app_name">בדרכי שלי</string>
     <string name="action_clear">Clear</string>
     <string name="example_simple_title">01. Simple</string>
     <string name="example_simple_description">Demonstrates basic functionality, shows events as text entries.</string>
