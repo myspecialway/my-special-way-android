@@ -2,6 +2,7 @@ package org.myspecialway.android.mainscreen;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -56,9 +58,21 @@ public class MainScreenActivity extends AppCompatActivity {
         navButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainScreenActivity.this,ListExamplesActivity.class));
+//                startActivity(new Intent(MainScreenActivity.this,ListExamplesActivity.class));
+
+                //start navigation in Unity app
+                try {
+                    Intent intent = new Intent();
+                    intent.setComponent(new ComponentName("com.att.indar.poc", "com.unity3d.player.UnityPlayerActivity"));
+                    intent.putExtra("destination", "D"); //TODO - need to pass the real destination name
+
+                    startActivity(intent);
+                }catch (Exception e){
+                    Toast.makeText(v.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
     }
 
 
