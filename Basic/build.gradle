@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 27
@@ -19,7 +19,7 @@ android {
 
     defaultConfig {
         applicationId "org.myspecialway.examples"
-        minSdkVersion 19
+        minSdkVersion 24
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -98,21 +98,23 @@ dependencies {
     // Required -- JUnit 4 framework
     testImplementation 'junit:junit:4.12'
     // Optional -- Mockito framework
-    testImplementation 'org.mockito:mockito-core:1.10.19'
+    testImplementation 'org.mockito:mockito-core:2.16.0'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
-    implementation "android.arch.lifecycle:extensions:1.1.0"
-    implementation "android.arch.lifecycle:viewmodel:1.1.0"
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    implementation "android.arch.lifecycle:viewmodel:1.1.1"
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     annotationProcessor 'com.google.auto.value:auto-value:1.5.2'
 
-    def room_version = "1.1.0" // or, for latest rc, use "1.1.1-rc1"
+    def room_version = "1.1.1" // or, for latest rc, use "1.1.1-rc1"
     implementation "android.arch.persistence.room:runtime:$room_version"
-    annotationProcessor ("android.arch.persistence.room:compiler:$room_version"){
+    annotationProcessor("android.arch.persistence.room:compiler:$room_version") {
         exclude module: 'gson'
     }
+
+    testImplementation "com.google.truth:truth:0.42"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 apply plugin: 'com.google.gms.google-services'
-

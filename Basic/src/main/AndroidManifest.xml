@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="org.myspecialway.android">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -14,9 +15,12 @@
         android:required="true" />
 
     <application
-        android:allowBackup="true"
+        android:name=".MswApplication"
+        android:allowBackup="false"
+        tools:replace="android:allowBackup"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.gms.version"
@@ -34,17 +38,25 @@
         <activity
             android:name="org.myspecialway.SplashActivity"
             android:label="@string/app_name">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mainscreen.MainScreenActivity" android:label="@string/msw_hebrew"></activity>
+
+        <activity
+            android:name="org.myspecialway.AgendaActivity"
+            android:label="@string/app_name" />
+        <activity android:name=".login.LoginActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".mainscreen.MainScreenActivity"
+            android:label="@string/app_name" />
         <activity
             android:name=".ListExamplesActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".simple.SimpleActivity"
             android:configChanges="orientation|screenSize"
@@ -103,10 +115,15 @@
             android:name=".googlemapsindoor.GoogleMapsIndoorActivity"
             android:label="@string/example_googlemaps_indoor_title"
             android:screenOrientation="portrait" />
-
-        <activity android:name="org.myspecialway.NotificationActivity" android:theme="@style/Theme.Transparent" android:label="@string/notifiaction_activity" android:screenOrientation="portrait"/>
-
-        <activity android:name="org.myspecialway.NotificationSchedulerTemp" android:label="@string/notifiaction_activity" android:screenOrientation="portrait"/>
+        <activity
+            android:name="org.myspecialway.NotificationActivity"
+            android:label="@string/notifiaction_activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name="org.myspecialway.NotificationSchedulerTemp"
+            android:label="@string/notifiaction_activity"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -129,9 +146,7 @@
             </intent-filter>
         </service>
 
-        <receiver android:name="org.myspecialway.Alarm$AlarmReceiver"/>
-
-        <activity android:name="org.myspecialway.AgendaActivity" android:label="@string/msw_hebrew"></activity>
+        <receiver android:name="org.myspecialway.Alarm$AlarmReceiver" />
     </application>
 
 </manifest>

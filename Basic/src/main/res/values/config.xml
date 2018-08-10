@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
+    <string name="baseUrl">http://msw-dev.eastus.cloudapp.azure.com:3000/</string>
     <!-- Set your floor plan id here or leave empty for fully automatic selection
          You can get the floor plan id from developer website-->
     <string name="indooratlas_floor_plan_id"></string>

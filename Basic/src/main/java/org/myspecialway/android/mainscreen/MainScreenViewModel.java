@@ -3,34 +3,31 @@ package org.myspecialway.android.mainscreen;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
+import org.myspecialway.android.MswApplication;
 import org.myspecialway.android.ScheduleRepository;
-import org.myspecialway.android.UserDataRepository;
+import org.myspecialway.android.session.UserSessionManager;
 
 public class MainScreenViewModel extends ViewModel {
 
-    UserDataRepository userDataRepository;
-    ScheduleRepository scheduleRepository;
-
-
+    private ScheduleRepository scheduleRepository;
+    private UserSessionManager userSessionManager = MswApplication.getInstance().getUserSessionManager();
 
     public MainScreenViewModel() {
 
     }
 
-    public void setRepos(UserDataRepository userDataRepository, ScheduleRepository scheduleRepository){
-        this.userDataRepository = userDataRepository;
+    public void setRepos(ScheduleRepository scheduleRepository){
         this.scheduleRepository = scheduleRepository;
     }
 
-    public LiveData<String> getUserName() {
+    public String getUsername() {
 
-         return userDataRepository.getUserData().getUserName();
+        return userSessionManager.getUserSession().getUserData().username;
     }
 
+    public String getUserAvatar() {
 
-    public LiveData<String> getUserAvatar() {
-
-        return userDataRepository.getUserData().getUserAvatar();
+        return "";
     }
 
     public LiveData<String> getCurrentScheduleName() {

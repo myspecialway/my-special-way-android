@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layoutDirection="rtl"
     android:id="@+id/activity_main_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,7 +23,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
-        android:text="TextView"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="18sp"
@@ -35,13 +35,13 @@
 
     <ImageView
         android:id="@+id/current_schedule_name_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="400dp"
+        android:layout_height="170dp"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="@+id/user_avatar_image"
         app:layout_constraintStart_toStartOf="@+id/user_avatar_image"
         app:layout_constraintTop_toBottomOf="@+id/user_display_name"
-        app:srcCompat="@drawable/main_screen_main_image" />
+        app:srcCompat="@drawable/things" />
 
     <TextView
         android:id="@+id/current_schedule_name_text"
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="מפגש בוקר"
+        android:layout_marginTop="32dp"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="22sp"
@@ -57,7 +57,8 @@
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@+id/current_schedule_name_image"
         app:layout_constraintStart_toStartOf="@+id/current_schedule_name_image"
-        app:layout_constraintTop_toBottomOf="@+id/current_schedule_name_image" />
+        app:layout_constraintTop_toBottomOf="@+id/current_schedule_name_image"
+        tools:text="מפגש בוקר" />
 
     <Button
         android:id="@+id/nav_button"
@@ -77,15 +78,13 @@
         android:id="@+id/wc_nav_button"
         android:layout_width="84dp"
         android:layout_height="80dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:background="@drawable/main_screen_wc_image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/current_schedule_name_text"
-        app:layout_constraintStart_toStartOf="@+id/current_schedule_name_text"
-        app:layout_constraintTop_toBottomOf="@+id/current_schedule_name_text" />
+        app:layout_constraintStart_toStartOf="@+id/current_schedule_name_text" />
 
     <Button
         android:id="@+id/schedule_button"
