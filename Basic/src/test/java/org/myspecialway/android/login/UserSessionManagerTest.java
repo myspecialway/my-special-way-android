@@ -1,6 +1,9 @@
 package org.myspecialway.android.login;
 
+import android.content.SharedPreferences;
+
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.myspecialway.android.session.UserData;
 import org.myspecialway.android.login.gateway.ILoginGateway;
 import org.myspecialway.android.login.gateway.InvalidLoginCredentials;
@@ -18,6 +21,7 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class UserSessionManagerTest {
 
@@ -29,7 +33,7 @@ public class UserSessionManagerTest {
         UserSessionManager userSessionManager = createASuccessfulUserSessionManager();
 
         try {
-            userSessionManager.login("", "password", new RequestCallback<UserSession>() {
+            userSessionManager.login("", "storedPassword", new RequestCallback<UserSession>() {
                 @Override
                 public void onSuccess(UserSession result) {
 
@@ -75,10 +79,10 @@ public class UserSessionManagerTest {
     public void login_invalidUsernameOrPasswordEntered_returnErrorResponse(){
 
         ILoginGateway fakeGateway = (username, password, callback) -> callback.onFailure(new InvalidLoginCredentials());
-        UserSessionManager userSessionManager = new UserSessionManager(fakeGateway, new JWTParser());
+        UserSessionManager userSessionManager = new UserSessionManager(fakeGateway, new JWTParser(), getSharedPreferencesMock());
         RequestCallback<UserSession> requestCallbackMock = mock(RequestCallback.class);
 
-        userSessionManager.login("username", "password", requestCallbackMock);
+        userSessionManager.login("username", "storedPassword", requestCallbackMock);
 
         verify(requestCallbackMock, only()).onFailure(any(InvalidLoginCredentials.class));
     }
@@ -90,7 +94,7 @@ public class UserSessionManagerTest {
         UserSessionManager userSessionManager = createASuccessfulUserSessionManager();
         RequestCallback<UserSession> requestCallbackMock = mock(RequestCallback.class);
 
-        userSessionManager.login("username", "password", requestCallbackMock);
+        userSessionManager.login("username", "storedPassword", requestCallbackMock);
 
         verify(requestCallbackMock, only()).onSuccess(argThat(userSession ->
                 userSession.getToken().getAccessToken().equals(FAKE_TOKEN) && userSession.getUserData().equals(expectedUserData)));
@@ -109,7 +113,7 @@ public class UserSessionManagerTest {
     @Test
     public void isLoggedIn_userLoggedIn_returnTrue(){
 //        UserSessionManager userSessionManager = createASuccessfulUserSessionManager();
-//        userSessionManager.login("username", "password", null);
+//        userSessionManager.login("username", "storedPassword", null);
 //
 //        boolean loggedIn = userSessionManager.isLoggedIn();
 //
@@ -119,6 +123,12 @@ public class UserSessionManagerTest {
     private UserSessionManager createASuccessfulUserSessionManager(){
         ILoginGateway fakeGateway = (username, password, callback) -> callback.onSuccess(FAKE_TOKEN);
         JWTBase64Decoder decoder = toDecode -> new String(Base64.getUrlDecoder().decode(toDecode));
-        return new UserSessionManager(fakeGateway, new JWTParser(decoder));
+        return new UserSessionManager(fakeGateway, new JWTParser(decoder), getSharedPreferencesMock());
+    }
+
+    private SharedPreferences getSharedPreferencesMock(){
+        SharedPreferences sharedPreferencesMock = Mockito.mock(SharedPreferences.class);
+        when(sharedPreferencesMock.edit()).thenReturn(mock(SharedPreferences.Editor.class));
+        return sharedPreferencesMock;
     }
 }

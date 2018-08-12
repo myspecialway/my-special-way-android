@@ -9,9 +9,12 @@ import android.support.v7.widget.AppCompatEditText;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.myspecialway.android.BuildConfig;
 import org.myspecialway.android.R;
+import org.myspecialway.android.login.gateway.InvalidLoginCredentials;
 import org.myspecialway.android.mainscreen.MainScreenActivity;
 import org.myspecialway.android.session.UserSession;
 import org.myspecialway.android.utils.LoadingProgressDialog;
@@ -22,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private AppCompatEditText usernameEditText;
     private AppCompatEditText passwordEditText;
     private LoadingProgressDialog loadingProgressDialog;
+    private TextView errorText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
 
         usernameEditText = findViewById(R.id.username);
         passwordEditText = findViewById(R.id.password);
+
+        errorText = findViewById(R.id.errorText);
 
         passwordEditText.setOnEditorActionListener((v, actionId, event) -> {
             if(actionId == EditorInfo.IME_ACTION_SEND){
@@ -48,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login(){
         hideKeyboard();
+        errorText.setVisibility(View.GONE);
 
         String username = usernameEditText.getText().toString().trim();
         if(username.isEmpty()){
@@ -71,7 +78,15 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable t) {
-                Toast.makeText(LoginActivity.this, "Failure!", Toast.LENGTH_SHORT).show();
+                if(t instanceof InvalidLoginCredentials){
+                    errorText.setText(((InvalidLoginCredentials)t).getUserShownMessage(LoginActivity.this));
+                    errorText.setVisibility(View.VISIBLE);
+                }
+                else if(BuildConfig.DEBUG){
+                    errorText.setText(t.getMessage());
+                    errorText.setVisibility(View.VISIBLE);
+                }
+
                 loadingProgressDialog.dismiss();
             }
         });

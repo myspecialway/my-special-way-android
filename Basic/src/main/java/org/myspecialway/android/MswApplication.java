@@ -1,6 +1,7 @@
 package org.myspecialway.android;
 
 import android.app.Application;
+import android.content.Context;
 
 import org.myspecialway.android.login.gateway.ILoginGateway;
 import org.myspecialway.android.login.gateway.LoginGateway;
@@ -44,7 +45,7 @@ public class MswApplication extends Application {
 
         ILoginGateway loginGateway = new LoginGateway(retrofit);
 
-        return new UserSessionManager(loginGateway, new JWTParser());
+        return new UserSessionManager(loginGateway, new JWTParser(), getSharedPreferences("creds", Context.MODE_PRIVATE));
     }
 
     public UserSessionManager getUserSessionManager(){

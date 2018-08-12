@@ -41,6 +41,7 @@ public class MainScreenActivity extends AppCompatActivity {
         usernameView.setText(viewModel.getUsername());
         observeCurrentScheduleName();
 
+//        navButton.setOnClickListener(v -> startActivity(new Intent(MainScreenActivity.this,ListExamplesActivity.class)));
         navButton.setOnClickListener(v -> {
             //start navigation in Unity app
             try {
@@ -55,7 +56,7 @@ public class MainScreenActivity extends AppCompatActivity {
         });
 
         scheduleNavButton.setOnClickListener(v -> startActivity(new Intent(MainScreenActivity.this,AgendaActivity.class)));
-        navButton.setOnClickListener(v -> startActivity(new Intent(MainScreenActivity.this,ListExamplesActivity.class)));
+
     }
 
     private void observeCurrentScheduleName() {

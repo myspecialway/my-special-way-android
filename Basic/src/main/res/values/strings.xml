@@ -111,4 +111,5 @@
 
     <string name="username_empty_error_message">אנא הזן שם משתמש</string>
     <string name="password_empty_error_message">אנא הזן סיסמה</string>
+    <string name="invalid_login">שם משתמש או סיסמה שגויים</string>
 </resources>
