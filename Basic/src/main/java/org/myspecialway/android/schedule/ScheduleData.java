@@ -1,4 +1,4 @@
-package org.myspecialway.android;
+package org.myspecialway.android.schedule;
 
 import android.arch.lifecycle.MutableLiveData;
 

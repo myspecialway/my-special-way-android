@@ -1,5 +1,7 @@
 package org.myspecialway.android;
 
+import org.myspecialway.android.schedule.ScheduleData;
+
 public class ScheduleRepository {
 
     ScheduleData scheduleData = new ScheduleData("שיעור חשבון");

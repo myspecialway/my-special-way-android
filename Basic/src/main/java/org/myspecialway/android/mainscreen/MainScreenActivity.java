@@ -5,16 +5,15 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.myspecialway.AgendaActivity;
-import org.myspecialway.android.ListExamplesActivity;
+import org.myspecialway.android.MswApplication;
 import org.myspecialway.android.R;
-import org.myspecialway.android.ScheduleRepository;
+import org.myspecialway.android.schedule.ScheduleRepository;
 
 public class MainScreenActivity extends AppCompatActivity {
     TextView usernameView;
@@ -30,8 +29,7 @@ public class MainScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_screen);
 
         viewModel = ViewModelProviders.of(this).get(MainScreenViewModel.class);
-        viewModel.setRepos(new ScheduleRepository());
-
+        viewModel.setRepos(new ScheduleRepository((MswApplication.getInstance().getScheduleGateway())));
         usernameView = findViewById(R.id.user_display_name);
         userAvatarView = findViewById(R.id.user_avatar_image);
         currentScheduleNameView =findViewById(R.id.current_schedule_name_text);
@@ -40,8 +38,6 @@ public class MainScreenActivity extends AppCompatActivity {
 
         usernameView.setText(viewModel.getUsername());
         observeCurrentScheduleName();
-
-//        navButton.setOnClickListener(v -> startActivity(new Intent(MainScreenActivity.this,ListExamplesActivity.class)));
         navButton.setOnClickListener(v -> {
             //start navigation in Unity app
             try {

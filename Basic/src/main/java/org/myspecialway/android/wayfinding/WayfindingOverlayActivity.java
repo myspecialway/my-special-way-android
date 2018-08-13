@@ -38,9 +38,6 @@ import com.indooratlas.android.sdk.IALocationListener;
 import com.indooratlas.android.sdk.IALocationManager;
 import com.indooratlas.android.sdk.IALocationRequest;
 import com.indooratlas.android.sdk.IARegion;
-import org.myspecialway.android.R;
-import org.myspecialway.android.SdkExample;
-import org.myspecialway.android.utils.ExampleUtils;
 import com.indooratlas.android.sdk.resources.IAFloorPlan;
 import com.indooratlas.android.sdk.resources.IALatLng;
 import com.indooratlas.android.sdk.resources.IALocationListenerSupport;
@@ -54,12 +51,10 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Target;
 
-import org.json.JSONObject;
+import org.myspecialway.android.R;
+import org.myspecialway.android.SdkExample;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -533,5 +528,25 @@ public class WayfindingOverlayActivity extends FragmentActivity implements Locat
         // path in current floor is visualized in red
         mPath = mMap.addPolyline(opt);
         mPathCurrent = mMap.addPolyline(optCurrent);
+    }
+
+    private void navigateToAnotherFloor(int floorNum, LatLng finalDestination){
+        mWayfinder.setDestination(31.986450, 34.910687, mFloor);
+        mWayfinder.getRoute();
+        while (!mLocation.equals(mDestination)){
+
+        }
+        if (floorNum>mFloor) {
+            Toast.makeText(this, "Please go up "+ (floorNum-mFloor) +" floor(s)" ,Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(this, "Please go down "+ (mFloor-floorNum) +" floor(s)" ,Toast.LENGTH_SHORT).show();
+        }
+
+        while (floorNum!=mFloor){
+
+        }
+        Toast.makeText(this, "You have reached floor number "+ mFloor ,Toast.LENGTH_SHORT).show();
+        mWayfinder.setDestination(finalDestination.latitude, finalDestination.longitude, mFloor);
+        mWayfinder.getRoute();
     }
 }

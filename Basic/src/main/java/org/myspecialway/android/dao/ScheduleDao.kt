@@ -1,17 +1,31 @@
 package org.myspecialway.android.dao
 
 import android.arch.persistence.room.*
-import java.time.DayOfWeek
 
 @Entity
 data class Lesson(
         @PrimaryKey(autoGenerate = true)
         val id: Long,
-        val day: DayOfWeek,
-        val startTimeHour: Int,
-        val startTimeMinutes: Int,
-        val endTimeHour: Int,
-        val endTimeMinute: Int
+        val title: String,
+        val icon: Int
+
+)
+
+@Entity
+data class Location(
+
+        @PrimaryKey(autoGenerate = true)
+        val id: Long,
+        val name: String,
+        val disabled: Boolean
+)
+
+@Entity
+data class TimeSlot(
+
+        val index: String,
+        val lesson: Lesson,
+        val location: Location
 )
 
 @Dao
