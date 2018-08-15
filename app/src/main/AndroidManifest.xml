@@ -1,0 +1,64 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.myspecialway">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Used by glide for downloading restart -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:name=".MswApplication"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".startup.SplashActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".login.LoginActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustResize"/>
+
+        <activity
+            android:name=".mainmenu.MainScreenActivity"
+            android:label="@string/app_name" />
+
+        <activity
+            android:name=".agenda.AgendaActivity"
+            android:label="@string/app_name" />
+
+        <activity
+            android:name=".notifications.NotificationActivity"
+            android:label="@string/notifiaction_activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name=".notifications.NotificationSchedulerTemp"
+            android:label="@string/notifiaction_activity"
+            android:screenOrientation="portrait" />
+
+        <!-- Firebase Messaging -->
+        <service android:name=".fcm.FCMInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".fcm.FCMMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name=".notifications.Alarm$AlarmReceiver" />
+    </application>
+</manifest>

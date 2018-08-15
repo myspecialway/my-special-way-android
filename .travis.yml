@@ -34,10 +34,11 @@ android:
   - android-sdk-license-.+
   - google-gdk-license-.+
 before_install:
-- openssl aes-256-cbc -K $encrypted_9f2e73e00df0_key -iv $encrypted_9f2e73e00df0_iv
+- openssl aes-256-cbc -K $encrypted_6d94b92f4c82_key -iv $encrypted_6d94b92f4c82_iv
   -in assets.tar.enc -out assets.tar -d
 - tar xvf assets.tar
-- cp google-services.json Basic/google-services.json
+- cp google-services.json app/google-services.json
+- cp "google-services - Basic.json" Basic/google-services.json
 - mkdir "$ANDROID_HOME/licenses" || true
 - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
 - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
@@ -54,11 +55,11 @@ after_success:
 - bash <(curl -s https://codecov.io/bash)
 before_deploy:
 - cp $TRAVIS_BUILD_DIR/myspecial.jks $HOME
-- cd Basic/build/outputs/apk/release
+- cd app/build/outputs/apk/release
 - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/myspecial.jks
-  -storepass $storepass -keypass $keypass Basic-release-unsigned.apk key0
-- jarsigner -verify Basic-release-unsigned.apk
-- "${ANDROID_HOME}/build-tools/$ANDROID_BUILD_TOOLS/zipalign -v 4 Basic-release-unsigned.apk
+  -storepass $storepass -keypass $keypass app-release-unsigned.apk key0
+- jarsigner -verify app-release-unsigned.apk
+- "${ANDROID_HOME}/build-tools/$ANDROID_BUILD_TOOLS/zipalign -v 4 app-release-unsigned.apk
   my-special-way.apk"
 deploy:
   provider: releases
