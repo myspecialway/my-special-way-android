@@ -3,7 +3,7 @@ package org.myspecialway.di
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module.applicationContext
-import org.myspecialway.api.RemoteDataSource
+import org.myspecialway.dataSources.RemoteDataSource
 import org.myspecialway.di.RemoteProperties.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

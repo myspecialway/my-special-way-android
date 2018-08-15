@@ -8,9 +8,9 @@ import org.myspecialway.common.inflate
 import org.myspecialway.schedule.gateway.ScheduleResponse
 import kotlin.properties.Delegates
 
-class AgendaAdapter(val onClick: (ScheduleResponse.Schedule) -> Unit) : RecyclerView.Adapter<AgendaAdapter.AgendaHolder>() {
+class AgendaAdapter(val onClick: (Schedule) -> Unit ) : RecyclerView.Adapter<AgendaAdapter.AgendaHolder>() {
 
-    var list: List<ScheduleResponse.Schedule> by Delegates.observable(listOf()) { _, _, _ -> notifyDataSetChanged() }
+    var list: List<Schedule> by Delegates.observable(listOf()) { _, _, _ -> notifyDataSetChanged() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AgendaHolder = AgendaHolder(parent)
 
@@ -19,9 +19,10 @@ class AgendaAdapter(val onClick: (ScheduleResponse.Schedule) -> Unit) : Recycler
     override fun getItemCount(): Int = list.size
 
     inner class AgendaHolder(view: ViewGroup) : RecyclerView.ViewHolder(view.inflate(R.layout.agenda_item)) {
-        fun bind(schedule: ScheduleResponse.Schedule) {
+        fun bind(schedule: Schedule) {
             itemView.agenda_text.text = schedule.lesson.title
             itemView.agenda_icon.setBackgroundResource(R.drawable.sun)
+            itemView.setOnClickListener { onClick.invoke(schedule) }
         }
     }
 }

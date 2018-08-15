@@ -1,19 +1,22 @@
 package org.myspecialway.ui.agenda
 
+import android.location.Location
 import com.google.gson.JsonObject
 import io.reactivex.Single
-import org.myspecialway.api.RemoteDataSource
-import org.myspecialway.schedule.gateway.ScheduleResponse
+import org.myspecialway.dataSources.RemoteDataSource
+import org.myspecialway.dataSources.local.LocalDataSource
 
 interface AgendaRepository {
-    fun getSchedule(): Single<ScheduleResponse>
+    fun getSchedule(): Single<ScheduleModel>
 }
 
-class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource) : AgendaRepository {
-    override fun getSchedule(): Single<ScheduleResponse> =
+class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource
+                           ) : AgendaRepository {
+    override fun getSchedule(): Single<ScheduleModel> =
             remoteDataSource.userScheduleRequest(getPayLoad())
 
     private fun getPayLoad(): JsonObject {
+
         val jsonObject = JsonObject()
         jsonObject.addProperty("query", Constants.agendaQuery)
         jsonObject.addProperty("value", "")

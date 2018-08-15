@@ -9,7 +9,7 @@ import org.myspecialway.schedule.gateway.ScheduleResponse
 class AgendaViewModel(private val repository: AgendaRepository,
                       private val scheduler: SchedulerProvider) : AbstractViewModel() {
 
-    val uiData = MutableLiveData<List<ScheduleResponse.Schedule>>()
+    val uiData = MutableLiveData<List<Schedule>>()
 
     init {
         getDailySchedule()

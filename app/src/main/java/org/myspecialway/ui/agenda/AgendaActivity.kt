@@ -1,4 +1,5 @@
 package org.myspecialway.ui.agenda
+
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.agenda_activity.*
 import org.koin.android.architecture.ext.viewModel
+import org.koin.android.ext.android.inject
 import org.myspecialway.App
 import org.myspecialway.R
 import org.myspecialway.ui.login.RequestCallback
@@ -16,10 +18,10 @@ import org.myspecialway.ui.main.MainScreenActivity
 import org.myspecialway.ui.main.ScheduleRepository
 import org.myspecialway.schedule.gateway.ScheduleResponse
 
-class AgendaActivity : AppCompatActivity()  {
+class AgendaActivity : AppCompatActivity() {
 
     private val viewModel: AgendaViewModel by viewModel()
-    private var adapter: AgendaAdapter? = null
+    private lateinit var adapter: AgendaAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +32,7 @@ class AgendaActivity : AppCompatActivity()  {
     }
 
     private fun observeData() {
-        viewModel.uiData.observe(this, Observer {  adapter?.list = it ?: listOf()  })
+        viewModel.uiData.observe(this, Observer { adapter.list = it ?: listOf() })
         viewModel.failure.observe(this, Observer { handleError() })
     }
 
@@ -41,7 +43,7 @@ class AgendaActivity : AppCompatActivity()  {
     }
 
     private fun initList() {
-        adapter = AgendaAdapter { Log.d("adapter", "clicked on item")}
+        adapter = AgendaAdapter { Log.d("adapter", it.lesson.title) }
         val mLayoutManager = LinearLayoutManager(this@AgendaActivity)
         agendaRecyclerView.layoutManager = mLayoutManager
         agendaRecyclerView.itemAnimator = DefaultItemAnimator()

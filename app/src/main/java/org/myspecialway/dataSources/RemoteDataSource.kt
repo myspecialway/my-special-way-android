@@ -1,8 +1,8 @@
-package org.myspecialway.api
+package org.myspecialway.dataSources
 
 import com.google.gson.JsonObject
 import io.reactivex.Single
-import org.myspecialway.schedule.gateway.ScheduleResponse
+import org.myspecialway.ui.agenda.ScheduleModel
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
@@ -10,5 +10,5 @@ import retrofit2.http.POST
 interface RemoteDataSource {
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST("graphql")
-    fun userScheduleRequest(@Body body: JsonObject): Single<ScheduleResponse>
+    fun userScheduleRequest(@Body body: JsonObject): Single<ScheduleModel>
 }

@@ -10,15 +10,11 @@ import org.myspecialway.ui.agenda.AgendaViewModel
 
 val appModule = applicationContext {
     viewModel { AgendaViewModel(get(), get()) }
-
     bean { AgendaRepositoryImpl(get()) as AgendaRepository }
-
-    // add local source
-
 }
 
 val rxModule = applicationContext {
     bean { ApplicationSchedulerProvider() as SchedulerProvider }
 }
 
-val OnMyWayApp = listOf(remoteDataSourceModel, rxModule, appModule)
+val OnMyWayApp = listOf(remoteDataSourceModel, localDataSourceModule, rxModule, appModule)
