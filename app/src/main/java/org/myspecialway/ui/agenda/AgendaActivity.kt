@@ -1,4 +1,5 @@
 package org.myspecialway.ui.agenda
+import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -7,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.agenda_activity.*
+import org.koin.android.architecture.ext.viewModel
 import org.myspecialway.App
 import org.myspecialway.R
 import org.myspecialway.ui.login.RequestCallback
@@ -15,17 +17,27 @@ import org.myspecialway.ui.main.ScheduleRepository
 import org.myspecialway.schedule.gateway.ScheduleResponse
 
 class AgendaActivity : AppCompatActivity()  {
+
+    private val viewModel: AgendaViewModel by viewModel()
     private var adapter: AgendaAdapter? = null
-    private var scheduleRepository: ScheduleRepository? = null
-    private val query = Constants.agendaQuery
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.agenda_activity)
         initToolbar()
         initList()
-        scheduleRepository = App.instance?.scheduleRepository
-        initAgendaDetails()
+        observeData()
+    }
+
+    private fun observeData() {
+        viewModel.uiData.observe(this, Observer {  adapter?.list = it ?: listOf()  })
+        viewModel.failure.observe(this, Observer { handleError() })
+    }
+
+    private fun handleError() {
+        Toast.makeText(this@AgendaActivity, "לא מתאפשר להציג כרגע את מערכת השעות", Toast.LENGTH_LONG).show()
+        startActivity(Intent(this@AgendaActivity, MainScreenActivity::class.java))
+        finish()
     }
 
     private fun initList() {
@@ -40,20 +52,6 @@ class AgendaActivity : AppCompatActivity()  {
         val supportActionBar = supportActionBar
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar.setDisplayShowHomeEnabled(true)
-    }
-
-    private fun initAgendaDetails() {
-        scheduleRepository!!.getSchedule(query, "", object : RequestCallback<List<ScheduleResponse.Schedule>> {
-            override fun onSuccess(result: List<ScheduleResponse.Schedule>) {
-                adapter?.list = result
-            }
-
-            override fun onFailure(t: Throwable) {
-                Toast.makeText(this@AgendaActivity, "לא מתאפשר להציג כרגע את מערכת השעות", Toast.LENGTH_LONG).show()
-                startActivity(Intent(this@AgendaActivity, MainScreenActivity::class.java))
-                finish()
-            }
-        })
     }
 }
 

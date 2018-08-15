@@ -1,5 +1,6 @@
 package org.myspecialway.common
 
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.support.annotation.CallSuper
 import io.reactivex.disposables.CompositeDisposable
@@ -10,8 +11,13 @@ import io.reactivex.disposables.Disposable
  * - handle Rx jobs with launch() and clear them on onCleared
  */
 abstract class AbstractViewModel : ViewModel() {
+    var failure: MutableLiveData<Throwable> = MutableLiveData()
 
-    val disposables = CompositeDisposable()
+    protected fun handleFailure(failure: Throwable) {
+        this.failure.value = failure
+    }
+
+    private val disposables = CompositeDisposable()
 
     fun launch(job: () -> Disposable) {
         disposables.add(job())

@@ -19,7 +19,7 @@ val remoteDataSourceModel = applicationContext {
 
     bean { createOkHttpClient() }
 
-    bean { createWebService<RemoteDataSource>(get(), getProperty(BASE_URL)) }
+    bean { createWebService<RemoteDataSource>(get(), BASE_URL) }
 }
 
 fun createOkHttpClient(): OkHttpClient {
