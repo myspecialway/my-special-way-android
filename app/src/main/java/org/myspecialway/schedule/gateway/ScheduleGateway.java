@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.JsonObject;
 
-import org.myspecialway.login.RequestCallback;
+import org.myspecialway.ui.login.RequestCallback;
 
 import java.util.List;
 

@@ -1,0 +1,2 @@
+package org.myspecialway.di
+

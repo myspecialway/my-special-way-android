@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.myspecialway.R;
-import org.myspecialway.startup.SplashActivity;
+import org.myspecialway.ui.splash.SplashActivity;
 
 
 public class NotificationActivity extends Activity {

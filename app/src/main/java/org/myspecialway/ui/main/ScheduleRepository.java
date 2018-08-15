@@ -1,4 +1,4 @@
-package org.myspecialway.schedule;
+package org.myspecialway.ui.main;
 
 import org.myspecialway.ui.login.RequestCallback;
 import org.myspecialway.schedule.gateway.IScheduleGateway;
@@ -8,18 +8,14 @@ import java.util.List;
 
 public class ScheduleRepository {
 
-    ScheduleData scheduleData = new ScheduleData("שיעור חשבון");
-    IScheduleGateway scheduleGateway;
+    private ScheduleData scheduleData = new ScheduleData("שיעור חשבון");
+    private IScheduleGateway scheduleGateway;
 
     public ScheduleRepository(IScheduleGateway scheduleGateway) {
 
         this.scheduleGateway = scheduleGateway;
 
     }
-
-//    public ScheduleRepository(ScheduleData scheduleData) {
-//        this.scheduleData = scheduleData;
-//    }
 
     public ScheduleData getScheduleData() {
         return scheduleData;

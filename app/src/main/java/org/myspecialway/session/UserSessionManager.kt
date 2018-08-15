@@ -1,9 +1,9 @@
 package org.myspecialway.session
 
 import android.content.SharedPreferences
-import org.myspecialway.login.RequestCallback
-import org.myspecialway.login.gateway.ILoginGateway
-import org.myspecialway.login.gateway.InvalidLoginCredentials
+import org.myspecialway.ui.login.RequestCallback
+import org.myspecialway.ui.login.gateway.ILoginGateway
+import org.myspecialway.ui.login.gateway.InvalidLoginCredentials
 import org.myspecialway.utils.JWTParser
 
 class UserSessionManager(private val gateway: ILoginGateway, private val parser: JWTParser, private val sharedPreferences: SharedPreferences) {
