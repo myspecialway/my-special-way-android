@@ -3,6 +3,7 @@ package org.myspecialway.ui.agenda
 import com.google.gson.JsonObject
 import io.reactivex.Single
 import org.myspecialway.data.RemoteDataSource
+import org.myspecialway.data.local.LocalDataSource
 
 interface AgendaRepository {
     fun getSchedule(): Single<ScheduleModel>
@@ -10,7 +11,7 @@ interface AgendaRepository {
 
 class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource
 //                           ,private val locaDataSource: LocalDataSource
-                        ) : AgendaRepository {
+) : AgendaRepository {
     override fun getSchedule(): Single<ScheduleModel> =
             remoteDataSource.userScheduleRequest(getPayLoad())
 

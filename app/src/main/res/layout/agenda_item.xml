@@ -10,6 +10,7 @@
         android:layout_height="200dp"
         android:layout_gravity="center"
         android:layout_margin="15dp"
+        android:foreground="?selectableItemBackground"
         card_view:cardCornerRadius="4dp">
 
         <LinearLayout
