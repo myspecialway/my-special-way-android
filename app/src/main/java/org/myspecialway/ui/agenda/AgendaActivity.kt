@@ -43,7 +43,7 @@ class AgendaActivity : AppCompatActivity() {
     }
 
     private fun initList() {
-        adapter = AgendaAdapter { Log.d("adapter", it.lesson.title) }
+        adapter = AgendaAdapter { Log.d("adapter", it.title) }
         val mLayoutManager = LinearLayoutManager(this@AgendaActivity)
         agendaRecyclerView.layoutManager = mLayoutManager
         agendaRecyclerView.itemAnimator = DefaultItemAnimator()

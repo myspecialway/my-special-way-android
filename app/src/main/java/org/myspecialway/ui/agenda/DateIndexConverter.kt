@@ -10,16 +10,16 @@ object DateIndex : TimeFactory {
      * Looks at the left number [10<-] that represents the hours
      */
     override fun convertTimeFromIndex(timeIndex: String) = when (timeIndex.takeLast(1)) {
-        "0" -> TimeRenderModel(createHour(7), "7:00 - 8:00")
-        "1" -> TimeRenderModel(createHour(8), "8:00 - 9:00")
-        "2" -> TimeRenderModel(createHour(9), "9:00 - 10:00")
-        "3" -> TimeRenderModel(createHour(10), "10:00 - 11:00")
-        "4" -> TimeRenderModel(createHour(11), "11:00 - 12:00")
-        "5" -> TimeRenderModel(createHour(12), "12:00 - 13:00")
-        "6" -> TimeRenderModel(createHour(13), "13:00 - 14:00")
-        "7" -> TimeRenderModel(createHour(14), "14:00 - 15:00")
-        "8" -> TimeRenderModel(createHour(15), "15:00 - 16:00")
-        "9" -> TimeRenderModel(createHour(16), "16:00 - 17:00")
+        "0" -> Time(createHour(7), getDayNameByIndex(timeIndex), "7:00 - 8:00")
+        "1" -> Time(createHour(8), getDayNameByIndex(timeIndex),"8:00 - 9:00")
+        "2" -> Time(createHour(9), getDayNameByIndex(timeIndex),"9:00 - 10:00")
+        "3" -> Time(createHour(10),getDayNameByIndex(timeIndex), "10:00 - 11:00")
+        "4" -> Time(createHour(11),getDayNameByIndex(timeIndex), "11:00 - 12:00")
+        "5" -> Time(createHour(12),getDayNameByIndex(timeIndex), "12:00 - 13:00")
+        "6" -> Time(createHour(13),getDayNameByIndex(timeIndex), "13:00 - 14:00")
+        "7" -> Time(createHour(14),getDayNameByIndex(timeIndex), "14:00 - 15:00")
+        "8" -> Time(createHour(15),getDayNameByIndex(timeIndex), "15:00 - 16:00")
+        "9" -> Time(createHour(16),getDayNameByIndex(timeIndex), "16:00 - 17:00")
         else -> throw Exception("Index doesn't exists.")
     }
 
@@ -49,8 +49,9 @@ object DateIndex : TimeFactory {
     }
 }
 
+data class Time(val date: Date, val dayDisplay: String, val timeDisplay: String)
+
 interface TimeFactory {
-    fun convertTimeFromIndex(timeIndex: String): TimeRenderModel
+    fun convertTimeFromIndex(timeIndex: String): Time
 }
 
-data class TimeRenderModel(val date: Date, val display: String)
