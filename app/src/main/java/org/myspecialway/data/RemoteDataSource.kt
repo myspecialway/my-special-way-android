@@ -1,4 +1,4 @@
-package org.myspecialway.dataSources
+package org.myspecialway.data
 
 import com.google.gson.JsonObject
 import io.reactivex.Single

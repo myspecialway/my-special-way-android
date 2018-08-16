@@ -7,9 +7,9 @@ import org.myspecialway.R
 import org.myspecialway.common.inflate
 import kotlin.properties.Delegates
 
-class AgendaAdapter(val onClick: (AgendaRenderModel) -> Unit ) : RecyclerView.Adapter<AgendaAdapter.AgendaHolder>() {
+class AgendaAdapter(val onClick: (ScheduleRenderModel) -> Unit ) : RecyclerView.Adapter<AgendaAdapter.AgendaHolder>() {
 
-    var list: List<AgendaRenderModel> by Delegates.observable(listOf()) { _, _, _ -> notifyDataSetChanged() }
+    var list: List<ScheduleRenderModel> by Delegates.observable(listOf()) { _, _, _ -> notifyDataSetChanged() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AgendaHolder = AgendaHolder(parent)
 
@@ -18,11 +18,16 @@ class AgendaAdapter(val onClick: (AgendaRenderModel) -> Unit ) : RecyclerView.Ad
     override fun getItemCount(): Int = list.size
 
     inner class AgendaHolder(view: ViewGroup) : RecyclerView.ViewHolder(view.inflate(R.layout.agenda_item)) {
-        fun bind(render: AgendaRenderModel) {
-            itemView.agenda_text.text = render.title
+        fun bind(schedule: ScheduleRenderModel) {
+            itemView.agenda_text.text = schedule.title
             itemView.agenda_icon.setBackgroundResource(R.drawable.sun)
-            itemView.time.text = render.time?.timeDisplay
-            itemView.setOnClickListener { onClick.invoke(render) }
+            itemView.time.text = schedule.time?.timeDisplay
+
+            if(schedule.isNow) {
+                itemView.card_view.setBackgroundResource(R.drawable.border)
+            }
+
+            itemView.setOnClickListener { onClick.invoke(schedule) }
         }
     }
 }

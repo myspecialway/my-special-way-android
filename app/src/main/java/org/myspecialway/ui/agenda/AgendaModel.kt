@@ -31,4 +31,8 @@ data class Schedule(
         val location: Any
 )
 
-data class AgendaRenderModel(var title: String? = null, var image: Int? = null, var time: Time? = null)
+data class ScheduleRenderModel(var title: String? = null,
+                               var image: Int? = null,
+                               var time: Time? = null,
+                               var isNow: Boolean = false
+)

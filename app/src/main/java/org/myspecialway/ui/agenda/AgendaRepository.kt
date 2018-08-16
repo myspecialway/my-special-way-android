@@ -2,8 +2,7 @@ package org.myspecialway.ui.agenda
 
 import com.google.gson.JsonObject
 import io.reactivex.Single
-import org.myspecialway.dataSources.RemoteDataSource
-import org.myspecialway.dataSources.local.LocalDataSource
+import org.myspecialway.data.RemoteDataSource
 
 interface AgendaRepository {
     fun getSchedule(): Single<ScheduleModel>

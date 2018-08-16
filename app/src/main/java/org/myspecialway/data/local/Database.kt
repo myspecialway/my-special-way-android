@@ -1,4 +1,4 @@
-package org.myspecialway.dataSources.local
+package org.myspecialway.data.local
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase

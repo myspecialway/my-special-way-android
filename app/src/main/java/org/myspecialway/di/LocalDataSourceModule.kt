@@ -3,7 +3,7 @@ package org.myspecialway.di
 import android.arch.persistence.room.Room
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module.applicationContext
-import org.myspecialway.dataSources.local.Database
+import org.myspecialway.data.local.Database
 
 val localDataSourceModule = applicationContext {
     bean {
