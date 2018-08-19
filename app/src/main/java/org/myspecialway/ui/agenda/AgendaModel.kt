@@ -1,71 +1,42 @@
 package org.myspecialway.ui.agenda
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
-import android.arch.persistence.room.TypeConverter
+import android.arch.persistence.room.*
+import android.support.annotation.NonNull
 import com.google.gson.annotations.SerializedName
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-
-
-//class Converters {
-//
-//    @TypeConverter
-//    fun fromString(value: String): ArrayList<String> {
-//        val listType = object : TypeToken<ArrayList<String>>() {
-//
-//        }.type
-//        return Gson().fromJson<Any>(value, listType)
-//    }
-//
-//    @TypeConverter
-//    fun fromArrayLisr(list: ArrayList<String>): String {
-//        val gson = Gson()
-//        return gson.toJson(list)
-//    }
-//}
 
 @Entity()
 data class ScheduleModel(
-        @PrimaryKey(autoGenerate = true) val id: Int,
-        val data: Data
-)
+        @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "sche_model_id") @NonNull val id: Int,
+        @Embedded(prefix = "data_") val data: Data)
 
 @Entity()
 data class Data(
-        @PrimaryKey(autoGenerate = true) val id: Int,
-        @SerializedName("student") val classById: Class)
+        @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "data_id") @NonNull val id: Int,
+        @SerializedName("student") @Embedded val classById: Class)
 
 
 @Entity()
 data class Class(
-        @PrimaryKey(autoGenerate = true) val id: Int,
-        val name: String,
-        val number: Int,
-        val level: String,
+        @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "class_id") @NonNull val id: Int,
+        val name: String? = null,
+        val number: Int? = null,
+        val level: String? = null,
         val schedule: List<Schedule>)
-
-
 
 @Entity()
 data class Schedule(
-        @PrimaryKey(autoGenerate = true) val id: Int,
+        @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "schedule_id") @NonNull val id: Int,
         val index: String,
-        val lesson: Lesson,
-        val location: Any)
-
+        @Embedded val lesson: Lesson)
 
 @Entity
 data class Lesson(
-        @PrimaryKey(autoGenerate = true) val id: Int,
+        @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "lesson_id") @NonNull val id: Int,
         val title: String,
         val icon: String)
-
-
 
 // UI Models
 data class ScheduleRenderModel(var title: String? = null,
                                var image: Int? = null,
-                               var time: Time? = null,
+                               @Embedded var time: Time? = null,
                                var isNow: Boolean = false)
-

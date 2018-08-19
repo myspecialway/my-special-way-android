@@ -1,6 +1,7 @@
 package org.myspecialway.ui.agenda
 
 import android.arch.lifecycle.MutableLiveData
+import android.view.View
 
 import org.myspecialway.R
 import org.myspecialway.common.AbstractViewModel
@@ -12,6 +13,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
                       private val scheduler: SchedulerProvider) : AbstractViewModel() {
 
     val uiData = MutableLiveData<List<ScheduleRenderModel>>()
+    val progress = MutableLiveData<Int>()
 
     init {
         getDailySchedule()
@@ -20,6 +22,8 @@ class AgendaViewModel(private val repository: AgendaRepository,
     private fun getDailySchedule() = launch {
         repository.getSchedule()
                 .with(scheduler)
+                .doOnSubscribe { progress.value = View.VISIBLE }
+                .doFinally { progress.value = View.GONE }
                 .map { it.data.classById.schedule }
                 .toObservable()
                 .flatMapIterable { it }

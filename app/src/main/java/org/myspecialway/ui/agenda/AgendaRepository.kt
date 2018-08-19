@@ -9,11 +9,12 @@ interface AgendaRepository {
     fun getSchedule(): Single<ScheduleModel>
 }
 
-class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource
-//                           ,private val locaDataSource: LocalDataSource
-) : AgendaRepository {
+class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
+                           private val localDataSource: LocalDataSource) : AgendaRepository {
+
     override fun getSchedule(): Single<ScheduleModel> =
             remoteDataSource.userScheduleRequest(getPayLoad())
+                    .doAfterSuccess { localDataSource.saveAllSchedule(it) }
 
     private fun getPayLoad(): JsonObject {
         val json = JsonObject()
