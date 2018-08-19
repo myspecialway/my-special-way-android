@@ -10,7 +10,7 @@ import org.myspecialway.ui.agenda.AgendaViewModel
 
 val appModule = applicationContext {
     viewModel { AgendaViewModel(get(), get()) }
-    bean { AgendaRepositoryImpl(get(), get()) as AgendaRepository }
+    bean { AgendaRepositoryImpl(get()) as AgendaRepository }
 }
 
 val rxModule = applicationContext {
