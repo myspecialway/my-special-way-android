@@ -1,0 +1,6 @@
+query LessonsQuery {
+  lessons {
+    title
+    icon
+  }
+}

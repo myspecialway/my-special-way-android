@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'jacoco-android'
+apply plugin: 'com.apollographql.android'
 
 android {
     compileSdkVersion 27
@@ -60,13 +61,15 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$support_package_version"
     implementation "com.android.support:design:$support_package_version"
 
+    implementation 'com.apollographql.apollo:apollo-runtime:1.0.0-alpha2'
+
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 
     // Android architecture components
     implementation "android.arch.lifecycle:extensions:$arch_version"
     implementation "android.arch.lifecycle:viewmodel:$arch_version"
     implementation "android.arch.persistence.room:runtime:$arch_version"
-    annotationProcessor "android.arch.persistence.room:compiler:$arch_version"
+    kapt "android.arch.persistence.room:compiler:$arch_version"
 
     // Network
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
@@ -74,7 +77,7 @@ dependencies {
 
     // Testing frameworks
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.16.0'
+    testImplementation 'org.mockito:mockito-core:2.19.0'
     testImplementation "com.google.truth:truth:0.42"
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
