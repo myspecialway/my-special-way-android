@@ -8,7 +8,7 @@ import android.content.Intent
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 
 class Alarm(private val context: Context) {
-    private var am: AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    private var alarmManager: AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     private var pendingIntent: PendingIntent? = null
 
     companion object {
@@ -22,7 +22,8 @@ class Alarm(private val context: Context) {
         pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
 
         val triggerAtMillis = scheduleModel.time!!.date.time - System.currentTimeMillis()
-        am.setExact(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent)
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent)
     }
 
     class AlarmReceiver : BroadcastReceiver() {
