@@ -17,6 +17,4 @@ class ScheduleConverter {
         }.type
         return Gson().fromJson<List<Schedule>>(value, listType)
     }
-
-
 }

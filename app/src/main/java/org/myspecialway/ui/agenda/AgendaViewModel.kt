@@ -13,8 +13,8 @@ class AgendaViewModel(private val repository: AgendaRepository,
                       private val scheduler: SchedulerProvider) : AbstractViewModel() {
 
     val uiData = MutableLiveData<List<ScheduleRenderModel>>()
+    val alarm = MutableLiveData<List<ScheduleRenderModel>>()
     val progress = MutableLiveData<Int>()
-    val alarm = MutableLiveData<List<Time?>>()
 
     init {
         getDailySchedule()
@@ -42,7 +42,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
         it.take(6).forEachIndexed { index, scheduleRenderModel ->
             if (scheduleRenderModel.isNow) {
                 // Get the x hours from now
-                val nextHours = it.slice(IntRange(index + 1, it.size - 1)).take(hoursAmount).map { it.time }
+                val nextHours = it.slice(IntRange(index + 1, it.size - 1)).take(hoursAmount)
                 alarm.value = nextHours
                 return@forEachIndexed
             }

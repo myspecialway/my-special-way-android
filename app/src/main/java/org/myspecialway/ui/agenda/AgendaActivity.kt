@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import android.util.Log.d
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.agenda_activity.*
@@ -20,7 +19,7 @@ import org.myspecialway.ui.main.MainScreenActivity
 class AgendaActivity : AppCompatActivity() {
 
     private val viewModel: AgendaViewModel by viewModel()
-    private val alarm: Alarm by inject()
+    private val alarmManager: Alarm by inject()
 
     private lateinit var adapter: AgendaAdapter
 
@@ -39,10 +38,8 @@ class AgendaActivity : AppCompatActivity() {
         viewModel.alarm.observe(this,    Observer { activateAlarm(it) })
     }
 
-    private fun activateAlarm(alarms: List<Time?>?) {
-        Intent(this, ScheduleService::class.java)
-        alarms?.forEach { d("alarm", it?.timeDisplay) }
-        startService(intent)
+    private fun activateAlarm(ScheduleAlarms: List<ScheduleRenderModel>?) {
+        ScheduleAlarms?.forEach { alarmManager.scheduleAlarm(it) }
     }
 
     private fun handleError() {
