@@ -11,7 +11,7 @@ public class NotificationSchedulerTemp
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Alarm a = Alarm.getInstance(this);
+        Alarm a = Alarm.Companion.getInstance(this);
         a.scheduleAlarm(4);
         finish();
     }

@@ -19,16 +19,9 @@ class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
                     .toObservable()
                     .doOnNext { localDataSource.saveAllSchedule(it) }
                     .publish { remote ->
-                        Observable.merge(
-                                remote,
-                                localDataSource
-                                        .loadSchedule()
-                                        .toObservable()
-                                        .subscribeOn(Schedulers.io())
-                                        .observeOn(AndroidSchedulers.mainThread())
-                                        .takeUntil(remote))
-                    }
-
+                        Observable.concat(
+                                localDataSource.loadSchedule().toObservable(),
+                                remote) }
 
     private fun getPayLoad(): JsonObject {
         val json = JsonObject()

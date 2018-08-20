@@ -10,8 +10,8 @@ object DateIndex : TimeFactory {
      * Looks at the left number [10<-] that represents the hours
      */
     override fun convertTimeFromIndex(indx: String) = when (indx.takeLast(1)) {
-        "0" -> Time(createHour(7), day(indx), "7:00 - 8:00")
-        "1" -> Time(createHour(8), day(indx),"8:00 - 9:00")
+        "0" -> Time(createHour(7), day(indx), "8:00 - 7:00")
+        "1" -> Time(createHour(8), day(indx),"9:00- 8:00")
         "2" -> Time(createHour(9), day(indx),"9:00 - 10:00")
         "3" -> Time(createHour(10),day(indx), "10:00 - 11:00")
         "4" -> Time(createHour(11),day(indx), "11:00 - 12:00")

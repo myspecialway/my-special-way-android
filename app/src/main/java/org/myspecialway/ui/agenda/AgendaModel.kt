@@ -1,6 +1,7 @@
 package org.myspecialway.ui.agenda
 
 import android.arch.persistence.room.*
+import android.arch.persistence.room.ForeignKey.CASCADE
 import android.support.annotation.NonNull
 import com.google.gson.annotations.SerializedName
 
@@ -29,7 +30,7 @@ data class Schedule(
         val index: String,
         @Embedded val lesson: Lesson)
 
-@Entity
+@Entity()
 data class Lesson(
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "lesson_id") @NonNull val id: Int,
         val title: String,

@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.agenda_activity.*
 import org.koin.android.architecture.ext.viewModel
 import org.myspecialway.R
 import org.myspecialway.ui.main.MainScreenActivity
-import java.util.*
 
 class AgendaActivity : AppCompatActivity() {
 
@@ -38,9 +37,7 @@ class AgendaActivity : AppCompatActivity() {
 
     private fun activateAlarm(alarms: List<Time?>?) {
         Intent(this, ScheduleService::class.java)
-        alarms?.forEach {
-            d("alarm", it.toString())
-        }
+        alarms?.forEach { d("alarm", it?.timeDisplay) }
         startService(intent)
     }
 
@@ -64,4 +61,3 @@ class AgendaActivity : AppCompatActivity() {
         supportActionBar.setDisplayShowHomeEnabled(true)
     }
 }
-

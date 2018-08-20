@@ -15,6 +15,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
     val uiData = MutableLiveData<List<ScheduleRenderModel>>()
     val progress = MutableLiveData<Int>()
     val alarm = MutableLiveData<List<Time?>>()
+
     init {
         getDailySchedule()
     }
@@ -27,18 +28,17 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 .map { it.data.classById.schedule }
                 .flatMapIterable { it }
                 .map { mapScheduleRenderModel(it) }
-
                 .toList()
-
                 .subscribe({
-                        activateAlarmNextHours(it,1)
-                    uiData.value = it
-                }, { handleFailure(it) })
+                    activateAlarmNextHours(it, 1)
+                    uiData.value = it.take(6)
+                }, {
+                    handleFailure(it)
+                })
     }
 
-
     private fun activateAlarmNextHours(it: MutableList<ScheduleRenderModel>, hoursAmount: Int) {
-        it.forEachIndexed { index, scheduleRenderModel ->
+        it.take(6).forEachIndexed { index, scheduleRenderModel ->
             if (scheduleRenderModel.isNow) {
                 // Get the x hours from now
                 val nextHours = it.slice(IntRange(index + 1, it.size - 1)).take(hoursAmount).map { it.time }
@@ -61,14 +61,5 @@ class AgendaViewModel(private val repository: AgendaRepository,
         cal.time = currentTime
         cal.add(Calendar.HOUR_OF_DAY, hours)
         return cal.time
-    }
-
-    /**
-     * is this time is next hour
-     * @param time the time of the class
-     */
-    fun isScheduleIsNext(scheduleTime: Time): Boolean {
-        val now = Calendar.getInstance().time
-        return now.before(scheduleTime.date) && now.after(addHour(scheduleTime.date, 1))
     }
 }
