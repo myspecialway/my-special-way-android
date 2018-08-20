@@ -9,17 +9,17 @@ object DateIndex : TimeFactory {
     /**
      * Looks at the left number [10<-] that represents the hours
      */
-    override fun convertTimeFromIndex(indx: String) = when (indx.takeLast(1)) {
-        "0" -> Time(createHour(7), day(indx), "8:00 - 7:00")
-        "1" -> Time(createHour(8), day(indx),"9:00- 8:00")
-        "2" -> Time(createHour(9), day(indx),"9:00 - 10:00")
-        "3" -> Time(createHour(10),day(indx), "10:00 - 11:00")
-        "4" -> Time(createHour(11),day(indx), "11:00 - 12:00")
-        "5" -> Time(createHour(12),day(indx), "12:00 - 13:00")
-        "6" -> Time(createHour(13),day(indx), "13:00 - 14:00")
-        "7" -> Time(createHour(14),day(indx), "14:00 - 15:00")
-        "8" -> Time(createHour(15),day(indx), "15:00 - 16:00")
-        "9" -> Time(createHour(16),day(indx), "16:00 - 17:00")
+    override fun convertTimeFromIndex(index: String) = when (index.takeLast(1)) {
+        "0" -> Time(createHour(7), day(index), "8:00 - 7:00")
+        "1" -> Time(createHour(8), day(index),"9:00- 8:00")
+        "2" -> Time(createHour(9), day(index),"9:00 - 10:00")
+        "3" -> Time(createHour(10),day(index), "11:00 - 10:00")
+        "4" -> Time(createHour(11),day(index), "12:00 - 11:00")
+        "5" -> Time(createHour(12),day(index), "13:00 - 12:00")
+        "6" -> Time(createHour(13),day(index), "14:00 - 13:00")
+        "7" -> Time(createHour(14),day(index), "15:00 - 14:00")
+        "8" -> Time(createHour(15),day(index), "16:00 - 15:00")
+        "9" -> Time(createHour(16),day(index), "17:00 - 16:00")
         else -> throw Exception("Index doesn't exists.")
     }
 

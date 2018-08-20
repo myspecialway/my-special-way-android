@@ -62,8 +62,8 @@ before_deploy:
 - "${ANDROID_HOME}/build-tools/$ANDROID_BUILD_TOOLS/zipalign -v 4 app-release-unsigned.apk
   my-special-way.apk"
 deploy:
-  provider: releases
-  file: my-special-way.apk
+  provider: releasesmy-special-way.apk
+  file:
   skip_cleanup: true
   on:
     repo: myspecialway/my-special-way-android

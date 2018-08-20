@@ -12,12 +12,16 @@ import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.agenda_activity.*
 import org.koin.android.architecture.ext.viewModel
+import org.koin.android.ext.android.inject
 import org.myspecialway.R
+import org.myspecialway.notifications.Alarm
 import org.myspecialway.ui.main.MainScreenActivity
 
 class AgendaActivity : AppCompatActivity() {
 
     private val viewModel: AgendaViewModel by viewModel()
+    private val alarm: Alarm by inject()
+
     private lateinit var adapter: AgendaAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,10 +33,10 @@ class AgendaActivity : AppCompatActivity() {
     }
 
     private fun render() {
-        viewModel.uiData.observe(this, Observer { adapter.list = it ?: listOf() })
+        viewModel.uiData.observe(this,   Observer { adapter.list = it ?: listOf() })
         viewModel.progress.observe(this, Observer { progress.visibility = it ?: View.GONE })
-        viewModel.failure.observe(this, Observer { handleError() })
-        viewModel.alarm.observe(this, Observer { activateAlarm(it) })
+        viewModel.failure.observe(this,  Observer { handleError() })
+        viewModel.alarm.observe(this,    Observer { activateAlarm(it) })
     }
 
     private fun activateAlarm(alarms: List<Time?>?) {

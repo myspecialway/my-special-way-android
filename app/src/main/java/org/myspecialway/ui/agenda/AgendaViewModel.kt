@@ -31,6 +31,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 .toList()
                 .subscribe({
                     activateAlarmNextHours(it, 1)
+                    // check
                     uiData.value = it.take(6)
                 }, {
                     handleFailure(it)
