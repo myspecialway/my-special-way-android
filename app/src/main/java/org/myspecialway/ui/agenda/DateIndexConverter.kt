@@ -37,8 +37,6 @@ object DateIndex : TimeFactory {
         else -> throw Exception("Index doesn't exists.")
     }
 
-
-
     /**
      * return the hour of the day based on @param hour
      */
@@ -56,4 +54,3 @@ data class Time(val date: Date, val dayDisplay: String, val timeDisplay: String)
 interface TimeFactory {
     fun convertTimeFromIndex(timeIndex: String): Time
 }
-

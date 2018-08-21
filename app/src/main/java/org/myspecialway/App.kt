@@ -3,9 +3,8 @@ package org.myspecialway
 import android.app.Application
 import android.content.Context
 import org.koin.android.ext.android.startKoin
-import org.myspecialway.di.OnMyWayApp
+import org.myspecialway.di.MySpecialWay
 
-import org.myspecialway.ui.login.gateway.ILoginGateway
 import org.myspecialway.ui.login.gateway.LoginGateway
 import org.myspecialway.ui.main.ScheduleRepository
 import org.myspecialway.schedule.gateway.ScheduleGateway
@@ -25,7 +24,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        startKoin(this, OnMyWayApp)
+        startKoin(this, MySpecialWay)
 
         instance = this
 

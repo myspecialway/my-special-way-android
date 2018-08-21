@@ -34,15 +34,15 @@ class AgendaViewModel(private val repository: AgendaRepository,
                     // check
                     uiData.value = it.take(6)
                 }, {
-                    handleFailure(it)
+//                    handleFailure(it)
                 })
     }
 
-    private fun activateAlarmNextHours(it: MutableList<ScheduleRenderModel>, hoursAmount: Int) {
+    private fun activateAlarmNextHours(it: MutableList<ScheduleRenderModel>, alarmAmount: Int) {
         it.take(6).forEachIndexed { index, scheduleRenderModel ->
             if (scheduleRenderModel.isNow) {
                 // Get the x hours from now
-                val nextHours = it.slice(IntRange(index + 1, it.size - 1)).take(hoursAmount)
+                val nextHours = it.slice(IntRange(index + 1, it.size - 2)).take(alarmAmount)
                 alarm.value = nextHours
                 return@forEachIndexed
             }

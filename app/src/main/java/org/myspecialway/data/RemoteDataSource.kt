@@ -11,5 +11,5 @@ import retrofit2.http.POST
 interface RemoteDataSource {
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST("graphql")
-    fun userScheduleRequest(@Body body: JsonObject): Single<ScheduleModel>
+    fun fetchSchedule(@Body body: JsonObject): Single<ScheduleModel>
 }

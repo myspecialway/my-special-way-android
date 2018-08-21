@@ -38,9 +38,8 @@ class AgendaActivity : AppCompatActivity() {
         viewModel.alarm.observe(this,    Observer { activateAlarm(it) })
     }
 
-    private fun activateAlarm(ScheduleAlarms: List<ScheduleRenderModel>?) {
-        ScheduleAlarms?.forEach { alarmManager.scheduleAlarm(it) }
-    }
+    private fun activateAlarm(ScheduleAlarms: List<ScheduleRenderModel>?) =
+            ScheduleAlarms?.forEach { alarmManager.scheduleAlarm(it) }
 
     private fun handleError() {
         Toast.makeText(this@AgendaActivity, "לא מתאפשר להציג כרגע את מערכת השעות", Toast.LENGTH_LONG).show()

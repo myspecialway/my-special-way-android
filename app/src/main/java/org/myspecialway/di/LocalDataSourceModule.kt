@@ -6,6 +6,7 @@ import org.koin.dsl.module.applicationContext
 import org.myspecialway.data.local.Database
 
 val localDataSourceModule = applicationContext {
+
     bean {
         Room.databaseBuilder(androidApplication(), Database::class.java, "database")
                 .fallbackToDestructiveMigration()

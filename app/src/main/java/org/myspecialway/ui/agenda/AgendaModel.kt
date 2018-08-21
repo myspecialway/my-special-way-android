@@ -39,5 +39,5 @@ data class Lesson(
 // UI Models
 data class ScheduleRenderModel(var title: String? = null,
                                var image: Int? = null,
-                               @Embedded var time: Time? = null,
+                               var time: Time? = null,
                                var isNow: Boolean = false)

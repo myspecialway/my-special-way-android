@@ -1,5 +1,7 @@
 package org.myspecialway.di
 
+import android.app.AlarmManager
+import android.content.Context
 import org.koin.android.architecture.ext.viewModel
 import org.koin.dsl.module.applicationContext
 import org.myspecialway.common.ApplicationSchedulerProvider
@@ -13,12 +15,16 @@ val appModule = applicationContext {
     viewModel { AgendaViewModel(get(), get()) }
     bean { AgendaRepositoryImpl(get(), get()) as AgendaRepository }
 
-    context("alarm") { bean { Alarm(get()) } }
-
+    context("alarm") {
+        bean { Alarm(get() ) }
+        
+    }
 }
+
+private fun alarmService(context: Context) = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
 val rxModule = applicationContext {
     bean { ApplicationSchedulerProvider() as SchedulerProvider }
 }
 
-val OnMyWayApp = listOf(remoteDataSourceModel, localDataSourceModule, rxModule, appModule)
+val MySpecialWay = listOf(remoteDataSourceModel, localDataSourceModule, rxModule, appModule)

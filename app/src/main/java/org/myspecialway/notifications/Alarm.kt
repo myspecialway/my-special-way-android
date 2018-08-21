@@ -9,22 +9,25 @@ import org.myspecialway.ui.agenda.ScheduleRenderModel
 
 class Alarm(private val context: Context) {
     private var alarmManager: AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    private var pendingIntent: PendingIntent? = null
-
     companion object {
         const val TITLE = "title"
     }
 
+    private val alarmsQueue = mutableListOf<PendingIntent>()
+
     fun scheduleAlarm(scheduleModel: ScheduleRenderModel) {
+        cancelAll()
+
         val intent = Intent(context, AlarmReceiver::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         intent.putExtra(TITLE, scheduleModel.title)
-        pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
-
+        val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
+        alarmsQueue.add(pendingIntent)
         val triggerAtMillis = scheduleModel.time!!.date.time - System.currentTimeMillis()
-
-        alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent)
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + triggerAtMillis, pendingIntent)
     }
+
+    private fun cancelAll() = alarmsQueue.forEach { it.cancel() }
 
     class AlarmReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
