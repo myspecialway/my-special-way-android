@@ -67,7 +67,7 @@ deploy:
   skip_cleanup: true
   on:
     repo: myspecialway/my-special-way-android
-    tags: false
+    tags: true
     jdk: oraclejdk8
   api_key:
     secure: YeUagAU1NMujqW90CuutO0OypG39wtD9kOWEfu8xDIHv0ydCnGrGNIri0sPEwrazJjc/+SJHB52ePaoaSKyWnzw6ft1QsFCnsBx2a3y2hGMJ8eWuXRRHjRP6NkbDhnYBhUFZwwPiUupUieFd5MsyoM7hi6iXvM908arNTxYAwEkFBXNl45c6wpLxi9w8pE2L3CZbyNHS2yQ1Z5JQF6cw3m0qYr7t7/2FTOApoTmvSogTrNvYDrbCrzi+dwUnR5+aMxrUcyxJh6b8sT1/CZ9WzP3mBxoHoi06K5rFcIM7PT40xrIM/vzfaaggA7xPlHFVJbpCWivJAQrwtgov4P0N9d9k3BAYkdbKOpJYrS+dC+HyNcbJ7/BhMog31hVcjf9rwEzVkR6k6DZDkAxRv8cAwy7lh38TEQ/npQSegGGg/QWvG3FRq+ratj0WAkYcIIp+BcLG/kGNdkBmq2mXsUZVFdOJsue/1t6JznuDLOcjyqRSS7kw7HkBTwzWBXjGqVOPBd9V2dymSn9NNOUU+N+XrrtwNRx0BdHSx1t6Qh+eHm9xkIZ31JiwVjCcC89/J2G+ikm3AD79teOXoc7o0RgEvDYXYhLy6xMLA0oiwjBitv8NCIPYsvJJ7ke8pOWEQyxRV1bxpQKxRwyXldrblVX8BkfDOw1MEov6avNrdFFeKZ4=
