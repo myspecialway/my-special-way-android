@@ -34,7 +34,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
                     // check
                     uiData.value = it.take(6)
                 }, {
-//                    handleFailure(it)
+                    handleFailure(it)
                 })
     }
 
