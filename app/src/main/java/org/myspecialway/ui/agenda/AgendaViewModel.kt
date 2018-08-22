@@ -12,9 +12,9 @@ import java.util.*
 class AgendaViewModel(private val repository: AgendaRepository,
                       private val scheduler: SchedulerProvider) : AbstractViewModel() {
 
-    val uiData = MutableLiveData<List<ScheduleRenderModel>>()
+    val ListDataReady = MutableLiveData<List<ScheduleRenderModel>>()
     val alarm = MutableLiveData<List<ScheduleRenderModel>>()
-    val currentSchedule = MutableLiveData<ScheduleRenderModel>()
+    val currentSchedule = MutableLiveData<String>()
     val progress = MutableLiveData<Int>()
 
     init {
@@ -32,7 +32,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 .toList()
                 .subscribe({
                     activateAlarmNextHours(it, 1)
-                    uiData.value = it.take(6)
+                    ListDataReady.value = it.take(6)
                 }, {
                     handleFailure(it)
                 })
@@ -43,12 +43,12 @@ class AgendaViewModel(private val repository: AgendaRepository,
             if (scheduleRenderModel.isNow) {
 
                 // send the current schedule model
-                currentSchedule.value = scheduleRenderModel
+                currentSchedule.value = scheduleRenderModel.title
 
                 // Get the x hours from now
                 val nextHours = it.slice(IntRange(index + 1, it.size - 2)).take(alarmAmount)
+
                 alarm.value = nextHours
-                return@forEachIndexed
             }
         }
     }

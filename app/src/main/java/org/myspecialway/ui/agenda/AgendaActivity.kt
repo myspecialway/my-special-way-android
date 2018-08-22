@@ -3,7 +3,6 @@ package org.myspecialway.ui.agenda
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -12,10 +11,8 @@ import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.agenda_activity.*
 import org.koin.android.architecture.ext.viewModel
-import org.koin.android.ext.android.inject
 import org.myspecialway.R
 import org.myspecialway.common.BaseActivity
-import org.myspecialway.notifications.Alarm
 import org.myspecialway.ui.main.MainScreenActivity
 
 class AgendaActivity : BaseActivity() {
@@ -33,7 +30,7 @@ class AgendaActivity : BaseActivity() {
     }
 
     override fun render() {
-        viewModel.uiData.observe(this,   Observer { adapter.list = it ?: listOf() })
+        viewModel.ListDataReady.observe(this,   Observer { adapter.list = it ?: listOf() })
         viewModel.progress.observe(this, Observer { progress.visibility = it ?: View.GONE })
         viewModel.failure.observe(this,  Observer { handleError() })
     }

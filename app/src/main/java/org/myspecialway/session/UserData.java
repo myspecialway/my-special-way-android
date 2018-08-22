@@ -20,6 +20,10 @@ public class UserData {
         this.lastname = lastname;
     }
 
+    public String fullName() {
+        return String.format("%s %s", firstname, lastname);
+    }
+
     public UserData(TokenPayloadData tokenPayloadData) {
         this(tokenPayloadData.getId(),
                 tokenPayloadData.getUsername(),
