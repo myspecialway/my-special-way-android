@@ -14,6 +14,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
 
     val uiData = MutableLiveData<List<ScheduleRenderModel>>()
     val alarm = MutableLiveData<List<ScheduleRenderModel>>()
+    val currentSchedule = MutableLiveData<ScheduleRenderModel>()
     val progress = MutableLiveData<Int>()
 
     init {
@@ -31,7 +32,6 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 .toList()
                 .subscribe({
                     activateAlarmNextHours(it, 1)
-                    // check
                     uiData.value = it.take(6)
                 }, {
                     handleFailure(it)
@@ -41,6 +41,10 @@ class AgendaViewModel(private val repository: AgendaRepository,
     private fun activateAlarmNextHours(it: MutableList<ScheduleRenderModel>, alarmAmount: Int) {
         it.take(6).forEachIndexed { index, scheduleRenderModel ->
             if (scheduleRenderModel.isNow) {
+
+                // send the current schedule model
+                currentSchedule.value = scheduleRenderModel
+
                 // Get the x hours from now
                 val nextHours = it.slice(IntRange(index + 1, it.size - 2)).take(alarmAmount)
                 alarm.value = nextHours

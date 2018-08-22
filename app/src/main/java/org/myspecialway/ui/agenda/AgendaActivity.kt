@@ -14,13 +14,13 @@ import kotlinx.android.synthetic.main.agenda_activity.*
 import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.android.inject
 import org.myspecialway.R
+import org.myspecialway.common.BaseActivity
 import org.myspecialway.notifications.Alarm
 import org.myspecialway.ui.main.MainScreenActivity
 
-class AgendaActivity : AppCompatActivity() {
+class AgendaActivity : BaseActivity() {
 
     private val viewModel: AgendaViewModel by viewModel()
-    private val alarmManager: Alarm by inject()
 
     private lateinit var adapter: AgendaAdapter
 
@@ -32,15 +32,11 @@ class AgendaActivity : AppCompatActivity() {
         render()
     }
 
-    private fun render() {
+    override fun render() {
         viewModel.uiData.observe(this,   Observer { adapter.list = it ?: listOf() })
         viewModel.progress.observe(this, Observer { progress.visibility = it ?: View.GONE })
         viewModel.failure.observe(this,  Observer { handleError() })
-        viewModel.alarm.observe(this,    Observer { activateAlarm(it) })
     }
-
-    private fun activateAlarm(ScheduleAlarms: List<ScheduleRenderModel>?) =
-            ScheduleAlarms?.forEach { alarmManager.scheduleAlarm(it) }
 
     private fun handleError() {
         Toast.makeText(this@AgendaActivity, "לא מתאפשר להציג כרגע את מערכת השעות", Toast.LENGTH_LONG).show()

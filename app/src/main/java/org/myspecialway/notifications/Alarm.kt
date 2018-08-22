@@ -16,7 +16,7 @@ class Alarm(private val context: Context) {
     private val alarmsQueue = mutableListOf<PendingIntent>()
 
     fun scheduleAlarm(scheduleModel: ScheduleRenderModel) {
-        cancelAll()
+        alarmsQueue.cancelAll()
 
         val intent = Intent(context, AlarmReceiver::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -24,10 +24,12 @@ class Alarm(private val context: Context) {
         val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
         alarmsQueue.add(pendingIntent)
         val triggerAtMillis = scheduleModel.time!!.date.time - System.currentTimeMillis()
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + triggerAtMillis, pendingIntent)
+        alarmManager.set(
+                AlarmManager.RTC_WAKEUP,
+                System.currentTimeMillis() + triggerAtMillis,
+                pendingIntent
+        )
     }
-
-    private fun cancelAll() = alarmsQueue.forEach { it.cancel() }
 
     class AlarmReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -37,3 +39,5 @@ class Alarm(private val context: Context) {
         }
     }
 }
+
+fun MutableList<PendingIntent>.cancelAll() = forEach { it.cancel() }

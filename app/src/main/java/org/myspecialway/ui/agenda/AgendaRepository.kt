@@ -20,13 +20,11 @@ class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
             localDataSource.loadSchedule().toObservable().handleError(),
             remoteDataSource.fetchSchedule(getPayLoad()).toObservable().handleError()
                     .debounce(400, TimeUnit.MILLISECONDS)
-                    .doOnNext { localDataSource.saveAllSchedule(it) }
-    )
-
+                    .doOnNext { localDataSource.saveAllSchedule(it) } )
 
     private fun getPayLoad(): JsonObject {
         val json = JsonObject()
-        json.addProperty("query", query(App.instance?.userSessionManager?.token ?: ""))
+        json.addProperty("query", query())
         json.addProperty("value", "")
         return json
     }
