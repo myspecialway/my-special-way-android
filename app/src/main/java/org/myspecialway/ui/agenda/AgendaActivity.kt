@@ -33,6 +33,11 @@ class AgendaActivity : BaseActivity() {
         viewModel.listDataReady.observe(this,   Observer { adapter.list = it ?: listOf() })
         viewModel.progress.observe(this, Observer { progress.visibility = it ?: View.GONE })
         viewModel.failure.observe(this,  Observer { handleError() })
+        viewModel.currentSchedulePosition.observe(this, Observer { scrollToSchedule(it) })
+    }
+
+    private fun scrollToSchedule(it: Int?) {
+        agendaRecyclerView.scrollToPosition(it ?: 0)
     }
 
     private fun handleError() {
@@ -59,7 +64,6 @@ class AgendaActivity : BaseActivity() {
         when(item?.itemId) {
             android.R.id.home -> finish()
         }
-
         return true
     }
 }

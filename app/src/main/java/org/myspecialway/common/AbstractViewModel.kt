@@ -13,7 +13,7 @@ import io.reactivex.disposables.Disposable
 abstract class AbstractViewModel : ViewModel() {
     var failure: MutableLiveData<Throwable> = MutableLiveData()
 
-    protected fun handleFailure(failure: Throwable) {
+    protected fun failure(failure: Throwable) {
         this.failure.value = failure
     }
 

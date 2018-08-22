@@ -16,6 +16,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
     val alarm = MutableLiveData<List<ScheduleRenderModel>>()
     val currentSchedule = MutableLiveData<String>()
     val progress = MutableLiveData<Int>()
+    val currentSchedulePosition = MutableLiveData<Int>()
 
     init {
         getDailySchedule()
@@ -26,33 +27,29 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 .with(scheduler)
                 .doOnSubscribe { progress.value = View.VISIBLE }
                 .doFinally { progress.value = View.GONE }
-                .map { it.data.classById.schedule }
+                .map { it.data.classById.scheduleList }
                 .flatMapIterable { it }
                 .map { mapScheduleRenderModel(it) }
                 .toList()
-                .subscribe({
-                    val today = it.take(6)
-                    activateAlarmNextHours(today.toMutableList())
-                    listDataReady.value = today
-                }, {
-                    handleFailure(it)
-                })
+                .subscribe(::subscribe, ::failure)
     }
 
-    private fun activateAlarmNextHours(list: MutableList<ScheduleRenderModel>) {
-        list.forEachIndexed { index, scheduleRenderModel ->
-            if (scheduleRenderModel.isNow) {
+    private fun subscribe(list: MutableList<ScheduleRenderModel>) {
+        val today = list.take(6)
+        activateAlarmNextHours(today.toMutableList())
+        listDataReady.value = today
+    }
 
-                // send the current schedule model
-                currentSchedule.value = scheduleRenderModel.title
-
-                // Get the x hours from now
-                val nextHours = list.slice(IntRange(index + 1, list.size - 2))
-
-                alarm.value = nextHours
+    private fun activateAlarmNextHours(list: MutableList<ScheduleRenderModel>) =
+            list.forEachIndexed { index, scheduleRenderModel ->
+                if (scheduleRenderModel.isNow) {
+                    currentSchedule.value = scheduleRenderModel.title
+                    currentSchedulePosition.value = index
+                    alarm.value = getAlarms(list, index)
+                }
             }
-        }
-    }
+
+    private fun getAlarms(list: MutableList<ScheduleRenderModel>, index: Int) = list.slice(IntRange(index + 1, list.size - 2))
 
     private fun mapScheduleRenderModel(schedule: Schedule) = ScheduleRenderModel().apply {
         val currentTime = Calendar.getInstance(TimeZone.getDefault()).time

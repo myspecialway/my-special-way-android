@@ -22,7 +22,7 @@ data class Class(
         val name: String? = null,
         val number: Int? = null,
         val level: String? = null,
-        val schedule: List<Schedule>)
+        val scheduleList: List<Schedule>)
 
 @Entity()
 data class Schedule(
