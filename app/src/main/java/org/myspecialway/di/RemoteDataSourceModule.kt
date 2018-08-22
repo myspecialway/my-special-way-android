@@ -1,15 +1,21 @@
 package org.myspecialway.di
 
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module.applicationContext
+import org.myspecialway.App
 import org.myspecialway.data.RemoteDataSource
+import org.myspecialway.data.TokenInterceptor
 import org.myspecialway.di.RemoteProperties.BASE_URL
+import org.myspecialway.session.UserSession
+import org.myspecialway.ui.login.RequestCallback
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-
 
 object RemoteProperties {
     const val BASE_URL = "http://msw-dev.eastus.cloudapp.azure.com:3000/"
@@ -28,15 +34,17 @@ fun createOkHttpClient(): OkHttpClient {
     return OkHttpClient.Builder()
             .connectTimeout(60L, TimeUnit.SECONDS)
             .readTimeout(60L, TimeUnit.SECONDS)
-            .addInterceptor(interceptor).build()
+            .addInterceptor(TokenInterceptor())
+            .addInterceptor(interceptor)
+            .build()
 }
-
 
 inline fun <reified T> createWebService(okHttpClient: OkHttpClient, url: String) : T {
     val retrofit = Retrofit.Builder()
             .baseUrl(url)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
     return retrofit.create(T::class.java)
 }

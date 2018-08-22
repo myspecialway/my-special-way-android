@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.agenda_activity.*
@@ -59,5 +60,13 @@ class AgendaActivity : AppCompatActivity() {
         val supportActionBar = supportActionBar
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar.setDisplayShowHomeEnabled(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId) {
+            android.R.id.home -> finish()
+        }
+
+        return true
     }
 }

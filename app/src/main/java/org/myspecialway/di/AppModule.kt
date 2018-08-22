@@ -21,8 +21,6 @@ val appModule = applicationContext {
     }
 }
 
-private fun alarmService(context: Context) = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
 val rxModule = applicationContext {
     bean { ApplicationSchedulerProvider() as SchedulerProvider }
 }

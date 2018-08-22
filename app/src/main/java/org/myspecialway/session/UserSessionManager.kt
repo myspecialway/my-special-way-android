@@ -1,6 +1,9 @@
 package org.myspecialway.session
 
+import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import org.myspecialway.ui.login.LoginActivity
 import org.myspecialway.ui.login.RequestCallback
 import org.myspecialway.ui.login.gateway.ILoginGateway
 import org.myspecialway.ui.login.gateway.InvalidLoginCredentials
@@ -65,6 +68,12 @@ class UserSessionManager(private val gateway: ILoginGateway, private val parser:
             }
         })
     }
+    fun logout(context : Context) {
+        // clear sp, navigate login page with clear top flag
+        val intent = Intent(context, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        context.startActivity(intent)
+    }
 
     private fun loadDataFromToken(token: String) {
         val tokenPayloadData = parser.parsePayload(token)
@@ -74,12 +83,18 @@ class UserSessionManager(private val gateway: ILoginGateway, private val parser:
         userSession = UserSession(tokenData, UserData(tokenPayloadData))
     }
 
-    private fun storeCredentials(token: String, username: String, password: String) {
+    fun storeCredentials(token: String, username: String, password: String) {
 
         val editor = sharedPreferences.edit()
         editor.putString("token", token)
         editor.putString("storedUsername", username)
         editor.putString("storedPassword", password)
+        editor.apply()
+    }
+
+    fun storeToken(token: String) {
+        val editor = sharedPreferences.edit()
+        editor.putString("token", token)
         editor.apply()
     }
 }
