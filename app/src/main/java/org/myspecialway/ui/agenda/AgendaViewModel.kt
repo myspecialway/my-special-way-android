@@ -12,7 +12,7 @@ import java.util.*
 class AgendaViewModel(private val repository: AgendaRepository,
                       private val scheduler: SchedulerProvider) : AbstractViewModel() {
 
-    val ListDataReady = MutableLiveData<List<ScheduleRenderModel>>()
+    val listDataReady = MutableLiveData<List<ScheduleRenderModel>>()
     val alarm = MutableLiveData<List<ScheduleRenderModel>>()
     val currentSchedule = MutableLiveData<String>()
     val progress = MutableLiveData<Int>()
@@ -31,22 +31,23 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 .map { mapScheduleRenderModel(it) }
                 .toList()
                 .subscribe({
-                    activateAlarmNextHours(it, 1)
-                    ListDataReady.value = it.take(6)
+                    val today = it.take(6)
+                    activateAlarmNextHours(today.toMutableList())
+                    listDataReady.value = today
                 }, {
                     handleFailure(it)
                 })
     }
 
-    private fun activateAlarmNextHours(it: MutableList<ScheduleRenderModel>, alarmAmount: Int) {
-        it.take(6).forEachIndexed { index, scheduleRenderModel ->
+    private fun activateAlarmNextHours(list: MutableList<ScheduleRenderModel>) {
+        list.forEachIndexed { index, scheduleRenderModel ->
             if (scheduleRenderModel.isNow) {
 
                 // send the current schedule model
                 currentSchedule.value = scheduleRenderModel.title
 
                 // Get the x hours from now
-                val nextHours = it.slice(IntRange(index + 1, it.size - 2)).take(alarmAmount)
+                val nextHours = list.slice(IntRange(index + 1, list.size - 2))
 
                 alarm.value = nextHours
             }

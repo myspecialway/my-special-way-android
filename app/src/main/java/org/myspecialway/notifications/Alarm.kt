@@ -15,9 +15,11 @@ class Alarm(private val context: Context) {
 
     private val alarmsQueue = mutableListOf<PendingIntent>()
 
-    fun scheduleAlarm(scheduleModel: ScheduleRenderModel) {
-        alarmsQueue.cancelAll()
 
+    // WHEN TO CANCEL???
+//    alarmsQueue.cancelAll()
+
+    fun scheduleAlarm(scheduleModel: ScheduleRenderModel) {
         val intent = Intent(context, AlarmReceiver::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         intent.putExtra(TITLE, scheduleModel.title)

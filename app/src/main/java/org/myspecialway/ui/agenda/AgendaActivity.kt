@@ -30,7 +30,7 @@ class AgendaActivity : BaseActivity() {
     }
 
     override fun render() {
-        viewModel.ListDataReady.observe(this,   Observer { adapter.list = it ?: listOf() })
+        viewModel.listDataReady.observe(this,   Observer { adapter.list = it ?: listOf() })
         viewModel.progress.observe(this, Observer { progress.visibility = it ?: View.GONE })
         viewModel.failure.observe(this,  Observer { handleError() })
     }

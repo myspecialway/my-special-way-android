@@ -1,11 +1,8 @@
 package org.myspecialway.ui.main
 
 import android.arch.lifecycle.Observer
-import android.content.ComponentName
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main_screen.*
 import org.myspecialway.R
 import org.koin.android.architecture.ext.viewModel
@@ -13,7 +10,6 @@ import org.koin.android.ext.android.inject
 import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.Navigation
 import org.myspecialway.notifications.Alarm
-import org.myspecialway.ui.agenda.AgendaActivity
 import org.myspecialway.ui.agenda.AgendaViewModel
 
 class MainScreenActivity : BaseActivity() {
@@ -53,7 +49,7 @@ class MainScreenActivity : BaseActivity() {
         /**
          * observe the list of data when it's ready
          */
-        viewModel.ListDataReady.observe(this, Observer { scheduleName.visibility = View.VISIBLE })
+        viewModel.listDataReady.observe(this, Observer { scheduleName.visibility = View.VISIBLE })
 
         /**
          * observe the progress bar
