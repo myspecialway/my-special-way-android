@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import org.myspecialway.common.Navigation
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 
 class Alarm(private val context: Context) {
@@ -13,13 +14,14 @@ class Alarm(private val context: Context) {
         const val TITLE = "title"
     }
 
-    val alarmsQueue = mutableListOf<PendingIntent>()
+    private val alarmsQueue = mutableListOf<PendingIntent>()
 
     fun scheduleAlarm(scheduleModel: ScheduleRenderModel) {
         val intent = Intent(context, AlarmReceiver::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        intent.putExtra(TITLE, scheduleModel.title)
-        val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
+        intent.putExtra(NotificationActivity.SCHEDULE_KEY, scheduleModel)
+        val id = System.currentTimeMillis().toInt()
+        val pendingIntent = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_ONE_SHOT)
         alarmsQueue.add(pendingIntent)
         val triggerAtMillis = scheduleModel.time!!.date.time - System.currentTimeMillis()
         alarmManager.set(
@@ -31,9 +33,8 @@ class Alarm(private val context: Context) {
 
     class AlarmReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            val notificationIntent = Intent(context, NotificationActivity::class.java)
-            notificationIntent.putExtra(NotificationActivity.MESSAGE_TEXT, "בוקר טוב זמן לשיעור ${intent.getStringExtra(TITLE)}")
-            context.startActivity(notificationIntent)
+            val schedule = intent.getParcelableExtra<ScheduleRenderModel>(NotificationActivity.SCHEDULE_KEY)
+            Navigation.toNotificationActivity(context, schedule)
         }
     }
 }

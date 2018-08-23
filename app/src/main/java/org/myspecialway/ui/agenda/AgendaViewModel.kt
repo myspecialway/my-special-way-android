@@ -17,9 +17,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
     val currentSchedule = MutableLiveData<ScheduleRenderModel>()
     val currentSchedulePosition = MutableLiveData<Int>()
 
-    init {
-        getDailySchedule()
-    }
+    init { getDailySchedule() }
 
     private fun getDailySchedule() = launch {
         repository.getSchedule()

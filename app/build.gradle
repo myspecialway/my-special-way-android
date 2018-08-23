@@ -10,6 +10,11 @@ ext {
     rxjava_version = '2.1.7'
 
 }
+
+androidExtensions {
+    experimental = true
+}
+
 android {
     compileSdkVersion 27
     buildToolsVersion '27.0.3'

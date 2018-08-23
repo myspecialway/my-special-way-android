@@ -18,7 +18,7 @@ class MainScreenActivity : BaseActivity() {
 
     private val viewModel: AgendaViewModel by viewModel()
     private val alarmManager: Alarm by inject()
-    private lateinit var currentClass: ScheduleRenderModel
+    private lateinit var schedule: ScheduleRenderModel
 
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +30,7 @@ class MainScreenActivity : BaseActivity() {
 
     private fun clickListeners() {
         scheduleButton.setOnClickListener { Navigation.toScheduleActivity(this) }
-        navButton.setOnClickListener { Navigation.toUnityNavigation(this, currentClass) }
+        navButton.setOnClickListener { Navigation.toUnityNavigation(this, schedule) }
     }
 
     override fun render() {
@@ -48,7 +48,7 @@ class MainScreenActivity : BaseActivity() {
          * observe the current schedule title
          */
         viewModel.currentSchedule.observe(this, Observer {
-            currentClass = it!!
+            schedule = it!!
             scheduleName.text = it.title
         })
 

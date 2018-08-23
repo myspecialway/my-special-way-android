@@ -23,7 +23,7 @@
             android:src="@drawable/notification_img" />
 
         <TextView
-            android:id="@+id/dialog_notification_text"
+            android:id="@+id/notificationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000000"
@@ -31,7 +31,7 @@
             android:textSize="20sp" />
 
         <ImageButton
-            android:id="@+id/dialog_notification_button"
+            android:id="@+id/navigationButton"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_margin="5dp"

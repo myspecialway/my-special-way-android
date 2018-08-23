@@ -3,15 +3,11 @@ package org.myspecialway.notifications
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.ImageButton
-import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_notification.*
 
 import org.myspecialway.R
 import org.myspecialway.common.Navigation
-import org.myspecialway.ui.agenda.AgendaViewModel
-import org.myspecialway.ui.splash.SplashActivity
+import org.myspecialway.ui.agenda.ScheduleRenderModel
 
 
 class NotificationActivity : Activity() {
@@ -19,17 +15,19 @@ class NotificationActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification)
-        val intent = intent
+        val (notificationTitle, destination) = getBundle(intent)
+        notificationText.text = notificationTitle
+        navigationButton.setOnClickListener { Navigation.toUnityNavigation(this, destination) }
+    }
 
-        val schedule: AgendaViewModel
-
-//        val destination = intent.getStringExtra(MESSAGE_TEXT)
-//        dialog_notification_text.text = destination
-//        dialog_notification_button
-//                .setOnClickListener { Navigation.toUnityNavigation(this, destination) }
+    private fun getBundle(intent: Intent): Pair<String, ScheduleRenderModel> {
+        val notificationTitle = intent.getStringExtra(NOTIFICATION_TITLE)
+        val destination = intent.getParcelableExtra<ScheduleRenderModel>(SCHEDULE_KEY)
+        return Pair(notificationTitle, destination)
     }
 
     companion object {
-        const val MESSAGE_TEXT = "message_text"
+        const val SCHEDULE_KEY = "schedule_key"
+        const val NOTIFICATION_TITLE = "notification_title"
     }
 }

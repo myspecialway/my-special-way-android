@@ -1,5 +1,7 @@
 package org.myspecialway.ui.agenda
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 /**
@@ -48,8 +50,8 @@ object DateIndex : TimeFactory {
         return cal.time
     }
 }
-
-data class Time(val date: Date, val dayDisplay: String, val timeDisplay: String)
+@Parcelize
+data class Time(val date: Date, val dayDisplay: String, val timeDisplay: String) : Parcelable
 
 interface TimeFactory {
     fun convertTimeFromIndex(timeIndex: String): Time

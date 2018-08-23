@@ -2,8 +2,10 @@ package org.myspecialway.ui.agenda
 
 import android.arch.persistence.room.*
 import android.arch.persistence.room.ForeignKey.CASCADE
+import android.os.Parcelable
 import android.support.annotation.NonNull
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 @Entity()
 data class ScheduleModel(
@@ -54,7 +56,8 @@ data class Lesson(
         val icon: String)
 
 // UI Models
+@Parcelize
 data class ScheduleRenderModel(var title: String? = null,
                                var image: Int? = null,
                                var time: Time? = null,
-                               var isNow: Boolean = false)
+                               var isNow: Boolean = false) : Parcelable
