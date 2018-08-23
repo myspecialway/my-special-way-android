@@ -28,7 +28,9 @@ class MainScreenActivity : BaseActivity() {
 
     private fun clickListeners() {
         scheduleButton.setOnClickListener { Navigation.toSchduleActivity(this) }
-        navButton.setOnClickListener { Navigation.toUnityNavigation(this, currentClass ?: "No Destination") }
+        navButton.setOnClickListener {
+            Navigation.toUnityNavigation(this, currentClass ?: "No Destination")
+        }
     }
 
     override fun render() {

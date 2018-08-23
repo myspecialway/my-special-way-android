@@ -1,8 +1,6 @@
-package org.myspecialway.data
+package org.myspecialway.data.remote
 
-import android.content.Context
-import android.content.Intent
-import android.support.v4.content.ContextCompat.startActivity
+
 import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.Request
