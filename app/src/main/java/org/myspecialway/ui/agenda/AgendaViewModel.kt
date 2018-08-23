@@ -15,7 +15,6 @@ class AgendaViewModel(private val repository: AgendaRepository,
     val listDataReady = MutableLiveData<List<ScheduleRenderModel>>()
     val alarm = MutableLiveData<List<ScheduleRenderModel>>()
     val currentSchedule = MutableLiveData<String>()
-    val progress = MutableLiveData<Int>()
     val currentSchedulePosition = MutableLiveData<Int>()
 
     init {
@@ -53,9 +52,9 @@ class AgendaViewModel(private val repository: AgendaRepository,
 
     private fun mapScheduleRenderModel(schedule: Schedule) = ScheduleRenderModel().apply {
         val currentTime = Calendar.getInstance(TimeZone.getDefault()).time
-        title = schedule.lesson.title
+        title = schedule.lesson?.title
         image = R.drawable.sun
-        time = DateIndex.convertTimeFromIndex(schedule.index)
+        time = schedule.index?.let { DateIndex.convertTimeFromIndex(it) }
         isNow = currentTime.after(time?.date) && currentTime.before(addHour(time!!.date, 1))
     }
 

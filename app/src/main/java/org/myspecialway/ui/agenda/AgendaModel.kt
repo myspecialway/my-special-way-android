@@ -22,19 +22,19 @@ data class Class(
         val name: String? = null,
         val number: Int? = null,
         val level: String? = null,
-        val scheduleList: List<Schedule>)
+        val scheduleList: List<Schedule>? = null)
 
 @Entity()
 data class Schedule(
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "schedule_id") @NonNull val id: Int,
-        val index: String,
-        @Embedded val lesson: Lesson)
+        val index: String? = null,
+        @Embedded val lesson: Lesson? = null)
 
 @Entity()
 data class Lesson(
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "lesson_id") @NonNull val id: Int,
-        val title: String,
-        val icon: String)
+        val title: String? = null,
+        val icon: String? = null)
 
 // UI Models
 data class ScheduleRenderModel(var title: String? = null,
