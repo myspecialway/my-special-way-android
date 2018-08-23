@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 @Entity()
 data class ScheduleModel(
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "sche_model_id") @NonNull val id: Int,
-        @Embedded(prefix = "data_") val data: Data)
+        @Embedded() val data: Data)
 
 @Entity()
 data class Data(

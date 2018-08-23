@@ -3,6 +3,7 @@ package org.myspecialway.ui.main
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main_screen.*
 import org.myspecialway.R
 import org.koin.android.architecture.ext.viewModel
@@ -49,11 +50,21 @@ class MainScreenActivity : BaseActivity() {
         /**
          * observe the list of data when it's ready
          */
-        viewModel.listDataReady.observe(this, Observer { scheduleName.visibility = View.VISIBLE })
+        viewModel.listDataReady.observe(this, Observer { handleError() })
+
+        /**
+         * observe errors
+         */
+        viewModel.failure.observe(this, Observer { handleError() })
 
         /**
          * observe the progress bar
          */
         viewModel.progress.observe(this, Observer { progress.visibility = it!! })
+    }
+
+    private fun handleError() {
+        scheduleName.visibility = View.VISIBLE
+        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
     }
 }
