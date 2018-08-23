@@ -64,7 +64,8 @@ before_deploy:
 - "${ANDROID_HOME}/build-tools/$ANDROID_BUILD_TOOLS/zipalign -v 4 app-release-unsigned.apk
   my-special-way.apk"
 - cd
-- hockeyapp-upload.sh
+- echo "About to upload to HockeyApp"
+- ./hockeyapp-upload.sh
 - cd app/build/outputs/apk/release
 deploy:
   provider: releases
