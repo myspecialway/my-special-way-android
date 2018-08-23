@@ -13,11 +13,7 @@ class Alarm(private val context: Context) {
         const val TITLE = "title"
     }
 
-    private val alarmsQueue = mutableListOf<PendingIntent>()
-
-
-    // WHEN TO CANCEL???
-//    alarmsQueue.cancelAll()
+    val alarmsQueue = mutableListOf<PendingIntent>()
 
     fun scheduleAlarm(scheduleModel: ScheduleRenderModel) {
         val intent = Intent(context, AlarmReceiver::class.java)

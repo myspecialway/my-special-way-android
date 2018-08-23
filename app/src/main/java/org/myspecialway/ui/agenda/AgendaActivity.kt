@@ -29,6 +29,19 @@ class AgendaActivity : BaseActivity() {
         render()
     }
 
+    private fun initList() {
+        adapter = AgendaAdapter { Log.d("adapter", it.title) }
+        agendaRecyclerView.layoutManager = LinearLayoutManager(this@AgendaActivity)
+        agendaRecyclerView.itemAnimator = DefaultItemAnimator()
+        agendaRecyclerView.adapter = adapter
+    }
+
+    private fun initToolbar() {
+        val supportActionBar = supportActionBar
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar.setDisplayShowHomeEnabled(true)
+    }
+
     override fun render() {
         viewModel.listDataReady.observe(this,   Observer { adapter.list = it ?: listOf() })
         viewModel.progress.observe(this, Observer { progress.visibility = it ?: View.GONE })
@@ -44,20 +57,6 @@ class AgendaActivity : BaseActivity() {
         Toast.makeText(this@AgendaActivity, "לא מתאפשר להציג כרגע את מערכת השעות", Toast.LENGTH_LONG).show()
         startActivity(Intent(this@AgendaActivity, MainScreenActivity::class.java))
         finish()
-    }
-
-    private fun initList() {
-        adapter = AgendaAdapter { Log.d("adapter", it.title) }
-        val mLayoutManager = LinearLayoutManager(this@AgendaActivity)
-        agendaRecyclerView.layoutManager = mLayoutManager
-        agendaRecyclerView.itemAnimator = DefaultItemAnimator()
-        agendaRecyclerView.adapter = adapter
-    }
-
-    private fun initToolbar() {
-        val supportActionBar = supportActionBar
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar.setDisplayShowHomeEnabled(true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

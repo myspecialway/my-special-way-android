@@ -12,12 +12,14 @@ import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.Navigation
 import org.myspecialway.notifications.Alarm
 import org.myspecialway.ui.agenda.AgendaViewModel
+import org.myspecialway.ui.agenda.ScheduleRenderModel
 
 class MainScreenActivity : BaseActivity() {
 
     private val viewModel: AgendaViewModel by viewModel()
     private val alarmManager: Alarm by inject()
-    private val currentClass: String? = null
+    private lateinit var currentClass: ScheduleRenderModel
+
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,14 +29,12 @@ class MainScreenActivity : BaseActivity() {
     }
 
     private fun clickListeners() {
-        scheduleButton.setOnClickListener { Navigation.toSchduleActivity(this) }
-        navButton.setOnClickListener {
-            Navigation.toUnityNavigation(this, currentClass ?: "No Destination")
-        }
+        scheduleButton.setOnClickListener { Navigation.toScheduleActivity(this) }
+        navButton.setOnClickListener { Navigation.toUnityNavigation(this, currentClass) }
     }
 
     override fun render() {
-        /**
+        /**`
          * observe the user name
          */
         userDisplayName.text = sessionManager?.userData?.fullName()
@@ -47,12 +47,15 @@ class MainScreenActivity : BaseActivity() {
         /**
          * observe the current schedule title
          */
-        viewModel.currentSchedule.observe(this, Observer { scheduleName.text = it })
+        viewModel.currentSchedule.observe(this, Observer {
+            currentClass = it!!
+            scheduleName.text = it.title
+        })
 
         /**
          * observe the list of data when it's ready
          */
-        viewModel.listDataReady.observe(this, Observer { handleError() })
+        viewModel.listDataReady.observe(this, Observer {  scheduleName.visibility = View.VISIBLE })
 
         /**
          * observe errors

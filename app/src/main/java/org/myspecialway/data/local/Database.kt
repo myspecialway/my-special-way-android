@@ -10,7 +10,9 @@ import org.myspecialway.ui.agenda.*
     Data::class,
     Class::class,
     Schedule::class,
-    Lesson::class
+    Lesson::class,
+    Location::class,
+    Position::class
 ], version = 1)
 @TypeConverters(ScheduleConverter::class)
 abstract class Database : RoomDatabase() {

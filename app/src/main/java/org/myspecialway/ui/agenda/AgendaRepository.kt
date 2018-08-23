@@ -18,7 +18,6 @@ class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
             Observable.concatArrayEager(
                     localDataSource.loadSchedule().toObservable().handleError(),
                     remoteDataSource.fetchSchedule(getPayLoad()).toObservable().handleError()
-                            .debounce(400, TimeUnit.MILLISECONDS)
                             .doOnNext { localDataSource.saveAllSchedule(it) })
 
     private fun getPayLoad(): JsonObject {

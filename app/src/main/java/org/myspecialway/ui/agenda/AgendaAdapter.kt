@@ -7,7 +7,7 @@ import org.myspecialway.R
 import org.myspecialway.common.inflate
 import kotlin.properties.Delegates
 
-class AgendaAdapter(val onClick: (ScheduleRenderModel) -> Unit ) : RecyclerView.Adapter<AgendaAdapter.AgendaHolder>() {
+class AgendaAdapter(val onClick: (ScheduleRenderModel) -> Unit) : RecyclerView.Adapter<AgendaAdapter.AgendaHolder>() {
 
     var list: List<ScheduleRenderModel> by Delegates.observable(listOf()) { _, _, _ -> notifyDataSetChanged() }
 

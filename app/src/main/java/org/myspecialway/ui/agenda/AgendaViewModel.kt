@@ -14,7 +14,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
 
     val listDataReady = MutableLiveData<List<ScheduleRenderModel>>()
     val alarm = MutableLiveData<List<ScheduleRenderModel>>()
-    val currentSchedule = MutableLiveData<String>()
+    val currentSchedule = MutableLiveData<ScheduleRenderModel>()
     val currentSchedulePosition = MutableLiveData<Int>()
 
     init {
@@ -26,7 +26,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 .with(scheduler)
                 .doOnSubscribe { progress.value = View.VISIBLE }
                 .doFinally { progress.value = View.GONE }
-                .map { it.data.classById.scheduleList }
+                .map { it.data.classById.schedule }
                 .flatMapIterable { it }
                 .map { mapScheduleRenderModel(it) }
                 .toList()
@@ -42,7 +42,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
     private fun activateAlarmNextHours(list: MutableList<ScheduleRenderModel>) =
             list.forEachIndexed { index, scheduleRenderModel ->
                 if (scheduleRenderModel.isNow) {
-                    currentSchedule.value = scheduleRenderModel.title
+                    currentSchedule.value = scheduleRenderModel
                     currentSchedulePosition.value = index
                     alarm.value = getAlarms(list, index)
                 }
@@ -52,9 +52,9 @@ class AgendaViewModel(private val repository: AgendaRepository,
 
     private fun mapScheduleRenderModel(schedule: Schedule) = ScheduleRenderModel().apply {
         val currentTime = Calendar.getInstance(TimeZone.getDefault()).time
-        title = schedule.lesson?.title
+        title = schedule.lesson.title
         image = R.drawable.sun
-        time = schedule.index?.let { DateIndex.convertTimeFromIndex(it) }
+        time = schedule.index.let { DateIndex.convertTimeFromIndex(it) }
         isNow = currentTime.after(time?.date) && currentTime.before(addHour(time!!.date, 1))
     }
 
