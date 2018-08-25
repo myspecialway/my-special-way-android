@@ -11,7 +11,7 @@ fi
 #  exit 0
 #fi
 
-OUTPUTDIR="app/build/outputs/apk/release"
+OUTPUTDIR="$HOME/app/build/outputs/apk/release"
 APP_NAME="my-special-way"
 RELEASE_DATE=`date '+%Y-%m-%d %H:%M:%S'`
 RELEASE_NOTES="Build: $TRAVIS_BUILD_NUMBER Uploaded: $RELEASE_DATE"

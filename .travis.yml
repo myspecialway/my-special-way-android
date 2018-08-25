@@ -58,6 +58,7 @@ after_success:
 before_deploy:
 - cp $TRAVIS_BUILD_DIR/myspecial.jks $HOME
 - cd app/build/outputs/apk/release
+- pwd
 - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/myspecial.jks
   -storepass $storepass -keypass $keypass app-release-unsigned.apk key0
 - jarsigner -verify app-release-unsigned.apk
