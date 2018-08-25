@@ -52,7 +52,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // Firebase Messaging
-    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.firebase:firebase-core:+'
     implementation 'com.google.firebase:firebase-messaging:17.0.0'
 
     // Android support libraries
