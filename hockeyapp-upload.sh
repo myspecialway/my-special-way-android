@@ -1,4 +1,6 @@
 #!/bin/sh
+echo "Starting deployment"
+
 if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then
   echo "This is a pull request. No deployment will be done to HocketApp."
   exit 0
@@ -14,9 +16,7 @@ APP_NAME="my-special-way"
 RELEASE_DATE=`date '+%Y-%m-%d %H:%M:%S'`
 RELEASE_NOTES="Build: $TRAVIS_BUILD_NUMBER Uploaded: $RELEASE_DATE"
 
-if [ ! -z "$HOCKEY_APP_ID" ] && [ ! -z "$HOCKEY_APP_TOKEN" ]; then
-
-if [ "$TRAVIS_TAG" == "" ]; then
+if [ ! -z "$HOCKEY_APP_ID" ] && [ ! -z "$HOCKEY_TOKEN" ]; then
 
 echo ""
 echo "***************************"
@@ -30,7 +30,6 @@ curl https://rink.hockeyapp.net/api/2/apps/$HOCKEY_APP_ID/app_versions \
   -F notes_type="0" \
   -F tags="beta" \
   -F ipa="@$OUTPUTDIR/$APP_NAME.apk" \
-  -H "X-HockeyAppToken: $HOCKEY_APP_TOKEN"
+  -H "X-HockeyAppToken: $HOCKEY_TOKEN"
 fi
 
-fi
