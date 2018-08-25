@@ -11,6 +11,12 @@ fi
 #  exit 0
 #fi
 
+echo "Testing build directory"
+echo $HOME
+echo `pwd`
+echo `ls`
+echo $TRAVIS_BUILD_DIR
+
 OUTPUTDIR="$HOME/app/build/outputs/apk/release"
 APP_NAME="my-special-way"
 RELEASE_DATE=`date '+%Y-%m-%d %H:%M:%S'`
