@@ -16,8 +16,9 @@ android {
         applicationId "org.myspecialway"
         minSdkVersion 24
         targetSdkVersion 27
-        versionCode 1
+        versionCode System.getenv("TRAVIS_BUILD_NUMBER") as Integer ?: 1
         versionName "1.0"
+        versionNameSuffix "-" + System.getenv("TRAVIS_BUILD_NUMBER") as String ?: "1"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
