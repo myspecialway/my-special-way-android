@@ -31,6 +31,7 @@ class AgendaAdapter(val onClick: (ScheduleRenderModel) -> Unit) : RecyclerView.A
         private fun drawBorderIfNeeded(schedule: ScheduleRenderModel) {
             if (schedule.isNow) {
                 itemView.card_view.setBackgroundResource(R.drawable.border)
+
             } else {
                 itemView.card_view.setBackgroundResource(android.R.color.white)
             }
