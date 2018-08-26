@@ -60,6 +60,6 @@
         </service>
 
 
-        <receiver android:name=".notifications.Alarm$AlarmReceiver" />
+        <receiver android:name=".notifications.NotificationAlarmManager$AlarmReceiver" />
     </application>
 </manifest>

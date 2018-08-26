@@ -20,7 +20,7 @@ class UserSessionManager(private val gateway: ILoginGateway, private val parser:
         get() = userSession?.userData
 
     val isLoggedIn: Boolean
-        get() = userSession != null && userSession!!.isLoggedIn
+        get() = sharedPreferences.contains("token") || (userSession != null && userSession!!.isLoggedIn)
 
     val canRefreshSession: Boolean
         get() = storedUsername.isNotBlank() && storedPassword.isNotEmpty()
@@ -37,6 +37,7 @@ class UserSessionManager(private val gateway: ILoginGateway, private val parser:
             loadDataFromToken(sharedPreferences.getString("token", ""))
         }
     }
+
 
     fun refreshSessionIfNeeded(callback: RequestCallback<UserSession>){
         when {
@@ -69,6 +70,7 @@ class UserSessionManager(private val gateway: ILoginGateway, private val parser:
         })
     }
     fun logout(context : Context) {
+        sharedPreferences.edit().clear().apply()
         // clear sp, navigate login page with clear top flag
         val intent = Intent(context, LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -84,7 +86,6 @@ class UserSessionManager(private val gateway: ILoginGateway, private val parser:
     }
 
     fun storeCredentials(token: String, username: String, password: String) {
-
         val editor = sharedPreferences.edit()
         editor.putString("token", token)
         editor.putString("storedUsername", username)

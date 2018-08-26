@@ -28,10 +28,6 @@ fun snackBar(view: View, message: String) = Snackbar
         .make(view, message, Snackbar.LENGTH_SHORT)
         .apply { show() }
 
-fun <T> Observable<T>.handleError(): Observable<T> =
-        this.materialize().map {
-            it
-        }.filter {
-                    Log.d("handleError", " it.isOnError = " + it.isOnError)
-                    !it.isOnError
-                }.dematerialize<T>()
+fun <T> Observable<T>.filterAtError(): Observable<T> = materialize()
+        .map {  it }
+        .filter { !it.isOnError }.dematerialize<T>()

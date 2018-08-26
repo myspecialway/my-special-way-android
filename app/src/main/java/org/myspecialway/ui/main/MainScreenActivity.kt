@@ -10,14 +10,14 @@ import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.android.inject
 import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.Navigation
-import org.myspecialway.notifications.Alarm
+import org.myspecialway.notifications.NotificationAlarmManager
 import org.myspecialway.ui.agenda.AgendaViewModel
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 
 class MainScreenActivity : BaseActivity() {
 
     private val viewModel: AgendaViewModel by viewModel()
-    private val alarmManager: Alarm by inject()
+    private val notificationAlarmManager: NotificationAlarmManager by inject()
     private lateinit var schedule: ScheduleRenderModel
 
 
@@ -42,7 +42,7 @@ class MainScreenActivity : BaseActivity() {
         /**
          * observe all the alarms we need to trigger and pass them to the alarms manager
          */
-        viewModel.alarms.observe(this, Observer { it?.forEach { alarmManager.scheduleAlarm(it) } })
+        viewModel.alarms.observe(this, Observer { it?.forEach { notificationAlarmManager.scheduleAlarm(it) } })
 
         /**
          * observe the current schedule title

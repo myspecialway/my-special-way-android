@@ -55,13 +55,13 @@ object AgendaIndex : TimeFactory {
         val day = calendar.get(Calendar.DAY_OF_WEEK)
 
         return when (day) {
-            Calendar.SUNDAY -> "Sunday"
-            Calendar.MONDAY -> "Monday"
-            Calendar.TUESDAY -> "Tuesday"
+            Calendar.SUNDAY    -> "Sunday"
+            Calendar.MONDAY    -> "Monday"
+            Calendar.TUESDAY   -> "Tuesday"
             Calendar.WEDNESDAY -> "Wednesday"
-            Calendar.THURSDAY -> "Thursday"
-            Calendar.FRIDAY -> "Friday"
-            Calendar.SATURDAY -> "Saturday"
+            Calendar.THURSDAY  -> "Thursday"
+            Calendar.FRIDAY    -> "Friday"
+            Calendar.SATURDAY  -> "Saturday"
 
             else -> throw Exception("Day doesn't exists")
         }

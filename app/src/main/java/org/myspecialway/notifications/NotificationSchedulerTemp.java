@@ -11,7 +11,7 @@
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
 //
-//        Alarm a = Alarm.classgetInstance(this);
+//        NotificationAlarmManager a = NotificationAlarmManager.classgetInstance(this);
 //        a.scheduleAlarm(4);
 //        finish();
 //    }

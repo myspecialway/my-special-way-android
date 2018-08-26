@@ -1,7 +1,10 @@
 package org.myspecialway.ui.agenda
 
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Observer
 import android.view.View
+import io.reactivex.functions.BiConsumer
+import io.reactivex.functions.Consumer
 import org.myspecialway.R
 import org.myspecialway.common.AbstractViewModel
 import org.myspecialway.common.SchedulerProvider
@@ -23,15 +26,17 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 .with(scheduler)
                 .doOnSubscribe { progress.value = View.VISIBLE }
                 .doFinally { progress.value = View.GONE }
-                .map { it.data.classById.schedule }
-                .flatMapIterable { it }
-                .map { mapScheduleRenderModel(it) }
+                .map { it.data.classById.schedule } // map the schedule list
+                .flatMapIterable { it } // iterate on each element
+                .map { mapScheduleRenderModel(it) } // map to render model
                 .toList()
-                .subscribe(::subscribe, ::failure)
+
+                //
+                .subscribe()// back to list
+//                .subscribe(::subscribe, ::failure)
     }
 
     private fun subscribe(list: MutableList<ScheduleRenderModel>) {
-
         val today =
                 list.filter { AgendaIndex.todayWeekIndex() == it.time?.dayDisplay }
                 .distinctBy { it.title }
@@ -49,7 +54,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 }
             }
 
-    private fun getAlarms(list: List<ScheduleRenderModel>, index: Int) = list.slice(IntRange(index + 1, list.size - 2))
+    private fun getAlarms(list: List<ScheduleRenderModel>, index: Int) = list.slice(IntRange(index + 1, list.size - 2)).take(1)
 
     private fun mapScheduleRenderModel(schedule: Schedule) = ScheduleRenderModel().apply {
         val currentTime = Calendar.getInstance(TimeZone.getDefault()).time

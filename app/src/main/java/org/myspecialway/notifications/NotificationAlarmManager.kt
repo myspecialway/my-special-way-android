@@ -8,7 +8,7 @@ import android.content.Intent
 import org.myspecialway.common.Navigation
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 
-class Alarm(private val context: Context) {
+class NotificationAlarmManager(private val context: Context) {
     private var alarmManager: AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
     private val alarmsQueue = mutableListOf<PendingIntent>()

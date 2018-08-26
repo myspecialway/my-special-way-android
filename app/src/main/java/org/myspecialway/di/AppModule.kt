@@ -1,12 +1,9 @@
 package org.myspecialway.di
 
-import android.app.AlarmManager
-import android.content.Context
 import org.koin.android.architecture.ext.viewModel
 import org.koin.dsl.module.applicationContext
 import org.myspecialway.common.ApplicationSchedulerProvider
 import org.myspecialway.common.SchedulerProvider
-import org.myspecialway.notifications.Alarm
 import org.myspecialway.ui.agenda.AgendaRepository
 import org.myspecialway.ui.agenda.AgendaRepositoryImpl
 import org.myspecialway.ui.agenda.AgendaViewModel
@@ -16,7 +13,7 @@ val appModule = applicationContext {
     bean { AgendaRepositoryImpl(get(), get()) as AgendaRepository }
 
     context("alarms") {
-        bean { Alarm(get() ) }
+        bean { org.myspecialway.notifications.NotificationAlarmManager(get() ) }
         
     }
 }
