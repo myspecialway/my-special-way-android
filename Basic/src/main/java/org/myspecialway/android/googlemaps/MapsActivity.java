@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -54,7 +55,9 @@ public class MapsActivity extends FragmentActivity implements IALocationListener
     protected void onResume() {
         super.onResume();
         if (mMap == null) {
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+            ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync(googleMap -> {
+
+            });
         }
         mIALocationManager.requestLocationUpdates(IALocationRequest.create(), this);
 

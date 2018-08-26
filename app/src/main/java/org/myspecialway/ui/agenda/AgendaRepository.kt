@@ -15,16 +15,14 @@ class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
                            private val localDataSource: LocalDataSource) : AgendaRepository {
 
     override fun getSchedule(): Flowable<ScheduleModel> =
-            Flowable.concatArrayEager(local(),remote())
+            Flowable.concatArrayEager(local(),remote()).firstOrError().toFlowable()
 
     private fun remote() = remoteDataSource.fetchSchedule(getPayLoad())
             .toFlowable()
             .filterAtError()
             .doOnNext { localDataSource.saveAllSchedule(it) }
 
-    private fun local() = localDataSource.loadSchedule()
-            .toFlowable()
-
+    private fun local() = localDataSource.loadSchedule().toFlowable()
 
     /**
      * Build Json object with the payload needed to query the backend

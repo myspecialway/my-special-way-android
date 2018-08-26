@@ -1,12 +1,7 @@
 package org.myspecialway.ui.agenda
 
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Observer
-import android.util.Log
-import android.util.Log.d
 import android.view.View
-import io.reactivex.functions.BiConsumer
-import io.reactivex.functions.Consumer
 import io.reactivex.rxkotlin.subscribeBy
 import org.myspecialway.R
 import org.myspecialway.common.AbstractViewModel
@@ -36,19 +31,20 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 .toFlowable()
                 .subscribeBy(
                         onNext = { subscribe(it) },
-                        onError = { failure(it) }
+                        onError = { failure(it) },
+                        onComplete = { println("Complete") }
                 )
-
     }
 
     private fun subscribe(list: MutableList<ScheduleRenderModel>) {
-        val today =
-                list.filter { AgendaIndex.todayWeekIndex() == it.time?.dayDisplay }
-                .distinctBy { it.title }
-
+        val today = getTodaySchedule(list)
         activateAlarmNextHours(today)
         listDataReady.value = today
     }
+
+    private fun getTodaySchedule(list: MutableList<ScheduleRenderModel>) =
+            list.filter { AgendaIndex.todayWeekIndex() == it.time?.dayDisplay }
+                    .distinctBy { it.title }
 
     private fun activateAlarmNextHours(list: List<ScheduleRenderModel>) =
             list.forEachIndexed { index, scheduleRenderModel ->
