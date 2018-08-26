@@ -2,7 +2,7 @@ package org.myspecialway.schedule.gateway;
 
 import android.support.annotation.NonNull;
 
-import org.myspecialway.login.RequestCallback;
+import org.myspecialway.ui.login.RequestCallback;
 
 import java.util.List;
 

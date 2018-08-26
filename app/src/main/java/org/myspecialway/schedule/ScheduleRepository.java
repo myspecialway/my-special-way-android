@@ -1,6 +1,6 @@
 package org.myspecialway.schedule;
 
-import org.myspecialway.login.RequestCallback;
+import org.myspecialway.ui.login.RequestCallback;
 import org.myspecialway.schedule.gateway.IScheduleGateway;
 import org.myspecialway.schedule.gateway.ScheduleResponse;
 

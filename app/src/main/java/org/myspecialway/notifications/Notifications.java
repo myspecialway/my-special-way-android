@@ -11,7 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
 import org.myspecialway.R;
-import org.myspecialway.startup.SplashActivity;
+import org.myspecialway.ui.splash.SplashActivity;
 
 public class Notifications {
 
