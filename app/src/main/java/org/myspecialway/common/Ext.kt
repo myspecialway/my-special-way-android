@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import io.reactivex.Flowable
 import io.reactivex.Observable
 
 
@@ -28,6 +29,6 @@ fun snackBar(view: View, message: String) = Snackbar
         .make(view, message, Snackbar.LENGTH_SHORT)
         .apply { show() }
 
-fun <T> Observable<T>.filterAtError(): Observable<T> = materialize()
+fun <T> Flowable<T>.filterAtError(): Flowable<T> = materialize()
         .map {  it }
         .filter { !it.isOnError }.dematerialize<T>()

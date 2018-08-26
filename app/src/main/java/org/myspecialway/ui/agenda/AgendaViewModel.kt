@@ -2,9 +2,12 @@ package org.myspecialway.ui.agenda
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
+import android.util.Log
+import android.util.Log.d
 import android.view.View
 import io.reactivex.functions.BiConsumer
 import io.reactivex.functions.Consumer
+import io.reactivex.rxkotlin.subscribeBy
 import org.myspecialway.R
 import org.myspecialway.common.AbstractViewModel
 import org.myspecialway.common.SchedulerProvider
@@ -30,10 +33,12 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 .flatMapIterable { it } // iterate on each element
                 .map { mapScheduleRenderModel(it) } // map to render model
                 .toList()
+                .toFlowable()
+                .subscribeBy(
+                        onNext = { subscribe(it) },
+                        onError = { failure(it) }
+                )
 
-                //
-                .subscribe()// back to list
-//                .subscribe(::subscribe, ::failure)
     }
 
     private fun subscribe(list: MutableList<ScheduleRenderModel>) {

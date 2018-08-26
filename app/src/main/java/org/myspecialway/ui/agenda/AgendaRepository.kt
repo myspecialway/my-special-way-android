@@ -1,28 +1,29 @@
 package org.myspecialway.ui.agenda
 
 import com.google.gson.JsonObject
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import org.myspecialway.common.filterAtError
 import org.myspecialway.data.remote.RemoteDataSource
 import org.myspecialway.data.local.LocalDataSource
 
 interface AgendaRepository {
-    fun getSchedule(): Observable<ScheduleModel>
+    fun getSchedule(): Flowable<ScheduleModel>
 }
 
 class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
                            private val localDataSource: LocalDataSource) : AgendaRepository {
 
-    override fun getSchedule(): Observable<ScheduleModel> =
-            Observable.concatArrayEager(2,2, local(),remote())
+    override fun getSchedule(): Flowable<ScheduleModel> =
+            Flowable.concatArrayEager(local(),remote())
 
     private fun remote() = remoteDataSource.fetchSchedule(getPayLoad())
-            .toObservable()
+            .toFlowable()
             .filterAtError()
             .doOnNext { localDataSource.saveAllSchedule(it) }
 
     private fun local() = localDataSource.loadSchedule()
-            .toObservable()
+            .toFlowable()
 
 
     /**

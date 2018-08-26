@@ -64,8 +64,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // Firebase Messaging
-    implementation 'com.google.firebase:firebase-core:16.0.1'
-    implementation 'com.google.firebase:firebase-messaging:17.0.0'
+    implementation 'com.google.firebase:firebase-core:16.0.3'
+    implementation 'com.google.firebase:firebase-messaging:17.3.0'
 
     // Android support libraries
     implementation "com.android.support:appcompat-v7:$support_package_version"
@@ -98,6 +98,8 @@ dependencies {
     // Rx
     implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
+
 
     // Koin
     implementation "org.koin:koin-core:0.9.3"
