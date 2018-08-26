@@ -16,11 +16,11 @@ object Navigation {
         context.startActivity(Intent(context, AgendaActivity::class.java))
     }
 
-    fun toUnityNavigation(context: Context, schedule: ScheduleRenderModel) {
+    fun toUnityNavigation(context: Context, schedule: ScheduleRenderModel?) {
         try {
             val intent = Intent()
             intent.component = ComponentName("com.att.indar.poc", "com.unity3d.player.UnityPlayerActivity")
-            intent.putExtra("destination", schedule.title)
+            intent.putExtra("destination", schedule?.title)
             context.startActivity(intent)
         } catch (e: Exception) {
 

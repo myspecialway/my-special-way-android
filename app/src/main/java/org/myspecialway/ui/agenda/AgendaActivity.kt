@@ -55,7 +55,6 @@ class AgendaActivity : BaseActivity() {
 
     private fun handleError() {
         Toast.makeText(this@AgendaActivity, "לא מתאפשר להציג כרגע את מערכת השעות", Toast.LENGTH_LONG).show()
-        startActivity(Intent(this@AgendaActivity, MainScreenActivity::class.java))
         finish()
     }
 

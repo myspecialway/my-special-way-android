@@ -18,7 +18,7 @@ class MainScreenActivity : BaseActivity() {
 
     private val viewModel: AgendaViewModel by viewModel()
     private val notificationAlarmManager: NotificationAlarmManager by inject()
-    private lateinit var schedule: ScheduleRenderModel
+    private var schedule: ScheduleRenderModel? = null
 
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +55,7 @@ class MainScreenActivity : BaseActivity() {
         /**
          * observe the list of data when it's ready
          */
-        viewModel.listDataReady.observe(this, Observer {  scheduleName.visibility = View.VISIBLE })
+        viewModel.listDataReady.observe(this, Observer { scheduleName.visibility = View.VISIBLE })
 
         /**
          * observe errors

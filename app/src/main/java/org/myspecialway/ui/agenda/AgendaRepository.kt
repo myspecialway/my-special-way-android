@@ -22,7 +22,9 @@ class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
             .filterAtError()
             .doOnNext { localDataSource.saveAllSchedule(it) }
 
-    private fun local() = localDataSource.loadSchedule().toFlowable()
+    private fun local() = localDataSource.loadSchedule()
+            .toFlowable()
+            .filterAtError()
 
     /**
      * Build Json object with the payload needed to query the backend

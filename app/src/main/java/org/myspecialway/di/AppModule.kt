@@ -22,4 +22,4 @@ val rxModule = applicationContext {
     bean { ApplicationSchedulerProvider() as SchedulerProvider }
 }
 
-val MySpecialWay = listOf(remoteDataSourceModel, localDataSourceModule, rxModule, appModule)
+val mySpecialWay = listOf(remoteDataSourceModel, localDataSourceModule, rxModule, appModule)

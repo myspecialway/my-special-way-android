@@ -2,8 +2,9 @@ package org.myspecialway
 
 import android.app.Application
 import android.content.Context
+import org.jetbrains.annotations.TestOnly
 import org.koin.android.ext.android.startKoin
-import org.myspecialway.di.MySpecialWay
+import org.myspecialway.di.mySpecialWay
 
 import org.myspecialway.ui.login.gateway.LoginGateway
 import org.myspecialway.ui.main.ScheduleRepository
@@ -24,12 +25,13 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        startKoin(this, MySpecialWay)
+        startKoin(this, mySpecialWay)
 
         instance = this
 
         initAppComponents()
     }
+
 
     private fun initAppComponents() {
 
