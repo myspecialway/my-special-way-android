@@ -15,7 +15,7 @@ val appModule = applicationContext {
     viewModel { AgendaViewModel(get(), get()) }
     bean { AgendaRepositoryImpl(get(), get()) as AgendaRepository }
 
-    context("alarm") {
+    context("alarms") {
         bean { Alarm(get() ) }
         
     }

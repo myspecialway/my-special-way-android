@@ -40,9 +40,9 @@ class MainScreenActivity : BaseActivity() {
         userDisplayName.text = sessionManager?.userData?.fullName()
 
         /**
-         * observe all the alarms we need to trigger and pass them to the alarm manager
+         * observe all the alarms we need to trigger and pass them to the alarms manager
          */
-        viewModel.alarm.observe(this, Observer { it?.forEach { alarmManager.scheduleAlarm(it) } })
+        viewModel.alarms.observe(this, Observer { it?.forEach { alarmManager.scheduleAlarm(it) } })
 
         /**
          * observe the current schedule title

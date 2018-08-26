@@ -2,7 +2,6 @@ package org.myspecialway.ui.agenda
 
 import android.arch.lifecycle.MutableLiveData
 import android.view.View
-
 import org.myspecialway.R
 import org.myspecialway.common.AbstractViewModel
 import org.myspecialway.common.SchedulerProvider
@@ -13,7 +12,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
                       private val scheduler: SchedulerProvider) : AbstractViewModel() {
 
     val listDataReady = MutableLiveData<List<ScheduleRenderModel>>()
-    val alarm = MutableLiveData<List<ScheduleRenderModel>>()
+    val alarms = MutableLiveData<List<ScheduleRenderModel>>()
     val currentSchedule = MutableLiveData<ScheduleRenderModel>()
     val currentSchedulePosition = MutableLiveData<Int>()
 
@@ -32,27 +31,31 @@ class AgendaViewModel(private val repository: AgendaRepository,
     }
 
     private fun subscribe(list: MutableList<ScheduleRenderModel>) {
-        val today = list.take(6)
-        activateAlarmNextHours(today.toMutableList())
+
+        val today =
+                list.filter { AgendaIndex.todayWeekIndex() == it.time?.dayDisplay }
+                .distinctBy { it.title }
+
+        activateAlarmNextHours(today)
         listDataReady.value = today
     }
 
-    private fun activateAlarmNextHours(list: MutableList<ScheduleRenderModel>) =
+    private fun activateAlarmNextHours(list: List<ScheduleRenderModel>) =
             list.forEachIndexed { index, scheduleRenderModel ->
                 if (scheduleRenderModel.isNow) {
                     currentSchedule.value = scheduleRenderModel
                     currentSchedulePosition.value = index
-                    alarm.value = getAlarms(list, index)
+                    alarms.value = getAlarms(list, index)
                 }
             }
 
-    private fun getAlarms(list: MutableList<ScheduleRenderModel>, index: Int) = list.slice(IntRange(index + 1, list.size - 2))
+    private fun getAlarms(list: List<ScheduleRenderModel>, index: Int) = list.slice(IntRange(index + 1, list.size - 2))
 
     private fun mapScheduleRenderModel(schedule: Schedule) = ScheduleRenderModel().apply {
         val currentTime = Calendar.getInstance(TimeZone.getDefault()).time
         title = schedule.lesson.title
         image = R.drawable.sun
-        time = schedule.index.let { DateIndex.convertTimeFromIndex(it) }
+        time = schedule.index.let { AgendaIndex.convertTimeFromIndex(it) }
         isNow = currentTime.after(time?.date) && currentTime.before(addHour(time!!.date, 1))
     }
 
