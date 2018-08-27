@@ -30,7 +30,7 @@ class AgendaActivity : BaseActivity() {
     }
 
     private fun initList() {
-        adapter = AgendaAdapter { Log.d("adapter", it.title) }
+        adapter = AgendaAdapter {  }
         agendaRecyclerView.layoutManager = LinearLayoutManager(this@AgendaActivity)
         agendaRecyclerView.itemAnimator = DefaultItemAnimator()
         agendaRecyclerView.adapter = adapter

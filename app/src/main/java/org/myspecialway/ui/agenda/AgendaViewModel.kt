@@ -6,6 +6,7 @@ import io.reactivex.rxkotlin.subscribeBy
 import org.myspecialway.R
 import org.myspecialway.common.AbstractViewModel
 import org.myspecialway.common.SchedulerProvider
+import org.myspecialway.common.addHour
 import org.myspecialway.common.with
 import java.util.*
 
@@ -62,13 +63,8 @@ class AgendaViewModel(private val repository: AgendaRepository,
         title = schedule.lesson.title
         image = R.drawable.sun
         time = schedule.index.let { AgendaIndex.convertTimeFromIndex(it) }
-        isNow = currentTime.after(time?.date) && currentTime.before(addHour(time!!.date, 1))
+        isNow = currentTime.after(time?.date) && currentTime.before(time!!.date.addHour(1))
     }
 
-    private fun addHour(currentTime: Date, hours: Int): Date {
-        val cal = Calendar.getInstance()
-        cal.time = currentTime
-        cal.add(Calendar.HOUR_OF_DAY, hours)
-        return cal.time
-    }
+
 }

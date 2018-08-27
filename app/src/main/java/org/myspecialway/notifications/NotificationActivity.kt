@@ -17,7 +17,10 @@ class NotificationActivity : Activity() {
         setContentView(R.layout.activity_notification)
         val (notificationTitle, destination) = getBundle(intent)
         notificationText.text = notificationTitle
-        navigationButton.setOnClickListener { Navigation.toUnityNavigation(this, destination) }
+        navigationButton.setOnClickListener {
+            Navigation.toUnityNavigation(this, destination)
+            finish()
+        }
     }
 
     private fun getBundle(intent: Intent): Pair<String, ScheduleRenderModel> {

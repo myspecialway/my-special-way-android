@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import io.reactivex.Flowable
 import io.reactivex.Observable
+import java.util.*
 
 
 // use this to avoid layout inflater boilerplate
@@ -32,3 +33,19 @@ fun snackBar(view: View, message: String) = Snackbar
 fun <T> Flowable<T>.filterAtError(): Flowable<T> = materialize()
         .map {  it }
         .filter { !it.isOnError }.dematerialize<T>()
+
+fun Date.addHour(hours: Int): Date {
+    val cal = Calendar.getInstance()
+    cal.time = this
+    cal.add(Calendar.HOUR_OF_DAY, hours)
+    return cal.time
+}
+
+fun Date.roundSeconds(): Date {
+    val cal = Calendar.getInstance()
+    cal.time = this
+    cal.add(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY))
+    cal.add(Calendar.MINUTE, cal.get(Calendar.MINUTE))
+    cal.add(Calendar.SECOND, 0)
+    return cal.time
+}
