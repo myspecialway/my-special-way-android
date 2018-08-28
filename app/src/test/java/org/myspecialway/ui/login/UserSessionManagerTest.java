@@ -12,8 +12,9 @@ import org.myspecialway.session.UserSession;
 import org.myspecialway.session.UserSessionManager;
 import org.myspecialway.session.jwt.TokenHeaderData;
 import org.myspecialway.session.jwt.TokenPayloadData;
+import org.myspecialway.ui.login.gateway.RequestCallback;
 import org.myspecialway.utils.JWTBase64;
-import org.myspecialway.utils.JWTParser;
+import org.myspecialway.utils.TokenParser;
 
 import java.util.Base64;
 
@@ -31,7 +32,7 @@ public class UserSessionManagerTest {
 
     private static final long TWO_HOURS_SEC = 7200;
 
-    private static JWTParser jwtParser = new JWTParser(new JWTBase64() {
+    private static TokenParser tokenParser = new TokenParser(new JWTBase64() {
         @NotNull
         @Override
         public String decode(@NotNull String toDecode) {
@@ -57,7 +58,7 @@ public class UserSessionManagerTest {
                 isExpired ? nowSec - TWO_HOURS_SEC : nowSec,
                 isExpired ? nowSec : nowSec + TWO_HOURS_SEC);
 
-        return jwtParser.createJWTToken(fakeTokenHeader, fakeTokenPayload);
+        return tokenParser.createJWTToken(fakeTokenHeader, fakeTokenPayload);
     }
 
     @Test
@@ -112,7 +113,7 @@ public class UserSessionManagerTest {
     public void login_invalidUsernameOrPasswordEntered_returnErrorResponse(){
 
         ILoginGateway fakeGateway = (username, password, callback) -> callback.onFailure(new InvalidLoginCredentials());
-        UserSessionManager userSessionManager = new UserSessionManager(fakeGateway, new JWTParser(), getSharedPreferencesMock());
+        UserSessionManager userSessionManager = new UserSessionManager(fakeGateway, new TokenParser(), getSharedPreferencesMock());
         RequestCallback<UserSession> requestCallbackMock = mock(RequestCallback.class);
 
         userSessionManager.login("username", "password", requestCallbackMock);
@@ -124,7 +125,7 @@ public class UserSessionManagerTest {
     public void login_validUsernameOrPasswordEntered_returnUserSessionData(){
 
         String fakeToken = createFakeToken(false);
-        TokenPayloadData tokenPayloadData = jwtParser.parsePayload(fakeToken);
+        TokenPayloadData tokenPayloadData = tokenParser.parsePayload(fakeToken);
         UserData expectedUserData = new UserData(tokenPayloadData.getId(), tokenPayloadData.getUsername(), tokenPayloadData.getRole(), tokenPayloadData.getFirstname(), tokenPayloadData.getLastname());
         UserSessionManager userSessionManager = createASuccessfulUserSessionManager(fakeToken);
         RequestCallback<UserSession> requestCallbackMock = mock(RequestCallback.class);
@@ -197,7 +198,7 @@ public class UserSessionManagerTest {
 
     private UserSessionManager createASuccessfulUserSessionManager(String token){
         ILoginGateway fakeGateway = (username, password, callback) -> callback.onSuccess(token);
-        return new UserSessionManager(fakeGateway, jwtParser, getSharedPreferencesMock());
+        return new UserSessionManager(fakeGateway, tokenParser, getSharedPreferencesMock());
     }
 
     private SharedPreferences getSharedPreferencesMock(){

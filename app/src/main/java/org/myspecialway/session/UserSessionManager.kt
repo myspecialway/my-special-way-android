@@ -4,12 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import org.myspecialway.ui.login.LoginActivity
-import org.myspecialway.ui.login.RequestCallback
+import org.myspecialway.ui.login.gateway.RequestCallback
 import org.myspecialway.ui.login.gateway.ILoginGateway
 import org.myspecialway.ui.login.gateway.InvalidLoginCredentials
-import org.myspecialway.utils.JWTParser
+import org.myspecialway.utils.TokenParser
 
-class UserSessionManager(private val gateway: ILoginGateway, private val parser: JWTParser, private val sharedPreferences: SharedPreferences) {
+class UserSessionManager(private val gateway: ILoginGateway, private val parser: TokenParser, private val sharedPreferences: SharedPreferences) {
 
     private var userSession: UserSession? = null
 
@@ -69,6 +69,7 @@ class UserSessionManager(private val gateway: ILoginGateway, private val parser:
             }
         })
     }
+
     fun logout(context : Context) {
         sharedPreferences.edit().clear().apply()
         // clear sp, navigate login page with clear top flag
@@ -79,9 +80,7 @@ class UserSessionManager(private val gateway: ILoginGateway, private val parser:
 
     private fun loadDataFromToken(token: String) {
         val tokenPayloadData = parser.parsePayload(token)
-
         val tokenData = Token(token, tokenPayloadData.iat, tokenPayloadData.exp)
-
         userSession = UserSession(tokenData, UserData(tokenPayloadData))
     }
 

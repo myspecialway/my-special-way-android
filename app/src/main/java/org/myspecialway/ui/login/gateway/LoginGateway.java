@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.JsonObject;
 
-import org.myspecialway.ui.login.RequestCallback;
+import org.myspecialway.ui.login.LoginResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,7 +42,7 @@ public class LoginGateway  implements ILoginGateway {
             public void onResponse(@NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response) {
 
                 if (response.isSuccessful() && response.body() != null) {
-                    callback.onSuccess(response.body().accessToken);
+                    callback.onSuccess(response.body().getAccessToken());
                 } else if(response.code() == HTTP_STATUS_CODE_UNAUTHORIZED){
 
                     callback.onFailure(new InvalidLoginCredentials());

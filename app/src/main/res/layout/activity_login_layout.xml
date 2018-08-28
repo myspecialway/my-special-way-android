@@ -63,7 +63,7 @@
 
 
     <Button
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="0dp"
         android:id="@+id/loginButton"
         android:layout_width="200dp"
         android:layout_height="46dp"
@@ -76,6 +76,13 @@
         android:textSize="16sp"
         />
 
+    <ProgressBar
+        android:id="@+id/progress"
+        android:visibility="invisible"
+        android:layout_marginBottom="10dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp" />
+
     <ImageView
         android:src="@drawable/ic_login"
         android:id="@+id/imageView"
@@ -86,6 +93,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
          />
+
 
 
 
