@@ -2,24 +2,17 @@ package org.myspecialway
 
 import android.app.Application
 import android.content.Context
-import org.jetbrains.annotations.TestOnly
 import org.koin.android.ext.android.startKoin
 import org.myspecialway.di.mySpecialWay
-
-import org.myspecialway.ui.login.gateway.LoginGateway
-import org.myspecialway.ui.main.ScheduleRepository
-import org.myspecialway.schedule.gateway.ScheduleGateway
 import org.myspecialway.session.UserSessionManager
-import org.myspecialway.utils.JWTParser
-
+import org.myspecialway.ui.login.gateway.LoginGateway
+import org.myspecialway.utils.TokenParser
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class App : Application() {
 
     var userSessionManager: UserSessionManager? = null
-        private set
-    var scheduleRepository: ScheduleRepository? = null
         private set
 
     override fun onCreate() {
@@ -37,7 +30,7 @@ class App : Application() {
 
         val retrofitService = createRetrofitService()
         userSessionManager = createUserSessionManager(retrofitService)
-        scheduleRepository = createScheduleRepository(retrofitService)
+
     }
 
     private fun createRetrofitService(): Retrofit {
@@ -49,14 +42,10 @@ class App : Application() {
 
         val loginGateway = LoginGateway(retrofit)
 
-        return UserSessionManager(loginGateway, JWTParser(), getSharedPreferences("creds", Context.MODE_PRIVATE))
+        return UserSessionManager(loginGateway, TokenParser(), getSharedPreferences("creds", Context.MODE_PRIVATE))
     }
 
 
-    private fun createScheduleRepository(retrofit: Retrofit): ScheduleRepository {
-
-        return ScheduleRepository(ScheduleGateway(retrofit))
-    }
 
     companion object {
 

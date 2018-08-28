@@ -6,6 +6,8 @@ import org.koin.dsl.module.applicationContext
 import org.myspecialway.data.remote.RemoteDataSource
 import org.myspecialway.data.remote.TokenInterceptor
 import org.myspecialway.di.RemoteProperties.BASE_URL
+import org.myspecialway.session.SessionManager
+import org.myspecialway.ui.login.LoginRepository
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -28,7 +30,7 @@ fun createOkHttpClient(): OkHttpClient {
     return OkHttpClient.Builder()
             .connectTimeout(60L, TimeUnit.SECONDS)
             .readTimeout(60L, TimeUnit.SECONDS)
-            .addInterceptor(TokenInterceptor())
+//            .addInterceptor(TokenInterceptor(loginRepository, sessionManager))
             .addInterceptor(interceptor)
             .build()
 }

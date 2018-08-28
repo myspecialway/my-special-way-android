@@ -6,13 +6,15 @@ import io.reactivex.Observable
 import org.myspecialway.common.filterAtError
 import org.myspecialway.data.remote.RemoteDataSource
 import org.myspecialway.data.local.LocalDataSource
+import org.myspecialway.session.SessionManager
 
 interface AgendaRepository {
     fun getSchedule(): Flowable<ScheduleModel>
 }
 
 class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
-                           private val localDataSource: LocalDataSource) : AgendaRepository {
+                           private val localDataSource: LocalDataSource,
+                           private val sessionManager: SessionManager) : AgendaRepository {
 
     override fun getSchedule(): Flowable<ScheduleModel> =
             Flowable.concatArrayEager(local(),remote()).firstOrError().toFlowable()
@@ -31,7 +33,7 @@ class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
      */
     private fun getPayLoad(): JsonObject {
         val json = JsonObject()
-        json.addProperty("query", query())
+        json.addProperty("query", query(sessionManager.token ?: ""))
         json.addProperty("value", "")
         return json
     }

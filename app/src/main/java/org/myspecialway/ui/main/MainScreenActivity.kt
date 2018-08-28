@@ -1,6 +1,7 @@
 package org.myspecialway.ui.main
 
 import android.arch.lifecycle.Observer
+import android.media.MediaCas
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -11,6 +12,7 @@ import org.koin.android.ext.android.inject
 import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.Navigation
 import org.myspecialway.notifications.NotificationAlarmManager
+import org.myspecialway.session.SessionManager
 import org.myspecialway.ui.agenda.AgendaViewModel
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 
@@ -18,8 +20,9 @@ class MainScreenActivity : BaseActivity() {
 
     private val viewModel: AgendaViewModel by viewModel()
     private val notificationAlarmManager: NotificationAlarmManager by inject()
-    private var schedule: ScheduleRenderModel? = null
+    private val sessionManager: SessionManager by inject()
 
+    private var schedule: ScheduleRenderModel? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +40,7 @@ class MainScreenActivity : BaseActivity() {
         /**`
          * observe the user name
          */
-        userDisplayName.text = sessionManager?.userData?.fullName()
+        userDisplayName.text = sessionManager.getUserModel().fullName()
 
         /**
          * observe all the alarms we need to trigger and pass them to the alarms manager

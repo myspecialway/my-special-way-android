@@ -1,65 +1,49 @@
 package org.myspecialway.ui.login
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import com.jakewharton.rxbinding2.widget.RxTextView
-import io.reactivex.Observable
-import io.reactivex.ObservableTransformer
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
+import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login_layout.*
+import org.koin.android.architecture.ext.viewModel
 import org.myspecialway.R
-import java.util.concurrent.TimeUnit
+import org.myspecialway.common.BaseActivity
+import org.myspecialway.common.Navigation
+import org.myspecialway.common.toast
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
+    private val viewModel: LoginViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_layout)
-
-        RxTextView.afterTextChangeEvents(passwordTextFiled)
-                .skipInitialValue()
-                .map {
-                    password.error = null
-                    it.view().text.toString()
-                }
-                .debounce(1, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(lengthGreaterThanSix)
-                .compose(retryWhenError {
-                    password.error = it.message
-                })
-                .subscribe()
-
-
-
-
+        render()
+        clickListeners()
+        viewModel.checkLoggedIn()
     }
 
-    private val lengthGreaterThanSix = ObservableTransformer<String, String> { observable ->
-        observable.flatMap {
-            Observable.just(it).map { it.trim() }
-                    .filter { it.length > 4 }
-                    .singleOrError()
-                    .onErrorResumeNext {
-                        if (it is NoSuchElementException) {
-                            Single.error(Exception("Length should be greater than 6"))
-                        } else {
-                            Single.error(it)
-                        }
-                    }
-                    .toObservable()
+    private fun clickListeners() {
+        loginButton.setOnClickListener {
+            viewModel.login(AuthData().apply {
+                username = "student"
+                password = "Aa123456"
+            })
         }
     }
 
-    private inline fun retryWhenError(crossinline onError: (ex: Throwable) -> Unit):
-            ObservableTransformer<String, String> = ObservableTransformer { observable ->
-        observable.retryWhen { errors ->
-            errors.flatMap {
-                onError(it)
-                Observable.just("")
+    override fun render() {
+        viewModel.progress.observe(this, Observer { progress.visibility = it ?: View.GONE })
+        viewModel.loginLive.observe(this, Observer {  state ->
+            when(state) {
+                is LoginSuccess -> handleLoginSuccess(state)
+                is LoginError -> toast(state.throwable.message ?: "Error")
             }
-        }
+        })
+    }
+
+    private fun handleLoginSuccess(state: LoginSuccess) {
+        if (state.success) Navigation.toMainActivity(this)
+        else Navigation.toLoginActivity(this)
     }
 }

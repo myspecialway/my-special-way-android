@@ -7,9 +7,6 @@ import org.myspecialway.App
 
 @SuppressLint("Registered")
 abstract class BaseActivity : AppCompatActivity() {
-
-    val sessionManager = App.instance?.userSessionManager
-
     abstract fun render()
 
 

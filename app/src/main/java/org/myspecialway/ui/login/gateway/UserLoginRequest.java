@@ -2,6 +2,8 @@ package org.myspecialway.ui.login.gateway;
 
 import com.google.gson.JsonObject;
 
+import org.myspecialway.ui.login.LoginResponse;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;

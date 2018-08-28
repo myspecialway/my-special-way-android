@@ -1,6 +1,6 @@
 package org.myspecialway.session
 
-data class Token(val accessToken: String, val issuedTimeSec: Long, val expirationTimeSec: Long) {
+data class Token(var accessToken: String, val issuedTimeSec: Long, val expirationTimeSec: Long) {
 
     val isValid: Boolean
         get() {

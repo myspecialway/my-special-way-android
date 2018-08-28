@@ -1,17 +1,17 @@
 package org.myspecialway.data.remote
 
 
-import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import org.myspecialway.App
-import org.myspecialway.session.UserSession
-import org.myspecialway.ui.login.RequestCallback
-import org.myspecialway.ui.login.gateway.InvalidLoginCredentials
+import org.myspecialway.common.logout
+import org.myspecialway.session.SessionManager
+import org.myspecialway.ui.login.LoginRepository
 
-
-class TokenInterceptor : Interceptor {
+class TokenInterceptor(
+        val repository: LoginRepository,
+        val session: SessionManager) : Interceptor {
 
     private val headerKey = "Authorization"
     private fun headerValue(value: String) = "Bearer $value"
@@ -20,27 +20,19 @@ class TokenInterceptor : Interceptor {
         val original = chain.request()
         val modifiedRequest: Request
 
-        val sessionManager = App.instance?.userSessionManager
-
         modifiedRequest = original.newBuilder()
-                .addHeader(headerKey, headerValue(sessionManager?.token ?: ""))
+                .addHeader(headerKey, headerValue(session.token ?: ""))
                 .build()
         val response = chain.proceed(modifiedRequest)
 
-
         if (response.code() in 401..499) {
-            // logout
-            App.instance?.userSessionManager?.refreshSessionIfNeeded(object : RequestCallback<UserSession> {
-                override fun onFailure(t: Throwable?) {
-                    when(t) {
-                        InvalidLoginCredentials() -> sessionManager?.logout(App.instance!!.applicationContext)
-                        else -> Log.d("token", "retry 3 times")
-                    }
-                }
 
-                override fun onSuccess(result: UserSession?) {
-                    sessionManager?.storeToken(result?.token!!.accessToken)
-                }
+            repository.performLogin(session.getUserModel().authData!!).subscribe({
+                // update the token on success
+                session.updateToken(it.accessToken)
+            }, {
+                // logout on error
+                App.instance?.applicationContext?.logout()
             })
         }
         return response
