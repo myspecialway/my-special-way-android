@@ -33,7 +33,7 @@ class LoginViewModel(private val repository: LoginRepository,
     fun checkLoggedIn() {
         when(sessionManager.isLoggedIn) {
             true -> loginLive.value = LoginSuccess(true)
-            false ->loginLive.value = LoginSuccess(false)
+            false ->loginLive.value = LoginError(Throwable("Can't Login"))
         }
     }
 }

@@ -18,9 +18,9 @@ class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_layout)
+        viewModel.checkLoggedIn()
         render()
         clickListeners()
-        viewModel.checkLoggedIn()
     }
 
     private fun clickListeners() {
@@ -44,6 +44,5 @@ class LoginActivity : BaseActivity() {
 
     private fun handleLoginSuccess(state: LoginSuccess) {
         if (state.success) Navigation.toMainActivity(this)
-        else Navigation.toLoginActivity(this)
     }
 }

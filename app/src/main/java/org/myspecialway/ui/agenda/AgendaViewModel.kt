@@ -65,6 +65,4 @@ class AgendaViewModel(private val repository: AgendaRepository,
         time = schedule.index.let { AgendaIndex.convertTimeFromIndex(it) }
         isNow = currentTime.after(time?.date) && currentTime.before(time!!.date.addHour(1))
     }
-
-
 }

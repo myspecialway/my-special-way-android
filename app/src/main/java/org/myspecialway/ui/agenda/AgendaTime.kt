@@ -22,7 +22,7 @@ object AgendaIndex : TimeFactory {
         "7" -> Time(createHour(14), day(timeIndex), "15:00 - 14:00")
         "8" -> Time(createHour(15), day(timeIndex), "16:00 - 15:00")
         "9" -> Time(createHour(16), day(timeIndex), "17:00 - 16:00")
-        else -> throw Exception("Index doesn't exists.")
+        else -> throw Exception("Index on time conversion doesn't exists.")
     }
 
     /**
@@ -36,7 +36,10 @@ object AgendaIndex : TimeFactory {
         "4" -> "Thursday"
         "5" -> "Friday"
         "6" -> "Saturday"
-        else -> throw Exception("Index doesn't exists.")
+        "7" -> "Saturday"
+        "8" -> "Saturday"
+        "9" -> "Saturday"
+        else -> throw Exception("Index on day conversion doesn't exists.")
     }
 
     /**

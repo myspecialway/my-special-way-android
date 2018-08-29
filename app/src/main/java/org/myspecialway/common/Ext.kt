@@ -35,11 +35,14 @@ fun snackBar(view: View, message: String) = Snackbar
         .make(view, message, Snackbar.LENGTH_SHORT)
         .apply { show() }
 
-fun Context.toast(message: String) = Toast.makeText(this, message, Toast.LENGTH_LONG)
+fun Context.toast(message: String): Toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
 
 fun <T> Flowable<T>.filterAtError(): Flowable<T> = materialize()
-        .map {  it }
-        .filter { !it.isOnError }.dematerialize<T>()
+        .map {
+            it
+        }
+        .filter { !it.isOnError }
+        .dematerialize<T>()
 
 fun Date.addHour(hours: Int): Date {
     val cal = Calendar.getInstance()

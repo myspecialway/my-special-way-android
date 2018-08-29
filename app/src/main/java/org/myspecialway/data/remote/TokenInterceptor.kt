@@ -10,7 +10,6 @@ import org.myspecialway.session.SessionManager
 import org.myspecialway.ui.login.LoginRepository
 
 class TokenInterceptor(
-        val repository: LoginRepository,
         val session: SessionManager) : Interceptor {
 
     private val headerKey = "Authorization"
@@ -25,16 +24,16 @@ class TokenInterceptor(
                 .build()
         val response = chain.proceed(modifiedRequest)
 
-        if (response.code() in 401..499) {
-
-            repository.performLogin(session.getUserModel().authData!!).subscribe({
-                // update the token on success
-                session.updateToken(it.accessToken)
-            }, {
-                // logout on error
-                App.instance?.applicationContext?.logout()
-            })
-        }
+//        if (response.code() in 401..499) {
+//
+//            repository.performLogin(session.getUserModel().authData!!).subscribe({
+//                // update the token on success
+//                session.updateToken(it.accessToken)
+//            }, {
+//                // logout on error
+//                App.instance?.applicationContext?.logout()
+//            })
+//        }
         return response
     }
 }

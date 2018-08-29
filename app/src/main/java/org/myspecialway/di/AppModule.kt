@@ -17,15 +17,18 @@ import org.myspecialway.ui.login.LoginViewModel
 import org.myspecialway.utils.TokenParser
 
 val appModule = applicationContext {
-    viewModel { AgendaViewModel(get(), get()) }
-    bean { AgendaRepositoryImpl(get(), get(), get()) as AgendaRepository }
-    context("alarms") { bean { NotificationAlarmManager(get()) } }
 
     viewModel { LoginViewModel(get(), get(), get()) }
     bean { LoginRepositoryImpl(get()) as LoginRepository }
     bean { SessionManager(get()) }
     bean { TokenParser() }
     bean { getSharedPrefs(get()) }
+
+    viewModel { AgendaViewModel(get(), get()) }
+    bean { AgendaRepositoryImpl(get(), get(), get()) as AgendaRepository }
+    context("alarms") { bean { NotificationAlarmManager(get()) } }
+
+
 }
 
 private fun getSharedPrefs(context: Context) = PreferenceManager.getDefaultSharedPreferences(context)
