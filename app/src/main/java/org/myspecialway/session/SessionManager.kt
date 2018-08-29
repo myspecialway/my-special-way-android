@@ -14,7 +14,7 @@ class SessionManager(private val preferences: SharedPreferences) {
 
     val token: String? get() = getUserModel().token?.accessToken
 
-    val isLoggedIn: Boolean = getUserModel().token != null 
+    val isLoggedIn: Boolean = getUserModel().token != null
 
 
     fun parseToken(token: String): TokenPayloadData = TokenParser().parsePayload(token)
@@ -24,7 +24,12 @@ class SessionManager(private val preferences: SharedPreferences) {
                 putString(USER_MODEL, Gson().toJson(userModel))
             }.apply()
 
-    fun getUserModel(): UserModel = Gson().fromJson<UserModel>(preferences.getString(USER_MODEL,""), UserModel::class.java)
+    fun getUserModel(): UserModel {
+        if (preferences.contains(USER_MODEL)) {
+            return Gson().fromJson<UserModel>(preferences.getString(USER_MODEL, ""), UserModel::class.java)
+        }
+        return UserModel()
+    }
 
     // update the token in the user
     fun updateToken(accessToken: String) {

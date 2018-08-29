@@ -2,7 +2,6 @@ package org.myspecialway.ui.agenda
 
 import com.google.gson.JsonObject
 import io.reactivex.Flowable
-import io.reactivex.Observable
 import org.myspecialway.common.filterAtError
 import org.myspecialway.data.remote.RemoteDataSource
 import org.myspecialway.data.local.LocalDataSource
@@ -33,7 +32,7 @@ class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
      */
     private fun getPayLoad(): JsonObject {
         val json = JsonObject()
-        json.addProperty("query", query(sessionManager.token ?: ""))
+        json.addProperty("query", query(sessionManager.getUserModel().id ?: ""))
         json.addProperty("value", "")
         return json
     }

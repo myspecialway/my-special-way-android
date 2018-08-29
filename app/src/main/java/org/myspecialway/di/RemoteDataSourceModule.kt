@@ -19,18 +19,18 @@ object RemoteProperties {
 
 val remoteDataSourceModel = applicationContext {
 
-    bean { createOkHttpClient() }
+    bean { createOkHttpClient(get()) }
 
     bean { createWebService<RemoteDataSource>(get(), BASE_URL) }
 }
 
-fun createOkHttpClient(): OkHttpClient {
+fun createOkHttpClient(sessionManager: SessionManager): OkHttpClient {
     val interceptor = HttpLoggingInterceptor()
     interceptor.level = HttpLoggingInterceptor.Level.BASIC
     return OkHttpClient.Builder()
             .connectTimeout(60L, TimeUnit.SECONDS)
             .readTimeout(60L, TimeUnit.SECONDS)
-//            .addInterceptor(TokenInterceptor(loginRepository, sessionManager))
+            .addInterceptor(TokenInterceptor(sessionManager))
             .addInterceptor(interceptor)
             .build()
 }
