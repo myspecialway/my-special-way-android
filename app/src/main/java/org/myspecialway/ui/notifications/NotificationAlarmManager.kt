@@ -1,11 +1,10 @@
-package org.myspecialway.notifications
+package org.myspecialway.ui.notifications
 
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.text.format.DateFormat
 import org.myspecialway.common.Navigation
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 

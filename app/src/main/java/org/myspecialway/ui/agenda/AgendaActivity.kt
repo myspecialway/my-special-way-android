@@ -53,10 +53,6 @@ class AgendaActivity : BaseActivity() {
                 is CurrentSchedule -> scrollToSchedule(agenda.position)
             }
         })
-
-//        viewModel.listDataReady.observe(this, Observer { adapter.list = it ?: listOf() })
-//
-//        viewModel.currentSchedulePosition.observe(this, Observer { scrollToSchedule(it) })
     }
 
     private fun scrollToSchedule(it: Int?) {
