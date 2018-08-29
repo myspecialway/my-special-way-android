@@ -27,7 +27,7 @@ class TokenInterceptor(
 //        if (response.code() in 401..499) {
 //
 //            repository.performLogin(session.getUserModel().authData!!).subscribe({
-//                // update the token on success
+//                // update the token on allowNext
 //                session.updateToken(it.accessToken)
 //            }, {
 //                // logout on error

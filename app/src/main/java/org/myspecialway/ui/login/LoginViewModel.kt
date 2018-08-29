@@ -31,17 +31,15 @@ class LoginViewModel(private val repository: LoginRepository,
         sessionManager.storeUserModel(UserModel().apply { mapTokenUser(loginResponse, authData, sessionManager) } )
 
     fun checkLoggedIn() {
-        when(sessionManager.isLoggedIn) {
+        when(sessionManager.token?.isNotEmpty()) {
             true -> loginLive.value = LoginSuccess(true)
             false ->loginLive.value = LoginError(Throwable("Can't Login"))
         }
     }
 }
 
-/**
- * Login State objects
- */
+// States
 sealed class LoginData
-data class LoginSuccess(val success:Boolean) : LoginData()
+data class LoginSuccess(val allowNext:Boolean) : LoginData()
 data class LoginError(val throwable: Throwable) : LoginData()
 
