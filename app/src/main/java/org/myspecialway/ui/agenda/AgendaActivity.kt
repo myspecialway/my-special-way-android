@@ -43,10 +43,20 @@ class AgendaActivity : BaseActivity() {
     }
 
     override fun render() {
-        viewModel.listDataReady.observe(this, Observer { adapter.list = it ?: listOf() })
         viewModel.progress.observe(this, Observer { progress.visibility = it ?: View.GONE })
         viewModel.failure.observe(this,  Observer { handleError() })
-        viewModel.currentSchedulePosition.observe(this, Observer { scrollToSchedule(it) })
+
+
+        viewModel.agendaLive.observe(this, Observer { agenda ->
+            when(agenda) {
+                is ListData -> adapter.list = agenda.scheduleList
+                is CurrentSchedule -> scrollToSchedule(agenda.position)
+            }
+        })
+
+//        viewModel.listDataReady.observe(this, Observer { adapter.list = it ?: listOf() })
+//
+//        viewModel.currentSchedulePosition.observe(this, Observer { scrollToSchedule(it) })
     }
 
     private fun scrollToSchedule(it: Int?) {
