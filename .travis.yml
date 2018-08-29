@@ -50,18 +50,23 @@ before_script:
 - echo "y" | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-$EMULATOR_API_LEVEL
 - android list targets | grep -E '^id:' | awk -F '"' '{$1=""; print $2}'
 script:
-- "./gradlew clean assembleDebug testDebugUnitTest"
+- "./gradlew clean assembleDebugUnsigned testDebugUnitTest"
 - "./gradlew build jacocoTestReport"
 after_success:
 - bash <(curl -s https://codecov.io/bash)
 before_deploy:
 - cp $TRAVIS_BUILD_DIR/myspecial.jks $HOME
-- cd app/build/outputs/apk/release
-- pwd
+- cd $TRAVIS_BUILD_DIR/app/build/outputs/apk/release
 - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/myspecial.jks
   -storepass $storepass -keypass $keypass app-release-unsigned.apk key0
 - jarsigner -verify app-release-unsigned.apk
 - "${ANDROID_HOME}/build-tools/$ANDROID_BUILD_TOOLS/zipalign -v 4 app-release-unsigned.apk
+  my-special-way.apk"
+- cd $TRAVIS_BUILD_DIR/app/build/outputs/apk/debugUnsigned
+- jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/myspecial.jks
+  -storepass $storepass -keypass $keypass app-debugUnsigned-unsigned.apk key0
+- jarsigner -verify app-debugUnsigned-unsigned.apk
+- "${ANDROID_HOME}/build-tools/$ANDROID_BUILD_TOOLS/zipalign -v 4 app-debugUnsigned-unsigned.apk
   my-special-way.apk"
 deploy:
 - provider: releases
