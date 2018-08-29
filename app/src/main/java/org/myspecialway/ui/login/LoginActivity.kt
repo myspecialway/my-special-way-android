@@ -76,7 +76,14 @@ class LoginActivity : BaseActivity() {
         viewModel.loginLive.observe(this, Observer { state ->
             when (state) {
                 is LoginSuccess -> if (state.allowNext) Navigation.toMainActivity(this)
-                is LoginError -> println("error log in")
+                is LoginError ->  showLoginError {
+                    cancelable = false
+                    isBackGroundTransparent = false
+
+                    closeIconClickListener {
+
+                    }
+                }.show()
             }
         })
     }
@@ -84,13 +91,5 @@ class LoginActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         composite?.dispose()
-    }
-}
-
-
-class LoginErrorDialog() : DialogFragment() {
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return super.onCreateDialog(savedInstanceState)
     }
 }
