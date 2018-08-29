@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ImageView
@@ -76,10 +77,10 @@ fun Activity.hideKeyboard() {
 fun Button.enable(enable: Boolean) = when (enable) {
     true -> {
         this.isEnabled = true
-        this.alpha = 1f
+        animate().setDuration(800).setInterpolator(AccelerateDecelerateInterpolator()).alpha(1f).start()
     }
     false -> {
         this.isEnabled = false
-        this.alpha = .5f
+        animate().setDuration(800).setInterpolator(AccelerateDecelerateInterpolator()).alpha(.5f).start()
     }
 }

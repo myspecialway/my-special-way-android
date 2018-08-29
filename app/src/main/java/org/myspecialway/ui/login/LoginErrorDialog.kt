@@ -25,11 +25,10 @@ class LoginErrorDialog(context: Context) : BaseDialog() {
     private fun View.setClickListenerToDialogIcon(func: (() -> Unit)?) =
             setOnClickListener {
                 func?.invoke()
-                dialog?.dismiss()
             }
 }
 
-inline fun Activity.showLoginError(func: LoginErrorDialog.() -> Unit): AlertDialog =
+inline fun Activity.showLoginError (func: LoginErrorDialog.() -> Unit): Unit =
         LoginErrorDialog(this).apply {
             func()
-        }.create()
+        }.create().show()

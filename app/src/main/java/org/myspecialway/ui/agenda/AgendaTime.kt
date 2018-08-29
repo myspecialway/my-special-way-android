@@ -9,12 +9,12 @@ import java.util.*
  */
 object AgendaIndex : TimeFactory {
     /**
-     * Looks at the left number [10<-] that represents the hours
+     * Looks at the left number [->11 0] that represents the hours
      */
-    override fun convertTimeFromIndex(timeIndex: String) = when (timeIndex.takeLast(1)) {
+    override fun convertTimeFromIndex(timeIndex: String) = when (timeIndex.substringBeforeLast(timeIndex.last())) {
         "0" -> Time(createHour(7), day(timeIndex), "8:00 - 7:00")
         "1" -> Time(createHour(8), day(timeIndex), "9:00- 8:00")
-        "2" -> Time(createHour(9), day(timeIndex), "9:00 - 10:00")
+        "2" -> Time(createHour(9), day(timeIndex), "10:00 - 9:00")
         "3" -> Time(createHour(10), day(timeIndex), "11:00 - 10:00")
         "4" -> Time(createHour(11), day(timeIndex), "12:00 - 11:00")
         "5" -> Time(createHour(12), day(timeIndex), "13:00 - 12:00")
@@ -22,13 +22,18 @@ object AgendaIndex : TimeFactory {
         "7" -> Time(createHour(14), day(timeIndex), "15:00 - 14:00")
         "8" -> Time(createHour(15), day(timeIndex), "16:00 - 15:00")
         "9" -> Time(createHour(16), day(timeIndex), "17:00 - 16:00")
+        "10" -> Time(createHour(17), day(timeIndex), "18:00 - 17:00")
+        "11" -> Time(createHour(18), day(timeIndex), "19:00 - 18:00")
+        "12" -> Time(createHour(19), day(timeIndex), "20:00 - 19:00")
+        "13" -> Time(createHour(20), day(timeIndex), "21:00 - 20:00")
+        "14" -> Time(createHour(21), day(timeIndex), "22:00 - 21:00")
         else -> throw Exception("Index on time conversion doesn't exists.")
     }
 
     /**
-     * Looks at the left number [->10] that represents the days
+     * Looks at the left number [1 0<-] that represents the days
      */
-    private fun day(index: String) = when (index.take(1)) {
+    private fun day(index: String) = when (index.takeLast(1)) {
         "0" -> "Sunday"
         "1" -> "Monday"
         "2" -> "Tuesday"
@@ -36,9 +41,6 @@ object AgendaIndex : TimeFactory {
         "4" -> "Thursday"
         "5" -> "Friday"
         "6" -> "Saturday"
-        "7" -> "Saturday"
-        "8" -> "Saturday"
-        "9" -> "Saturday"
         else -> throw Exception("Index on day conversion doesn't exists.")
     }
 
