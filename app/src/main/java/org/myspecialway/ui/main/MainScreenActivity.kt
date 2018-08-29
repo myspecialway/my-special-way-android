@@ -13,8 +13,7 @@ import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.Navigation
 import org.myspecialway.notifications.NotificationAlarmManager
 import org.myspecialway.session.SessionManager
-import org.myspecialway.ui.agenda.AgendaViewModel
-import org.myspecialway.ui.agenda.ScheduleRenderModel
+import org.myspecialway.ui.agenda.*
 
 class MainScreenActivity : BaseActivity() {
 
@@ -37,38 +36,21 @@ class MainScreenActivity : BaseActivity() {
     }
 
     override fun render() {
-        /**`
-         * observe the user name
-         */
         userDisplayName.text = sessionManager.getUserModel().fullName()
 
-        /**
-         * observe all the alarms we need to trigger and pass them to the alarms manager
-         */
-        viewModel.alarms.observe(this, Observer { it?.forEach { notificationAlarmManager.scheduleAlarm(it) } })
-
-        /**
-         * observe the current schedule title
-         */
-        viewModel.currentSchedule.observe(this, Observer {
-            schedule = it!!
-            scheduleName.text = it.title
-        })
-
-        /**
-         * observe the list of data when it's ready
-         */
-        viewModel.listDataReady.observe(this, Observer { scheduleName.visibility = View.VISIBLE })
-
-        /**
-         * observe errors
-         */
         viewModel.failure.observe(this, Observer { handleError() })
-
-        /**
-         * observe the progress bar
-         */
         viewModel.progress.observe(this, Observer { progress.visibility = it!! })
+
+        viewModel.agendaLive.observe(this, Observer { agenda->
+            when(agenda) {
+                is Alarms -> agenda.list.forEach { notificationAlarmManager.scheduleAlarm(it) }
+                is CurrentSchedule -> {
+                    schedule = agenda.schedule
+                    scheduleName.text = agenda.schedule.title
+                }
+                is ListData -> scheduleName.visibility = View.VISIBLE
+            }
+        })
     }
 
     private fun handleError() {
