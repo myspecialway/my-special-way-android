@@ -24,11 +24,13 @@ class SessionManager(private val preferences: SharedPreferences) {
                 putString(USER_MODEL, Gson().toJson(userModel))
             }.apply()
 
-    fun getUserModel(): UserModel {
-        if (preferences.contains(USER_MODEL)) {
-            return Gson().fromJson<UserModel>(preferences.getString(USER_MODEL, ""), UserModel::class.java)
+    fun getUserModel(): UserModel  {
+        if(preferences.contains(USER_MODEL)) {
+         return   Gson().fromJson<UserModel>(preferences.getString(USER_MODEL, ""), UserModel::class.java)
         }
+
         return UserModel()
+
     }
 
     // update the token in the user

@@ -1,7 +1,5 @@
 package org.myspecialway.ui.login
 
-import android.app.Dialog
-import android.app.DialogFragment
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.view.View
@@ -9,7 +7,6 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import kotlinx.android.synthetic.main.activity_login_layout.*
 import org.koin.android.architecture.ext.viewModel
@@ -38,13 +35,13 @@ class LoginActivity : BaseActivity() {
     private fun observeInputFields() {
         //disable error
         val password = RxTextView.textChanges(passwordTextFiled)
+                .skipInitialValue()
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
 
         val user = RxTextView.textChanges(usernameTextFiled)
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-
 
         composite?.add(Observable.combineLatest<CharSequence, CharSequence, Boolean>(password, user, BiFunction { pass, userName ->
             showPasswordError(pass)
@@ -81,9 +78,9 @@ class LoginActivity : BaseActivity() {
                     isBackGroundTransparent = false
 
                     closeIconClickListener {
-
+                        dialog?.dismiss()
                     }
-                }.show()
+                }
             }
         })
     }
