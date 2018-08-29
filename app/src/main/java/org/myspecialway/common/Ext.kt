@@ -1,5 +1,6 @@
 package org.myspecialway.common
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.preference.PreferenceManager
@@ -9,6 +10,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -59,4 +62,24 @@ fun Context.logout() {
     val intent = Intent(this, LoginActivity::class.java)
     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
     this.startActivity(intent)
+}
+
+
+fun Activity.hideKeyboard() {
+    val view = this.currentFocus
+    if (view != null) {
+        val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+}
+
+fun Button.enable(enable: Boolean) = when (enable) {
+    true -> {
+        this.isEnabled = true
+        this.alpha = 1f
+    }
+    false -> {
+        this.isEnabled = false
+        this.alpha = .5f
+    }
 }
