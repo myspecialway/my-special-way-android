@@ -76,10 +76,7 @@ class LoginActivity : BaseActivity() {
                 is LoginError ->  showLoginError {
                     cancelable = false
                     isBackGroundTransparent = false
-
-                    closeIconClickListener {
-                        dialog?.dismiss()
-                    }
+                    closeIconClickListener { dialog?.dismiss()  }
                 }
             }
         })

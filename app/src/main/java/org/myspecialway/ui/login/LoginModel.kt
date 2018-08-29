@@ -1,7 +1,5 @@
 package org.myspecialway.ui.login
 
-import android.content.SharedPreferences
-import com.google.gson.Gson
 import org.myspecialway.session.SessionManager
 import org.myspecialway.session.Token
 

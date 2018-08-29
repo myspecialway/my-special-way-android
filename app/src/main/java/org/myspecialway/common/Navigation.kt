@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import org.myspecialway.notifications.NotificationActivity
+import org.myspecialway.ui.notifications.NotificationActivity
 import org.myspecialway.ui.agenda.AgendaActivity
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 import org.myspecialway.ui.login.LoginActivity
