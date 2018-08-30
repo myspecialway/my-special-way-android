@@ -21,10 +21,10 @@ data class Token(var accessToken: String? = null, var issuedTimeSec: Long? = nul
         return Token()
     }
 
-    fun mapToken(token: String) = Token().apply {
-        accessToken = token
-        issuedTimeSec = TokenParser().parsePayload(token).iat
-        expirationTimeSec = TokenParser().parsePayload(token).exp
+    fun mapToken(token: String) {
+        this.accessToken = token
+        this.issuedTimeSec = TokenParser().parsePayload(token).iat
+        this.expirationTimeSec = TokenParser().parsePayload(token).exp
     }
 
     val isValid: Boolean

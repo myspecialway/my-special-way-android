@@ -19,7 +19,7 @@ class LoginViewModel(private val repository: LoginRepository,
 
     val loginLive = MutableLiveData<LoginData>()
 
-    fun login(authData: AuthData) = launch {
+    fun login(authData: LoginAuthData) = launch {
         repository
                 .performLogin(authData)
                 .with(schedulerProvider)
