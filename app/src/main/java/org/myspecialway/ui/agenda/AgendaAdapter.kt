@@ -21,7 +21,7 @@ class AgendaAdapter(val onClick: (ScheduleRenderModel) -> Unit) : RecyclerView.A
         fun bind(schedule: ScheduleRenderModel) {
             // set's the title
             itemView.agenda_text.text = schedule.title
-            itemView.agenda_icon.setBackgroundResource(R.drawable.sun)
+            itemView.agenda_icon.setBackgroundResource(R.drawable.reading)
             itemView.time.text = schedule.time?.timeDisplay
 
             drawBorderIfNeeded(schedule)
@@ -30,11 +30,9 @@ class AgendaAdapter(val onClick: (ScheduleRenderModel) -> Unit) : RecyclerView.A
         }
 
         private fun drawBorderIfNeeded(schedule: ScheduleRenderModel) {
-            if (schedule.isNow) {
-                itemView.card_view.setBackgroundResource(R.drawable.border)
-
-            } else {
-                itemView.card_view.setBackgroundResource(android.R.color.white)
+            when(schedule.isNow){
+                true -> itemView.card_view.setBackgroundResource(R.drawable.border)
+                false -> itemView.card_view.setBackgroundResource(R.drawable.border_white)
             }
         }
     }

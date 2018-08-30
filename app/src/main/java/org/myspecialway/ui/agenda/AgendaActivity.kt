@@ -1,10 +1,10 @@
 package org.myspecialway.ui.agenda
 
 import android.arch.lifecycle.Observer
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.agenda_activity.*
 import org.koin.android.architecture.ext.viewModel
 import org.myspecialway.R
 import org.myspecialway.common.BaseActivity
-import org.myspecialway.ui.main.MainScreenActivity
 
 class AgendaActivity : BaseActivity() {
 
@@ -37,9 +36,12 @@ class AgendaActivity : BaseActivity() {
     }
 
     private fun initToolbar() {
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
         val supportActionBar = supportActionBar
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar.setDisplayShowHomeEnabled(true)
+        supportActionBar.setHomeAsUpIndicator(R.drawable.back)
     }
 
     override fun render() {

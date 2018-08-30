@@ -17,4 +17,7 @@
     <string name="password_empty_error_message">אנא הזן סיסמה</string>
     <string name="invalid_login">שם משתמש או סיסמה שגויים</string>
     <string name="no_class">אין שיעור כרגע</string>
+    <string name="back_button_description">Back button</string>
+    <string name="day_schedule_title">סדר היום שלי</string>
+    <string name="lesson_image">Lesson Image</string>
 </resources>

@@ -59,7 +59,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
     private fun mapScheduleRenderModel(schedule: Schedule) = ScheduleRenderModel().apply {
         val currentTime = Calendar.getInstance(TimeZone.getDefault()).time
         title = schedule.lesson.title
-        image = R.drawable.sun
+        image = R.drawable.reading
         time = schedule.index.let { AgendaIndex.convertTimeFromIndex(it) }
         isNow = currentTime.after(time?.date) && currentTime.before(addHour(time!!.date, 1))
     }

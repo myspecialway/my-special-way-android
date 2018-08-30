@@ -13,7 +13,7 @@
         android:name=".App"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppThemeNoAB">
 
         <activity
             android:name=".ui.splash.SplashActivity"
@@ -35,7 +35,7 @@
 
         <activity
             android:name="org.myspecialway.ui.agenda.AgendaActivity"
-            android:label="@string/app_name" />
+            android:label="@string/day_schedule_title"/>
 
         <activity
             android:name=".notifications.NotificationActivity"
