@@ -20,16 +20,16 @@ class TokenInterceptor(val token: Token) : Interceptor {
                 .build()
         val response = chain.proceed(modifiedRequest)
 
-//        if (response.code() in 401..499) {
-//
-//            repository.performLogin(session.getUserModel().authData!!).subscribe({
-//                // update the token on allowNext
+        if (response.code() in 401..499) {
+
+//            val auth = UserModel().getUser(sp).authData ?: LoginAuthData()
+//            repository.performLogin(auth).subscribe({
+//                 update the token on allowNext
 //                session.updateToken(it.accessToken)
 //            }, {
-//                // logout on error
-//                App.instance?.applicationContext?.logout()
+//                context.logout()
 //            })
-//        }
+        }
         return response
     }
 }

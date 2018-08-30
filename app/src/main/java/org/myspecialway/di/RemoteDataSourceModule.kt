@@ -1,5 +1,6 @@
 package org.myspecialway.di
 
+import android.content.Context
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module.applicationContext
