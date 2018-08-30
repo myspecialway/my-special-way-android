@@ -1,89 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
+    android:orientation="vertical"
+    android:gravity="center"
     tools:context=".ui.login.LoginActivity">
 
     <ImageView
+        android:layout_marginTop="30dp"
         android:id="@+id/appIcon"
-        android:layout_width="171dp"
-        android:layout_height="103dp"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@+id/username"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/app_icon" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
-
-    <TextView
-        android:id="@+id/errorText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="140dp"
+        android:layout_height="80dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:textColor="#ff0000"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2"
-        tools:text="@string/invalid_login" />
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/app_icon" />
 
-    <android.support.design.widget.TextInputEditText
-        android:id="@+id/username"
-        android:layout_width="0dp"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/usernameWrapper"
+        android:layout_width="280dp"
+        android:layout_marginTop="30dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="@string/username"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/errorText" />
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        >
 
-    <android.support.design.widget.TextInputEditText
-        android:id="@+id/password"
-        android:layout_width="0dp"
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/usernameTextFiled"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="שם משתמש"
+            android:inputType="text" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/passwordWrapper"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="@string/password"
-        android:imeActionLabel="@string/login"
-        android:imeOptions="actionSend"
-        android:inputType="textPassword"
-        android:textAlignment="viewStart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginStart="8dp"
+        app:errorEnabled="true"
+        app:passwordToggleEnabled="true">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/passwordTextFiled"
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:hint="סיסמה"
+            android:inputType="textPassword" />
+
+    </android.support.design.widget.TextInputLayout>
+
 
     <Button
+        android:enabled="false"
+        android:alpha=".5"
+        android:layout_marginTop="20dp"
         android:id="@+id/loginButton"
-        android:layout_width="140dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="32dp"
-        android:background="#8B66A7"
-        android:text="@string/login"
+        android:layout_width="200dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="56dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/login_button"
+        android:text="כניסה למערכת"
         android:textColor="@android:color/white"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/password"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        android:textSize="16sp"
+        />
 
-</android.support.constraint.ConstraintLayout>
+    <ProgressBar
+        android:id="@+id/progress"
+        android:visibility="invisible"
+        android:layout_marginBottom="10dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp" />
+
+    <ImageView
+        android:src="@drawable/ic_login"
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".1"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+         />
+
+
+
+
+</LinearLayout>

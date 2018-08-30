@@ -1,4 +1,4 @@
-package org.myspecialway.notifications
+package org.myspecialway.ui.notifications
 
 import android.app.Activity
 import android.content.Intent
@@ -17,7 +17,10 @@ class NotificationActivity : Activity() {
         setContentView(R.layout.activity_notification)
         val (notificationTitle, destination) = getBundle(intent)
         notificationText.text = notificationTitle
-        navigationButton.setOnClickListener { Navigation.toUnityNavigation(this, destination) }
+        navigationButton.setOnClickListener {
+            Navigation.toUnityNavigation(this, destination)
+            finish()
+        }
     }
 
     private fun getBundle(intent: Intent): Pair<String, ScheduleRenderModel> {

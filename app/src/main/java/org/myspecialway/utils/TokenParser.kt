@@ -11,7 +11,7 @@ interface JWTBase64 {
     fun encode(toEncode: String): String
 }
 
-class JWTParser @JvmOverloads constructor(private val base64: JWTBase64 = JWTBase64Impl()) {
+class TokenParser @JvmOverloads constructor(private val base64: JWTBase64 = JWTBase64Impl()) {
 
     class JWTBase64Impl : JWTBase64 {
 

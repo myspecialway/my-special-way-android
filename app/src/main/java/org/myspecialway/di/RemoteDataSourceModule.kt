@@ -1,11 +1,14 @@
 package org.myspecialway.di
 
+import android.content.Context
+import android.content.SharedPreferences
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module.applicationContext
 import org.myspecialway.data.remote.RemoteDataSource
 import org.myspecialway.data.remote.TokenInterceptor
 import org.myspecialway.di.RemoteProperties.BASE_URL
+import org.myspecialway.session.Token
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -17,21 +20,24 @@ object RemoteProperties {
 
 val remoteDataSourceModel = applicationContext {
 
-    bean { createOkHttpClient() }
+    bean { createOkHttpClient(get()) }
+
+    bean { TokenInterceptor(get(),get() ) }
 
     bean { createWebService<RemoteDataSource>(get(), BASE_URL) }
 }
 
-fun createOkHttpClient(): OkHttpClient {
+fun createOkHttpClient(tokenInterceptor: TokenInterceptor): OkHttpClient {
     val interceptor = HttpLoggingInterceptor()
     interceptor.level = HttpLoggingInterceptor.Level.BASIC
     return OkHttpClient.Builder()
             .connectTimeout(60L, TimeUnit.SECONDS)
             .readTimeout(60L, TimeUnit.SECONDS)
-            .addInterceptor(TokenInterceptor())
+            .addInterceptor(tokenInterceptor)
             .addInterceptor(interceptor)
             .build()
 }
+
 
 inline fun <reified T> createWebService(okHttpClient: OkHttpClient, url: String) : T {
     val retrofit = Retrofit.Builder()

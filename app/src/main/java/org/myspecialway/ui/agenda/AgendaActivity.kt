@@ -30,7 +30,7 @@ class AgendaActivity : BaseActivity() {
     }
 
     private fun initList() {
-        adapter = AgendaAdapter { Log.d("adapter", it.title) }
+        adapter = AgendaAdapter {  }
         agendaRecyclerView.layoutManager = LinearLayoutManager(this@AgendaActivity)
         agendaRecyclerView.itemAnimator = DefaultItemAnimator()
         agendaRecyclerView.adapter = adapter
@@ -43,10 +43,16 @@ class AgendaActivity : BaseActivity() {
     }
 
     override fun render() {
-        viewModel.listDataReady.observe(this, Observer { adapter.list = it ?: listOf() })
         viewModel.progress.observe(this, Observer { progress.visibility = it ?: View.GONE })
         viewModel.failure.observe(this,  Observer { handleError() })
-        viewModel.currentSchedulePosition.observe(this, Observer { scrollToSchedule(it) })
+
+
+        viewModel.agendaLive.observe(this, Observer { agenda ->
+            when(agenda) {
+                is ListData -> adapter.list = agenda.scheduleList
+                is CurrentSchedule -> scrollToSchedule(agenda.position)
+            }
+        })
     }
 
     private fun scrollToSchedule(it: Int?) {
