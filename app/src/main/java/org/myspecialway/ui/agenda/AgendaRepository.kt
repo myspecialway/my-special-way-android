@@ -1,11 +1,12 @@
 package org.myspecialway.ui.agenda
 
+import android.content.SharedPreferences
 import com.google.gson.JsonObject
 import io.reactivex.Flowable
 import org.myspecialway.common.filterAtError
-import org.myspecialway.data.remote.RemoteDataSource
 import org.myspecialway.data.local.LocalDataSource
-import org.myspecialway.session.SessionManager
+import org.myspecialway.data.remote.RemoteDataSource
+import org.myspecialway.ui.login.UserModel
 
 interface AgendaRepository {
     fun getSchedule(): Flowable<ScheduleModel>
@@ -13,7 +14,7 @@ interface AgendaRepository {
 
 class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
                            private val localDataSource: LocalDataSource,
-                           private val sessionManager: SessionManager) : AgendaRepository {
+                           private val sp: SharedPreferences) : AgendaRepository {
 
     override fun getSchedule(): Flowable<ScheduleModel> =
             Flowable.concatArrayEager(local(),remote()).firstOrError().toFlowable()
@@ -32,7 +33,7 @@ class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
      */
     private fun getPayLoad(): JsonObject {
         val json = JsonObject()
-        json.addProperty("query", query(sessionManager.getUserModel().id ?: ""))
+        json.addProperty("query", query(UserModel().getUser(sp).id ?: ""))
         json.addProperty("value", "")
         return json
     }

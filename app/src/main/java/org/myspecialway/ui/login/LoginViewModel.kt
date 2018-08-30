@@ -1,12 +1,12 @@
 package org.myspecialway.ui.login
 
 import android.arch.lifecycle.MutableLiveData
+import android.content.SharedPreferences
 import android.view.View
 import org.myspecialway.common.AbstractViewModel
-import org.myspecialway.common.Navigation
 import org.myspecialway.common.SchedulerProvider
 import org.myspecialway.common.with
-import org.myspecialway.session.SessionManager
+import org.myspecialway.session.Token
 
 // States
 sealed class LoginData
@@ -15,8 +15,7 @@ data class LoginSuccess(val allowNext: Boolean) : LoginData()
 data class LoginError(val throwable: Throwable) : LoginData()
 
 class LoginViewModel(private val repository: LoginRepository,
-                     private val schedulerProvider: SchedulerProvider,
-                     private val sessionManager: SessionManager) : AbstractViewModel() {
+                     private val schedulerProvider: SchedulerProvider) : AbstractViewModel() {
 
     val loginLive = MutableLiveData<LoginData>()
 
@@ -27,17 +26,13 @@ class LoginViewModel(private val repository: LoginRepository,
                 .doOnSubscribe { progress.value = View.VISIBLE }
                 .doFinally { progress.value = View.GONE }
                 .subscribe({
-                    saveUserAfterLogin(it, authData)
                     loginLive.value = LoginSuccess(true)
                 }, { loginLive.value = LoginError(it) }
                 )
     }
 
-    private fun saveUserAfterLogin(loginResponse: LoginResponse, authData: AuthData) =
-            sessionManager.storeUserModel(UserModel().apply { mapTokenUser(loginResponse, authData, sessionManager) })
-
-    fun checkLoggedIn() {
-        when (sessionManager.token?.isNotEmpty()) {
+    fun checkLoggedIn(sp: SharedPreferences) {
+        when (Token().getToken(sp).accessToken?.isNotEmpty()) {
             true -> loginLive.value = LoginSuccess(true)
             false -> loginLive.value = LoginError(Throwable("Can't Login"))
         }
