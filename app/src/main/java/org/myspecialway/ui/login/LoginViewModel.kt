@@ -15,7 +15,8 @@ data class LoginSuccess(val allowNext: Boolean) : LoginData()
 data class LoginError(val throwable: Throwable) : LoginData()
 
 class LoginViewModel(private val repository: LoginRepository,
-                     private val schedulerProvider: SchedulerProvider) : AbstractViewModel() {
+                     private val schedulerProvider: SchedulerProvider,
+                     private val sp: SharedPreferences) : AbstractViewModel() {
 
     val loginLive = MutableLiveData<LoginData>()
 
@@ -31,7 +32,7 @@ class LoginViewModel(private val repository: LoginRepository,
                 )
     }
 
-    fun checkLoggedIn(sp: SharedPreferences) {
+    fun checkLoggedIn() {
         when (Token().getToken(sp).accessToken?.isNotEmpty()) {
             true -> loginLive.value = LoginSuccess(true)
             false -> loginLive.value = LoginError(Throwable("Can't Login"))

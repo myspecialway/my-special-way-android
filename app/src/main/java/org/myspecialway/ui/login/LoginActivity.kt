@@ -22,12 +22,12 @@ import java.util.concurrent.TimeUnit
 class LoginActivity : BaseActivity() {
 
     private val viewModel: LoginViewModel by viewModel()
-    private val sp: SharedPreferences by inject()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_layout)
-        viewModel.checkLoggedIn(sp)
+        viewModel.checkLoggedIn()
         render()
         observeInputFields()
         clickListeners()

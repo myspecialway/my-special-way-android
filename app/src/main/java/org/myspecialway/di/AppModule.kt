@@ -18,7 +18,7 @@ import org.myspecialway.utils.TokenParser
 
 val appModule = applicationContext {
 
-    viewModel { LoginViewModel(get(), get()) }
+    viewModel { LoginViewModel(get(), get(), get()) }
     bean { LoginRepositoryImpl(get(), get()) as LoginRepository }
     bean { TokenParser() }
     bean { Token() }
