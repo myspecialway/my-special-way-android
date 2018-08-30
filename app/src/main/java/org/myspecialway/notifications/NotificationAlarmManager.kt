@@ -5,10 +5,8 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.text.format.DateFormat
 import org.myspecialway.common.Navigation
 import org.myspecialway.ui.agenda.ScheduleRenderModel
-
 
 class NotificationAlarmManager(private val context: Context) {
     private var alarmManager: AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -24,10 +22,7 @@ class NotificationAlarmManager(private val context: Context) {
         val id = System.currentTimeMillis().toInt()
         val pendingIntent = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_ONE_SHOT)
         alarmsQueue.add(pendingIntent)
-
-        val date = scheduleModel.time?.date
-        val triggerAtMillis = date!!.time - System.currentTimeMillis()
-
+        val triggerAtMillis = scheduleModel.time!!.date.time - System.currentTimeMillis()
         alarmManager.set(
                 AlarmManager.RTC_WAKEUP,
                 System.currentTimeMillis() + triggerAtMillis,

@@ -32,8 +32,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 .toFlowable()
                 .subscribeBy(
                         onNext = { subscribe(it) },
-                        onError = { failure(it) },
-                        onComplete = { println("Complete") }
+                        onError = { failure(it) }
                 )
     }
 

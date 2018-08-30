@@ -19,6 +19,7 @@ class AgendaAdapter(val onClick: (ScheduleRenderModel) -> Unit) : RecyclerView.A
 
     inner class AgendaHolder(view: ViewGroup) : RecyclerView.ViewHolder(view.inflate(R.layout.agenda_item)) {
         fun bind(schedule: ScheduleRenderModel) {
+            // set's the title
             itemView.agenda_text.text = schedule.title
             itemView.agenda_icon.setBackgroundResource(R.drawable.sun)
             itemView.time.text = schedule.time?.timeDisplay

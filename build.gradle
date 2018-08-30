@@ -1,6 +1,6 @@
 
 buildscript {
-    ext.kotlin_version = '1.2.60'
+    ext.kotlin_version = '1.2.61'
     ext.arch_version = '1.1.1'
     ext.support_package_version = '27.1.1'
 
@@ -26,18 +26,5 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
-        maven {
-            url "http://indooratlas-ltd.bintray.com/mvn-public"
-        }
-        maven {
-            url "http://indooratlas-ltd.bintray.com/mvn-public-alpha"
-        }
-        maven {
-            url "http://indooratlas-ltd.bintray.com/mvn-public-beta"
-        }
-        maven {
-            // needed for OSMBonusPack (Open Street Map example)
-            url "https://jitpack.io"
-        }
     }
 }
