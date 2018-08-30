@@ -1,6 +1,7 @@
 package org.myspecialway.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module.applicationContext
@@ -21,19 +22,22 @@ val remoteDataSourceModel = applicationContext {
 
     bean { createOkHttpClient(get()) }
 
+    bean { TokenInterceptor(get(),get() ) }
+
     bean { createWebService<RemoteDataSource>(get(), BASE_URL) }
 }
 
-fun createOkHttpClient(token: Token): OkHttpClient {
+fun createOkHttpClient(tokenInterceptor: TokenInterceptor): OkHttpClient {
     val interceptor = HttpLoggingInterceptor()
     interceptor.level = HttpLoggingInterceptor.Level.BASIC
     return OkHttpClient.Builder()
             .connectTimeout(60L, TimeUnit.SECONDS)
             .readTimeout(60L, TimeUnit.SECONDS)
-            .addInterceptor(TokenInterceptor(token))
+            .addInterceptor(tokenInterceptor)
             .addInterceptor(interceptor)
             .build()
 }
+
 
 inline fun <reified T> createWebService(okHttpClient: OkHttpClient, url: String) : T {
     val retrofit = Retrofit.Builder()

@@ -21,14 +21,13 @@ class LoginRepositoryImpl(private val remoteDataSource: RemoteDataSource,
                         saveLoginResponse(mappedUser, mappedToken)
                     }
 
-    private fun buildJson(authData: LoginAuthData): JsonObject =
-            JsonObject().apply {
-                addProperty("username", authData.username)
-                addProperty("password", authData.password)
-            }
-
     private fun saveLoginResponse(userModel: UserModel, token: Token) {
         UserModel().storeUserModel(sp, userModel)
         Token().storeAccessToken(sp, token)
     }
 }
+fun buildJson(authData: LoginAuthData): JsonObject =
+        JsonObject().apply {
+            addProperty("username", authData.username)
+            addProperty("password", authData.password)
+        }
