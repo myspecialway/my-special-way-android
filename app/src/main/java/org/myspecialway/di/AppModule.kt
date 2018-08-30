@@ -6,8 +6,8 @@ import org.koin.android.architecture.ext.viewModel
 import org.koin.dsl.module.applicationContext
 import org.myspecialway.common.ApplicationSchedulerProvider
 import org.myspecialway.common.SchedulerProvider
+import org.myspecialway.session.Token
 import org.myspecialway.ui.notifications.NotificationAlarmManager
-import org.myspecialway.session.SessionManager
 import org.myspecialway.ui.agenda.AgendaRepository
 import org.myspecialway.ui.agenda.AgendaRepositoryImpl
 import org.myspecialway.ui.agenda.AgendaViewModel
@@ -18,10 +18,10 @@ import org.myspecialway.utils.TokenParser
 
 val appModule = applicationContext {
 
-    viewModel { LoginViewModel(get(), get(), get()) }
-    bean { LoginRepositoryImpl(get()) as LoginRepository }
-    bean { SessionManager(get()) }
+    viewModel { LoginViewModel(get(), get()) }
+    bean { LoginRepositoryImpl(get(), get()) as LoginRepository }
     bean { TokenParser() }
+    bean { Token() }
     bean { getSharedPrefs(get()) }
 
     viewModel { AgendaViewModel(get(), get()) }

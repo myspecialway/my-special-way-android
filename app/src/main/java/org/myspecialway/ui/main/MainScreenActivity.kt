@@ -1,6 +1,7 @@
 package org.myspecialway.ui.main
 
 import android.arch.lifecycle.Observer
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -11,14 +12,14 @@ import org.koin.android.ext.android.inject
 import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.Navigation
 import org.myspecialway.ui.notifications.NotificationAlarmManager
-import org.myspecialway.session.SessionManager
 import org.myspecialway.ui.agenda.*
+import org.myspecialway.ui.login.UserModel
 
 class MainScreenActivity : BaseActivity() {
 
     private val viewModel: AgendaViewModel by viewModel()
     private val notificationAlarmManager: NotificationAlarmManager by inject()
-    private val sessionManager: SessionManager by inject()
+    private val sp: SharedPreferences by inject()
 
     private var schedule: ScheduleRenderModel? = null
 
@@ -35,7 +36,7 @@ class MainScreenActivity : BaseActivity() {
     }
 
     override fun render() {
-        userDisplayName.text = sessionManager.getUserModel().fullName()
+        userDisplayName.text = UserModel().getUser(sp).fullName()
 
         viewModel.failure.observe(this, Observer { handleError() })
         viewModel.progress.observe(this, Observer { progress.visibility = it!! })

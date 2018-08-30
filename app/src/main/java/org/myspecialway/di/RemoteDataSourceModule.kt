@@ -6,8 +6,7 @@ import org.koin.dsl.module.applicationContext
 import org.myspecialway.data.remote.RemoteDataSource
 import org.myspecialway.data.remote.TokenInterceptor
 import org.myspecialway.di.RemoteProperties.BASE_URL
-import org.myspecialway.session.SessionManager
-import org.myspecialway.ui.login.LoginRepository
+import org.myspecialway.session.Token
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,13 +23,13 @@ val remoteDataSourceModel = applicationContext {
     bean { createWebService<RemoteDataSource>(get(), BASE_URL) }
 }
 
-fun createOkHttpClient(sessionManager: SessionManager): OkHttpClient {
+fun createOkHttpClient(token: Token): OkHttpClient {
     val interceptor = HttpLoggingInterceptor()
     interceptor.level = HttpLoggingInterceptor.Level.BASIC
     return OkHttpClient.Builder()
             .connectTimeout(60L, TimeUnit.SECONDS)
             .readTimeout(60L, TimeUnit.SECONDS)
-            .addInterceptor(TokenInterceptor(sessionManager))
+            .addInterceptor(TokenInterceptor(token))
             .addInterceptor(interceptor)
             .build()
 }

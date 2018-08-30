@@ -7,6 +7,9 @@ import org.myspecialway.App
 
 @SuppressLint("Registered")
 abstract class BaseActivity : AppCompatActivity() {
+
+
+
     abstract fun render()
 
 
