@@ -42,6 +42,7 @@ class LoginActivity : BaseActivity() {
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
 
+
         val user = RxTextView.textChanges(usernameTextFiled)
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
