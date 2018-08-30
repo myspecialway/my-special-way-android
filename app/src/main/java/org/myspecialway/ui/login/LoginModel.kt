@@ -14,7 +14,7 @@ data class LoginResponse(var accessToken: String)
 /**
  * Entity contains the username and password entered in the LoginScreen
  */
-data class AuthData(var username: String? = null, var password: String? = null, var token: Token? = null)
+data class LoginAuthData(var username: String? = null, var password: String? = null)
 
 /**
  * Entity contains the UserModel
@@ -26,7 +26,7 @@ data class UserModel(
         var username: String? = null,
         var photo: String? = null,
         var role: String? = null,
-        var authData: AuthData? = null
+        var authData: LoginAuthData? = null
 ) {
 
     fun storeUserModel(sp: SharedPreferences, userModel: UserModel) =
@@ -45,7 +45,7 @@ data class UserModel(
 
     fun fullName(): String = "$firstName $lastName"
 
-    fun mapTokenUser(loginResponse: LoginResponse, authData: AuthData) {
+    fun mapUser(loginResponse: LoginResponse, authData: LoginAuthData) {
         val parsed = TokenParser().parsePayload(loginResponse.accessToken)
         this.id = parsed.id
         this.authData = authData

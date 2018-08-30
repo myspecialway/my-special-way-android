@@ -64,7 +64,7 @@ class LoginActivity : BaseActivity() {
     private fun clickListeners() {
         loginButton.setOnClickListener {
             hideKeyboard()
-            viewModel.login(AuthData().apply {
+            viewModel.login(LoginAuthData().apply {
                 username = usernameTextFiled.text.toString()
                 password = passwordTextFiled.text.toString()
             })
