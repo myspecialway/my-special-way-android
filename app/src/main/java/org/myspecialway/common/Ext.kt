@@ -2,7 +2,7 @@ package org.myspecialway.common
 
 import android.support.annotation.LayoutRes
 import android.support.design.widget.Snackbar
-import android.util.Log
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +10,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import io.reactivex.Flowable
-import io.reactivex.Observable
+
 import java.util.*
 
 
@@ -19,9 +19,15 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
         LayoutInflater.from(context).inflate(layoutRes, this, false)
 
 // load resource files with Glide
-fun ImageView.loadFromRes(url: String) =
+fun ImageView.loadUrl(url: String) =
         Glide.with(this.context.applicationContext)
                 .load(url)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(this)
+
+fun ImageView.loadRes(res: Int) =
+        Glide.with(this.context.applicationContext)
+                .load(res)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(this)
 

@@ -1,11 +1,11 @@
 package org.myspecialway.ui.agenda
 
 import android.arch.persistence.room.*
-import android.arch.persistence.room.ForeignKey.CASCADE
 import android.os.Parcelable
 import android.support.annotation.NonNull
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import org.myspecialway.common.ViewType
 
 @Entity()
 data class ScheduleModel(
@@ -60,4 +60,18 @@ data class Lesson(
 data class ScheduleRenderModel(var title: String? = null,
                                var image: Int? = null,
                                var time: Time? = null,
-                               var isNow: Boolean = false) : Parcelable
+                               var isNow: Boolean = false) : Parcelable, ViewType {
+
+    override fun getViewType(): Int = AgendaTypes.ITEM_TYPE
+}
+
+data class SingleImage(val image: Int) : ViewType {
+    override fun getViewType(): Int = AgendaTypes.SINGLE_IMAGE
+
+}
+
+
+object AgendaTypes {
+    const val ITEM_TYPE = 0
+    const val SINGLE_IMAGE = 1
+}

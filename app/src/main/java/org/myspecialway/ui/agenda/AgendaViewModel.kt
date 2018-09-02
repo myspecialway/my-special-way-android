@@ -6,13 +6,14 @@ import io.reactivex.rxkotlin.subscribeBy
 import org.myspecialway.R
 import org.myspecialway.common.AbstractViewModel
 import org.myspecialway.common.SchedulerProvider
+import org.myspecialway.common.ViewType
 import org.myspecialway.common.with
 import java.util.*
 
 class AgendaViewModel(private val repository: AgendaRepository,
                       private val scheduler: SchedulerProvider) : AbstractViewModel() {
 
-    val listDataReady = MutableLiveData<List<ScheduleRenderModel>>()
+    val listDataReady = MutableLiveData<List<ViewType>>()
     val alarms = MutableLiveData<List<ScheduleRenderModel>>()
     val currentSchedule = MutableLiveData<ScheduleRenderModel>()
     val currentSchedulePosition = MutableLiveData<Int>()

@@ -29,7 +29,7 @@ class AgendaActivity : BaseActivity() {
     }
 
     private fun initList() {
-        adapter = AgendaAdapter { Log.d("adapter", it.title) }
+        adapter = AgendaAdapter { }
         agendaRecyclerView.layoutManager = LinearLayoutManager(this@AgendaActivity)
         agendaRecyclerView.itemAnimator = DefaultItemAnimator()
         agendaRecyclerView.adapter = adapter
@@ -45,9 +45,15 @@ class AgendaActivity : BaseActivity() {
     }
 
     override fun render() {
-        viewModel.listDataReady.observe(this, Observer { adapter.list = it ?: listOf() })
+        viewModel.listDataReady.observe(this, Observer {
+
+            adapter.addData(it?.toMutableList()
+                    ?.apply { add(it.size, SingleImage(R.drawable.gohome)) }
+                    ?.toList()
+                    ?: listOf())
+        })
         viewModel.progress.observe(this, Observer { progress.visibility = it ?: View.GONE })
-        viewModel.failure.observe(this,  Observer { handleError() })
+        viewModel.failure.observe(this, Observer { handleError() })
         viewModel.currentSchedulePosition.observe(this, Observer { scrollToSchedule(it) })
     }
 
@@ -61,7 +67,7 @@ class AgendaActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+        when (item?.itemId) {
             android.R.id.home -> finish()
         }
         return true
