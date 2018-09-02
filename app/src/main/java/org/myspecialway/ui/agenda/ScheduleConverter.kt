@@ -11,10 +11,9 @@ class ScheduleConverter {
     }
 
     @TypeConverter
-    fun fromString(value: String): List<Schedule> {
-        val listType = object : TypeToken<List<Schedule>>() {
+    fun fromString(value: String): List<Schedule> =
+            Gson()
+                    .fromJson<List<Schedule>>(value, object : TypeToken<List<Schedule>>() {
+                    }.type)
 
-        }.type
-        return Gson().fromJson<List<Schedule>>(value, listType)
-    }
 }
