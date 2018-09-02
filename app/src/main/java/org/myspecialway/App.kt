@@ -23,7 +23,6 @@ class App : Application() {
         val builder = Picasso.Builder(this)
         builder.downloader(OkHttp3Downloader(this, Integer.MAX_VALUE.toLong()))
         val built = builder.build()
-        built.setIndicatorsEnabled(true)
         built.isLoggingEnabled = true
         Picasso.setSingletonInstance(built)
     }
