@@ -15,12 +15,17 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.squareup.picasso.Callback
+import com.squareup.picasso.NetworkPolicy
+import com.squareup.picasso.Picasso
+
 import io.reactivex.Flowable
 
 import org.myspecialway.ui.login.LoginActivity
 import java.util.*
+import org.myspecialway.R.id.imageView
+
+
 
 
 // use this to avoid layout inflater boilerplate
@@ -28,18 +33,15 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
         LayoutInflater.from(context).inflate(layoutRes, this, false)
 
 // load resource files with Glide
-fun ImageView.loadUrl(url: String) =
-        Glide.with(this.context.applicationContext)
+fun ImageView.load(url: Int) =
+        Picasso.with(this.context.applicationContext)
                 .load(url)
-                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(this)
 
-fun ImageView.loadRes(res: Int) =
-        Glide.with(this.context.applicationContext)
-                .load(res)
-                .transition(DrawableTransitionOptions.withCrossFade())
+fun ImageView.load(url: String) =
+        Picasso.with(this.context.applicationContext)
+                .load(url)
                 .into(this)
-
 // show snackBar
 fun snackBar(view: View, message: String) = Snackbar
         .make(view, message, Snackbar.LENGTH_SHORT)

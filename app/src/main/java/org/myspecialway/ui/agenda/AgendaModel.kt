@@ -58,14 +58,14 @@ data class Lesson(
 // UI Models
 @Parcelize
 data class ScheduleRenderModel(var title: String? = null,
-                               var image: Int? = null,
+                               var image: String? = null,
                                var time: Time? = null,
                                var isNow: Boolean = false) : Parcelable, ViewType {
 
     override fun getViewType(): Int = AgendaTypes.ITEM_TYPE
 }
 
-data class SingleImageRes(val image: Int? = null) : ViewType {
+data class SingleImageRes(val image: Int) : ViewType {
     override fun getViewType(): Int = AgendaTypes.SINGLE_IMAGE
 }
 

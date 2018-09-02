@@ -40,7 +40,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
     private fun subscribe(list: MutableList<ScheduleRenderModel>) {
         val today = getTodaySchedule(list)
         activateAlarmNextHours(today)
-        agendaLive.value = ListData(today)
+        agendaLive.value = ListData(list)
     }
 
     private fun getTodaySchedule(list: MutableList<ScheduleRenderModel>) =
@@ -62,7 +62,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
             .apply {
         val currentTime = Calendar.getInstance(TimeZone.getDefault()).time
         title = schedule.lesson.title
-        image = R.drawable.reading
+        image = schedule.lesson.icon
         time = schedule.index.let { AgendaIndex.convertTimeFromIndex(it) }
         isNow = currentTime.after(time?.date) && currentTime.before(time!!.date.addHour(1))
     }
