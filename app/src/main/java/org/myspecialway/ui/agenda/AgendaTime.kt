@@ -47,7 +47,7 @@ object AgendaIndex : TimeFactory {
     /**
      * return the hour of the day based on @param hour
      */
-    private fun createHour(hour: Int): Date {
+    fun createHour(hour: Int): Date {
         val cal = Calendar.getInstance()
         cal.set(Calendar.HOUR, hour)
         cal.set(Calendar.MINUTE, 0)
@@ -59,14 +59,18 @@ object AgendaIndex : TimeFactory {
         val calendar = Calendar.getInstance()
         val day = calendar.get(Calendar.DAY_OF_WEEK)
 
+        return formatDayNumber(day)
+    }
+
+    fun formatDayNumber(day: Int): String {
         return when (day) {
-            Calendar.SUNDAY    -> "Sunday"
-            Calendar.MONDAY    -> "Monday"
-            Calendar.TUESDAY   -> "Tuesday"
+            Calendar.SUNDAY -> "Sunday"
+            Calendar.MONDAY -> "Monday"
+            Calendar.TUESDAY -> "Tuesday"
             Calendar.WEDNESDAY -> "Wednesday"
-            Calendar.THURSDAY  -> "Thursday"
-            Calendar.FRIDAY    -> "Friday"
-            Calendar.SATURDAY  -> "Saturday"
+            Calendar.THURSDAY -> "Thursday"
+            Calendar.FRIDAY -> "Friday"
+            Calendar.SATURDAY -> "Saturday"
 
             else -> throw Exception("Day doesn't exists")
         }

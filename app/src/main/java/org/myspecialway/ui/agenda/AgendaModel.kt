@@ -9,39 +9,44 @@ import org.myspecialway.common.ViewType
 
 @Entity()
 data class ScheduleModel(
-        @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "sche_model_id") @NonNull val id: Int,
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "sche_model_id")
+        @NonNull val id: Int,
         @Embedded(prefix = "data_") val data: Data)
 
 @Entity()
 data class Data(
-        @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "data_id") @NonNull val id: Int,
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "data_id")
+        @NonNull val id: Int,
         @SerializedName("student") @Embedded val classById: Class)
-
 
 @Entity()
 data class Class(
-        @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "class_id") @NonNull val id: Int,
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "class_id")
+        @NonNull val id: Int,
         val name: String? = null,
         val number: Int? = null,
         val level: String? = null,
-        val schedule: List<Schedule>
-
-)
-
+        val schedule: List<Schedule>)
 
 @Entity()
 data class Schedule(
-        @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "schedule_id") @NonNull val id: Int,
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "schedule_id")
+        @NonNull val id: Int,
         val index: String,
         @Embedded val lesson: Lesson,
         @Embedded val location: Location)
 
 @Entity
-data class Location(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "location_id") @NonNull val id: Int,
+data class Location(@PrimaryKey(autoGenerate = true)
+                    @ColumnInfo(name = "location_id")
+                    @NonNull val id: Int,
                     val name: String? = null,
                     val disabled: Boolean? = null,
-                    @Embedded val position: Position? = null
-)
+                    @Embedded val position: Position? = null)
 
 @Entity
 data class Position(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "position_id") @NonNull val id: Int,
@@ -51,7 +56,9 @@ data class Position(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "positio
 
 @Entity()
 data class Lesson(
-        @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "lesson_id") @NonNull val id: Int,
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "lesson_id")
+        @NonNull val id: Int,
         val title: String,
         val icon: String)
 
