@@ -40,7 +40,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
     private fun subscribe(list: MutableList<ScheduleRenderModel>) {
         val today = getTodaySchedule(list)
         activateAlarmNextHours(today)
-        agendaLive.value = ListData(list)
+        agendaLive.value = ListData(today)
     }
 
     private fun getTodaySchedule(list: MutableList<ScheduleRenderModel>) =
