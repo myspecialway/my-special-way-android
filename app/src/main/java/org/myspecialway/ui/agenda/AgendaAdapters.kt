@@ -15,6 +15,7 @@ class AgendaAdapter(val onClick: (ScheduleRenderModel) -> Unit) : BaseDelegateAd
     }
 }
 
+
 class AgendaItemDelegateAdapter(val onClick: (ScheduleRenderModel) -> Unit) : ViewTypeDelegateAdapter {
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder = AgendaHolder(parent)
 
