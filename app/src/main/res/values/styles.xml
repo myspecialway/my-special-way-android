@@ -6,6 +6,15 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionBarStyle">@style/ActionBar</item>
+    </style>
+
+    <style name="AppThemeNoAB" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionBarStyle">@style/ActionBar</item>
     </style>
 
     <style parent="android:Theme" name="Theme.Transparent">
@@ -24,7 +33,19 @@
 
     </style>
 
-    <style name="NoTitle" parent="AppTheme">
-        <item name="android:windowNoTitle">true</item>
+    <!-- elevation=0 is to remove shadow below AB-->
+    <style name="ActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="background">@android:color/white</item>
+        <item name="titleTextStyle">@style/ABTitleTextStyle</item>
+        <item name="android:homeAsUpIndicator">@drawable/back</item>
+        <item name="elevation">0dp</item>
     </style>
+
+    <style name="ABTitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="titleTextColor">@color/colorToolbarText</item>
+        <item name="android:textColor">@color/colorToolbarText</item>
+        <item name="android:textSize">21sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>

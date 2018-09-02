@@ -4,15 +4,12 @@ import android.arch.lifecycle.MutableLiveData
 import android.view.View
 import io.reactivex.rxkotlin.subscribeBy
 import org.myspecialway.R
-import org.myspecialway.common.AbstractViewModel
-import org.myspecialway.common.SchedulerProvider
-import org.myspecialway.common.addHour
-import org.myspecialway.common.with
+import org.myspecialway.common.*
 import java.util.*
 
 // State
 sealed class AgendaData
-data class ListData(val scheduleList: List<ScheduleRenderModel>) : AgendaData()
+data class ListData(val scheduleList: List<ViewType>) : AgendaData()
 data class Alarms(val list: List<ScheduleRenderModel>) : AgendaData()
 data class CurrentSchedule(val schedule: ScheduleRenderModel, val position: Int) : AgendaData()
 
@@ -65,7 +62,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
             .apply {
         val currentTime = Calendar.getInstance(TimeZone.getDefault()).time
         title = schedule.lesson.title
-        image = R.drawable.sun
+        image = schedule.lesson.icon
         time = schedule.index.let { AgendaIndex.convertTimeFromIndex(it) }
         isNow = currentTime.after(time?.date) && currentTime.before(time!!.date.addHour(1))
     }

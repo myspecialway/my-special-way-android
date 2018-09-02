@@ -6,7 +6,7 @@ import android.content.Intent
 import android.preference.PreferenceManager
 import android.support.annotation.LayoutRes
 import android.support.design.widget.Snackbar
-import android.util.Log
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,12 +15,18 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.squareup.picasso.Callback
+import com.squareup.picasso.NetworkPolicy
+import com.squareup.picasso.Picasso
+
 import io.reactivex.Flowable
-import io.reactivex.Observable
+import org.myspecialway.R
+
 import org.myspecialway.ui.login.LoginActivity
 import java.util.*
+import org.myspecialway.R.id.imageView
+
+
 
 
 // use this to avoid layout inflater boilerplate
@@ -28,11 +34,19 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
         LayoutInflater.from(context).inflate(layoutRes, this, false)
 
 // load resource files with Glide
-fun ImageView.loadFromRes(url: String) =
-        Glide.with(this.context.applicationContext)
+fun ImageView.load(url: Int) =
+        Picasso.with(this.context.applicationContext)
                 .load(url)
-                .transition(DrawableTransitionOptions.withCrossFade())
+                .error(R.drawable.reading)
                 .into(this)
+
+
+fun ImageView.load(url: String) =
+        Picasso.with(this.context.applicationContext)
+                .load(url)
+                .error(R.drawable.reading)
+                .into(this)
+
 
 // show snackBar
 fun snackBar(view: View, message: String) = Snackbar
