@@ -13,7 +13,9 @@ class AgendaAdapter(val onClick: (ScheduleRenderModel) -> Unit) : RecyclerView.A
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AgendaHolder = AgendaHolder(parent)
 
-    override fun onBindViewHolder(holder: AgendaAdapter.AgendaHolder, position: Int) { holder.bind(list[position]) }
+    override fun onBindViewHolder(holder: AgendaAdapter.AgendaHolder, position: Int) {
+        holder.bind(list[position])
+    }
 
     override fun getItemCount(): Int = list.size
 
@@ -29,11 +31,10 @@ class AgendaAdapter(val onClick: (ScheduleRenderModel) -> Unit) : RecyclerView.A
             itemView.setOnClickListener { onClick.invoke(schedule) }
         }
 
-        private fun drawBorderIfNeeded(schedule: ScheduleRenderModel) {
-            when(schedule.isNow){
-                true -> itemView.card_view.setBackgroundResource(R.drawable.border)
-                false -> itemView.card_view.setBackgroundResource(R.drawable.border_white)
-            }
-        }
+        private fun drawBorderIfNeeded(schedule: ScheduleRenderModel) =
+                when (schedule.isNow) {
+                    true -> itemView.card_view.setBackgroundResource(R.drawable.border)
+                    false -> itemView.card_view.setBackgroundResource(R.drawable.border_white)
+                }
     }
 }
