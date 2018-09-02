@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -45,16 +44,26 @@ class AgendaActivity : BaseActivity() {
     }
 
     override fun render() {
-        viewModel.listDataReady.observe(this, Observer {
 
-            adapter.addData(it?.toMutableList()
-                    ?.apply { add(it.size, SingleImage(R.drawable.gohome)) }
-                    ?.toList()
-                    ?: listOf())
-        })
         viewModel.progress.observe(this, Observer { progress.visibility = it ?: View.GONE })
         viewModel.failure.observe(this, Observer { handleError() })
-        viewModel.currentSchedulePosition.observe(this, Observer { scrollToSchedule(it) })
+
+
+        viewModel.agendaLive.observe(this, Observer { agenda ->
+            when(agenda) {
+                is ListData -> {
+                    adapter.addData(
+                            agenda.scheduleList
+                            .toMutableList()
+                                    .apply {
+                                        add(agenda.scheduleList.size, SingleImageRes(R.drawable.gohome))
+                                    }
+                            .toList())
+                }
+                is CurrentSchedule -> scrollToSchedule(agenda.position)
+
+            }
+        })
     }
 
     private fun scrollToSchedule(it: Int?) {

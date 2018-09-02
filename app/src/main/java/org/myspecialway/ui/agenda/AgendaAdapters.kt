@@ -48,12 +48,12 @@ class SinglePhotoDelegateAdapter : ViewTypeDelegateAdapter {
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder = SingleImageHolder(parent)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {
-        (holder as SingleImageHolder).bind(item as SingleImage)
+        (holder as SingleImageHolder).bind(item as SingleImageRes)
     }
 
     inner class SingleImageHolder(view: ViewGroup) : RecyclerView.ViewHolder(view.inflate(R.layout.agenda_last_item)) {
-        fun bind(data : SingleImage) = with(itemView) {
-            goHome.loadRes(data.image)
+        fun bind(data : SingleImageRes) = with(itemView) {
+            image.loadRes(data.image!!)
         }
     }
 }

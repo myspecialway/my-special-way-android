@@ -34,13 +34,13 @@ data class Schedule(
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "schedule_id") @NonNull val id: Int,
         val index: String,
         @Embedded val lesson: Lesson,
-        @Embedded val location : Location)
+        @Embedded val location: Location)
 
 @Entity
 data class Location(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "location_id") @NonNull val id: Int,
                     val name: String? = null,
                     val disabled: Boolean? = null,
-                    @Embedded val position: Position?= null
+                    @Embedded val position: Position? = null
 )
 
 @Entity
@@ -65,9 +65,8 @@ data class ScheduleRenderModel(var title: String? = null,
     override fun getViewType(): Int = AgendaTypes.ITEM_TYPE
 }
 
-data class SingleImage(val image: Int) : ViewType {
+data class SingleImageRes(val image: Int? = null) : ViewType {
     override fun getViewType(): Int = AgendaTypes.SINGLE_IMAGE
-
 }
 
 
