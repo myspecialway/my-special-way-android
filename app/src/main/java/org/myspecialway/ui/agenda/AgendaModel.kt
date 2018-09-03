@@ -1,11 +1,11 @@
 package org.myspecialway.ui.agenda
 
 import android.arch.persistence.room.*
-import android.arch.persistence.room.ForeignKey.CASCADE
 import android.os.Parcelable
 import android.support.annotation.NonNull
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import org.myspecialway.common.ViewType
 
 @Entity()
 data class ScheduleModel(
@@ -34,13 +34,13 @@ data class Schedule(
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "schedule_id") @NonNull val id: Int,
         val index: String,
         @Embedded val lesson: Lesson,
-        @Embedded val location : Location)
+        @Embedded val location: Location)
 
 @Entity
 data class Location(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "location_id") @NonNull val id: Int,
                     val name: String? = null,
                     val disabled: Boolean? = null,
-                    @Embedded val position: Position?= null
+                    @Embedded val position: Position? = null
 )
 
 @Entity
@@ -58,6 +58,19 @@ data class Lesson(
 // UI Models
 @Parcelize
 data class ScheduleRenderModel(var title: String? = null,
-                               var image: Int? = null,
+                               var image: String? = null,
                                var time: Time? = null,
-                               var isNow: Boolean = false) : Parcelable
+                               var isNow: Boolean = false) : Parcelable, ViewType {
+
+    override fun getViewType(): Int = AgendaTypes.ITEM_TYPE
+}
+
+data class SingleImageRes(val image: Int) : ViewType {
+    override fun getViewType(): Int = AgendaTypes.SINGLE_IMAGE
+}
+
+
+object AgendaTypes {
+    const val ITEM_TYPE = 0
+    const val SINGLE_IMAGE = 1
+}

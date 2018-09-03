@@ -1,65 +1,33 @@
 package org.myspecialway
 
 import android.app.Application
-import android.content.Context
-import org.jetbrains.annotations.TestOnly
 import org.koin.android.ext.android.startKoin
 import org.myspecialway.di.mySpecialWay
+import com.squareup.picasso.Picasso
+import com.jakewharton.picasso.OkHttp3Downloader
 
-import org.myspecialway.ui.login.gateway.LoginGateway
-import org.myspecialway.ui.main.ScheduleRepository
-import org.myspecialway.schedule.gateway.ScheduleGateway
-import org.myspecialway.session.UserSessionManager
-import org.myspecialway.utils.JWTParser
 
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+
 
 class App : Application() {
 
-    var userSessionManager: UserSessionManager? = null
-        private set
-    var scheduleRepository: ScheduleRepository? = null
-        private set
-
     override fun onCreate() {
         super.onCreate()
-
         startKoin(this, mySpecialWay)
-
         instance = this
 
-        initAppComponents()
+        configurePicassoOffline()
     }
 
-
-    private fun initAppComponents() {
-
-        val retrofitService = createRetrofitService()
-        userSessionManager = createUserSessionManager(retrofitService)
-        scheduleRepository = createScheduleRepository(retrofitService)
-    }
-
-    private fun createRetrofitService(): Retrofit {
-
-        return Retrofit.Builder().baseUrl(getString(R.string.baseUrl)).addConverterFactory(GsonConverterFactory.create()).build()
-    }
-
-    private fun createUserSessionManager(retrofit: Retrofit): UserSessionManager {
-
-        val loginGateway = LoginGateway(retrofit)
-
-        return UserSessionManager(loginGateway, JWTParser(), getSharedPreferences("creds", Context.MODE_PRIVATE))
-    }
-
-
-    private fun createScheduleRepository(retrofit: Retrofit): ScheduleRepository {
-
-        return ScheduleRepository(ScheduleGateway(retrofit))
+    private fun configurePicassoOffline() {
+        val builder = Picasso.Builder(this)
+        builder.downloader(OkHttp3Downloader(this, Integer.MAX_VALUE.toLong()))
+        val built = builder.build()
+        built.isLoggingEnabled = true
+        Picasso.setSingletonInstance(built)
     }
 
     companion object {
-
         var instance: App? = null
             private set
     }

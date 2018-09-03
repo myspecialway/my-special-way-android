@@ -1,4 +1,4 @@
-package org.myspecialway.notifications
+package org.myspecialway.ui.notifications
 
 import android.app.AlarmManager
 import android.app.PendingIntent

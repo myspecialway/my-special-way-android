@@ -1,6 +1,7 @@
 package org.myspecialway.ui.main
 
 import android.arch.lifecycle.Observer
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -10,16 +11,17 @@ import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.android.inject
 import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.Navigation
-import org.myspecialway.notifications.NotificationAlarmManager
-import org.myspecialway.ui.agenda.AgendaViewModel
-import org.myspecialway.ui.agenda.ScheduleRenderModel
+import org.myspecialway.ui.notifications.NotificationAlarmManager
+import org.myspecialway.ui.agenda.*
+import org.myspecialway.ui.login.UserModel
 
 class MainScreenActivity : BaseActivity() {
 
     private val viewModel: AgendaViewModel by viewModel()
     private val notificationAlarmManager: NotificationAlarmManager by inject()
-    private var schedule: ScheduleRenderModel? = null
+    private val sp: SharedPreferences by inject()
 
+    private var schedule: ScheduleRenderModel? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,38 +36,21 @@ class MainScreenActivity : BaseActivity() {
     }
 
     override fun render() {
-        /**`
-         * observe the user name
-         */
-        userDisplayName.text = sessionManager?.userData?.fullName()
+        userDisplayName.text = UserModel().getUser(sp).fullName()
 
-        /**
-         * observe all the alarms we need to trigger and pass them to the alarms manager
-         */
-        viewModel.alarms.observe(this, Observer { it?.forEach { notificationAlarmManager.scheduleAlarm(it) } })
-
-        /**
-         * observe the current schedule title
-         */
-        viewModel.currentSchedule.observe(this, Observer {
-            schedule = it!!
-            scheduleName.text = it.title
-        })
-
-        /**
-         * observe the list of data when it's ready
-         */
-        viewModel.listDataReady.observe(this, Observer { scheduleName.visibility = View.VISIBLE })
-
-        /**
-         * observe errors
-         */
         viewModel.failure.observe(this, Observer { handleError() })
-
-        /**
-         * observe the progress bar
-         */
         viewModel.progress.observe(this, Observer { progress.visibility = it!! })
+
+        viewModel.agendaLive.observe(this, Observer { agenda->
+            when(agenda) {
+                is Alarms -> agenda.list.forEach { notificationAlarmManager.scheduleAlarm(it) }
+                is CurrentSchedule -> {
+                    schedule = agenda.schedule
+                    scheduleName.text = agenda.schedule.title
+                }
+                is ListData -> scheduleName.visibility = View.VISIBLE
+            }
+        })
     }
 
     private fun handleError() {

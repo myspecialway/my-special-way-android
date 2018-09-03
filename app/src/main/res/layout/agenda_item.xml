@@ -1,51 +1,79 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:textDirection="rtl"
+    android:layoutDirection="rtl"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <android.support.v7.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="120dp"
         android:layout_gravity="center"
-        android:layout_margin="15dp"
-        card_view:cardCornerRadius="4dp">
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="14dp"
+        card_view:cardCornerRadius="6dp"
+        card_view:cardElevation="0dp">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:orientation="vertical">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/agenda_icon"
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" />
+                android:orientation="vertical"
+                card_view:layout_constraintGuide_percent=".07" />
+
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/agenda_icon"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:contentDescription="@string/lesson_image"
+                android:scaleType="fitCenter"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintEnd_toStartOf="@+id/guideline7"
+                card_view:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/reading" />
 
             <TextView
                 android:id="@+id/agenda_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                tools:text="class name"
-                android:textColor="@android:color/black"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:layout_marginTop="16dp"
+                android:textColor="@color/cardLessonTitle"
+                android:textSize="21sp"
+                card_view:layout_constraintBottom_toTopOf="@+id/time"
+                card_view:layout_constraintStart_toStartOf="@+id/guideline6"
+                card_view:layout_constraintTop_toTopOf="parent"
+                tools:text="מפגש בוקר" />
 
             <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                tools:text="class name"
-                android:alpha=".4"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+                android:layout_marginBottom="16dp"
+                android:textColor="@color/cardLessonSubtitle"
+                android:textSize="18sp"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintStart_toStartOf="@+id/guideline6"
+                card_view:layout_constraintTop_toBottomOf="@+id/agenda_text"
+                tools:text="08:00 - 08:50" />
 
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                card_view:layout_constraintGuide_percent=".93" />
+
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>
-</LinearLayout>
+</FrameLayout>

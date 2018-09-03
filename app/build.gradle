@@ -96,7 +96,7 @@ dependencies {
     // Network
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.google.code.gson:gson:2.8.1'
     // Networking
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
@@ -109,7 +109,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
-
+    implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
 
     // Koin
     implementation "org.koin:koin-core:0.9.3"
@@ -118,8 +118,12 @@ dependencies {
 
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+//    implementation 'com.github.bumptech.glide:glide:4.8.0'
+//    kapt 'com.github.bumptech.glide:compiler:4.8.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+
+
     // Testing frameworks
     testImplementation 'junit:junit:4.12'
 
