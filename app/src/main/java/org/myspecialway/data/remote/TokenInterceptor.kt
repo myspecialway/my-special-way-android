@@ -8,7 +8,7 @@ import okhttp3.Request
 import okhttp3.Response
 import org.myspecialway.App
 import org.myspecialway.common.logout
-import org.myspecialway.di.RemoteProperties.BASE_URL
+import org.myspecialway.di.RemoteProperties.TEMP
 import org.myspecialway.session.Token
 import org.myspecialway.ui.login.LoginAuthData
 import org.myspecialway.ui.login.UserModel
@@ -47,17 +47,17 @@ class TokenInterceptor(private val token: Token,
                 .build()
 
         Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(TEMP)
                 .client(okHttp)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(RemoteDataSource::class.java)
                 .performLogin(buildJson(auth)).subscribe({
-                    token.storeAccessToken(sp,
-                            Token().apply { token.mapToken(it.accessToken) })
+                    token.storeAccessToken(sp, Token().map(it.accessToken))
                 }, {
                     App.instance?.applicationContext?.logout()
                 })
     }
+
 }

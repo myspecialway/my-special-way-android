@@ -9,7 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.agenda_activity.*
-import org.koin.android.architecture.ext.viewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 import org.myspecialway.R
 import org.myspecialway.common.BaseActivity
 
@@ -28,7 +28,9 @@ class AgendaActivity : BaseActivity() {
     }
 
     private fun initList() {
-        adapter = AgendaAdapter { }
+
+        adapter = AgendaAdapter {  }
+
         agendaRecyclerView.layoutManager = LinearLayoutManager(this@AgendaActivity)
         agendaRecyclerView.itemAnimator = DefaultItemAnimator()
         agendaRecyclerView.adapter = adapter

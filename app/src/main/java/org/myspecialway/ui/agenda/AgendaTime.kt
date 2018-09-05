@@ -1,5 +1,6 @@
 package org.myspecialway.ui.agenda
 
+import android.icu.util.HebrewCalendar
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import java.util.*
@@ -11,9 +12,9 @@ object AgendaIndex : TimeFactory {
     /**
      * Looks at the left number [->11 0] that represents the hours
      */
-    override fun convertTimeFromIndex(timeIndex: String) = when (timeIndex.substringBeforeLast(timeIndex.last())) {
+    override fun convertTimeFromIndex(timeIndex: String) = when (getTimeIndex(timeIndex)) {
         "0" -> Time(createHour(7), day(timeIndex), "8:00 - 7:00")
-        "1" -> Time(createHour(8), day(timeIndex), "9:00- 8:00")
+        "1" -> Time(createHour(8), day(timeIndex), "9:00 - 8:00")
         "2" -> Time(createHour(9), day(timeIndex), "10:00 - 9:00")
         "3" -> Time(createHour(10), day(timeIndex), "11:00 - 10:00")
         "4" -> Time(createHour(11), day(timeIndex), "12:00 - 11:00")
@@ -27,8 +28,11 @@ object AgendaIndex : TimeFactory {
         "12" -> Time(createHour(19), day(timeIndex), "20:00 - 19:00")
         "13" -> Time(createHour(20), day(timeIndex), "21:00 - 20:00")
         "14" -> Time(createHour(21), day(timeIndex), "22:00 - 21:00")
+
         else -> throw Exception("Index on time conversion doesn't exists.")
     }
+
+    fun getTimeIndex(timeIndex: String) = timeIndex.substringBeforeLast(timeIndex.last())
 
     /**
      * Looks at the left number [1 0<-] that represents the days
@@ -49,7 +53,8 @@ object AgendaIndex : TimeFactory {
      */
     private fun createHour(hour: Int): Date {
         val cal = Calendar.getInstance()
-        cal.set(Calendar.HOUR, hour)
+
+        cal.set(Calendar.HOUR_OF_DAY, hour)
         cal.set(Calendar.MINUTE, 0)
         cal.set(Calendar.SECOND, 0)
         return cal.time

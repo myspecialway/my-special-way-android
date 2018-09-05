@@ -6,14 +6,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main_screen.*
-import org.myspecialway.R
-import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
+import org.myspecialway.R
 import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.Navigation
-import org.myspecialway.ui.notifications.NotificationAlarmManager
 import org.myspecialway.ui.agenda.*
 import org.myspecialway.ui.login.UserModel
+import org.myspecialway.ui.notifications.NotificationAlarmManager
 
 class MainScreenActivity : BaseActivity() {
 

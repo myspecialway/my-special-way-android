@@ -13,7 +13,7 @@ interface JWTBase64 {
 
 class TokenParser @JvmOverloads constructor(private val base64: JWTBase64 = JWTBase64Impl()) {
 
-    class JWTBase64Impl : JWTBase64 {
+    open class JWTBase64Impl : JWTBase64 {
 
         override fun encode(toEncode: String): String {
             return Base64.encodeToString(toEncode.toByteArray(), Base64.URL_SAFE or Base64.NO_WRAP or Base64.NO_PADDING)

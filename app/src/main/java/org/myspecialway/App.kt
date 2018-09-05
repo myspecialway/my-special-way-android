@@ -16,6 +16,7 @@ class App : Application() {
         startKoin(this, mySpecialWay)
         instance = this
 
+
         configurePicassoOffline()
     }
 

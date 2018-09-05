@@ -70,6 +70,15 @@ fun Date.addHour(hours: Int): Date {
 }
 
 
+fun Date.roundSeconds(): Date {
+    val cal = Calendar.getInstance()
+    cal.time = this
+    cal.add(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY))
+    cal.add(Calendar.MINUTE, cal.get(Calendar.MINUTE))
+    cal.add(Calendar.SECOND, 0)
+    return cal.time
+}
+
 fun Context.logout() {
     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
     sharedPreferences.edit().clear().apply()
@@ -91,10 +100,11 @@ fun Activity.hideKeyboard() {
 fun Button.enable(enable: Boolean) = when (enable) {
     true -> {
         this.isEnabled = true
-        animate().setDuration(800).setInterpolator(AccelerateDecelerateInterpolator()).alpha(1f).start()
+        animate().setDuration(400).setInterpolator(AccelerateDecelerateInterpolator()).alpha(1f).start()
     }
     false -> {
         this.isEnabled = false
-        animate().setDuration(800).setInterpolator(AccelerateDecelerateInterpolator()).alpha(.5f).start()
+        animate().setDuration(400).setInterpolator(AccelerateDecelerateInterpolator()).alpha(.5f).start()
     }
+
 }

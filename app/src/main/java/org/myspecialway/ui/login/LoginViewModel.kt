@@ -11,7 +11,7 @@ import org.myspecialway.session.Token
 // States
 sealed class LoginData
 
-data class LoginSuccess(val allowNext: Boolean) : LoginData()
+object LoginSuccess : LoginData()
 data class LoginError(val throwable: Throwable) : LoginData()
 
 class LoginViewModel(private val repository: LoginRepository,
@@ -27,14 +27,14 @@ class LoginViewModel(private val repository: LoginRepository,
                 .doOnSubscribe { progress.value = View.VISIBLE }
                 .doFinally { progress.value = View.GONE }
                 .subscribe({
-                    loginLive.value = LoginSuccess(true)
+                    loginLive.value = LoginSuccess
                 }, { loginLive.value = LoginError(it) }
                 )
     }
 
     fun checkLoggedIn() {
         when (Token().getToken(sp).accessToken?.isNotEmpty()) {
-            true -> loginLive.value = LoginSuccess(true)
+            true -> loginLive.value = LoginSuccess
             false -> loginLive.value = LoginError(Throwable("Can't Login"))
         }
     }

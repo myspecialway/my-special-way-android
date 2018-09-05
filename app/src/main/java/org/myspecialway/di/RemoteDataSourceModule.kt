@@ -1,30 +1,30 @@
 package org.myspecialway.di
 
-import android.content.Context
-import android.content.SharedPreferences
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module.applicationContext
+import org.koin.dsl.module.module
 import org.myspecialway.data.remote.RemoteDataSource
 import org.myspecialway.data.remote.TokenInterceptor
-import org.myspecialway.di.RemoteProperties.BASE_URL
-import org.myspecialway.session.Token
+import org.myspecialway.di.RemoteProperties.TEMP
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RemoteProperties {
-    const val BASE_URL = "http://msw-dev.eastus.cloudapp.azure.com:3000/"
+//    const val BASE_URL = "http://msw-dev.eastus.cloudapp.azure.com:3000/"
+    const val TEMP = "http://104.211.5.234:3000/"
 }
 
-val remoteDataSourceModel = applicationContext {
+val remoteDataSourceModel = module {
 
-    bean { createOkHttpClient(get()) }
+    single { createOkHttpClient(get()) }
 
-    bean { TokenInterceptor(get(),get() ) }
+    single { TokenInterceptor(get(),get() ) }
 
-    bean { createWebService<RemoteDataSource>(get(), BASE_URL) }
+    single { createWebService<RemoteDataSource>(get(), TEMP) }
+
 }
 
 fun createOkHttpClient(tokenInterceptor: TokenInterceptor): OkHttpClient {

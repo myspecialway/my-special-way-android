@@ -26,8 +26,7 @@ data class UserModel(
         var username: String? = null,
         var photo: String? = null,
         var role: String? = null,
-        var authData: LoginAuthData? = null
-) {
+        var authData: LoginAuthData? = null) {
 
     fun storeUserModel(sp: SharedPreferences, userModel: UserModel) =
             sp.edit().apply {
@@ -45,7 +44,8 @@ data class UserModel(
 
     fun fullName(): String = "$firstName $lastName"
 
-    fun mapUser(loginResponse: LoginResponse, authData: LoginAuthData) {
+
+    fun map(loginResponse: LoginResponse, authData: LoginAuthData) = apply {
         val parsed = TokenParser().parsePayload(loginResponse.accessToken)
         this.id = parsed.id
         this.authData = authData

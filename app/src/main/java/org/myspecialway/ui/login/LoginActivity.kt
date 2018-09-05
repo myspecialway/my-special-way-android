@@ -1,7 +1,6 @@
 package org.myspecialway.ui.login
 
 import android.arch.lifecycle.Observer
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -10,8 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
 import kotlinx.android.synthetic.main.activity_login_layout.*
-import org.koin.android.architecture.ext.viewModel
-import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 import org.myspecialway.R
 import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.Navigation
@@ -22,7 +20,6 @@ import java.util.concurrent.TimeUnit
 class LoginActivity : BaseActivity() {
 
     private val viewModel: LoginViewModel by viewModel()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +72,7 @@ class LoginActivity : BaseActivity() {
         viewModel.progress.observe(this, Observer { progress.visibility = it ?: View.GONE })
         viewModel.loginLive.observe(this, Observer { state ->
             when (state) {
-                is LoginSuccess -> if (state.allowNext) Navigation.toMainActivity(this)
+                is LoginSuccess -> Navigation.toMainActivity(this)
                 is LoginError -> showLoginError {
                     cancelable = false
                     isBackGroundTransparent = false

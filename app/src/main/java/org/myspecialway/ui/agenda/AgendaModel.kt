@@ -28,7 +28,6 @@ data class Class(
 
 )
 
-
 @Entity()
 data class Schedule(
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "schedule_id") @NonNull val id: Int,
@@ -57,7 +56,8 @@ data class Lesson(
 
 // UI Models
 @Parcelize
-data class ScheduleRenderModel(var title: String? = null,
+data class ScheduleRenderModel(var index: String? = null,
+        var title: String? = null,
                                var image: String? = null,
                                var time: Time? = null,
                                var isNow: Boolean = false) : Parcelable, ViewType {
