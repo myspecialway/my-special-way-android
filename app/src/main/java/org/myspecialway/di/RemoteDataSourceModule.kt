@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit
 
 object RemoteProperties {
 //    const val BASE_URL = "http://msw-dev.eastus.cloudapp.azure.com:3000/"
-    const val TEMP = "http://104.211.5.234:3000/"
+    const val TEMP = "http://msw-server.azurewebsites.net/"
 }
 
 val remoteDataSourceModel = module {
