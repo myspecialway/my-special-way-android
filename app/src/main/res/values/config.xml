@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="baseUrl">http://msw-dev.eastus.cloudapp.azure.com:3000/</string>
+    <string name="baseUrl">https://msw-server.azurewebsites.net/</string>
 </resources>
