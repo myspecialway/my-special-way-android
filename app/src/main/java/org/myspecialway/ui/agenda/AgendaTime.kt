@@ -32,7 +32,7 @@ object AgendaIndex : TimeFactory {
         else -> throw Exception("Index on time conversion doesn't exists.")
     }
 
-    fun getTimeIndex(timeIndex: String) = timeIndex.substringBeforeLast(timeIndex.last())
+    fun getTimeIndex(timeIndex: String) = timeIndex.substringBefore('_');// substringBeforeLast(timeIndex.last())
 
     /**
      * Looks at the left number [1 0<-] that represents the days
