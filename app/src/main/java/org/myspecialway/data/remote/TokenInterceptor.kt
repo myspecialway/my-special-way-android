@@ -29,7 +29,7 @@ class TokenInterceptor(private val token: Token,
         val modifiedRequest: Request
 
         modifiedRequest = original.newBuilder()
-                .addHeader(headerKey, headerValue(token.accessToken ?: ""))
+                .addHeader(headerKey, headerValue(token.getToken(sp).accessToken ?: ""))
                 .build()
         val response = chain.proceed(modifiedRequest)
 
@@ -53,8 +53,10 @@ class TokenInterceptor(private val token: Token,
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(RemoteDataSource::class.java)
-                .performLogin(buildJson(auth)).subscribe({
-                    token.storeAccessToken(sp, Token().map(it.accessToken))
+                .performLogin(buildJson(auth)).subscribe({ res ->
+                    token.let {
+                        it.storeAccessToken(sp, it.map(res.accessToken))
+                    }
                 }, {
                     App.instance?.applicationContext?.logout()
                 })
