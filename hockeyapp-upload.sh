@@ -30,7 +30,6 @@ curl https://rink.hockeyapp.net/api/2/apps/$HOCKEY_APP_ID/app_versions \
   -F notify="1" \
   -F notes="$RELEASE_NOTES" \
   -F notes_type="0" \
-  -F tags="beta" \
   -F ipa="@$OUTPUTDIR/$APP_NAME.apk" \
   -H "X-HockeyAppToken: $HOCKEY_TOKEN"
 fi
