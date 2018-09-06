@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'jacoco-android'
+
+apply plugin: 'jacoco'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.apollographql.android'
@@ -10,6 +11,52 @@ ext {
     retrofit_version = '2.2.0'
     rxjava_version = '2.1.7'
     koin_version = '1.0.0-RC-1'
+
+    coverageSourceDirs = 'src/test/java'
+}
+
+jacoco {
+    toolVersion = "0.7.9"
+    reportsDir = file("$buildDir/reports")
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports for Debug build"
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    // what to exclude from coverage report
+    // UI, "noise", generated classes, platform classes, etc.
+    def excludes = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/*$ViewInjector*.*',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            '**/*Fragment.*',
+            '**/*Activity.*'
+    ]
+    // generated classes
+    classDirectories = fileTree(
+            dir: "$buildDir/intermediates/classes/debug",
+            excludes: excludes
+    ) + fileTree(
+            dir: "$buildDir/tmp/kotlin-classes/debug",
+            excludes: excludes
+    )
+
+    // sources
+    sourceDirectories = files([
+            android.sourceSets.main.java.srcDirs,
+            "src/main/kotlin"
+    ])
+    executionData = files("$buildDir/jacoco/testDebugUnitTest.exec")
 }
 
 androidExtensions {
