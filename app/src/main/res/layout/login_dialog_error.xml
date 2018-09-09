@@ -13,12 +13,13 @@
         android:src="@drawable/ic_error" />
 
     <TextView
+        android:id="@+id/login_error_title"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         android:gravity="center_horizontal"
         android:lineSpacingExtra="4dp"
-        android:text="הסיסמא והשם משתמש לא תקין"
+        android:text="@string/login_error_title"
         android:textSize="18sp"
         android:textStyle="bold" />
 

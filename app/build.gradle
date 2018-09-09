@@ -132,11 +132,20 @@ dependencies {
     testImplementation 'org.mockito:mockito-inline:2.21.0'
 
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1"
-    testImplementation 'com.android.support.test:runner:1.0.2'
+//    testImplementation 'com.android.support.test:runner:1.0.2'
 
     testImplementation "com.google.truth:truth:0.42"
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+//    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+//    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    testImplementation 'com.android.support.test:runner:1.0.2'
+    testImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    testImplementation 'com.android.support.test:rules:1.0.2'
+
+
+
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 }
 
 // Must be in the end of file
