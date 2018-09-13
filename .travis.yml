@@ -56,6 +56,7 @@ before_script:
 script:
 - "./gradlew clean assembleDebugUnsigned testDebugUnitTest"
 - "./gradlew build jacocoTestReport"
+- "./gradlew connectedAndroidTest"
 after_success:
 - bash <(curl -s https://codecov.io/bash)
 before_deploy:
