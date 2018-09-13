@@ -16,6 +16,7 @@ import java.util.*
 
 // State
 sealed class AgendaData
+
 data class ListData(val scheduleList: List<ViewType>) : AgendaData()
 data class Alarms(val list: List<ScheduleRenderModel>) : AgendaData()
 data class CurrentSchedule(val schedule: ScheduleRenderModel, val position: Int) : AgendaData()
@@ -26,7 +27,9 @@ class AgendaViewModel(private val repository: AgendaRepository,
 
     val agendaLive = MutableLiveData<AgendaData>()
 
-    init { getDailySchedule() }
+    init {
+        getDailySchedule()
+    }
 
     private fun getDailySchedule() = launch {
         repository.getSchedule()
@@ -52,7 +55,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
 
     private fun getTodaySchedule(list: MutableList<ScheduleRenderModel>) =
             list.filter { AgendaIndex.todayWeekIndex() == it.time?.dayDisplay }
-                    .distinctBy { it.title }
+                    .distinctBy { it.index }
 
     private fun activateAlarmNextHours(list: List<ScheduleRenderModel>) =
             list.forEachIndexed { index, scheduleRenderModel ->
@@ -67,11 +70,13 @@ class AgendaViewModel(private val repository: AgendaRepository,
 
     private fun mapScheduleRenderModel(schedule: Schedule) = ScheduleRenderModel()
             .apply {
-        val currentTime = Calendar.getInstance(TimeZone.getDefault()).time
-        title = schedule.lesson.title
-        image = schedule.lesson.icon
-        time = schedule.index.let { AgendaIndex.convertTimeFromIndex(it) }
-        isNow = currentTime.after(time?.date) && currentTime.before(time!!.date.addHour(1))
-    }
 
+                val currentTime = Calendar.getInstance(TimeZone.getDefault()).time
+                index = schedule.index
+                title = schedule.lesson.title
+                image = schedule.lesson.icon
+                time = schedule.index.let { AgendaIndex.convertTimeFromIndex(it) }
+                isNow = currentTime.after(time?.date) && currentTime.before(time!!.date.addHour(1))
+
+            }
 }

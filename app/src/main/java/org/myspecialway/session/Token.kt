@@ -17,14 +17,21 @@ data class Token(var accessToken: String? = null, var issuedTimeSec: Long? = nul
         if (preferences.contains(TOKEN_MODEL)) {
             return Gson().fromJson<Token>(preferences.getString(TOKEN_MODEL, ""), Token::class.java)
         }
-
         return Token()
     }
 
-    fun mapToken(token: String) {
-        this.accessToken = token
-        this.issuedTimeSec = TokenParser().parsePayload(token).iat
-        this.expirationTimeSec = TokenParser().parsePayload(token).exp
+    fun map(token: String) = apply {
+        accessToken = token
+        issuedTimeSec = TokenParser().parsePayload(token).iat
+        expirationTimeSec = TokenParser().parsePayload(token).exp
+    }
+
+
+
+    fun map(token: String, tokenParser: TokenParser) = apply {
+        accessToken = token
+        issuedTimeSec = tokenParser.parsePayload(token).iat
+        expirationTimeSec = tokenParser.parsePayload(token).exp
     }
 
     val isValid: Boolean

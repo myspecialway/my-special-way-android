@@ -16,9 +16,7 @@ class LoginRepositoryImpl(private val remoteDataSource: RemoteDataSource,
             remoteDataSource.performLogin(buildJson(auth))
                     .toFlowable()
                     .doOnNext { res ->
-                        val mappedUser = UserModel().apply { mapUser(res, auth) }
-                        val mappedToken = Token().apply { mapToken(res.accessToken)  }
-                        saveLoginResponse(mappedUser, mappedToken)
+                        saveLoginResponse(UserModel().map(res, auth), Token().map(res.accessToken))
                     }
 
     private fun saveLoginResponse(userModel: UserModel, token: Token) {
@@ -26,6 +24,7 @@ class LoginRepositoryImpl(private val remoteDataSource: RemoteDataSource,
         Token().storeAccessToken(sp, token)
     }
 }
+
 fun buildJson(authData: LoginAuthData): JsonObject =
         JsonObject().apply {
             addProperty("username", authData.username)

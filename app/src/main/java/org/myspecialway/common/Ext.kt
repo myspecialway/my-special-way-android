@@ -100,11 +100,11 @@ fun Activity.hideKeyboard() {
 fun Button.enable(enable: Boolean) = when (enable) {
     true -> {
         this.isEnabled = true
-        animate().setDuration(800).setInterpolator(AccelerateDecelerateInterpolator()).alpha(1f).start()
+        animate().setDuration(400).setInterpolator(AccelerateDecelerateInterpolator()).alpha(1f).start()
     }
     false -> {
         this.isEnabled = false
-        animate().setDuration(800).setInterpolator(AccelerateDecelerateInterpolator()).alpha(.5f).start()
+        animate().setDuration(400).setInterpolator(AccelerateDecelerateInterpolator()).alpha(.5f).start()
     }
 
 }

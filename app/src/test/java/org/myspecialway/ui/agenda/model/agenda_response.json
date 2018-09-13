@@ -1,0 +1,296 @@
+{
+  "data": {
+    "student": {
+      "schedule": [
+        {
+          "index": "00",
+          "lesson": {
+            "title": "קבלת תלמידים",
+            "icon": "no-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "01",
+          "lesson": {
+            "title": "קבלת תלמידים",
+            "icon": "no-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "02",
+          "lesson": {
+            "title": "קבלת תלמידים",
+            "icon": "no-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "03",
+          "lesson": {
+            "title": "קבלת תלמידים",
+            "icon": "no-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "04",
+          "lesson": {
+            "title": "קבלת תלמידים",
+            "icon": "no-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "05",
+          "lesson": {
+            "title": "קבלת תלמידים",
+            "icon": "no-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "30",
+          "lesson": {
+            "title": "ארוחת בוקר",
+            "icon": "breakfest-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "31",
+          "lesson": {
+            "title": "ארוחת בוקר",
+            "icon": "breakfest-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "32",
+          "lesson": {
+            "title": "ארוחת בוקר",
+            "icon": "breakfest-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "33",
+          "lesson": {
+            "title": "ארוחת בוקר",
+            "icon": "breakfest-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "34",
+          "lesson": {
+            "title": "ארוחת בוקר",
+            "icon": "breakfest-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "35",
+          "lesson": {
+            "title": "ארוחת בוקר",
+            "icon": "breakfest-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "40",
+          "lesson": {
+            "title": "הפסקה",
+            "icon": "break-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "41",
+          "lesson": {
+            "title": "הפסקה",
+            "icon": "break-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "42",
+          "lesson": {
+            "title": "הפסקה",
+            "icon": "break-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "43",
+          "lesson": {
+            "title": "הפסקה",
+            "icon": "break-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "44",
+          "lesson": {
+            "title": "הפסקה",
+            "icon": "break-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "45",
+          "lesson": {
+            "title": "הפסקה",
+            "icon": "break-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "80",
+          "lesson": {
+            "title": "ארוחת צהריים",
+            "icon": "lunch-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "81",
+          "lesson": {
+            "title": "ארוחת צהריים",
+            "icon": "lunch-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "82",
+          "lesson": {
+            "title": "ארוחת צהריים",
+            "icon": "lunch-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "83",
+          "lesson": {
+            "title": "ארוחת צהריים",
+            "icon": "lunch-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "84",
+          "lesson": {
+            "title": "ארוחת צהריים",
+            "icon": "lunch-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "85",
+          "lesson": {
+            "title": "ארוחת צהריים",
+            "icon": "lunch-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "90",
+          "lesson": {
+            "title": "הפסקה",
+            "icon": "break-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "91",
+          "lesson": {
+            "title": "הפסקה",
+            "icon": "break-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "92",
+          "lesson": {
+            "title": "הפסקה",
+            "icon": "break-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "93",
+          "lesson": {
+            "title": "הפסקה",
+            "icon": "break-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "94",
+          "lesson": {
+            "title": "הפסקה",
+            "icon": "break-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "95",
+          "lesson": {
+            "title": "הפסקה",
+            "icon": "break-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "140",
+          "lesson": {
+            "title": "פיזור תלמידים",
+            "icon": "dismiss-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "141",
+          "lesson": {
+            "title": "פיזור תלמידים",
+            "icon": "dismiss-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "142",
+          "lesson": {
+            "title": "פיזור תלמידים",
+            "icon": "dismiss-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "143",
+          "lesson": {
+            "title": "פיזור תלמידים",
+            "icon": "dismiss-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "144",
+          "lesson": {
+            "title": "פיזור תלמידים",
+            "icon": "dismiss-icon"
+          },
+          "location": null
+        },
+        {
+          "index": "145",
+          "lesson": {
+            "title": "פיזור תלמידים",
+            "icon": "dismiss-icon"
+          },
+          "location": null
+        }
+      ]
+    }
+  }
+}

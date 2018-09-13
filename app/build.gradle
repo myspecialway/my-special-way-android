@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'jacoco-android'
+
+apply plugin: 'jacoco'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.apollographql.android'
@@ -9,7 +10,53 @@ ext {
     okhttp_version = '3.8.1'
     retrofit_version = '2.2.0'
     rxjava_version = '2.1.7'
+    koin_version = '1.0.0-RC-1'
 
+    coverageSourceDirs = 'src/test/java'
+}
+
+jacoco {
+    toolVersion = "0.7.9"
+    reportsDir = file("$buildDir/reports")
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports for Debug build"
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    // what to exclude from coverage report
+    // UI, "noise", generated classes, platform classes, etc.
+    def excludes = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/*$ViewInjector*.*',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            '**/*Fragment.*',
+            '**/*Activity.*'
+    ]
+    // generated classes
+    classDirectories = fileTree(
+            dir: "$buildDir/intermediates/classes/debug",
+            excludes: excludes
+    ) + fileTree(
+            dir: "$buildDir/tmp/kotlin-classes/debug",
+            excludes: excludes
+    )
+
+    // sources
+    sourceDirectories = files([
+            android.sourceSets.main.java.srcDirs,
+            "src/main/kotlin"
+    ])
+    executionData = files("$buildDir/jacoco/testDebugUnitTest.exec")
 }
 
 androidExtensions {
@@ -87,12 +134,13 @@ dependencies {
     // Android architecture components
     implementation "android.arch.lifecycle:extensions:$arch_version"
     implementation "android.arch.lifecycle:viewmodel:$arch_version"
+    testImplementation "android.arch.core:core-testing:$arch_version"
 
     // Database
     implementation "android.arch.persistence.room:rxjava2:1.1.1"
     implementation "android.arch.persistence.room:runtime:1.1.1"
     kapt "android.arch.persistence.room:compiler:1.1.1"
-
+    testImplementation "android.arch.core:core-testing:$arch_version"
     // Network
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
@@ -111,23 +159,27 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
 
-    // Koin
-    implementation "org.koin:koin-core:0.9.3"
-    implementation "org.koin:koin-android-architecture:0.9.3"
-    testImplementation "org.koin:koin-test:0.9.3"
 
+    // Koin for Android
+    implementation "org.koin:koin-android:$koin_version"
+    // Koin Android Scope feature
+    implementation "org.koin:koin-android-scope:$koin_version"
+    // Koin Android ViewModel feature
+    implementation "org.koin:koin-android-viewmodel:$koin_version"
+    testImplementation 'org.koin:koin-test:1.0.0-RC-1'
 
     // Glide
-//    implementation 'com.github.bumptech.glide:glide:4.8.0'
-//    kapt 'com.github.bumptech.glide:compiler:4.8.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
 
 
     // Testing frameworks
     testImplementation 'junit:junit:4.12'
+    
+    testImplementation 'org.mockito:mockito-inline:2.21.0'
 
-    testImplementation 'org.mockito:mockito-inline:2.19.0'
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1"
+    testImplementation 'com.android.support.test:runner:1.0.2'
 
     testImplementation "com.google.truth:truth:0.42"
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
