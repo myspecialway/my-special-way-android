@@ -7,6 +7,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.jetbrains.annotations.TestOnly;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,11 +28,15 @@ import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
-/**
- * ======> When running these test the user should be sign out. <==========
- */
+
 @RunWith(AndroidJUnit4.class)
 public class LoginActivityTest {
+
+    @Before
+    public void before() {
+        Utils.clearPreferences(activityTestRule.getActivity());
+    }
+
 
     @Rule
     public ActivityTestRule<LoginActivity> activityTestRule = new ActivityTestRule<>(LoginActivity.class);
@@ -107,7 +112,7 @@ public class LoginActivityTest {
 
         assertTrue(activityTestRule.getActivity().isFinishing());
 
-        PreferenceManager.getDefaultSharedPreferences(activityTestRule.getActivity()).edit().clear().apply();
+        Utils.clearPreferences(activityTestRule.getActivity());
     }
 
 
