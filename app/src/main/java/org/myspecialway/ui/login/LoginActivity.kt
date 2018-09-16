@@ -83,17 +83,18 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun onKeyboardChange(view: View, top: Int) {
-        if (top == 0) view.animate()
-                .translationY(-250f)
-                .setInterpolator(AccelerateDecelerateInterpolator())
-                .start()
-        else view.animate()
-                .translationY(0f)
-                .setInterpolator(AccelerateDecelerateInterpolator())
-                .start()
+        if (top == 0) animateLogo(view, -250f)
+        else animateLogo(view, 0)
 
         val param = view.layoutParams as ConstraintLayout.LayoutParams
         param.setMargins(0, top, 10, 10)
         view.layoutParams = param
+    }
+
+    private fun animateLogo(view: View, y: Float) {
+        view.animate()
+                .translationY(y)
+                .setInterpolator(AccelerateDecelerateInterpolator())
+                .start()
     }
 }
