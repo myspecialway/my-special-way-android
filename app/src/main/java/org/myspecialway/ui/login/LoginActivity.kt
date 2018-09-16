@@ -9,7 +9,8 @@ import kotlinx.android.synthetic.main.activity_login_layout.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.myspecialway.R
 import org.myspecialway.common.*
-import org.myspecialway.common.KeyboardStatus.*
+import org.myspecialway.common.KeyboardStatus.CLOSED
+import org.myspecialway.common.KeyboardStatus.OPEN
 
 class LoginActivity : BaseActivity() {
 
@@ -84,7 +85,7 @@ class LoginActivity : BaseActivity() {
 
     private fun onKeyboardChange(view: View, top: Int) {
         if (top == 0) animateLogo(view, -250f)
-        else animateLogo(view, 0)
+        else animateLogo(view, 0f)
 
         val param = view.layoutParams as ConstraintLayout.LayoutParams
         param.setMargins(0, top, 10, 10)
