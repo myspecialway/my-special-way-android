@@ -22,19 +22,11 @@ object Navigation {
             intent.component = ComponentName("com.att.indar.poc", "com.unity3d.player.UnityPlayerActivity")
             intent.putExtra("destination", schedule?.title)
             context.startActivity(intent)
-        } catch (e: Exception) {
-
-        }
+        } catch (e: Exception) { }
     }
 
     fun toMainActivity(activity: Activity) {
         val intent = Intent(activity, MainScreenActivity::class.java)
-        activity.startActivity(intent)
-        activity.finish()
-    }
-
-    fun toLoginActivity(activity: Activity) {
-        val intent = Intent(activity, LoginActivity::class.java)
         activity.startActivity(intent)
         activity.finish()
     }

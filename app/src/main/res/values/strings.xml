@@ -20,4 +20,6 @@
     <string name="back_button_description">Back button</string>
     <string name="day_schedule_title">סדר היום שלי</string>
     <string name="lesson_image">Lesson Image</string>
+    <string name="user_error">נא להזין שם משתמש</string>
+    <string name="pass_error">נא להזין סיסמא</string>
 </resources>

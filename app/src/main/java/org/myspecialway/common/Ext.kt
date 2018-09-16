@@ -68,6 +68,7 @@ fun Context.logout() {
     this.startActivity(intent)
 }
 
+fun Int.dpToPixels(context: Context) = (this * context.resources.displayMetrics.density + 0.5f).toInt()
 
 fun Activity.hideKeyboard() {
     val view = this.currentFocus
@@ -80,10 +81,8 @@ fun Activity.hideKeyboard() {
 fun Button.enable(enable: Boolean) = when (enable) {
     true -> {
         this.isEnabled = true
-        animate().setDuration(400).setInterpolator(AccelerateDecelerateInterpolator()).alpha(1f).start()
     }
     false -> {
         this.isEnabled = false
-        animate().setDuration(400).setInterpolator(AccelerateDecelerateInterpolator()).alpha(.5f).start()
     }
 }

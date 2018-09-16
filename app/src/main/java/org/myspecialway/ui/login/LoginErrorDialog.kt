@@ -28,7 +28,24 @@ class LoginErrorDialog(context: Context) : BaseDialog() {
             }
 }
 
-inline fun Activity.showLoginError (func: LoginErrorDialog.() -> Unit): Unit =
+
+class LoadingDialog(context: Context) :BaseDialog() {
+    override val dialogView: View by lazy {
+        LayoutInflater.from(context).inflate(R.layout.loading_progress_layout, null)
+    }
+    override val builder: AlertDialog.Builder = AlertDialog.Builder(context).setView(dialogView)
+
+}
+
+fun Activity.createLoadingDialog() : AlertDialog =
+        LoadingDialog(this).apply {
+            isBackGroundTransparent = true
+            cancelable = false
+        }.create()
+
+
+inline fun Activity.showLoginError(func: LoginErrorDialog.() -> Unit): Unit =
         LoginErrorDialog(this).apply {
             func()
         }.create().show()
+

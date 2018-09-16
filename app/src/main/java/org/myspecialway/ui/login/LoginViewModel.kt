@@ -32,7 +32,7 @@ class LoginViewModel(private val repository: LoginRepository,
                 )
     }
 
-    fun checkLoggedIn() {
+    fun checkIfLoggedIn() {
         when (Token().getToken(sp).accessToken?.isNotEmpty()) {
             true -> loginLive.value = LoginSuccess
             false -> loginLive.value = LoginError(Throwable("Can't Login"))
