@@ -1,4 +1,5 @@
 package org.myspecialway.ui.login
+
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
@@ -11,6 +12,9 @@ import org.myspecialway.R
 import org.myspecialway.common.*
 import org.myspecialway.common.KeyboardStatus.CLOSED
 import org.myspecialway.common.KeyboardStatus.OPEN
+import org.myspecialway.ui.agenda.EMPTY_TEXT
+import retrofit2.HttpException
+import java.net.UnknownHostException
 
 class LoginActivity : BaseActivity() {
 
@@ -28,12 +32,14 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun observeKeyboard() {
-        composite?.add(KeyboardManager(this).status().subscribe {
-            when (it) {
-                OPEN -> onKeyboardChange(appIcon, 0.dpToPixels(this))
-                CLOSED -> onKeyboardChange(appIcon, 72.dpToPixels(this))
-            }
-        })
+        composite?.add(KeyboardManager(this)
+                .status()
+                .subscribe {
+                    when (it) {
+                        OPEN -> onKeyboardChange(appIcon, 0.dpToPixels(this))
+                        CLOSED -> onKeyboardChange(appIcon, 72.dpToPixels(this))
+                    }
+                })
     }
 
     private fun observeInputFields() {
@@ -51,11 +57,11 @@ class LoginActivity : BaseActivity() {
     private fun handleInputError(pass: CharSequence, username: String): Boolean {
         // check user
         if (username.isEmpty()) usernameWrapper.error = getString(R.string.user_error)
-        else usernameWrapper.error = ""
+        else usernameWrapper.error = EMPTY_TEXT
 
         // check password
         if (pass.isEmpty()) passwordWrapper.error = getString(R.string.pass_error)
-        else passwordWrapper.error = ""
+        else passwordWrapper.error = EMPTY_TEXT
 
         return username.isNotEmpty() && pass.isNotEmpty()
     }
@@ -64,11 +70,7 @@ class LoginActivity : BaseActivity() {
         viewModel.loginLive.observe(this, Observer { state ->
             when (state) {
                 is LoginSuccess -> Navigation.toMainActivity(this)
-                is LoginError -> showLoginError {
-                    cancelable = true
-                    isBackGroundTransparent = false
-                    closeIconClickListener { dialog?.dismiss() }
-                }
+                is LoginError -> handleError(state.throwable)
             }
         })
 
@@ -76,6 +78,18 @@ class LoginActivity : BaseActivity() {
             if (it == View.VISIBLE) loadingDialog.show()
             else loadingDialog.hide()
         })
+    }
+
+    private fun handleError(throwable: Throwable) {
+        when (throwable) {
+            is UnknownHostException -> showLoginError {
+                content.text = "מצטערים, אירעה תקלה כללית!"
+                closeIconClickListener { dialog?.dismiss() }
+            }
+
+            is HttpException -> showLoginError { closeIconClickListener { dialog?.dismiss() } }
+        }
+
     }
 
     override fun onDestroy() {
@@ -88,7 +102,7 @@ class LoginActivity : BaseActivity() {
         else animateLogo(view, 0f)
 
         val param = view.layoutParams as ConstraintLayout.LayoutParams
-        param.setMargins(0, top, 10, 10)
+        param.setMargins(0, top, 0, 0)
         view.layoutParams = param
     }
 

@@ -43,10 +43,8 @@ class AgendaActivity : BaseActivity() {
     }
 
     override fun render() {
-
         viewModel.progress.observe(this, Observer { progress.visibility = it ?: View.GONE })
         viewModel.failure.observe(this, Observer { handleError() })
-
 
         viewModel.agendaLive.observe(this, Observer { agenda ->
             when(agenda) {
@@ -60,7 +58,6 @@ class AgendaActivity : BaseActivity() {
                             .toList())
                 }
                 is CurrentSchedule -> scrollToSchedule(agenda.position)
-
             }
         })
     }

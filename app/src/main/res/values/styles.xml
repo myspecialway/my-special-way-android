@@ -52,4 +52,9 @@
         <item name="colorControlActivated">@color/purple</item>
         <item name="colorControlNormal">@android:color/darker_gray</item>
     </style>
+
+    <style name="FullScreen" parent="AppTheme">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>

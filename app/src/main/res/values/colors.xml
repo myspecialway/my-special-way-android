@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#8b66a7</color>
-    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#8b66a7</color>
     <color name="colorToolbarText">#8b66a7</color>
     <color name="cardLessonTitle">#0f3048</color>

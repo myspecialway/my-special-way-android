@@ -11,7 +11,7 @@ abstract class BaseDialog {
     abstract val builder: AlertDialog.Builder
 
     open var cancelable: Boolean = true
-    open var isBackGroundTransparent: Boolean = true
+    open var isBackGroundTransparent: Boolean = false
     open var dialog: AlertDialog? = null
     open fun create(): AlertDialog {
 
