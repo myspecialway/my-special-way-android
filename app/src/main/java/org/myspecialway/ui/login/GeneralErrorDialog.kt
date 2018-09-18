@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.login_dialog_error.view.*
 import org.myspecialway.R
 import org.myspecialway.common.BaseDialog
 
-class LoginErrorDialog(context: Context) : BaseDialog() {
+class GeneralErrorDialog(context: Context) : BaseDialog() {
     override val dialogView: View by lazy {
         LayoutInflater.from(context).inflate(R.layout.login_dialog_error, null)
     }
@@ -34,6 +34,8 @@ class LoginErrorDialog(context: Context) : BaseDialog() {
 }
 
 
+
+
 class LoadingDialog(context: Context) : BaseDialog() {
     override val dialogView: View by lazy {
         LayoutInflater.from(context).inflate(R.layout.loading_progress_layout, null)
@@ -49,8 +51,8 @@ fun Activity.createLoadingDialog(): AlertDialog =
         }.create()
 
 
-inline fun Activity.showLoginError(func: LoginErrorDialog.() -> Unit): Unit =
-        LoginErrorDialog(this).apply {
+inline fun Activity.showLoginError(func: GeneralErrorDialog.() -> Unit): Unit =
+        GeneralErrorDialog(this).apply {
             func()
         }.create().show()
 

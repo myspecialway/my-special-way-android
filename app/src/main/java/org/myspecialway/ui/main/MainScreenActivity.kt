@@ -3,6 +3,7 @@ package org.myspecialway.ui.main
 import android.arch.lifecycle.Observer
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main_screen.*
@@ -32,7 +33,27 @@ class MainScreenActivity : BaseActivity() {
 
     private fun clickListeners() {
         scheduleButton.setOnClickListener { Navigation.toScheduleActivity(this) }
-        navButton.setOnClickListener { Navigation.toUnityNavigation(this, schedule) }
+        navButton.setOnClickListener { showNavigationDialog() }
+    }
+
+    private fun showNavigationDialog() {
+        val listItems = arrayOf("כיתת פטל", "כיתת סחלב", "כיתת דקל")
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("נווט")
+        builder.setSingleChoiceItems(listItems, -1) { dialogInterface, _ ->
+
+            Navigation.toUnityNavigation(this, schedule)
+
+            dialogInterface.dismiss()
+        }
+        // Set the neutral/cancel button click listener
+        builder.setNeutralButton("בטל") { dialog, _ ->
+            // Do something when click the neutral button
+            dialog.cancel()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
     override fun render() {
