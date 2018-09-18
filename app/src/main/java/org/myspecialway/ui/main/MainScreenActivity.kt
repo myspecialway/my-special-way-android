@@ -40,9 +40,9 @@ class MainScreenActivity : BaseActivity() {
         val listItems = arrayOf("כיתת פטל", "כיתת סחלב", "כיתת דקל")
         val builder = AlertDialog.Builder(this)
         builder.setTitle("נווט")
-        builder.setSingleChoiceItems(listItems, -1) { dialogInterface, _ ->
+        builder.setSingleChoiceItems(listItems, -1) { dialogInterface, i ->
 
-            Navigation.toUnityNavigation(this, schedule)
+            Navigation.toUnityNavigation(this, listItems[i])
 
             dialogInterface.dismiss()
         }
