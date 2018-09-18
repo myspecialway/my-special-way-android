@@ -27,6 +27,17 @@ object Navigation {
         }
     }
 
+    fun toUnityNavigation(context: Context, dest: String) {
+        try {
+            val intent = Intent()
+            intent.component = ComponentName("com.att.indar.poc", "com.unity3d.player.UnityPlayerActivity")
+            intent.putExtra("destination", dest)
+            context.startActivity(intent)
+        } catch (e: Exception) {
+
+        }
+    }
+
     fun toMainActivity(activity: Activity) {
         val intent = Intent(activity, MainScreenActivity::class.java)
         activity.startActivity(intent)
