@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import com.google.gson.Gson
 import com.squareup.picasso.Callback
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
@@ -107,4 +108,7 @@ fun Button.enable(enable: Boolean) = when (enable) {
         animate().setDuration(400).setInterpolator(AccelerateDecelerateInterpolator()).alpha(.5f).start()
     }
 
+
 }
+
+fun Any.toJson(): String = Gson().toJson(this)

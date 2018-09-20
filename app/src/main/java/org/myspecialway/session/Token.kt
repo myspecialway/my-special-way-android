@@ -2,6 +2,7 @@ package org.myspecialway.session
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
+import org.myspecialway.common.toJson
 import org.myspecialway.ui.agenda.TOKEN_MODEL
 import org.myspecialway.utils.TokenParser
 
@@ -9,7 +10,7 @@ data class Token(var accessToken: String? = null, var issuedTimeSec: Long? = nul
 
     fun storeAccessToken(sp: SharedPreferences, token: Token) {
         sp.edit().apply {
-            putString(TOKEN_MODEL, Gson().toJson(token))
+            putString(TOKEN_MODEL, token.toJson())
         }.apply()
     }
 
