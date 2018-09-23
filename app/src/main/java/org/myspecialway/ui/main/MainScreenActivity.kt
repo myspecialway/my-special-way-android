@@ -33,27 +33,7 @@ class MainScreenActivity : BaseActivity() {
 
     private fun clickListeners() {
         scheduleButton.setOnClickListener { Navigation.toScheduleActivity(this) }
-        navButton.setOnClickListener { showNavigationDialog() }
-    }
-
-    private fun showNavigationDialog() {
-        val listItems = arrayOf("כיתת פטל", "כיתת סחלב", "כיתת דקל")
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("נווט")
-        builder.setSingleChoiceItems(listItems, -1) { dialogInterface, i ->
-
-            Navigation.toUnityNavigation(this, listItems[i])
-
-            dialogInterface.dismiss()
-        }
-        // Set the neutral/cancel button click listener
-        builder.setNeutralButton("בטל") { dialog, _ ->
-            // Do something when click the neutral button
-            dialog.cancel()
-        }
-
-        val dialog = builder.create()
-        dialog.show()
+        navButton.setOnClickListener { }
     }
 
     override fun render() {
