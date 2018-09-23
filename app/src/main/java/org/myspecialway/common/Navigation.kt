@@ -33,9 +33,7 @@ object Navigation {
             intent.component = ComponentName("com.att.indar.poc", "com.unity3d.player.UnityPlayerActivity")
             intent.putExtra("destination", dest)
             context.startActivity(intent)
-        } catch (e: Exception) {
-
-        }
+        } catch (e: Exception) { }
     }
 
     fun toMainActivity(activity: Activity) {

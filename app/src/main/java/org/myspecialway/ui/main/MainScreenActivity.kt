@@ -37,14 +37,18 @@ class MainScreenActivity : BaseActivity() {
     }
 
 
+    data class DialogModel(val name: String, val id: String)
+
     private fun showNavigationDialog() {
-        val listItems = arrayOf("כיתת פטל", "כיתת סחלב", "כיתת דקל")
+        val listItems = mutableListOf<DialogModel>().apply {
+            add(DialogModel("כיתת סחלב", "B2"))
+            add(DialogModel("כיתת פטל", "C2"))
+        }
+
         val builder = AlertDialog.Builder(this)
         builder.setTitle("נווט")
-        builder.setSingleChoiceItems(listItems, -1) { dialogInterface, i ->
-
-            Navigation.toUnityNavigation(this, listItems[i])
-
+        builder.setSingleChoiceItems(listItems.map { it.name }.toTypedArray(), -1) { dialogInterface, i ->
+            Navigation.toUnityNavigation(this, listItems[i].id)
             dialogInterface.dismiss()
         }
         // Set the neutral/cancel button click listener
