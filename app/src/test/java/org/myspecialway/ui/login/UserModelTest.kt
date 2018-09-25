@@ -1,56 +1,65 @@
-//package org.myspecialway.ui.login
-//
-//
-//import android.content.SharedPreferences
-//import junit.framework.Assert
-//import org.junit.After
-//import org.junit.Before
-//import org.junit.Test
-//import org.koin.standalone.StandAloneContext.startKoin
-//import org.koin.standalone.StandAloneContext.stopKoin
-//import org.koin.standalone.inject
-//import org.koin.test.KoinTest
-//import org.myspecialway.di.localDataSourceModule
-//
-//class UserModelTest : KoinTest {
-//
-//    private val sp: SharedPreferences by inject()
-//
-//    @Before
-//    fun before() {
-//        startKoin(arrayListOf(localDataSourceModule))
-//    }
-//
-//    @After
-//    fun after() {
-//        stopKoin()
-//    }
-//
-//    private val mockUser: UserModel = UserModel().apply {
-//        firstName = "idan"
-//        lastName = "ayalon"
-//        username = "username"
-//        id = "12324"
-//        authData = LoginAuthData("student", "Aa1234")
-//        role = "student"
-//    }
-//
-//    @Test
-//    fun `storeUserModel saves user` () {
-//        UserModel().storeUserModel(sp, mockUser)
-//        Assert.assertNotNull(UserModel().getUser(sp))
-//
-//    }
-//
-//    @Test
-//    fun getUser() {
-//    }
-//
-//    @Test
-//    fun fullName() {
-//    }
-//
-//    @Test
-//    fun map() {
-//    }
-//}
+package org.myspecialway.ui.login
+
+import android.content.SharedPreferences
+import com.google.common.truth.Truth.assertThat
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.doReturn
+import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.Test
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.MockitoAnnotations
+import org.myspecialway.common.toJson
+import org.myspecialway.ui.agenda.USER_MODEL
+
+class UserModelTest{
+
+    @Mock lateinit var sp: SharedPreferences
+
+    @Before
+    fun before(){
+        MockitoAnnotations.initMocks(this)
+    }
+
+    @Test
+    fun `getUser firstTime returnsEmptyObject`() {
+        Mockito.`when`(sp.contains(any())).doReturn(false)
+        val user = UserModel().getUser(sp)
+
+        assertEquals(user.id, null)
+    }
+
+    @Test
+    fun `getUser userExists returnsFullObject`() {
+        var user = UserModel().apply {  firstName = "Msw"
+            lastName = "Student"
+            id = "5b90f6b48314238c344ad06c"
+            username = "null"
+            photo = "null"
+            role = "null"
+            authData = LoginAuthData("student", "Aa123456")
+        }
+        val userJson = user.toJson()
+
+        Mockito.`when`(sp.contains(any())).doReturn(true)
+        Mockito.`when`(sp.getString(USER_MODEL, "")).doReturn(userJson)
+
+        var userModel = UserModel().getUser(sp)
+
+        assertThat(userModel).isEqualTo(user)
+    }
+
+    @Test
+    fun `fullName returnsFullName`() {
+        var user = UserModel().apply {  firstName = "Msw"
+            lastName = "Student"
+            id = "5b90f6b48314238c344ad06c"
+            username = "null"
+            photo = "null"
+            role = "null"
+            authData = LoginAuthData("student", "Aa123456")
+        }
+        assertEquals("Msw Student", user.fullName())
+    }
+}
