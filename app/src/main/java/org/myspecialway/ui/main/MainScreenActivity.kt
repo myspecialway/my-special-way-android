@@ -42,7 +42,7 @@ class MainScreenActivity : BaseActivity() {
     private fun showNavigationDialog() {
         val listItems = mutableListOf<DialogModel>().apply {
             add(DialogModel("כיתת סחלב", "B2"))
-            add(DialogModel("כיתת פטל", "C2"))
+            add(DialogModel("כיתת פטל", "C1"))
         }
 
         val builder = AlertDialog.Builder(this)
