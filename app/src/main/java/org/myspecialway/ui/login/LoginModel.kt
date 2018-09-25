@@ -2,7 +2,7 @@ package org.myspecialway.ui.login
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import org.myspecialway.session.Token
+import org.myspecialway.common.toJson
 import org.myspecialway.ui.agenda.USER_MODEL
 import org.myspecialway.utils.TokenParser
 
@@ -30,12 +30,14 @@ data class UserModel(
 
     fun storeUserModel(sp: SharedPreferences, userModel: UserModel) =
             sp.edit().apply {
-                putString(USER_MODEL, Gson().toJson(userModel))
+                putString(USER_MODEL, userModel.toJson())
             }.apply()
 
     fun getUser(preferences: SharedPreferences): UserModel {
         if (preferences.contains(USER_MODEL)) {
-            return Gson().fromJson<UserModel>(preferences.getString(USER_MODEL, ""), UserModel::class.java)
+            val userModelString = preferences.getString(USER_MODEL, "")
+            val userModel = Gson().fromJson<UserModel>(userModelString, UserModel::class.java)
+            return userModel
         }
 
         return UserModel()
