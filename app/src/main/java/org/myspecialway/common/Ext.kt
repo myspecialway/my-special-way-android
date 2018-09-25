@@ -109,3 +109,5 @@ fun Button.enable(enable: Boolean) = when (enable) {
         animate().setDuration(400).setInterpolator(AccelerateDecelerateInterpolator()).alpha(.5f).start()
     }
 }
+
+fun Any.toJson(): String = Gson().toJson(this)
