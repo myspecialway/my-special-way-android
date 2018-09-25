@@ -28,9 +28,6 @@ import org.myspecialway.ui.login.LoginActivity
 import java.util.*
 import org.myspecialway.R.id.imageView
 
-
-
-
 // use this to avoid layout inflater boilerplate
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
         LayoutInflater.from(context).inflate(layoutRes, this, false)
@@ -50,13 +47,6 @@ fun ImageView.load(url: String) =
                 .into(this)
 
 
-// show snackBar
-fun snackBar(view: View, message: String) = Snackbar
-        .make(view, message, Snackbar.LENGTH_SHORT)
-        .apply { show() }
-
-fun Context.toast(message: String): Toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
-
 fun <T> Flowable<T>.filterAtError(): Flowable<T> = materialize()
         .map {
             it
@@ -71,16 +61,6 @@ fun Date.addHour(hours: Int): Date {
     return cal.time
 }
 
-
-fun Date.roundSeconds(): Date {
-    val cal = Calendar.getInstance()
-    cal.time = this
-    cal.add(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY))
-    cal.add(Calendar.MINUTE, cal.get(Calendar.MINUTE))
-    cal.add(Calendar.SECOND, 0)
-    return cal.time
-}
-
 fun Context.logout() {
     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
     sharedPreferences.edit().clear().apply()
@@ -90,6 +70,7 @@ fun Context.logout() {
     this.startActivity(intent)
 }
 
+fun Int.dpToPixels(context: Context) = (this * context.resources.displayMetrics.density + 0.5f).toInt()
 
 fun Activity.hideKeyboard() {
     val view = this.currentFocus
@@ -102,11 +83,9 @@ fun Activity.hideKeyboard() {
 fun Button.enable(enable: Boolean) = when (enable) {
     true -> {
         this.isEnabled = true
-        animate().setDuration(400).setInterpolator(AccelerateDecelerateInterpolator()).alpha(1f).start()
     }
     false -> {
         this.isEnabled = false
-        animate().setDuration(400).setInterpolator(AccelerateDecelerateInterpolator()).alpha(.5f).start()
     }
 }
 

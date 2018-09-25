@@ -6,17 +6,12 @@ import org.myspecialway.di.mySpecialWay
 import com.squareup.picasso.Picasso
 import com.jakewharton.picasso.OkHttp3Downloader
 
-
-
-
 class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
         startKoin(this, mySpecialWay)
         instance = this
-
-
         configurePicassoOffline()
     }
 

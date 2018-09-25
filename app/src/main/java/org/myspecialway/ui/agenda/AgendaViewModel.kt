@@ -70,6 +70,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
 
     private fun mapScheduleRenderModel(schedule: Schedule) = ScheduleRenderModel()
             .apply {
+
                 val currentTime = Calendar.getInstance(TimeZone.getDefault()).time
                 index = schedule.index
                 title = schedule.lesson.title
@@ -78,5 +79,4 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 isNow = currentTime.after(time?.date) && currentTime.before(time!!.date.addHour(1))
 
             }
-
 }
