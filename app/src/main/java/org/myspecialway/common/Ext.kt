@@ -88,3 +88,5 @@ fun Button.enable(enable: Boolean) = when (enable) {
         this.isEnabled = false
     }
 }
+
+fun Any.toJson(): String = Gson().toJson(this)
