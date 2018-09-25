@@ -3,6 +3,7 @@ package org.myspecialway.common
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
 import android.preference.PreferenceManager
 import android.support.annotation.LayoutRes
 import android.support.design.widget.Snackbar
@@ -107,8 +108,6 @@ fun Button.enable(enable: Boolean) = when (enable) {
         this.isEnabled = false
         animate().setDuration(400).setInterpolator(AccelerateDecelerateInterpolator()).alpha(.5f).start()
     }
-
-
 }
 
 fun Any.toJson(): String = Gson().toJson(this)
