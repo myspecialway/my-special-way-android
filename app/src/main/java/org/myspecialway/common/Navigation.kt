@@ -34,6 +34,7 @@ object Navigation {
         } catch (e: Exception) { }
     }
 
+
     fun toMainActivity(activity: Activity) {
         val intent = Intent(activity, MainScreenActivity::class.java)
         activity.startActivity(intent)
