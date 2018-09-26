@@ -21,6 +21,7 @@
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
+            android:theme="@style/FullScreen"
             >
 
             <intent-filter>

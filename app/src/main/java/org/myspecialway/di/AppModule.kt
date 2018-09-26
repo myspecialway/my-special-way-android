@@ -2,9 +2,11 @@ package org.myspecialway.di
 
 import android.content.Context
 import android.preference.PreferenceManager
+import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 import org.myspecialway.common.ApplicationSchedulerProvider
+import org.myspecialway.common.KeyboardManager
 import org.myspecialway.common.SchedulerProvider
 import org.myspecialway.session.Token
 import org.myspecialway.ui.agenda.AgendaRepository
@@ -26,6 +28,7 @@ val appModule = module {
     single { AgendaRepositoryImpl(get(), get(), get()) as AgendaRepository }
     module("alarms") { single { NotificationAlarmManager(get()) } }
 }
+
 
 
 
