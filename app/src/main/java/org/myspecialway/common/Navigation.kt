@@ -19,7 +19,7 @@ object Navigation {
     fun toUnityNavigation(context: Context, schedule :ScheduleRenderModel) {
         try {
             val intent = Intent()
-            intent.component = ComponentName("com.att.indar.poc", "com.unity3d.player.UnityPlayerActivity")
+            intent.component = ComponentName("org.myspecialway.navigation", "com.unity3d.player.UnityPlayerActivity")
             intent.putExtra("destination", schedule)
             context.startActivity(intent)
         } catch (e: Exception) { }
@@ -28,7 +28,7 @@ object Navigation {
     fun toUnityNavigation(context: Context, destination :String) {
         try {
             val intent = Intent()
-            intent.component = ComponentName("com.att.indar.poc", "com.unity3d.player.UnityPlayerActivity")
+            intent.component = ComponentName("org.myspecialway.navigation", "com.unity3d.player.UnityPlayerActivity")
             intent.putExtra("destination", destination)
             context.startActivity(intent)
         } catch (e: Exception) { }
