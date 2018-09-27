@@ -54,7 +54,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
     }
 
     private fun getTodaySchedule(list: MutableList<ScheduleRenderModel>) =
-            list.filter { AgendaIndex.todayWeekIndex() == it.time?.dayDisplay }
+            list.filter { AgendaIndex.todayWeekIndex(Calendar.getInstance()) == it.time?.dayDisplay }
                     .distinctBy { it.index }
 
     private fun activateAlarmNextHours(list: List<ScheduleRenderModel>) =
