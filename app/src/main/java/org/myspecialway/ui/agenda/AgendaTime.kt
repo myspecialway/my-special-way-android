@@ -60,8 +60,7 @@ object AgendaIndex : TimeFactory {
         return cal.time
     }
 
-    fun todayWeekIndex(): String {
-        val calendar = Calendar.getInstance()
+    fun todayWeekIndex(calendar: Calendar): String {
         val day = calendar.get(Calendar.DAY_OF_WEEK)
 
         return when (day) {

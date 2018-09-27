@@ -1,11 +1,14 @@
 package org.myspecialway.ui.agenda
 
+import com.google.common.truth.Truth
 import io.reactivex.Observable
+import org.junit.Assert
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThat
 import org.junit.Test
 import org.myspecialway.utils.getCurrentHourOfTheDay
 import org.myspecialway.utils.timeIndexCombinations
-
+import java.util.*
 
 
 class AgendaIndexTest {
@@ -53,6 +56,12 @@ class AgendaIndexTest {
         assertEquals("Saturday", todayAtSeven.dayDisplay)
     }
 
+    @Test
+    fun `convertTimeFromIndex with params 07 return Exception`() {
+        Observable.fromCallable { AgendaIndex.convertTimeFromIndex("0_7") }.test()
+                .assertError { true }
+    }
+
 
     @Test
     fun `convertTimeFromIndex return correct date with createHour`() {
@@ -66,10 +75,6 @@ class AgendaIndexTest {
         }
     }
 
-//    @Test
-//    fun `index on time conversion doesn't exists should fail`() {
-//        AssertionError(AgendaIndex.convertTimeFromIndex("33"))
-//    }
 
     @Test
     fun `check convertTimeFromIndex throws an exception`() {
@@ -77,4 +82,61 @@ class AgendaIndexTest {
         Observable.fromCallable { AgendaIndex.convertTimeFromIndex(outOfScopeIndex) }.test()
                 .assertError { true }
     }
+
+    @Test
+    fun `todayWeekIndex return Sunday`() {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+        val todayWeekIndex = AgendaIndex.todayWeekIndex(calendar)
+        assertEquals(todayWeekIndex, "Sunday")
+    }
+
+    @Test
+    fun `todayWeekIndex return Monday`() {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+        val todayWeekIndex = AgendaIndex.todayWeekIndex(calendar)
+        assertEquals(todayWeekIndex, "Monday")
+    }
+
+    @Test
+    fun `todayWeekIndex return Tuesday`() {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY)
+        val todayWeekIndex = AgendaIndex.todayWeekIndex(calendar)
+        assertEquals(todayWeekIndex, "Tuesday")
+    }
+
+    @Test
+    fun `todayWeekIndex return Wednesday`() {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY)
+        val todayWeekIndex = AgendaIndex.todayWeekIndex(calendar)
+        assertEquals(todayWeekIndex, "Wednesday")
+    }
+
+    @Test
+    fun `todayWeekIndex return Thursday`() {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY)
+        val todayWeekIndex = AgendaIndex.todayWeekIndex(calendar)
+        assertEquals(todayWeekIndex, "Thursday")
+    }
+
+    @Test
+    fun `todayWeekIndex return Friday`() {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
+        val todayWeekIndex = AgendaIndex.todayWeekIndex(calendar)
+        assertEquals(todayWeekIndex, "Friday")
+    }
+
+    @Test
+    fun `todayWeekIndex return Saturday`() {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY)
+        val todayWeekIndex = AgendaIndex.todayWeekIndex(calendar)
+        assertEquals(todayWeekIndex, "Saturday")
+    }
+
 }
