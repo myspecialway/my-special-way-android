@@ -2,7 +2,6 @@ package org.myspecialway.ui.login
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.jakewharton.rxbinding2.view.RxView
@@ -14,7 +13,6 @@ import org.myspecialway.common.KeyboardStatus.CLOSED
 import org.myspecialway.common.KeyboardStatus.OPEN
 import org.myspecialway.ui.agenda.EMPTY_TEXT
 import retrofit2.HttpException
-import java.net.UnknownHostException
 
 class LoginActivity : BaseActivity() {
 
@@ -36,8 +34,8 @@ class LoginActivity : BaseActivity() {
                 .status()
                 .subscribe {
                     when (it) {
-                        OPEN -> onKeyboardChange(appIcon, 0.dpToPixels(this))
-                        CLOSED -> onKeyboardChange(appIcon, 72.dpToPixels(this))
+                        OPEN -> onKeyboardChangeAnimation(OPEN)
+                        CLOSED -> onKeyboardChangeAnimation(CLOSED)
                     }
                 })
     }
@@ -82,14 +80,12 @@ class LoginActivity : BaseActivity() {
 
     private fun handleError(throwable: Throwable) {
         when (throwable) {
-            is UnknownHostException -> showLoginError {
-                content.text = "מצטערים, אירעה תקלה כללית!"
+            is HttpException -> showLoginError { closeIconClickListener { dialog?.dismiss() } }
+            else -> showLoginError {
+                content.text = ".לא הצלחנו להכניס אותך למערכת. אנא נסה שוב"
                 closeIconClickListener { dialog?.dismiss() }
             }
-
-            is HttpException -> showLoginError { closeIconClickListener { dialog?.dismiss() } }
         }
-
     }
 
     override fun onDestroy() {
@@ -97,19 +93,23 @@ class LoginActivity : BaseActivity() {
         composite?.dispose()
     }
 
-    private fun onKeyboardChange(view: View, top: Int) {
-        if (top == 0) animateLogo(view, -250f)
-        else animateLogo(view, 0f)
-
-        val param = view.layoutParams as ConstraintLayout.LayoutParams
-        param.setMargins(0, top, 0, 0)
-        view.layoutParams = param
+    private fun onKeyboardChangeAnimation(status: KeyboardStatus) {
+        when (status) {
+             OPEN -> {
+                passwordLayout.animateY(-370f)
+                appIcon.animateY(-470f)
+            }
+            CLOSED -> {
+                passwordLayout.animateY(0f)
+                appIcon.animateY(0f)
+            }
+        }
     }
 
-    private fun animateLogo(view: View, y: Float) {
-        view.animate()
-                .translationY(y)
-                .setInterpolator(AccelerateDecelerateInterpolator())
-                .start()
-    }
+    private fun View.animateY(y: Float) =
+            animate()
+                    .translationY(y)
+                    .setInterpolator(AccelerateDecelerateInterpolator())
+                    .start()
+
 }
