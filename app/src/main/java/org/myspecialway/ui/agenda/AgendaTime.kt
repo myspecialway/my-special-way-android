@@ -32,7 +32,7 @@ object AgendaIndex : TimeFactory {
         else -> throw Exception("Index on time conversion doesn't exists.")
     }
 
-    fun getTimeIndex(timeIndex: String) = timeIndex.substringBefore('_');// substringBeforeLast(timeIndex.last())
+    fun getTimeIndex(timeIndex: String) = timeIndex.substringBefore('_')
 
     /**
      * Looks at the left number [1 0<-] that represents the days
@@ -60,8 +60,7 @@ object AgendaIndex : TimeFactory {
         return cal.time
     }
 
-    fun todayWeekIndex(): String {
-        val calendar = Calendar.getInstance()
+    fun todayWeekIndex(calendar: Calendar): String {
         val day = calendar.get(Calendar.DAY_OF_WEEK)
 
         return when (day) {
