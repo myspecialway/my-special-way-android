@@ -19,8 +19,16 @@
     <string name="no_class">אין שיעור כרגע</string>
     <string name="back_button_description">Back button</string>
     <string name="day_schedule_title">סדר היום שלי</string>
+    <string name="settings_title">הגדרות</string>
     <string name="lesson_image">Lesson Image</string>
     <string name="user_error">נא להזין שם משתמש</string>
     <string name="pass_error">נא להזין סיסמא</string>
     <string name="login_error_title">הסיסמא והשם משתמש לא תקין</string>
+    <string name="settings_activity">הגדרות</string>
+    <string name="settings_alerts_title">התראות</string>
+    <string name="settings_sound_title">סאונד</string>
+    <string name="settings_logout_title">יציאה מהמערכת</string>
+    <string name="settings_alerts_summary">הדלק או כבה את ההתראות</string>
+    <string name="settings_sound_summary">הדלק או כבה את הניווט הקולי</string>
+    <string name="settings_logout_summary">לחץ כדי לצאת מהמערכת</string>
 </resources>
