@@ -15,6 +15,10 @@ import org.myspecialway.common.Navigation
 import org.myspecialway.ui.agenda.*
 import org.myspecialway.ui.login.UserModel
 import org.myspecialway.ui.notifications.NotificationAlarmManager
+import org.myspecialway.ui.shared.AgendaViewModel
+import org.myspecialway.ui.shared.Alarms
+import org.myspecialway.ui.shared.CurrentSchedule
+import org.myspecialway.ui.shared.ListViewModelState
 
 class MainScreenActivity : BaseActivity() {
 
@@ -36,13 +40,17 @@ class MainScreenActivity : BaseActivity() {
         navButton.setOnClickListener { showNavigationDialog() }
     }
 
-
     data class DialogModel(val name: String, val id: String)
 
     private fun showNavigationDialog() {
         val listItems = mutableListOf<DialogModel>().apply {
+            add(DialogModel("כיתת פטל", "B1"))
             add(DialogModel("כיתת סחלב", "B2"))
-            add(DialogModel("כיתת פטל", "C1"))
+            add(DialogModel("כיתת מוזיקה", "B10"))
+            add(DialogModel("כיתת ניצן", "B11"))
+            add(DialogModel("כיתת תמר", "B12"))
+            add(DialogModel("כיתת דקל", "C1"))
+            add(DialogModel("כיתת בעלי חיים", "C2"))
         }
 
         val builder = AlertDialog.Builder(this)
@@ -75,7 +83,7 @@ class MainScreenActivity : BaseActivity() {
                     schedule = agenda.schedule
                     scheduleName.text = agenda.schedule.title
                 }
-                is ListData -> scheduleName.visibility = View.VISIBLE
+                is ListViewModelState -> scheduleName.visibility = View.VISIBLE
             }
         })
     }

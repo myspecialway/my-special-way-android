@@ -66,7 +66,8 @@ fun Context.logout() {
     sharedPreferences.edit().clear().apply()
     // clear sp, navigate login page with clear top flag
     val intent = Intent(this, LoginActivity::class.java)
-    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP and Intent.FLAG_ACTIVITY_CLEAR_TASK
+
     this.startActivity(intent)
 }
 
@@ -79,6 +80,12 @@ fun Activity.hideKeyboard() {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }
+
+fun View.animateY(y: Float) =
+        animate()
+                .translationY(y)
+                .setInterpolator(AccelerateDecelerateInterpolator())
+                .start()
 
 fun Button.enable(enable: Boolean) = when (enable) {
     true -> {

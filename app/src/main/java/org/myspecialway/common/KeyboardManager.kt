@@ -21,9 +21,9 @@ class KeyboardManager(private val activity: Activity) {
             val keypadHeight = screenHeight - rect.bottom
 
             if (keypadHeight > screenHeight * 0.15) {
-                emitter.onNext(KeyboardStatus.OPEN)
+                emitter.onNext(KeyboardStatus.Open)
             } else {
-                emitter.onNext(KeyboardStatus.CLOSED)
+                emitter.onNext(KeyboardStatus.Closed)
             }
         }
 
@@ -37,5 +37,6 @@ class KeyboardManager(private val activity: Activity) {
 }
 
 enum class KeyboardStatus {
-    OPEN, CLOSED
+    Open,
+    Closed
 }

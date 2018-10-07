@@ -2,7 +2,6 @@ package org.myspecialway.ui.agenda
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
@@ -12,6 +11,9 @@ import kotlinx.android.synthetic.main.agenda_activity.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.myspecialway.R
 import org.myspecialway.common.BaseActivity
+import org.myspecialway.ui.shared.AgendaViewModel
+import org.myspecialway.ui.shared.CurrentSchedule
+import org.myspecialway.ui.shared.ListViewModelState
 
 class AgendaActivity : BaseActivity() {
 
@@ -28,7 +30,7 @@ class AgendaActivity : BaseActivity() {
     }
 
     private fun initList() {
-        adapter = AgendaAdapter {  }
+        adapter = AgendaAdapter { /** Implement Items Clicks Here */ }
         agendaRecyclerView.layoutManager = LinearLayoutManager(this@AgendaActivity)
         agendaRecyclerView.adapter = adapter
     }
@@ -48,7 +50,7 @@ class AgendaActivity : BaseActivity() {
 
         viewModel.agendaLive.observe(this, Observer { agenda ->
             when(agenda) {
-                is ListData -> {
+                is ListViewModelState -> {
                     adapter.addData(
                             agenda.scheduleList
                             .toMutableList()

@@ -5,12 +5,13 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.jakewharton.rxbinding2.view.RxView
+import io.reactivex.rxkotlin.toObservable
 import kotlinx.android.synthetic.main.activity_login_layout.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.myspecialway.R
 import org.myspecialway.common.*
-import org.myspecialway.common.KeyboardStatus.CLOSED
-import org.myspecialway.common.KeyboardStatus.OPEN
+import org.myspecialway.common.KeyboardStatus.Closed
+import org.myspecialway.common.KeyboardStatus.Open
 import org.myspecialway.ui.agenda.EMPTY_TEXT
 import retrofit2.HttpException
 
@@ -29,15 +30,38 @@ class LoginActivity : BaseActivity() {
         observeInputFields()
     }
 
+    override fun render() {
+        // Observe data flow
+        viewModel.loginLive.observe(this, Observer { state ->
+            when (state) {
+                is LoginSuccess -> Navigation.toMainActivity(this)
+            }
+        })
+
+        // Observe failure
+        viewModel.failure.observe(this, Observer { error ->
+            handleError(error ?: Throwable())
+        })
+
+        // Observe progress
+        viewModel.progress.observe(this, Observer { progress ->
+            if (progress == View.VISIBLE) loadingDialog.show()
+            else loadingDialog.hide()
+        })
+    }
+
+    private fun handleError(throwable: Throwable) = when (throwable) {
+        is HttpException -> showLoginError { closeIconClickListener { dialog?.dismiss() } }
+        else -> showLoginError {
+            content.text = getString(R.string.login_error_general)
+            closeIconClickListener { dialog?.dismiss() }
+        }
+    }
+
     private fun observeKeyboard() {
         composite?.add(KeyboardManager(this)
                 .status()
-                .subscribe {
-                    when (it) {
-                        OPEN -> onKeyboardChangeAnimation(OPEN)
-                        CLOSED -> onKeyboardChangeAnimation(CLOSED)
-                    }
-                })
+                .subscribe { status -> onKeyboardChangeAnimation(status) })
     }
 
     private fun observeInputFields() {
@@ -54,37 +78,23 @@ class LoginActivity : BaseActivity() {
 
     private fun handleInputError(pass: CharSequence, username: String): Boolean {
         // check user
-        if (username.isEmpty()) usernameWrapper.error = getString(R.string.user_error)
-        else usernameWrapper.error = EMPTY_TEXT
+        if (username.isEmpty()) usernameWrapper.error = getString(R.string.user_error) else usernameWrapper.error = EMPTY_TEXT
 
         // check password
-        if (pass.isEmpty()) passwordWrapper.error = getString(R.string.pass_error)
-        else passwordWrapper.error = EMPTY_TEXT
+        if (pass.isEmpty()) passwordWrapper.error = getString(R.string.pass_error) else passwordWrapper.error = EMPTY_TEXT
 
         return username.isNotEmpty() && pass.isNotEmpty()
     }
 
-    override fun render() {
-        viewModel.loginLive.observe(this, Observer { state ->
-            when (state) {
-                is LoginSuccess -> Navigation.toMainActivity(this)
-                is LoginError -> handleError(state.throwable)
-            }
-        })
 
-        viewModel.progress.observe(this, Observer {
-            if (it == View.VISIBLE) loadingDialog.show()
-            else loadingDialog.hide()
-        })
-    }
-
-    private fun handleError(throwable: Throwable) {
-        when (throwable) {
-            is HttpException -> showLoginError { closeIconClickListener { dialog?.dismiss() } }
-            else -> showLoginError {
-                content.text = ".לא הצלחנו להכניס אותך למערכת. אנא נסה שוב"
-                closeIconClickListener { dialog?.dismiss() }
-            }
+    private fun onKeyboardChangeAnimation(status: KeyboardStatus) = when (status) {
+        Open -> {
+            passwordLayout.animateY(-370f)
+            appIcon.animateY(-470f)
+        }
+        Closed -> {
+            passwordLayout.animateY(0f)
+            appIcon.animateY(0f)
         }
     }
 
@@ -92,24 +102,4 @@ class LoginActivity : BaseActivity() {
         super.onDestroy()
         composite?.dispose()
     }
-
-    private fun onKeyboardChangeAnimation(status: KeyboardStatus) {
-        when (status) {
-             OPEN -> {
-                passwordLayout.animateY(-370f)
-                appIcon.animateY(-470f)
-            }
-            CLOSED -> {
-                passwordLayout.animateY(0f)
-                appIcon.animateY(0f)
-            }
-        }
-    }
-
-    private fun View.animateY(y: Float) =
-            animate()
-                    .translationY(y)
-                    .setInterpolator(AccelerateDecelerateInterpolator())
-                    .start()
-
 }
