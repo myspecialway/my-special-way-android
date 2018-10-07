@@ -18,6 +18,7 @@ import org.myspecialway.ui.notifications.NotificationAlarmManager
 import org.myspecialway.ui.shared.AgendaViewModel
 import org.myspecialway.ui.shared.Alarms
 import org.myspecialway.ui.shared.CurrentSchedule
+import org.myspecialway.ui.shared.ListData
 
 
 class MainScreenActivity : BaseActivity() {
@@ -83,7 +84,7 @@ class MainScreenActivity : BaseActivity() {
                     schedule = agenda.schedule
                     scheduleName.text = agenda.schedule.title
                 }
-
+                is ListData -> scheduleName.visibility = View.VISIBLE
             }
         })
     }
