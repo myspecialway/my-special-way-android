@@ -18,7 +18,9 @@ class NotificationActivity : Activity() {
         val (notificationTitle, destination) = getBundle(intent)
         notificationText.text = notificationTitle
         navigationButton.setOnClickListener {
-            Navigation.toUnityNavigation(this, destination)
+            // navigation dest code should come from backend?
+//            Navigation.toUnityNavigation(this, destination)
+            Navigation.toUnityNavigation(this, "B1")
             finish()
         }
     }
