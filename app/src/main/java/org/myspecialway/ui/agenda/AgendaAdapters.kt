@@ -6,7 +6,7 @@ import kotlinx.android.synthetic.main.agenda_item.view.*
 import kotlinx.android.synthetic.main.agenda_last_item.view.*
 import org.myspecialway.R
 import org.myspecialway.common.*
-import org.myspecialway.di.RemoteProperties.TEMP
+import org.myspecialway.di.RemoteProperties.BASE_URL
 
 
 class AgendaAdapter(val onClick: (ScheduleRenderModel) -> Unit) : BaseDelegateAdapter() {
@@ -27,7 +27,7 @@ class AgendaItemDelegateAdapter(val onClick: (ScheduleRenderModel) -> Unit) : Vi
         fun bind(schedule: ScheduleRenderModel) {
             // set's the title
             itemView.agenda_text.text = schedule.title
-            itemView.agenda_icon.load("${TEMP}lessons-icons/${schedule.image}.png")
+            itemView.agenda_icon.load("${BASE_URL}lessons-icons/${schedule.image}.png")
             itemView.time.text = schedule.time?.timeDisplay
 
             drawBorderIfNeeded(schedule)

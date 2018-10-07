@@ -2,21 +2,18 @@ package org.myspecialway.di
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.dsl.module.applicationContext
 import org.koin.dsl.module.module
 import org.myspecialway.data.remote.RemoteDataSource
 import org.myspecialway.data.remote.TokenInterceptor
-import org.myspecialway.di.RemoteProperties.TEMP
+import org.myspecialway.di.RemoteProperties.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RemoteProperties {
-//    const val BASE_URL = "http://msw-dev.eastus.cloudapp.azure.com:3000/"
-//    const val TEMP = "http://msw-server.azurewebsites.net/"
-//    const val TEMP = "http://192.168.188.245:3000/"
-    const val TEMP = "https://msw-westus-app-k8s.att.io/"
+
+    const val BASE_URL = "https://msw-westus-app-k8s.att.io:3000/"
 }
 
 val remoteDataSourceModel = module {
@@ -25,7 +22,7 @@ val remoteDataSourceModel = module {
 
     single { TokenInterceptor(get(),get() ) }
 
-    single { createWebService<RemoteDataSource>(get(), TEMP) }
+    single { createWebService<RemoteDataSource>(get(), BASE_URL) }
 
 }
 
