@@ -19,6 +19,7 @@ val loginModule = module {
     single { LoginRepositoryImpl(get(), get()) as LoginRepository }
     single { TokenParser() }
     single { Token() }
+
 }
 
 val agendaModule = module {

@@ -13,7 +13,7 @@ import org.myspecialway.R
 import org.myspecialway.common.BaseActivity
 import org.myspecialway.ui.shared.AgendaViewModel
 import org.myspecialway.ui.shared.CurrentSchedule
-import org.myspecialway.ui.shared.ListViewModelState
+import org.myspecialway.ui.shared.ListData
 
 class AgendaActivity : BaseActivity() {
 
@@ -36,7 +36,6 @@ class AgendaActivity : BaseActivity() {
     }
 
     private fun initToolbar() {
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         val supportActionBar = supportActionBar
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -47,26 +46,22 @@ class AgendaActivity : BaseActivity() {
     override fun render() {
         viewModel.progress.observe(this, Observer { progress.visibility = it ?: View.GONE })
         viewModel.failure.observe(this, Observer { handleError() })
-
-        viewModel.agendaLive.observe(this, Observer { agenda ->
-            when(agenda) {
-                is ListViewModelState -> {
+        viewModel.agendaLive.observe(this, Observer { state ->
+            when(state) {
+                is ListData -> {
                     adapter.addData(
-                            agenda.scheduleList
+                            state.scheduleList
                             .toMutableList()
                                     .apply {
-                                        add(agenda.scheduleList.size, SingleImageRes(R.drawable.gohome))
+                                        add(state.scheduleList.size, SingleImageRes(R.drawable.gohome))
                                     }
                             .toList())
                 }
-                is CurrentSchedule -> scrollToSchedule(agenda.position)
+                is CurrentSchedule -> agendaRecyclerView.scrollToPosition(state.position)
             }
         })
     }
 
-    private fun scrollToSchedule(it: Int?) {
-        agendaRecyclerView.scrollToPosition(it ?: 0)
-    }
 
     private fun handleError() {
         Toast.makeText(this@AgendaActivity, "לא מתאפשר להציג כרגע את מערכת השעות", Toast.LENGTH_LONG).show()

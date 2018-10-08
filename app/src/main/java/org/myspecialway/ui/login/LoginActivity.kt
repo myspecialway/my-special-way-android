@@ -3,9 +3,7 @@ package org.myspecialway.ui.login
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
 import com.jakewharton.rxbinding2.view.RxView
-import io.reactivex.rxkotlin.toObservable
 import kotlinx.android.synthetic.main.activity_login_layout.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.myspecialway.R
@@ -32,7 +30,7 @@ class LoginActivity : BaseActivity() {
 
     override fun render() {
         // Observe data flow
-        viewModel.loginLive.observe(this, Observer { state ->
+        viewModel.loginData.observe(this, Observer { state ->
             when (state) {
                 is LoginSuccess -> Navigation.toMainActivity(this)
             }
@@ -66,7 +64,9 @@ class LoginActivity : BaseActivity() {
 
     private fun observeInputFields() {
         RxView.clicks(loginButton)
-                .filter { handleInputError(passwordTextFiled.text.toString(), usernameTextFiled.text.toString()) }
+                .filter { handleInputError(
+                        passwordTextFiled.text.toString(),
+                        usernameTextFiled.text.toString()) }
                 .subscribe {
                     hideKeyboard()
                     viewModel.login(LoginAuthData().apply {
