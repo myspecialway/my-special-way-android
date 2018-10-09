@@ -1,12 +1,8 @@
 package org.myspecialway.di
 
-import android.content.Context
-import android.preference.PreferenceManager
-import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 import org.myspecialway.common.ApplicationSchedulerProvider
-import org.myspecialway.common.KeyboardManager
 import org.myspecialway.common.SchedulerProvider
 import org.myspecialway.session.Token
 import org.myspecialway.ui.agenda.AgendaRepository
@@ -15,7 +11,7 @@ import org.myspecialway.ui.agenda.AgendaViewModel
 import org.myspecialway.ui.login.LoginRepository
 import org.myspecialway.ui.login.LoginRepositoryImpl
 import org.myspecialway.ui.login.LoginViewModel
-import org.myspecialway.ui.main.MainViewModel
+import org.myspecialway.ui.main.*
 import org.myspecialway.ui.notifications.NotificationAlarmManager
 import org.myspecialway.utils.TokenParser
 
@@ -31,14 +27,14 @@ val appModule = module {
 }
 
 val mainPageModule = module {
-    viewModel { MainViewModel() }
+    viewModel { MainViewModel(get(), get()) }
+    single { MainRepositoryImpl(get()) as MainRepository }
+    single { MockClassData() }
+    single { NavDialog() }
 }
-
-
-
 
 val rxModule = module {
     single { ApplicationSchedulerProvider() as SchedulerProvider }
 }
 
-val mySpecialWay = listOf(remoteDataSourceModel, localDataSourceModule, rxModule, appModule)
+val mySpecialWay = listOf(mainPageModule, remoteDataSourceModel, localDataSourceModule, rxModule, appModule)
