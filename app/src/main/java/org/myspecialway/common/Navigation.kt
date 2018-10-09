@@ -31,7 +31,9 @@ object Navigation {
             intent.component = ComponentName("org.myspecialway.navigation", "com.unity3d.player.UnityPlayerActivity")
             intent.putExtra("destination", destination)
             context.startActivity(intent)
-        } catch (e: Exception) { }
+        } catch (e: Exception) {
+
+        }
     }
 
 
