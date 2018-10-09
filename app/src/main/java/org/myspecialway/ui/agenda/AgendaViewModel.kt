@@ -22,7 +22,7 @@ data class Alarms(val list: List<ScheduleRenderModel>) : AgendaData()
 data class CurrentSchedule(val schedule: ScheduleRenderModel, val position: Int) : AgendaData()
 
 
-class AgendaViewModel(private val repository: AgendaRepository,
+open class AgendaViewModel(private val repository: AgendaRepository,
                       private val scheduler: SchedulerProvider) : AbstractViewModel() {
 
     val agendaLive = MutableLiveData<AgendaData>()

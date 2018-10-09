@@ -3,7 +3,6 @@ package org.myspecialway.ui.main
 import android.arch.lifecycle.Observer
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main_screen.*
@@ -18,9 +17,12 @@ import org.myspecialway.ui.notifications.NotificationAlarmManager
 
 class MainScreenActivity : BaseActivity() {
 
-    private val viewModel: AgendaViewModel by viewModel()
+    private val agendaViewModel: AgendaViewModel by viewModel()
+    private val viewModel: MainViewModel by viewModel()
+
     private val notificationAlarmManager: NotificationAlarmManager by inject()
     private val sp: SharedPreferences by inject()
+    private val navDialog: NavDialog by inject()
 
     private var schedule: ScheduleRenderModel? = null
 
@@ -33,19 +35,33 @@ class MainScreenActivity : BaseActivity() {
 
     private fun clickListeners() {
         scheduleButton.setOnClickListener { Navigation.toScheduleActivity(this) }
-        navButton.setOnClickListener { showNavigationDialog(this) }
-        settings.setOnClickListener{ Navigation.toSettingsActivity(this)}
+        navButton.setOnClickListener { handleNavButton() }
+        settings.setOnClickListener { Navigation.toSettingsActivity(this) }
     }
+
+    private fun handleNavButton() =
+            navDialog.takeIf { it.listItems.isNotEmpty() }
+                    .apply { navDialog.showNavigationDialog(this@MainScreenActivity) }
 
 
     override fun render() {
+
+        viewModel.mainData.observe(this, Observer { state ->
+            when (state) {
+                is DataReady -> {
+                    navDialog.listItems.clear()
+                    navDialog.listItems = state.data.toMutableList()
+                }
+            }
+        })
+
         userDisplayName.text = UserModel().getUser(sp).fullName()
 
-        viewModel.failure.observe(this, Observer { handleError() })
-        viewModel.progress.observe(this, Observer { progress.visibility = it!! })
+        agendaViewModel.failure.observe(this, Observer { handleError() })
+        agendaViewModel.progress.observe(this, Observer { progress.visibility = it!! })
 
-        viewModel.agendaLive.observe(this, Observer { agenda->
-            when(agenda) {
+        agendaViewModel.agendaLive.observe(this, Observer { agenda ->
+            when (agenda) {
                 is Alarms -> agenda.list.forEach { notificationAlarmManager.scheduleAlarm(it) }
                 is CurrentSchedule -> {
                     schedule = agenda.schedule
