@@ -20,7 +20,7 @@ class NotificationActivity : Activity() {
         navigationButton.setOnClickListener {
             // navigation dest code should come from backend?
 //            Navigation.toUnityNavigation(this, destination)
-            Navigation.toUnityNavigation(this, "B1")
+            Navigation.toUnityNavigation(this, "C1")
             finish()
         }
     }
