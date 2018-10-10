@@ -8,16 +8,15 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.myspecialway.R;
-import org.myspecialway.ui.login.LoginActivity;
 import org.myspecialway.ui.utils.AgendaDataFrame;
-import org.myspecialway.ui.utils.AgendaListCreator;
+import org.myspecialway.ui.utils.BaseClazz;
 import org.myspecialway.ui.utils.RecyclerViewItemCountAssertion;
-import org.myspecialway.ui.utils.Utils;
+import org.myspecialway.ui.utils.UserEntity;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -28,33 +27,23 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.myspecialway.ui.utils.Utils.openSchedule;
+import static org.myspecialway.ui.utils.Utils.openAgenda;
 
 
 @RunWith(AndroidJUnit4.class)
-public class AgendaActivityTest {
-    AgendaListCreator agendaListCreator = new AgendaListCreator();
+public class AgendaActivityTest extends BaseClazz {
+    UserEntity agendaListCreator = new UserEntity();
     LinkedHashMap<Integer, AgendaDataFrame> agendaList =agendaListCreator.generateAgendaList();
 
     @ClassRule
     public static ActivityTestRule<AgendaActivity> activityTestRule = new ActivityTestRule<>(AgendaActivity.class);
 
 
-    @BeforeClass
-    public static void beforeClass() {
+    @Before
+    public static void beforeMethod() {
 
-
-        //todo get from json
-//ActivityTestRule<LoginActivity> activityTestRuleP = new ActivityTestRule<>(LoginActivity.class);
-        Utils.clearPreferences( activityTestRule.getActivity());
-
-        try {
-            Utils.doLogin(new ActivityTestRule <>(LoginActivity.class));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        openSchedule();
+        // in case of agenda activity, enter the schedule
+        openAgenda(); // TODO IF ACTICITY AGEBTDA THEN OPEN SCHEDULE ON THE BASECLAZZ
 
     }
 
@@ -143,7 +132,7 @@ public class AgendaActivityTest {
             onView(ViewMatchers.withId(R.id.dayScheduleTitle)).check(matches(isDisplayed()));
           } catch (NoMatchingViewException e) {
             Espresso.pressBack();
-            openSchedule();
+            openAgenda();
             onView(withId(R.id.dayScheduleTitle)).check(matches((isDisplayed())));
         }
 

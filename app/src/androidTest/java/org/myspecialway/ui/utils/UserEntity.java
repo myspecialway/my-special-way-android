@@ -8,11 +8,17 @@ import java.util.LinkedHashMap;
  * Created by dr9081 on 9/18/2018.
  */
 
-public class AgendaListCreator {
+public class UserEntity {
 
     private LinkedHashMap<Integer, AgendaDataFrame> agendaDataFrameList = new LinkedHashMap<>();
+    private String userName;
 
 
+    public String getUserName(){
+        // todo fetch the userName from server
+
+        return "Msw Student";
+    }
 //todo
     public String getServerContentFromHTTP() {
 
