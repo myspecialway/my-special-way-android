@@ -3,7 +3,6 @@ package org.myspecialway.ui.agenda
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -11,6 +10,7 @@ import kotlinx.android.synthetic.main.agenda_activity.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.myspecialway.R
 import org.myspecialway.common.BaseActivity
+import org.myspecialway.common.ViewType
 import org.myspecialway.ui.shared.AgendaViewModel
 import org.myspecialway.ui.shared.CurrentSchedule
 import org.myspecialway.ui.shared.ListData
@@ -47,21 +47,18 @@ class AgendaActivity : BaseActivity() {
         viewModel.progress.observe(this, Observer { progress.visibility = it ?: View.GONE })
         viewModel.failure.observe(this, Observer { handleError() })
         viewModel.agendaLive.observe(this, Observer { state ->
-            when(state) {
-                is ListData -> {
-                    adapter.addData(
-                            state.scheduleList
-                            .toMutableList()
-                                    .apply {
-                                        add(state.scheduleList.size, SingleImageRes(R.drawable.gohome))
-                                    }
-                            .toList())
-                }
+            when (state) {
+                is ListData -> adapter.addData(addSingleImage(state))
                 is CurrentSchedule -> agendaRecyclerView.scrollToPosition(state.position)
             }
         })
     }
 
+    private fun addSingleImage(state: ListData): List<ViewType> =
+            state.scheduleList
+                    .toMutableList()
+                    .apply { add(state.scheduleList.size, SingleImageRes(R.drawable.gohome)) }
+                    .toList()
 
     private fun handleError() {
         Toast.makeText(this@AgendaActivity, "לא מתאפשר להציג כרגע את מערכת השעות", Toast.LENGTH_LONG).show()
