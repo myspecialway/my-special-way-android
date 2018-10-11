@@ -13,21 +13,25 @@ class NotificationAlarmManager(private val context: Context) {
 
     private val alarmsQueue = mutableListOf<PendingIntent>()
 
-    fun scheduleAlarm(scheduleModel: ScheduleRenderModel) {
-        alarmsQueue.cancelAll()
+    fun setAlarms(alarms: List<ScheduleRenderModel>) {
+        alarmsQueue.cancelAll(alarmManager)
 
-        val intent = Intent(context, AlarmReceiver::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        intent.putExtra(NotificationActivity.NOTIFICATION_TITLE, scheduleModel.title)
-        val id = System.currentTimeMillis().toInt()
-        val pendingIntent = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_ONE_SHOT)
-        alarmsQueue.add(pendingIntent)
-        val triggerAtMillis = scheduleModel.time!!.date.time - System.currentTimeMillis()
-        alarmManager.set(
-                AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis() + triggerAtMillis,
-                pendingIntent
-        )
+
+        alarms.forEach { alarm ->
+            val intent = Intent(context, AlarmReceiver::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra(NotificationActivity.NOTIFICATION_TITLE, alarm.title)
+            val id = System.currentTimeMillis().toInt()
+            val pendingIntent = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_ONE_SHOT)
+            alarmsQueue.add(pendingIntent)
+            val triggerAtMillis = alarm.time!!.date.time - System.currentTimeMillis()
+            alarmManager.set(
+                    AlarmManager.RTC_WAKEUP,
+                    System.currentTimeMillis() + triggerAtMillis,
+                    pendingIntent
+            )
+        }
+
     }
 
     class AlarmReceiver : BroadcastReceiver() {
@@ -38,7 +42,7 @@ class NotificationAlarmManager(private val context: Context) {
     }
 }
 
-fun MutableList<PendingIntent>.cancelAll() {
+fun MutableList<PendingIntent>.cancelAll(alarmManager: AlarmManager) {
+    forEach { alarmManager.cancel(it) }
     clear()
-    forEach {it.cancel() }
 }

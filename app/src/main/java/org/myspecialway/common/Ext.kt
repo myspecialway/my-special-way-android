@@ -65,6 +65,7 @@ fun Context.logout() {
     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
     sharedPreferences.edit().clear().apply()
     // clear sp, navigate login page with clear top flag
+
     val intent = Intent(this, LoginActivity::class.java)
     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
     this.startActivity(intent)
