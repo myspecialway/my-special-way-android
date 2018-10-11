@@ -14,9 +14,6 @@ buildscript {
         classpath 'com.google.gms:google-services:4.0.1'
         classpath 'com.apollographql.apollo:apollo-gradle-plugin:1.0.0-alpha2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath('com.dicedmelon.gradle:jacoco-android:0.1.2') {
-            exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-        }
     }
 }
 
