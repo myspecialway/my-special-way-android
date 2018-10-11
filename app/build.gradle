@@ -53,8 +53,15 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
             '**/*Alarm*.*',
             '**/*Alarm$*.*',
             '**/*KeyboardManager.*',
+            '**/*KeyboardManager$*.*',
             '**/*AppModule*.*',
-            '**/*AppModule$*.*'
+            '**/*AppModule$*.*',
+            '**/*Navigation.*',
+            '**/*App.*',
+            '**/*App$*.*',
+            '**/*Database.*',
+            '**/*AgendaModel.*',
+            '**/*AgendaModel$*.*'
 
     ]
     // generated classes
