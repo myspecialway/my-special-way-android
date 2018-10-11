@@ -13,6 +13,7 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.myspecialway.R;
+import org.myspecialway.ui.mainScreen.MainScreenActivity;
 import org.myspecialway.ui.utils.AgendaDataFrame;
 import org.myspecialway.ui.utils.BaseClazz;
 import org.myspecialway.ui.utils.RecyclerViewItemCountAssertion;
@@ -36,11 +37,11 @@ public class AgendaActivityTest extends BaseClazz {
     LinkedHashMap<Integer, AgendaDataFrame> agendaList =agendaListCreator.generateAgendaList();
 
     @ClassRule
-    public static ActivityTestRule<AgendaActivity> activityTestRule = new ActivityTestRule<>(AgendaActivity.class);
+    public static ActivityTestRule<MainScreenActivity> activityTestRule = new ActivityTestRule<>(MainScreenActivity.class);
 
 
     @Before
-    public static void beforeMethod() {
+    public void beforeMethod() {
 
         // in case of agenda activity, enter the schedule
         openAgenda(); // TODO IF ACTICITY AGEBTDA THEN OPEN SCHEDULE ON THE BASECLAZZ

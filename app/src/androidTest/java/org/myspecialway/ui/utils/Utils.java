@@ -105,6 +105,7 @@ onView(withId(R.id.settings)).perform(click());
      * open student's agenta
      */
     public static void openAgenda() {
+        new ActivityTestRule<>(MainScreenActivity.class).launchActivity(null);
         boolean tempBool = true;
 
         try {
@@ -118,7 +119,8 @@ onView(withId(R.id.settings)).perform(click());
         if (tempBool) {
             onView(withId(R.id.scheduleButton)).perform(click());
             try {
-                onView(withId(R.id.dayScheduleTitle)).wait(1000);
+                Thread.sleep(1000);
+
             } catch (InterruptedException e2) {
                 e2.printStackTrace();
             }
@@ -128,9 +130,7 @@ onView(withId(R.id.settings)).perform(click());
 
     }
 
-//    public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
-//        return new RecyclerViewMatcher(recyclerViewId);
-//    }
+
 
 
     /** todo take current hour from android device
