@@ -52,7 +52,10 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
             '**/*Dialog$*.*',
             '**/*Alarm*.*',
             '**/*Alarm$*.*',
-            '**/*KeyboardManager.*'
+            '**/*KeyboardManager.*',
+            '**/*AppModule*.*',
+            '**/*AppModule$*.*'
+
     ]
     // generated classes
     classDirectories = fileTree(
