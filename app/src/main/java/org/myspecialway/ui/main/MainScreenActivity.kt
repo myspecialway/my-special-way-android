@@ -3,7 +3,6 @@ package org.myspecialway.ui.main
 import android.arch.lifecycle.Observer
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main_screen.*
@@ -44,12 +43,12 @@ class MainScreenActivity : BaseActivity() {
         viewModel.failure.observe(this, Observer { handleError() })
         viewModel.progress.observe(this, Observer { progress.visibility = it!! })
 
-        viewModel.agendaLive.observe(this, Observer { agenda->
-            when(agenda) {
-                is Alarms -> agenda.list.forEach { notificationAlarmManager.scheduleAlarm(it) }
+        viewModel.agendaLive.observe(this, Observer { state->
+            when(state) {
+                is Alarms -> notificationAlarmManager.setAlarms(state.list)
                 is CurrentSchedule -> {
-                    schedule = agenda.schedule
-                    scheduleName.text = agenda.schedule.title
+                    schedule = state.schedule
+                    scheduleName.text = state.schedule.title
                 }
                 is ListData -> scheduleName.visibility = View.VISIBLE
             }

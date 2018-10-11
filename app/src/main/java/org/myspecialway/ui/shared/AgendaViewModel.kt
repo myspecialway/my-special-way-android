@@ -72,7 +72,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
      * next lesson)
      */
     private fun getAlarms(list: List<ScheduleRenderModel>, index: Int) =
-            list.slice(IntRange(index + 1, list.size - 2)).take(1)
+            list.slice(IntRange(index + 1, list.size - 2))
 
     private fun mapScheduleRenderModel(schedule: Schedule) = ScheduleRenderModel()
             .apply {
