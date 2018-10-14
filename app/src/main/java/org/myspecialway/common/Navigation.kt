@@ -47,7 +47,7 @@ object Navigation {
 
     fun toNotificationActivity(context: Context, schedule: ScheduleRenderModel) {
         val intent = Intent(context, NotificationActivity::class.java)
-        intent.putExtra(NotificationActivity.NOTIFICATION_TITLE, "בוקר טוב זמן לשיעור ${schedule.title}")
+        intent.putExtra(NotificationActivity.NOTIFICATION_PAYLOAD, "בוקר טוב זמן לשיעור ${schedule.title}")
         intent.putExtra(NotificationActivity.SCHEDULE_KEY, schedule)
         context.startActivity(intent)
     }

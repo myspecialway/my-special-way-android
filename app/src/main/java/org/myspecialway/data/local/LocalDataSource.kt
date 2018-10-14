@@ -17,5 +17,8 @@ interface LocalDataSource {
     fun saveAllSchedule(schedule: ScheduleModel)
 
     @Query("SELECT * FROM schedulemodel")
-    fun loadSchedule() : Single<ScheduleModel>
+    fun loadSchedule(): Single<ScheduleModel>
+
+    @Query("DELETE FROM schedulemodel")
+    fun nukeSchedule()
 }

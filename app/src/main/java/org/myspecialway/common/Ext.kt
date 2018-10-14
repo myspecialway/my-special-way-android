@@ -1,24 +1,19 @@
 package org.myspecialway.common
 
 import android.app.Activity
+import android.arch.persistence.room.Room
 import android.content.Context
 import android.content.Intent
-import android.os.Handler
 import android.preference.PreferenceManager
 import android.support.annotation.LayoutRes
-import android.support.design.widget.Snackbar
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.Toast
 import com.google.gson.Gson
-import com.squareup.picasso.Callback
-import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 
 import io.reactivex.Flowable
@@ -26,7 +21,8 @@ import org.myspecialway.R
 
 import org.myspecialway.ui.login.LoginActivity
 import java.util.*
-import org.myspecialway.R.id.imageView
+import org.myspecialway.data.local.Database
+import org.myspecialway.di.LocalProperties.DB_NAME
 
 // use this to avoid layout inflater boilerplate
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
@@ -61,15 +57,28 @@ fun Date.addHour(hours: Int): Date {
     return cal.time
 }
 
+fun Date.addMinutes(minutes: Int): Date {
+    val cal = Calendar.getInstance()
+    cal.time = this
+    cal.add(Calendar.MINUTE, minutes)
+    return cal.time
+}
+
 fun Context.logout() {
-    val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-    sharedPreferences.edit().clear().apply()
-    // clear sp, navigate login page with clear top flag
+    PreferenceManager.getDefaultSharedPreferences(this).edit().clear().apply()
+    nukeSchedule()
 
     val intent = Intent(this, LoginActivity::class.java)
     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
     this.startActivity(intent)
 }
+
+private fun Context.nukeSchedule() = Room.databaseBuilder(this, Database::class.java, DB_NAME)
+        .allowMainThreadQueries()
+        .build()
+        .localDataSourceDAO()
+        .nukeSchedule()
+
 
 fun Int.dpToPixels(context: Context) = (this * context.resources.displayMetrics.density + 0.5f).toInt()
 

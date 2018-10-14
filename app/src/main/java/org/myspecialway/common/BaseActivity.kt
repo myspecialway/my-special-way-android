@@ -13,5 +13,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     abstract fun render()
 
+    override fun onDestroy() {
+        super.onDestroy()
+        composite?.clear()
+    }
 
 }

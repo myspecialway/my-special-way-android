@@ -34,8 +34,8 @@ class LoginActivity : BaseActivity() {
     private fun observeKeyboard() {
         composite?.add(KeyboardManager(this)
                 .status()
-                .subscribe {
-                    when (it) {
+                .subscribe {status ->
+                    when (status) {
                         OPEN -> onKeyboardChange(appIcon, 0.dpToPixels(this))
                         CLOSED -> onKeyboardChange(appIcon, 72.dpToPixels(this))
                     }
@@ -43,7 +43,7 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun observeInputFields() {
-        RxView.clicks(loginButton)
+        composite?.add(RxView.clicks(loginButton)
                 .filter { handleInputError(passwordTextFiled.text.toString(), usernameTextFiled.text.toString()) }
                 .subscribe {
                     hideKeyboard()
@@ -51,7 +51,7 @@ class LoginActivity : BaseActivity() {
                         username = usernameTextFiled.text.toString()
                         password = passwordTextFiled.text.toString()
                     })
-                }
+                })
     }
 
     private fun handleInputError(pass: CharSequence, username: String): Boolean {
