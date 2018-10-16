@@ -16,7 +16,7 @@ ext {
 }
 
 jacoco {
-    toolVersion = "0.7.9"
+    toolVersion = "0.8.2"
     reportsDir = file("$buildDir/reports")
 }
 
@@ -40,8 +40,29 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
             '**/*Test*.*',
             'android/**/*.*',
             '**/*Fragment.*',
+            '**/*Fragment$*.*',
             '**/*Activity.*',
-            '**/*Adapter.*'
+            '**/*Activity$*.*',
+            '**/*Adapter*.*',
+            '**/*Adapter$*.*',
+            '**/*FCM*.*',
+            '**/*FCM$*.*',
+            '**/*Model.*',
+            '**/*Dialog*.*',
+            '**/*Dialog$*.*',
+            '**/*Alarm*.*',
+            '**/*Alarm$*.*',
+            '**/*KeyboardManager.*',
+            '**/*KeyboardManager$*.*',
+            '**/*AppModule*.*',
+            '**/*AppModule$*.*',
+            '**/*Navigation.*',
+            '**/*App.*',
+            '**/*App$*.*',
+            '**/*Database.*',
+            '**/*AgendaModel.*',
+            '**/*AgendaModel$*.*'
+
     ]
     // generated classes
     classDirectories = fileTree(

@@ -16,9 +16,11 @@ class NotificationActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification)
         val (notificationTitle, destination) = getBundle(intent)
-        notificationText.text = notificationTitle
+        notificationText.text = "מולדת" //TODO-pass the real class name //notificationTitle
         navigationButton.setOnClickListener {
-            Navigation.toUnityNavigation(this, destination)
+            // navigation dest code should come from backend?
+//            Navigation.toUnityNavigation(this, destination)
+            Navigation.toUnityNavigation(this, "C1")
             finish()
         }
     }
