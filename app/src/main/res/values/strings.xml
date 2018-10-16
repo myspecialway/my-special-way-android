@@ -25,4 +25,11 @@
     <string name="pass_error">נא להזין סיסמא</string>
     <string name="login_error_title">הסיסמא והשם משתמש לא תקין</string>
     <string name="login_error_general">.לא הצלחנו להכניס אותך למערכת. אנא נסה שוב</string>
+    <string name="settings_activity">הגדרות</string>
+    <string name="settings_alerts_title">התראות</string>
+    <string name="settings_sound_title">סאונד</string>
+    <string name="settings_logout_title">יציאה מהמערכת</string>
+    <string name="settings_alerts_summary">הדלק או כבה את ההתראות</string>
+    <string name="settings_sound_summary">הדלק או כבה את הניווט הקולי</string>
+    <string name="settings_logout_summary">לחץ כדי לצאת מהמערכת</string>
 </resources>

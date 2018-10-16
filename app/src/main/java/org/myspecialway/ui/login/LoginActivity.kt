@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_login_layout.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.myspecialway.R
@@ -63,7 +64,7 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun observeInputFields() {
-        RxView.clicks(loginButton)
+        disposable = RxView.clicks(loginButton)
                 .filter { handleInputError(
                         passwordTextFiled.text.toString(),
                         usernameTextFiled.text.toString()) }
@@ -96,10 +97,5 @@ class LoginActivity : BaseActivity() {
             passwordLayout.animateY(0f)
             appIcon.animateY(0f)
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        composite?.dispose()
     }
 }
