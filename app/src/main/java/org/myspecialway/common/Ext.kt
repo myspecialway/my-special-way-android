@@ -48,9 +48,6 @@ fun ImageView.load(url: String) =
 
 
 fun <T> Flowable<T>.filterAtError(): Flowable<T> = materialize()
-        .map {
-            it
-        }
         .filter { !it.isOnError }
         .dematerialize<T>()
 
