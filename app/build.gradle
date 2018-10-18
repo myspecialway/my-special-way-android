@@ -96,7 +96,7 @@ android {
 
     defaultConfig {
         applicationId "org.myspecialway"
-        minSdkVersion 20
+        minSdkVersion 24
         targetSdkVersion 28
         versionCode System.getenv("TRAVIS_BUILD_NUMBER") as Integer ?: 1
         versionName "1.0"
