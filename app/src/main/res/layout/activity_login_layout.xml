@@ -126,13 +126,7 @@
 
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progress"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:visibility="invisible"
-        tools:layout_editor_absoluteX="195dp"
-        tools:layout_editor_absoluteY="460dp" />
+
 
     <ImageView
 

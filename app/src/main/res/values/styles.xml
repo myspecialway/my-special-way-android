@@ -17,7 +17,7 @@
         <item name="actionBarStyle">@style/ActionBar</item>
     </style>
 
-    <style parent="android:Theme" name="Theme.Transparent">
+    <style name="Theme.Transparent" parent="android:Theme">
 
         <item name="android:windowIsTranslucent">true</item>
 
@@ -54,7 +54,8 @@
     </style>
 
     <style name="FullScreen" parent="AppTheme">
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@android:color/white</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
     </style>
 </resources>

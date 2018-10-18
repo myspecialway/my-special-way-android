@@ -17,17 +17,17 @@ import org.myspecialway.ui.agenda.ScheduleRenderModel
 import java.util.*
 
 // State
-sealed class AgendaViewModelState
+sealed class AgendaData
 
-data class ListViewModelState(val scheduleList: List<ViewType>) : AgendaViewModelState()
-data class Alarms(val list: List<ScheduleRenderModel>) : AgendaViewModelState()
-data class CurrentSchedule(val schedule: ScheduleRenderModel, val position: Int) : AgendaViewModelState()
+data class ListData(val scheduleList: List<ViewType>) : AgendaData()
+data class Alarms(val list: List<ScheduleRenderModel>) : AgendaData()
+data class CurrentSchedule(val schedule: ScheduleRenderModel, val position: Int) : AgendaData()
 
 
 class AgendaViewModel(private val repository: AgendaRepository,
                       private val scheduler: SchedulerProvider) : AbstractViewModel() {
 
-    val agendaLive = MutableLiveData<AgendaViewModelState>()
+    val agendaLive = MutableLiveData<AgendaData>()
 
     init {
         getDailySchedule()
@@ -51,13 +51,14 @@ class AgendaViewModel(private val repository: AgendaRepository,
 
     private fun subscribe(list: MutableList<ScheduleRenderModel>) {
         val today = getTodaySchedule(list)
-        activateAlarmNextHours(today)
-        agendaLive.value = ListViewModelState(today)
+        activateAlarmNextHours(today.reversed())
+        agendaLive.value = ListData(today.reversed())
     }
 
     private fun getTodaySchedule(list: MutableList<ScheduleRenderModel>) =
             list.filter { AgendaIndex.todayWeekIndex(Calendar.getInstance()) == it.time?.dayDisplay }
                     .distinctBy { it.index }
+
 
     private fun activateAlarmNextHours(list: List<ScheduleRenderModel>) =
             list.forEachIndexed { index, scheduleRenderModel ->
@@ -67,21 +68,17 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 }
             }
 
-    /**
-     * get the alarms from the next lesson and ignore the last one ( right now we [take] only the
-     * next lesson)
-     */
     private fun getAlarms(list: List<ScheduleRenderModel>, index: Int) =
             list.slice(IntRange(index + 1, list.size - 2))
 
     private fun mapScheduleRenderModel(schedule: Schedule) = ScheduleRenderModel()
             .apply {
-
                 val currentTime = Calendar.getInstance(TimeZone.getDefault()).time
                 index = schedule.index
                 title = schedule.lesson.title
                 image = schedule.lesson.icon
-                time = AgendaIndex.convertTimeFromIndex(schedule.index)
+                time = schedule.index.let { AgendaIndex.convertTimeFromIndex(it) }
                 isNow = currentTime.after(time?.date) && currentTime.before(time!!.date.addHour(1))
+
             }
 }

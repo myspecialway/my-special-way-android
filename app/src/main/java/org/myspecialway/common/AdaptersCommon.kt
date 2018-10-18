@@ -11,12 +11,12 @@ open class BaseDelegateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
     var items: List<ViewType> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-            delegateAdapters.get(viewType).onCreateViewHolder(parent)
+            delegateAdapters.get(viewType)!!.onCreateViewHolder(parent)
 
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) =
-            delegateAdapters.get(getItemViewType(position)).onBindViewHolder(holder, this.items[position])
+            delegateAdapters.get(getItemViewType(position))!!.onBindViewHolder(holder, this.items[position])
 
     override fun getItemViewType(position: Int): Int {
         return this.items[position].getViewType()

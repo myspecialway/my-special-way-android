@@ -48,9 +48,6 @@ fun ImageView.load(url: String) =
 
 
 fun <T> Flowable<T>.filterAtError(): Flowable<T> = materialize()
-        .map {
-            it
-        }
         .filter { !it.isOnError }
         .dematerialize<T>()
 
@@ -65,9 +62,8 @@ fun Context.logout() {
     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
     sharedPreferences.edit().clear().apply()
     // clear sp, navigate login page with clear top flag
-
     val intent = Intent(this, LoginActivity::class.java)
-    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
     this.startActivity(intent)
 }
 
@@ -80,6 +76,12 @@ fun Activity.hideKeyboard() {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }
+
+fun View.animateY(y: Float) =
+        animate()
+                .translationY(y)
+                .setInterpolator(AccelerateDecelerateInterpolator())
+                .start()
 
 fun Button.enable(enable: Boolean) = when (enable) {
     true -> {

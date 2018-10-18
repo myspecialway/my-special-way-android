@@ -1,6 +1,5 @@
 package org.myspecialway.ui.agenda
 
-import android.icu.util.HebrewCalendar
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import java.util.*

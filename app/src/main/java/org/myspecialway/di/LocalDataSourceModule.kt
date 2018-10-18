@@ -20,4 +20,5 @@ val localDataSourceModule = module {
     single {  PreferenceManager.getDefaultSharedPreferences(androidContext()) }
 
     single { get<Database>().localDataSourceDAO() }
+
 }

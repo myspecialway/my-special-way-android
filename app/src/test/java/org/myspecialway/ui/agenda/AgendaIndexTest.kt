@@ -1,10 +1,7 @@
 package org.myspecialway.ui.agenda
 
-import com.google.common.truth.Truth
 import io.reactivex.Observable
-import org.junit.Assert
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertThat
 import org.junit.Test
 import org.myspecialway.utils.getCurrentHourOfTheDay
 import org.myspecialway.utils.timeIndexCombinations
