@@ -52,7 +52,6 @@ object AgendaIndex : TimeFactory {
      */
     private fun createHour(hour: Int): Date {
         val cal = Calendar.getInstance()
-
         cal.set(Calendar.HOUR_OF_DAY, hour)
         cal.set(Calendar.MINUTE, 0)
         cal.set(Calendar.SECOND, 0)

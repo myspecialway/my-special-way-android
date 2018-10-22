@@ -35,7 +35,6 @@ class AlarmJob : Job() {
                             .build()
                             .schedule()
                 }
-
     }
 }
 

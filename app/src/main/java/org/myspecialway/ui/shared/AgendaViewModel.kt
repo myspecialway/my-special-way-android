@@ -52,24 +52,26 @@ class AgendaViewModel(private val repository: AgendaRepository,
     private fun subscribe(list: MutableList<ScheduleRenderModel>) {
         val today = getTodaySchedule(list)
         activateAlarmNextHours(today)
+        agendaLive.value = Alarms(getAlarms(today))
         agendaLive.value = ListData(today)
     }
 
     private fun getTodaySchedule(list: MutableList<ScheduleRenderModel>) =
-            list.filter { AgendaIndex.todayWeekIndex(Calendar.getInstance()) == it.time?.dayDisplay }
+            list.asSequence()
+                    .filter { AgendaIndex.todayWeekIndex(Calendar.getInstance()) == it.time?.dayDisplay }
                     .distinctBy { it.index }
+                    .toList()
 
 
     private fun activateAlarmNextHours(list: List<ScheduleRenderModel>) =
             list.forEachIndexed { index, scheduleRenderModel ->
                 if (scheduleRenderModel.isNow) {
                     agendaLive.value = CurrentSchedule(scheduleRenderModel, index)
-                    agendaLive.value = Alarms(getAlarms(list, index))
                 }
             }
 
-    private fun getAlarms(list: List<ScheduleRenderModel>, index: Int) =
-            list.slice(IntRange(index + 1, list.size - 2))
+    private fun getAlarms(list: List<ScheduleRenderModel>) =
+        list.filter { System.currentTimeMillis() < it.time!!.date.time }
 
     private fun mapScheduleRenderModel(schedule: Schedule) = ScheduleRenderModel()
             .apply {
