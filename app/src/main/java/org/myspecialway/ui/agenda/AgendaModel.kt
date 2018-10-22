@@ -33,10 +33,11 @@ data class Schedule(
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "schedule_id") @NonNull val id: Int,
         val index: String,
         @Embedded val lesson: Lesson,
-        @Embedded val location: Location)
+        @Embedded val location: Location? = null)
 
 @Entity
 data class Location(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "location_id") @NonNull val id: Int,
+                    @SerializedName("location_id") val locationId: String? = null,
                     val name: String? = null,
                     val disabled: Boolean? = null,
                     @Embedded val position: Position? = null
@@ -57,10 +58,11 @@ data class Lesson(
 // UI Models
 @Parcelize
 data class ScheduleRenderModel(var index: String? = null,
-        var title: String? = null,
+                               var title: String? = null,
                                var image: String? = null,
                                var time: Time? = null,
-                               var isNow: Boolean = false) : Parcelable, ViewType {
+                               var isNow: Boolean = false,
+                               var unityDest: String = "") : Parcelable, ViewType {
 
     override fun getViewType(): Int = AgendaTypes.ITEM_TYPE
 }

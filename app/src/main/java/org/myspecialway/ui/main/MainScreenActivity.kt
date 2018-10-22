@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.Toast
+import com.evernote.android.job.JobManager
 import kotlinx.android.synthetic.main.activity_main_screen.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -15,6 +16,8 @@ import org.myspecialway.common.Navigation
 import org.myspecialway.ui.agenda.*
 import org.myspecialway.ui.login.UserModel
 import org.myspecialway.ui.notifications.NotificationAlarmManager
+import org.myspecialway.ui.notifications.workmanager.AlarmJob
+import org.myspecialway.ui.notifications.workmanager.AlarmJob.Companion.ALARM_JOB_TAG
 import org.myspecialway.ui.shared.AgendaViewModel
 import org.myspecialway.ui.shared.Alarms
 import org.myspecialway.ui.shared.CurrentSchedule
@@ -24,7 +27,7 @@ import org.myspecialway.ui.shared.ListData
 class MainScreenActivity : BaseActivity() {
 
     private val viewModel: AgendaViewModel by viewModel()
-    private val notificationAlarmManager: NotificationAlarmManager by inject()
+//    private val notificationAlarmManager: NotificationAlarmManager by inject()
     private val sp: SharedPreferences by inject()
 
     private var schedule: ScheduleRenderModel? = null
@@ -53,7 +56,10 @@ class MainScreenActivity : BaseActivity() {
 
         viewModel.agendaLive.observe(this, Observer { state->
             when(state) {
-                is Alarms ->  notificationAlarmManager.setAlarms(state.list)
+                is Alarms -> {
+                    JobManager.instance().cancelAllForTag(ALARM_JOB_TAG)
+                    AlarmJob.scheduleJobs(state.list)
+                }
                 is CurrentSchedule -> {
                     schedule = state.schedule
                     scheduleName.text = state.schedule.title

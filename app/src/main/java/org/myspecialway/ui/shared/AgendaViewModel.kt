@@ -51,8 +51,8 @@ class AgendaViewModel(private val repository: AgendaRepository,
 
     private fun subscribe(list: MutableList<ScheduleRenderModel>) {
         val today = getTodaySchedule(list)
-        activateAlarmNextHours(today.reversed())
-        agendaLive.value = ListData(today.reversed())
+        activateAlarmNextHours(today)
+        agendaLive.value = ListData(today)
     }
 
     private fun getTodaySchedule(list: MutableList<ScheduleRenderModel>) =
@@ -76,6 +76,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 val currentTime = Calendar.getInstance(TimeZone.getDefault()).time
                 index = schedule.index
                 title = schedule.lesson.title
+                unityDest = schedule.location?.locationId ?: ""
                 image = schedule.lesson.icon
                 time = schedule.index.let { AgendaIndex.convertTimeFromIndex(it) }
                 isNow = currentTime.after(time?.date) && currentTime.before(time!!.date.addHour(1))
