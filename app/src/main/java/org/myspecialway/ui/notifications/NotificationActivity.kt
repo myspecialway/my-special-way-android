@@ -28,7 +28,7 @@ class NotificationActivity : Activity() {
         notificationText.text = notificationTitle
         image.load(currentSchedule.image ?: "")
         navigationButton.setOnClickListener {
-            Navigation.toUnityNavigation(this, currentSchedule.unityDest)
+            Navigation.toUnityNavigation(this, "B1")
             finish()
         }
     }

@@ -14,8 +14,8 @@ import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.Navigation
 import org.myspecialway.ui.agenda.*
 import org.myspecialway.ui.login.UserModel
-import org.myspecialway.ui.notifications.workmanager.AlarmJob
-import org.myspecialway.ui.notifications.workmanager.AlarmJob.Companion.ALARM_JOB_TAG
+import org.myspecialway.ui.notifications.androidjob.AlarmJob
+import org.myspecialway.ui.notifications.androidjob.AlarmJob.Companion.ALARM_JOB_TAG
 import org.myspecialway.ui.shared.AgendaViewModel
 import org.myspecialway.ui.shared.Alarms
 import org.myspecialway.ui.shared.CurrentSchedule

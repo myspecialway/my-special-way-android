@@ -1,4 +1,4 @@
-package org.myspecialway.ui.notifications.workmanager
+package org.myspecialway.ui.notifications.androidjob
 
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobRequest
