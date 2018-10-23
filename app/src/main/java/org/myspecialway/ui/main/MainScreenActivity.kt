@@ -15,6 +15,11 @@ import org.myspecialway.common.Navigation
 import org.myspecialway.ui.agenda.*
 import org.myspecialway.ui.login.UserModel
 import org.myspecialway.ui.notifications.NotificationAlarmManager
+import org.myspecialway.ui.shared.AgendaViewModel
+import org.myspecialway.ui.shared.Alarms
+import org.myspecialway.ui.shared.CurrentSchedule
+import org.myspecialway.ui.shared.ListData
+
 
 class MainScreenActivity : BaseActivity() {
 
@@ -34,9 +39,11 @@ class MainScreenActivity : BaseActivity() {
     private fun clickListeners() {
         scheduleButton.setOnClickListener { Navigation.toScheduleActivity(this) }
         navButton.setOnClickListener { showNavigationDialog(this) }
-        settings.setOnClickListener{ Navigation.toSettingsActivity(this)}
+        settings.setOnClickListener { Navigation.toSettingsActivity(this) }
+
     }
 
+    data class DialogModel(val name: String, val id: String)
 
     override fun render() {
         userDisplayName.text = UserModel().getUser(sp).fullName()
@@ -44,12 +51,12 @@ class MainScreenActivity : BaseActivity() {
         viewModel.failure.observe(this, Observer { handleError() })
         viewModel.progress.observe(this, Observer { progress.visibility = it!! })
 
-        viewModel.agendaLive.observe(this, Observer { agenda->
-            when(agenda) {
-                is Alarms -> agenda.list.forEach { notificationAlarmManager.scheduleAlarm(it) }
+        viewModel.agendaLive.observe(this, Observer { state->
+            when(state) {
+                is Alarms ->  notificationAlarmManager.setAlarms(state.list)
                 is CurrentSchedule -> {
-                    schedule = agenda.schedule
-                    scheduleName.text = agenda.schedule.title
+                    schedule = state.schedule
+                    scheduleName.text = state.schedule.title
                 }
                 is ListData -> scheduleName.visibility = View.VISIBLE
             }

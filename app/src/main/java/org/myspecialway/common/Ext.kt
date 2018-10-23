@@ -48,9 +48,6 @@ fun ImageView.load(url: String) =
 
 
 fun <T> Flowable<T>.filterAtError(): Flowable<T> = materialize()
-        .map {
-            it
-        }
         .filter { !it.isOnError }
         .dematerialize<T>()
 
@@ -79,6 +76,12 @@ fun Activity.hideKeyboard() {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }
+
+fun View.animateY(y: Float) =
+        animate()
+                .translationY(y)
+                .setInterpolator(AccelerateDecelerateInterpolator())
+                .start()
 
 fun Button.enable(enable: Boolean) = when (enable) {
     true -> {

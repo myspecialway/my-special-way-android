@@ -12,7 +12,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RemoteProperties {
-
     const val BASE_URL = "https://msw-westus-app-k8s.att.io:3000/"
 }
 
@@ -20,25 +19,28 @@ val remoteDataSourceModel = module {
 
     single { createOkHttpClient(get()) }
 
-    single { TokenInterceptor(get(),get() ) }
+    single { TokenInterceptor(get(), get()) }
 
     single { createWebService<RemoteDataSource>(get(), BASE_URL) }
 
 }
 
-fun createOkHttpClient(tokenInterceptor: TokenInterceptor): OkHttpClient {
+fun createOkHttpClient(tokenInterceptor: TokenInterceptor): OkHttpClient = OkHttpClient.Builder()
+        .connectTimeout(60L, TimeUnit.SECONDS)
+        .readTimeout(60L, TimeUnit.SECONDS)
+        .addInterceptor(tokenInterceptor)
+        .addInterceptor(addOkHttpLog())
+        .build()
+
+
+fun addOkHttpLog(): HttpLoggingInterceptor {
     val interceptor = HttpLoggingInterceptor()
     interceptor.level = HttpLoggingInterceptor.Level.BASIC
-    return OkHttpClient.Builder()
-            .connectTimeout(60L, TimeUnit.SECONDS)
-            .readTimeout(60L, TimeUnit.SECONDS)
-            .addInterceptor(tokenInterceptor)
-            .addInterceptor(interceptor)
-            .build()
+    return interceptor
 }
 
 
-inline fun <reified T> createWebService(okHttpClient: OkHttpClient, url: String) : T {
+inline fun <reified T> createWebService(okHttpClient: OkHttpClient, url: String): T {
     val retrofit = Retrofit.Builder()
             .baseUrl(url)
             .client(okHttpClient)

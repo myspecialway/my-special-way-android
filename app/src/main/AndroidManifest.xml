@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="org.myspecialway">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,7 +14,8 @@
         android:name=".App"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeNoAB">
+        android:theme="@style/AppThemeNoAB"
+        tools:ignore="GoogleAppIndexingWarning">
 
 
 

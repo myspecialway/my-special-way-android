@@ -19,8 +19,9 @@ class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
                            private val sp: SharedPreferences) : AgendaRepository {
 
     override fun getSchedule(): Flowable<ScheduleModel> =
-            Flowable.concatArrayEager(local(),remote())
-                    .firstOrError().toFlowable()
+            Flowable.concatArrayEager(local(), remote())
+                    .firstOrError()
+                    .toFlowable()
 
     private fun remote() = remoteDataSource.fetchSchedule(getPayLoad())
             .toFlowable()
@@ -36,8 +37,7 @@ class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
      */
     private fun getPayLoad(): JsonObject {
         val json = JsonObject()
-        json.addProperty("query", query(UserModel().getUser(sp).id
-                ?: ""))
+        json.addProperty("query", query(UserModel().getUser(sp).id ?: ""))
         json.addProperty("value", "")
         return json
     }

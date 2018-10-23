@@ -36,8 +36,7 @@ data class UserModel(
     fun getUser(preferences: SharedPreferences): UserModel {
         if (preferences.contains(USER_MODEL)) {
             val userModelString = preferences.getString(USER_MODEL, "")
-            val userModel = Gson().fromJson<UserModel>(userModelString, UserModel::class.java)
-            return userModel
+            return Gson().fromJson(userModelString, UserModel::class.java)
         }
 
         return UserModel()

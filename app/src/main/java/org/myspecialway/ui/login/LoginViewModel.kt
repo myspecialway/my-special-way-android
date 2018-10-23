@@ -12,13 +12,12 @@ import org.myspecialway.session.Token
 sealed class LoginData
 
 object LoginSuccess : LoginData()
-data class LoginError(val throwable: Throwable) : LoginData()
 
 class LoginViewModel(private val repository: LoginRepository,
                      private val schedulerProvider: SchedulerProvider,
                      private val sp: SharedPreferences) : AbstractViewModel() {
 
-    val loginLive = MutableLiveData<LoginData>()
+    val loginData = MutableLiveData<LoginData>()
 
     fun login(authData: LoginAuthData) = launch {
         repository
@@ -27,15 +26,14 @@ class LoginViewModel(private val repository: LoginRepository,
                 .doOnSubscribe { progress.value = View.VISIBLE }
                 .doFinally { progress.value = View.GONE }
                 .subscribe({
-                    loginLive.value = LoginSuccess
-                }, { loginLive.value = LoginError(it) }
-                )
+                    loginData.value = LoginSuccess
+                }, { failure(it) })
     }
 
     fun checkIfLoggedIn() {
         when (Token().getToken(sp).accessToken?.isNotEmpty()) {
-            true -> loginLive.value = LoginSuccess
-            false -> loginLive.value = LoginError(Throwable("Can't Login"))
+            true -> loginData.value = LoginSuccess
+            false -> failure(Throwable("Can't Login"))
         }
     }
 }
