@@ -54,7 +54,7 @@ class MainScreenActivity : BaseActivity() {
             when(state) {
                 is Alarms -> {
                     JobManager.instance().cancelAllForTag(ALARM_JOB_TAG)
-                    AlarmJob.initScheduleJob(state.list)
+                    AlarmJob.scheduleJobs(state.list)
                 }
                 is CurrentSchedule -> {
                     schedule = state.schedule
