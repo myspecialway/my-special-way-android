@@ -4,12 +4,14 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import io.reactivex.Observable
+import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_notification.*
 
 import org.myspecialway.R
 import org.myspecialway.common.Navigation
+import org.myspecialway.common.load
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 import java.util.concurrent.TimeUnit
 
@@ -22,10 +24,11 @@ class NotificationActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification)
         selfDestroyTimer()
-        val (notificationTitle, destination) = getBundle(intent)
+        val (notificationTitle, currentSchedule) = getBundle(intent)
         notificationText.text = notificationTitle
+        image.load(currentSchedule.image ?: "")
         navigationButton.setOnClickListener {
-            Navigation.toUnityNavigation(this, destination.unityDest)
+            Navigation.toUnityNavigation(this, currentSchedule.unityDest)
             finish()
         }
     }

@@ -15,10 +15,10 @@
         android:background="@android:color/white">
 
         <ImageView
+            android:id="@+id/image"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
-
             android:background="@android:color/transparent"
             android:src="@drawable/notification_img" />
 

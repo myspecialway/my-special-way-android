@@ -8,7 +8,7 @@ import org.myspecialway.session.Token
 import org.myspecialway.ui.login.LoginRepository
 import org.myspecialway.ui.login.LoginRepositoryImpl
 import org.myspecialway.ui.login.LoginViewModel
-import org.myspecialway.ui.notifications.NotificationAlarmManager
+//import org.myspecialway.ui.notifications.NotificationAlarmManager
 import org.myspecialway.ui.shared.AgendaRepository
 import org.myspecialway.ui.shared.AgendaRepositoryImpl
 import org.myspecialway.ui.shared.AgendaViewModel
@@ -25,7 +25,7 @@ val loginModule = module {
 val agendaModule = module {
     viewModel { AgendaViewModel(get(), get()) }
     single { AgendaRepositoryImpl(get(), get(), get()) as AgendaRepository }
-    module("alarms") { single { NotificationAlarmManager(get()) } }
+//    module("alarms") { single { NotificationAlarmManager(get()) } }
 }
 
 val rxModule = module {

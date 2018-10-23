@@ -3,7 +3,6 @@ package org.myspecialway.ui.main
 import android.arch.lifecycle.Observer
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.Toast
 import com.evernote.android.job.JobManager
@@ -15,7 +14,6 @@ import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.Navigation
 import org.myspecialway.ui.agenda.*
 import org.myspecialway.ui.login.UserModel
-import org.myspecialway.ui.notifications.NotificationAlarmManager
 import org.myspecialway.ui.notifications.workmanager.AlarmJob
 import org.myspecialway.ui.notifications.workmanager.AlarmJob.Companion.ALARM_JOB_TAG
 import org.myspecialway.ui.shared.AgendaViewModel
@@ -27,9 +25,7 @@ import org.myspecialway.ui.shared.ListData
 class MainScreenActivity : BaseActivity() {
 
     private val viewModel: AgendaViewModel by viewModel()
-//    private val notificationAlarmManager: NotificationAlarmManager by inject()
     private val sp: SharedPreferences by inject()
-
     private var schedule: ScheduleRenderModel? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +54,7 @@ class MainScreenActivity : BaseActivity() {
             when(state) {
                 is Alarms -> {
                     JobManager.instance().cancelAllForTag(ALARM_JOB_TAG)
-                    AlarmJob.scheduleJobs(state.list)
+                    AlarmJob.initScheduleJob(state.list)
                 }
                 is CurrentSchedule -> {
                     schedule = state.schedule
