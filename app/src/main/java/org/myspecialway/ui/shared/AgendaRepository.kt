@@ -7,6 +7,7 @@ import org.myspecialway.common.filterAtError
 import org.myspecialway.data.local.LocalDataSource
 import org.myspecialway.data.remote.RemoteDataSource
 import org.myspecialway.ui.agenda.ScheduleModel
+import org.myspecialway.ui.agenda.mockRes
 import org.myspecialway.ui.agenda.query
 import org.myspecialway.ui.login.UserModel
 
@@ -18,10 +19,10 @@ class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
                            private val localDataSource: LocalDataSource,
                            private val sp: SharedPreferences) : AgendaRepository {
 
-    override fun getSchedule(): Flowable<ScheduleModel> =
-            Flowable.concatArrayEager(local(), remote())
-                    .firstOrError()
-                    .toFlowable()
+    override fun getSchedule(): Flowable<ScheduleModel> = Flowable.just(mockRes)
+//            Flowable.concatArrayEager(local(), remote())
+//                    .firstOrError()
+//                    .toFlowable()
 
     private fun remote() = remoteDataSource.fetchSchedule(getPayLoad())
             .toFlowable()
