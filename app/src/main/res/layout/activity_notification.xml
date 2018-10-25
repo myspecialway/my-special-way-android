@@ -2,17 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#50ffffff">
+    android:background="@android:color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
+        android:background="@android:color/white"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="20dp"
-        android:visibility="visible"
-        android:background="@android:color/white">
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/image"
@@ -26,9 +26,9 @@
             android:id="@+id/notificationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:textColor="#000000"
             android:textSize="20sp" />
 
         <ImageButton
