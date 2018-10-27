@@ -11,22 +11,22 @@ object AgendaIndex : TimeFactory {
     /**
      * Looks at the left number [->11 0] that represents the hours
      */
-    override fun convertTimeFromIndex(timeIndex: String) = when (getTimeIndex(timeIndex)) {
-        "0" -> Time(createHour(7), day(timeIndex), "8:00 - 7:00")
-        "1" -> Time(createHour(8), day(timeIndex), "9:00 - 8:00")
-        "2" -> Time(createHour(9), day(timeIndex), "10:00 - 9:00")
-        "3" -> Time(createHour(10), day(timeIndex), "11:00 - 10:00")
-        "4" -> Time(createHour(11), day(timeIndex), "12:00 - 11:00")
-        "5" -> Time(createHour(12), day(timeIndex), "13:00 - 12:00")
-        "6" -> Time(createHour(13), day(timeIndex), "14:00 - 13:00")
-        "7" -> Time(createHour(14), day(timeIndex), "15:00 - 14:00")
-        "8" -> Time(createHour(15), day(timeIndex), "16:00 - 15:00")
-        "9" -> Time(createHour(16), day(timeIndex), "17:00 - 16:00")
-        "10" -> Time(createHour(17), day(timeIndex), "18:00 - 17:00")
-        "11" -> Time(createHour(18), day(timeIndex), "19:00 - 18:00")
-        "12" -> Time(createHour(19), day(timeIndex), "20:00 - 19:00")
-        "13" -> Time(createHour(20), day(timeIndex), "21:00 - 20:00")
-        "14" -> Time(createHour(21), day(timeIndex), "22:00 - 21:00")
+    override fun convertTimeFromIndex(timeIndex: String, hours: String) = when (getTimeIndex(timeIndex)) {
+        "0" -> Time(createHour(7), day(timeIndex), hours)
+        "1" -> Time(createHour(8), day(timeIndex), hours)
+        "2" -> Time(createHour(9), day(timeIndex), hours)
+        "3" -> Time(createHour(10), day(timeIndex), hours)
+        "4" -> Time(createHour(11), day(timeIndex), hours)
+        "5" -> Time(createHour(12), day(timeIndex), hours)
+        "6" -> Time(createHour(13), day(timeIndex), hours)
+        "7" -> Time(createHour(14), day(timeIndex), hours)
+        "8" -> Time(createHour(15), day(timeIndex), hours)
+        "9" -> Time(createHour(16), day(timeIndex), hours)
+        "10" -> Time(createHour(17), day(timeIndex),hours)
+        "11" -> Time(createHour(18), day(timeIndex),hours)
+        "12" -> Time(createHour(19), day(timeIndex),hours)
+        "13" -> Time(createHour(20), day(timeIndex),hours)
+        "14" -> Time(createHour(21), day(timeIndex),hours)
 
         else -> throw Exception("Index on time conversion doesn't exists.")
     }
@@ -79,5 +79,5 @@ object AgendaIndex : TimeFactory {
 data class Time(val date: Date, val dayDisplay: String, val timeDisplay: String) : Parcelable
 
 interface TimeFactory {
-    fun convertTimeFromIndex(timeIndex: String): Time
+    fun convertTimeFromIndex(timeIndex: String, hours: String): Time
 }

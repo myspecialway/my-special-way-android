@@ -78,9 +78,10 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 val currentTime = Calendar.getInstance(TimeZone.getDefault()).time
                 index = schedule.index
                 title = schedule.lesson.title
+                hours = schedule.hours
                 unityDest = schedule.location?.locationId ?: ""
                 image = schedule.lesson.icon
-                time = schedule.index.let { AgendaIndex.convertTimeFromIndex(it) }
+                time = schedule.index.let { AgendaIndex.convertTimeFromIndex(it, schedule.hours ?: "") }
                 isNow = currentTime.after(time?.date) && currentTime.before(time!!.date.addHour(1))
 
             }

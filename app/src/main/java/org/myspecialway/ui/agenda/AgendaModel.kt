@@ -32,6 +32,7 @@ data class Class(
 data class Schedule(
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "schedule_id") @NonNull val id: Int,
         val index: String,
+        val hours: String? = null,
         @Embedded val lesson: Lesson,
         @Embedded val location: Location? = null)
 
@@ -60,6 +61,7 @@ data class Lesson(
 data class ScheduleRenderModel(var index: String? = null,
                                var title: String? = null,
                                var image: String? = null,
+                               var hours: String? = null,
                                var time: Time? = null,
                                var isNow: Boolean = false,
                                var unityDest: String = "") : Parcelable, ViewType {

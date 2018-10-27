@@ -13,49 +13,49 @@ class AgendaIndexTest {
 
     @Test
     fun `convertTimeFromIndex with params 00 return Sunday`() {
-        val todayAtSeven = AgendaIndex.convertTimeFromIndex("0_0")
+        val todayAtSeven = AgendaIndex.convertTimeFromIndex("0_0", schedule.hours)
         assertEquals("Sunday", todayAtSeven.dayDisplay)
     }
 
     @Test
     fun `convertTimeFromIndex with params 01 return Monday`() {
-        val todayAtSeven = AgendaIndex.convertTimeFromIndex("0_1")
+        val todayAtSeven = AgendaIndex.convertTimeFromIndex("0_1", schedule.hours)
         assertEquals("Monday", todayAtSeven.dayDisplay)
     }
 
     @Test
     fun `convertTimeFromIndex with params 02 return Tuesday`() {
-        val todayAtSeven = AgendaIndex.convertTimeFromIndex("0_2")
+        val todayAtSeven = AgendaIndex.convertTimeFromIndex("0_2", schedule.hours)
         assertEquals("Tuesday", todayAtSeven.dayDisplay)
     }
 
     @Test
     fun `convertTimeFromIndex with params 03 return Wednesday`() {
-        val todayAtSeven = AgendaIndex.convertTimeFromIndex("0_3")
+        val todayAtSeven = AgendaIndex.convertTimeFromIndex("0_3", schedule.hours)
         assertEquals("Wednesday", todayAtSeven.dayDisplay)
     }
 
     @Test
     fun `convertTimeFromIndex with params 04 return Thursday`() {
-        val todayAtSeven = AgendaIndex.convertTimeFromIndex("0_4")
+        val todayAtSeven = AgendaIndex.convertTimeFromIndex("0_4", schedule.hours)
         assertEquals("Thursday", todayAtSeven.dayDisplay)
     }
 
     @Test
     fun `convertTimeFromIndex with params 05 return Friday`() {
-        val todayAtSeven = AgendaIndex.convertTimeFromIndex("0_5")
+        val todayAtSeven = AgendaIndex.convertTimeFromIndex("0_5", schedule.hours)
         assertEquals("Friday", todayAtSeven.dayDisplay)
     }
 
     @Test
     fun `convertTimeFromIndex with params 06 return Saturday`() {
-        val todayAtSeven = AgendaIndex.convertTimeFromIndex("0_6")
+        val todayAtSeven = AgendaIndex.convertTimeFromIndex("0_6", schedule.hours)
         assertEquals("Saturday", todayAtSeven.dayDisplay)
     }
 
     @Test
     fun `convertTimeFromIndex with params 07 return Exception`() {
-        Observable.fromCallable { AgendaIndex.convertTimeFromIndex("0_7") }.test()
+        Observable.fromCallable { AgendaIndex.convertTimeFromIndex("0_7", schedule.hours) }.test()
                 .assertError { true }
     }
 
@@ -64,7 +64,7 @@ class AgendaIndexTest {
     fun `convertTimeFromIndex return correct date with createHour`() {
         for (index in timeIndexCombinations) {
 
-            val timeModel = AgendaIndex.convertTimeFromIndex(index)
+            val timeModel = AgendaIndex.convertTimeFromIndex(index, schedule.hours)
 
             val hour = AgendaIndex.getTimeIndex(index).toInt() + 7
 
@@ -76,7 +76,7 @@ class AgendaIndexTest {
     @Test
     fun `check convertTimeFromIndex throws an exception`() {
         val outOfScopeIndex = "150"
-        Observable.fromCallable { AgendaIndex.convertTimeFromIndex(outOfScopeIndex) }.test()
+        Observable.fromCallable { AgendaIndex.convertTimeFromIndex(outOfScopeIndex, schedule.hours) }.test()
                 .assertError { true }
     }
 
