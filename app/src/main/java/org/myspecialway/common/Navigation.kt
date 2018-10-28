@@ -47,10 +47,11 @@ object Navigation {
         activity.finish()
     }
 
-    fun toNotificationActivity(context: Context, schedule: ScheduleRenderModel) {
+    fun toNotificationActivity(context: Context, current: ScheduleRenderModel, previous: ScheduleRenderModel) {
         val intent = Intent(context, NotificationActivity::class.java)
-        intent.putExtra(NotificationActivity.NOTIFICATION_TITLE, "זמן לשיעור ${schedule.title}")
-        intent.putExtra(NotificationActivity.SCHEDULE_KEY, schedule)
+        intent.putExtra(NotificationActivity.NOTIFICATION_TITLE, "זמן לשיעור ${current.title}")
+        intent.putExtra(NotificationActivity.SCHEDULE_CURRENT_KEY, current)
+        intent.putExtra(NotificationActivity.SCHEDULE_PREVIOUS_KEY, previous)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(intent)
     }

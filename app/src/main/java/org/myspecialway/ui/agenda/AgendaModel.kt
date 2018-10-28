@@ -64,6 +64,7 @@ data class ScheduleRenderModel(var index: String? = null,
                                var hours: String? = null,
                                var time: Time? = null,
                                var isNow: Boolean = false,
+                               var isLast: Boolean = false,
                                var unityDest: String = "") : Parcelable, ViewType {
 
     override fun getViewType(): Int = AgendaTypes.ITEM_TYPE

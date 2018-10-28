@@ -42,21 +42,21 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 .flatMapIterable { it } // iterate on each element
                 .map { mapScheduleRenderModel(it) } // map to render model
                 .toList()
+                .map { filterTodayList(it) }
                 .toFlowable()
                 .subscribeBy(
-                        onNext = { subscribe(it) },
+                        onNext = { subscribe(it.toMutableList()) },
                         onError = { failure(it) }
                 )
     }
 
     private fun subscribe(list: MutableList<ScheduleRenderModel>) {
-        val today = getTodaySchedule(list)
-        activateAlarmNextHours(today)
-        agendaLive.value = Alarms(getAlarms(today))
-        agendaLive.value = ListData(today)
+        selectCurrentSchedule(list)
+        agendaLive.value = Alarms(getAlarms(list))
+        agendaLive.value = ListData(list)
     }
 
-    private fun getTodaySchedule(list: MutableList<ScheduleRenderModel>) =
+    private fun filterTodayList(list: MutableList<ScheduleRenderModel>) =
             list.asSequence()
                     .filter { AgendaIndex.todayWeekIndex(Calendar.getInstance()) == it.time?.dayDisplay }
                     .sortedBy {
@@ -66,7 +66,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
                     .toList()
 
 
-    private fun activateAlarmNextHours(list: List<ScheduleRenderModel>) =
+    private fun selectCurrentSchedule(list: List<ScheduleRenderModel>) =
             list.forEachIndexed { index, scheduleRenderModel ->
                 if (scheduleRenderModel.isNow) {
                     agendaLive.value = CurrentSchedule(scheduleRenderModel, index)
@@ -83,7 +83,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 index = schedule.index
                 title = schedule.lesson.title
                 this.hours = schedule.hours
-                unityDest = schedule.location?.locationId ?: ""
+                unityDest = schedule.location?.locationId ?: "C1"
                 image = schedule.lesson.icon
                 time = schedule.index.let { AgendaIndex.convertTimeFromIndex(it, display) }
                 isNow = currentTime.after(time?.date) && currentTime.before(createHour(hour(display), min(display)))
