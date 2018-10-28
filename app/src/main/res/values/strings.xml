@@ -32,4 +32,8 @@
     <string name="settings_alerts_summary">הדלק או כבה את ההתראות</string>
     <string name="settings_sound_summary">הדלק או כבה את הניווט הקולי</string>
     <string name="settings_logout_summary">לחץ כדי לצאת מהמערכת</string>
+    <string name="navigation_image">navigation image</string>
+    <string name="password_title">סיסמה</string>
+    <string name="navPasswordButtonText">שלח</string>
+    <string name="navigation_destinations_title">לאן הולכים עכשיו?</string>
 </resources>

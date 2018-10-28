@@ -38,7 +38,7 @@ class MainScreenActivity : BaseActivity() {
 
     private fun clickListeners() {
         scheduleButton.setOnClickListener { Navigation.toScheduleActivity(this) }
-        navButton.setOnClickListener { showNavigationDialog(this) }
+        navButton.setOnClickListener { Navigation.toNavigationPassword(this) }
         settings.setOnClickListener { Navigation.toSettingsActivity(this) }
 
     }
