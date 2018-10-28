@@ -11,25 +11,12 @@ object AgendaIndex : TimeFactory {
     /**
      * Looks at the left number [->11 0] that represents the hours
      */
-    override fun convertTimeFromIndex(timeIndex: String, hours: String) = when (getTimeIndex(timeIndex)) {
-        "0" -> Time(createHour(7), day(timeIndex), hours)
-        "1" -> Time(createHour(8), day(timeIndex), hours)
-        "2" -> Time(createHour(9), day(timeIndex), hours)
-        "3" -> Time(createHour(10), day(timeIndex), hours)
-        "4" -> Time(createHour(11), day(timeIndex), hours)
-        "5" -> Time(createHour(12), day(timeIndex), hours)
-        "6" -> Time(createHour(13), day(timeIndex), hours)
-        "7" -> Time(createHour(14), day(timeIndex), hours)
-        "8" -> Time(createHour(15), day(timeIndex), hours)
-        "9" -> Time(createHour(16), day(timeIndex), hours)
-        "10" -> Time(createHour(17), day(timeIndex),hours)
-        "11" -> Time(createHour(18), day(timeIndex),hours)
-        "12" -> Time(createHour(19), day(timeIndex),hours)
-        "13" -> Time(createHour(20), day(timeIndex),hours)
-        "14" -> Time(createHour(21), day(timeIndex),hours)
+    override fun convertTimeFromIndex(timeIndex: String, hours: String) =
+        Time(createHour(getHour(hours), getMinute(hours)), day(timeIndex), hours)
 
-        else -> throw Exception("Index on time conversion doesn't exists.")
-    }
+    private fun getHour(hours: String) = hours.substringBefore(":").toInt()
+
+    private fun getMinute(display: String) = display.substringAfter(":").substringBefore("-").trim().toInt()
 
     fun getTimeIndex(timeIndex: String) = timeIndex.substringBefore('_')
 
@@ -47,16 +34,6 @@ object AgendaIndex : TimeFactory {
         else -> throw Exception("Index on day conversion doesn't exists.")
     }
 
-    /**
-     * return the hour of the day based on @param hour
-     */
-    private fun createHour(hour: Int): Date {
-        val cal = Calendar.getInstance()
-        cal.set(Calendar.HOUR_OF_DAY, hour)
-        cal.set(Calendar.MINUTE, 0)
-        cal.set(Calendar.SECOND, 0)
-        return cal.time
-    }
 
     fun todayWeekIndex(calendar: Calendar): String {
         val day = calendar.get(Calendar.DAY_OF_WEEK)
@@ -80,4 +57,14 @@ data class Time(val date: Date, val dayDisplay: String, val timeDisplay: String)
 
 interface TimeFactory {
     fun convertTimeFromIndex(timeIndex: String, hours: String): Time
+}
+/**
+ * return the hour of the day based on @param hour
+ */
+fun createHour(hour: Int, minute: Int): Date {
+    val cal = Calendar.getInstance()
+    cal.set(Calendar.HOUR_OF_DAY, hour)
+    cal.set(Calendar.MINUTE, minute)
+    cal.set(Calendar.SECOND, 0)
+    return cal.time
 }

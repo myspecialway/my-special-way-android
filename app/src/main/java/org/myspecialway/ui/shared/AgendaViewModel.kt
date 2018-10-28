@@ -13,6 +13,7 @@ import org.myspecialway.common.*
 import org.myspecialway.ui.agenda.AgendaIndex
 import org.myspecialway.ui.agenda.Schedule
 import org.myspecialway.ui.agenda.ScheduleRenderModel
+import org.myspecialway.ui.agenda.createHour
 
 import java.util.*
 
@@ -59,6 +60,9 @@ class AgendaViewModel(private val repository: AgendaRepository,
     private fun getTodaySchedule(list: MutableList<ScheduleRenderModel>) =
             list.asSequence()
                     .filter { AgendaIndex.todayWeekIndex(Calendar.getInstance()) == it.time?.dayDisplay }
+                    .sortedBy {
+                        it.index?.substringBefore("_")?.toInt()
+                    }
                     .distinctBy { it.index }
                     .toList()
 
@@ -71,18 +75,32 @@ class AgendaViewModel(private val repository: AgendaRepository,
             }
 
     private fun getAlarms(list: List<ScheduleRenderModel>) =
-        list.filter { System.currentTimeMillis() < it.time!!.date.time }
+            list.filter { System.currentTimeMillis() < it.time!!.date.time }
 
     private fun mapScheduleRenderModel(schedule: Schedule) = ScheduleRenderModel()
             .apply {
+                val h = schedule.hours ?: "7:30 - 08:00"
                 val currentTime = Calendar.getInstance(TimeZone.getDefault()).time
                 index = schedule.index
                 title = schedule.lesson.title
                 hours = schedule.hours
                 unityDest = schedule.location?.locationId ?: ""
                 image = schedule.lesson.icon
-                time = schedule.index.let { AgendaIndex.convertTimeFromIndex(it, schedule.hours ?: "") }
-                isNow = currentTime.after(time?.date) && currentTime.before(time!!.date.addHour(1))
-
+                time = schedule.index.let { AgendaIndex.convertTimeFromIndex(it, h) }
+                isNow = currentTime.after(time?.date) && currentTime.before(createHour(hour(h), min(h)))
             }
+
+    private fun min(h: String): Int {
+        return h.substringAfter("-")
+                .trim()
+                .split(":")[1]
+                .toInt()
+    }
+
+    private fun hour(h: String): Int {
+        return h.substringAfter("-")
+                .trim()
+                .split(":")[0]
+                .toInt()
+    }
 }

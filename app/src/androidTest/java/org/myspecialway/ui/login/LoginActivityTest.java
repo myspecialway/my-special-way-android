@@ -36,19 +36,19 @@ public class LoginActivityTest {
     @Rule
     public ActivityTestRule<LoginActivity> activityTestRule = new ActivityTestRule<>(LoginActivity.class);
 
-    @Test
-    public void passwordIsEmpty() {
-        onView(withId(R.id.usernameTextFiled)).perform(typeText("stu"), closeSoftKeyboard());
-        onView(withId(R.id.passwordTextFiled)).perform(clearText());
-        onView(withId(R.id.loginButton)).check(matches(not(isEnabled())));
-    }
+//    @Test
+//    public void passwordIsEmpty() {
+//        onView(withId(R.id.usernameTextFiled)).perform(typeText("stu"), closeSoftKeyboard());
+//        onView(withId(R.id.passwordTextFiled)).perform(clearText());
+//        onView(withId(R.id.loginButton)).check(matches(not(isEnabled())));
+//    }
 
-    @Test
-    public void userIsEmpty() {
-        onView(withId(R.id.passwordTextFiled)).perform(typeText("Aa12"), closeSoftKeyboard());
-        onView(withId(R.id.usernameTextFiled)).perform(clearText());
-        onView(withId(R.id.loginButton)).check(matches(not(isEnabled())));
-    }
+//    @Test
+//    public void userIsEmpty() {
+//        onView(withId(R.id.passwordTextFiled)).perform(typeText("Aa12"), closeSoftKeyboard());
+//        onView(withId(R.id.usernameTextFiled)).perform(clearText());
+//        onView(withId(R.id.loginButton)).check(matches(not(isEnabled())));
+//    }
 
     /**
      * Logic Changed, the progress view is not visible anymore, it was replaced with different loader
@@ -78,10 +78,10 @@ public class LoginActivityTest {
         onView(withId(R.id.closeButton)).check(matches(isDisplayed()));
     }
 
-    @Test
-    public void checkUserNameFocus() {
-        onView(withId(R.id.usernameTextFiled)).check(matches(ViewMatchers.isFocusable()));
-    }
+//    @Test
+//    public void checkUserNameFocus() {
+//        onView(withId(R.id.usernameTextFiled)).check(matches(ViewMatchers.isFocusable()));
+//    }
 
     /**
      * cant login with these credentials
