@@ -47,16 +47,22 @@
         <activity
             android:screenOrientation="portrait"
             android:name="org.myspecialway.ui.settings.SettingsActivity"
-            android:label="@string/settings_title">
-        </activity>
+            android:label="@string/settings_title"/>
 
         <activity
-
             android:name="org.myspecialway.ui.notifications.NotificationActivity"
             android:label="@string/notifiaction_activity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent" />
 
+        <activity
+            android:screenOrientation="portrait"
+            android:name="org.myspecialway.ui.navigation.NavigationPasswordActivity"/>
+
+        <activity
+            android:screenOrientation="portrait"
+            android:name="org.myspecialway.ui.navigation.NavigationDestinationsActivity"
+            android:label="@string/navigation_destinations_title"/>
 
         <!-- Firebase Messaging -->
         <service android:name=".fcm.FCMInstanceIdService">
