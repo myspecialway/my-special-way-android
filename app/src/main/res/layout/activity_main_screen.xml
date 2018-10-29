@@ -2,27 +2,27 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layoutDirection="rtl"
     android:id="@+id/activity_main_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:layoutDirection="rtl">
     <!-- TODO - uncomment data entry and make it work -->
     <!--<data>-->
-        <!--<varaible-->
-            <!--android:name= "viewModel"-->
-            <!--android:type="org.myspecialway.android.mainscreen.MainScreenViewModel">-->
+    <!--<varaible-->
+    <!--android:name= "viewModel"-->
+    <!--android:type="org.myspecialway.android.mainscreen.MainScreenViewModel">-->
 
-        <!--</varaible>-->
+    <!--</varaible>-->
     <!--</data>-->
 
     <TextView
         android:id="@+id/userDisplayName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="18sp"
@@ -48,10 +48,11 @@
         android:id="@+id/scheduleName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="אין שיעור כרגע"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="22sp"
@@ -61,8 +62,7 @@
         app:layout_constraintEnd_toEndOf="@+id/current_schedule_name_image"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@+id/current_schedule_name_image"
-        app:layout_constraintTop_toBottomOf="@+id/current_schedule_name_image"
-        android:text="אין שיעור כרגע" />
+        app:layout_constraintTop_toBottomOf="@+id/current_schedule_name_image" />
 
     <ProgressBar
         android:id="@+id/progress"
@@ -72,18 +72,19 @@
         app:layout_constraintEnd_toEndOf="@+id/current_schedule_name_image"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@+id/current_schedule_name_image"
-        app:layout_constraintTop_toBottomOf="@+id/current_schedule_name_image"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/current_schedule_name_image" />
 
     <Button
         android:id="@+id/navButton"
         android:layout_width="65dp"
         android:layout_height="59dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:alpha=".7"
         android:background="@drawable/main_screen_nav_image"
+        android:enabled="false"
         app:layout_constraintBottom_toBottomOf="@+id/wc_nav_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/wc_nav_button"
@@ -93,9 +94,9 @@
         android:id="@+id/wc_nav_button"
         android:layout_width="84dp"
         android:layout_height="80dp"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/main_screen_wc_image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/scheduleName"
@@ -105,10 +106,10 @@
         android:id="@+id/scheduleButton"
         android:layout_width="65dp"
         android:layout_height="59dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/main_screen_schedule_image"
         app:layout_constraintBottom_toBottomOf="@+id/wc_nav_button"
         app:layout_constraintEnd_toStartOf="@+id/wc_nav_button"
@@ -119,9 +120,9 @@
         android:id="@+id/user_avatar_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:adjustViewBounds="true"
         android:cropToPadding="true"
         app:layout_constraintEnd_toEndOf="parent"

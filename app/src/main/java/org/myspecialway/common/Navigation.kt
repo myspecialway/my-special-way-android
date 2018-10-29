@@ -4,11 +4,15 @@ import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import com.google.gson.Gson
 import org.myspecialway.ui.agenda.AgendaActivity
+import org.myspecialway.ui.agenda.Location
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 import org.myspecialway.ui.main.MainScreenActivity
+import org.myspecialway.ui.nav.NavigationActivity
 import org.myspecialway.ui.notifications.NotificationActivity
 import org.myspecialway.ui.settings.SettingsActivity
+import org.myspecialway.ui.shared.LocationData
 
 object Navigation {
 
@@ -51,6 +55,12 @@ object Navigation {
         val intent = Intent(context, NotificationActivity::class.java)
         intent.putExtra(NotificationActivity.NOTIFICATION_TITLE, "בוקר טוב זמן לשיעור ${schedule.title}")
         intent.putExtra(NotificationActivity.SCHEDULE_KEY, schedule)
+        context.startActivity(intent)
+    }
+
+    fun navigateLocationActivity(context: Context, locations: List<Location>) {
+        val intent = Intent(context, NavigationActivity::class.java)
+        intent.putExtra(NavigationActivity.LOCATIONS_PAYLOAD_KEY, Gson().toJson(locations))
         context.startActivity(intent)
     }
 }

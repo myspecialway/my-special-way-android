@@ -19,3 +19,19 @@ class ScheduleConverter {
         return Gson().fromJson<List<Schedule>>(value, listType)
     }
 }
+
+class LocationConverter {
+    @TypeConverter
+    fun fromLocationModel(location: List<Location>): String? {
+        return location.toJson()
+    }
+
+    @TypeConverter
+    fun fromString(value: String): List<Location> {
+        val listType = object: TypeToken<List<Location>>() {
+
+        }.type
+        return Gson().fromJson<List<Location>>(value, listType)
+    }
+
+}

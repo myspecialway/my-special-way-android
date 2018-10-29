@@ -1,64 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="org.myspecialway">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- Used by glide for downloading restart -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Used by glide for downloading restart -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".App"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppThemeNoAB"
         tools:ignore="GoogleAppIndexingWarning">
-
-
-
-        <activity android:name=".ui.login.LoginActivity"
+        <activity android:name=".ui.nav.NavigationActivity"></activity>
+        <activity
+            android:name=".ui.login.LoginActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
             android:theme="@style/FullScreen"
-            >
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:screenOrientation="portrait"
             android:name=".ui.main.MainScreenActivity"
-            android:label="@string/app_name" >
-        </activity>
-
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
         <activity
-            android:screenOrientation="portrait"
-            android:name="org.myspecialway.ui.agenda.AgendaActivity"
-            android:label="@string/day_schedule_title"/>
-
-
+            android:name=".ui.agenda.AgendaActivity"
+            android:label="@string/day_schedule_title"
+            android:screenOrientation="portrait" />
         <activity
-            android:screenOrientation="portrait"
-            android:name="org.myspecialway.ui.settings.SettingsActivity"
-            android:label="@string/settings_title">
-        </activity>
-
+            android:name=".ui.settings.SettingsActivity"
+            android:label="@string/settings_title"
+            android:screenOrientation="portrait"></activity>
         <activity
-
-            android:name="org.myspecialway.ui.notifications.NotificationActivity"
+            android:name=".ui.notifications.NotificationActivity"
             android:label="@string/notifiaction_activity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Transparent" />
-
-
-        <!-- Firebase Messaging -->
+            android:theme="@style/Theme.Transparent" /> <!-- Firebase Messaging -->
         <service android:name=".fcm.FCMInstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
@@ -70,7 +56,7 @@
             </intent-filter>
         </service>
 
-
-        <receiver android:name="org.myspecialway.ui.notifications.NotificationAlarmManager$AlarmReceiver" />
+        <receiver android:name=".ui.notifications.NotificationAlarmManager$AlarmReceiver" />
     </application>
+
 </manifest>
