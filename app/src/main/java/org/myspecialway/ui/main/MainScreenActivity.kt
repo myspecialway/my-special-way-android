@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.widget.Toast
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_main_screen.*
 import org.koin.android.ext.android.inject
@@ -20,7 +18,6 @@ import org.myspecialway.ui.agenda.*
 import org.myspecialway.ui.login.UserModel
 import org.myspecialway.ui.notifications.NotificationAlarmManager
 import org.myspecialway.ui.shared.*
-import java.util.concurrent.TimeUnit
 
 
 class MainScreenActivity : BaseActivity() {
@@ -29,7 +26,7 @@ class MainScreenActivity : BaseActivity() {
     private val notificationAlarmManager: NotificationAlarmManager by inject()
     private val sp: SharedPreferences by inject()
 
-    private val locations = BehaviorSubject.create<List<Location>>()
+    private val locationsSubject = BehaviorSubject.create<List<Location>>()
 
     private var schedule: ScheduleRenderModel? = null
 
@@ -46,7 +43,7 @@ class MainScreenActivity : BaseActivity() {
 
         // listen to location events, if any then enable the navigation button and set the payload
         // on the click
-        disposable = locations.subscribe({ navLocations ->
+        disposable = locationsSubject.subscribe({ navLocations ->
             navButton.enable(true)
             navButton.alpha = 1.0f
             navButton.setOnClickListener { Navigation.navigateLocationActivity(this, navLocations) }
@@ -58,7 +55,7 @@ class MainScreenActivity : BaseActivity() {
     override fun render() {
 
         Handler().postDelayed({
-            locations.onNext(mutableListOf<Location>().apply {
+            locationsSubject.onNext(mutableListOf<Location>().apply {
                 add(Location(1, "D1", "פטל", false))
                 add(Location(2, "D2", "פל", false))
                 add(Location(3, "D3", "ל", false))
@@ -72,7 +69,7 @@ class MainScreenActivity : BaseActivity() {
 
         viewModel.agendaLive.observe(this, Observer { state ->
             when (state) {
-                is LocationData -> locations.onNext(state.list)
+                is LocationData -> locationsSubject.onNext(state.list)
                 is Alarms -> notificationAlarmManager.setAlarms(state.list)
                 is CurrentSchedule -> {
                     schedule = state.schedule
