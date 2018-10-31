@@ -11,11 +11,6 @@ import io.reactivex.disposables.Disposable
  * - handle Rx jobs with launch() and clear them on onCleared
  */
 abstract class AbstractViewModel : ViewModel() {
-    var failure: MutableLiveData<Throwable> = MutableLiveData()
-    val progress = MutableLiveData<Int>()
-    fun failure(failure: Throwable) {
-        this.failure.value = failure
-    }
 
     private val disposables = CompositeDisposable()
 

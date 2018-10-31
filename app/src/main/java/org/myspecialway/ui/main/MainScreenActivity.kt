@@ -14,10 +14,7 @@ import org.myspecialway.common.Navigation
 import org.myspecialway.ui.agenda.*
 import org.myspecialway.ui.login.UserModel
 import org.myspecialway.ui.notifications.NotificationAlarmManager
-import org.myspecialway.ui.shared.AgendaViewModel
-import org.myspecialway.ui.shared.Alarms
-import org.myspecialway.ui.shared.CurrentSchedule
-import org.myspecialway.ui.shared.ListState
+import org.myspecialway.ui.shared.*
 
 
 class MainScreenActivity : BaseActivity() {
@@ -48,17 +45,16 @@ class MainScreenActivity : BaseActivity() {
     override fun render() {
         userDisplayName.text = UserModel().getUser(sp).fullName()
 
-        viewModel.failure.observe(this, Observer { handleError() })
-        viewModel.progress.observe(this, Observer { progress.visibility = it!! })
-
-        viewModel.states.observe(this, Observer { state->
-            when(state) {
-                is Alarms ->  notificationAlarmManager.setAlarms(state.list)
-                is CurrentSchedule -> {
+        viewModel.states.observe(this, Observer { state ->
+            when (state) {
+                is AgendaState.Alarms -> notificationAlarmManager.setAlarms(state.list)
+                is AgendaState.CurrentSchedule -> {
                     schedule = state.schedule
                     scheduleName.text = state.schedule.title
                 }
-                is ListState -> scheduleName.visibility = View.VISIBLE
+                is AgendaState.ListState -> scheduleName.visibility = View.VISIBLE
+                is AgendaState.Progress -> progress.visibility = state.progress
+                is AgendaState.Failure -> handleError()
             }
         })
     }

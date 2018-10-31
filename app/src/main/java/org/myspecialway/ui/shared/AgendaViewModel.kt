@@ -2,9 +2,7 @@ package org.myspecialway.ui.shared
 
 import android.arch.lifecycle.MutableLiveData
 import android.view.View
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
 
 import org.myspecialway.common.AbstractViewModel
 import org.myspecialway.common.SchedulerProvider
@@ -12,18 +10,9 @@ import org.myspecialway.common.addHour
 import org.myspecialway.common.with
 
 import org.myspecialway.common.*
-import org.myspecialway.ui.agenda.AgendaIndex
-import org.myspecialway.ui.agenda.Schedule
-import org.myspecialway.ui.agenda.ScheduleRenderModel
+import org.myspecialway.ui.agenda.*
 
 import java.util.*
-
-// State
-sealed class AgendaState
-
-data class ListState(val scheduleList: List<ViewType>) : AgendaState()
-data class Alarms(val list: List<ScheduleRenderModel>) : AgendaState()
-data class CurrentSchedule(val schedule: ScheduleRenderModel, val position: Int) : AgendaState()
 
 
 class AgendaViewModel(val repository: AgendaRepository,
@@ -35,8 +24,8 @@ class AgendaViewModel(val repository: AgendaRepository,
     fun getDailySchedule() = launch {
         repository.getSchedule()
                 .with(provider)
-                .doOnSubscribe { progress.value = View.VISIBLE }
-                .doFinally { progress.value = View.GONE }
+                .doOnSubscribe { states.value = AgendaState.Progress(View.VISIBLE) }
+                .doFinally { states.value = AgendaState.Progress(View.GONE) }
                 .map { it.data.classById.schedule } // map the schedule list
                 .flatMapIterable { it } // iterate on each element
                 .map { mapScheduleRenderModel(it) } // map to render model
@@ -44,26 +33,27 @@ class AgendaViewModel(val repository: AgendaRepository,
                 .toFlowable()
                 .subscribeBy(
                         onNext = { subscribe(it) },
-                        onError = { failure(it) }
+                        onError = { states.value = AgendaState.Failure(it) }
                 )
     }
 
     private fun subscribe(list: MutableList<ScheduleRenderModel>) {
         val today = getTodaySchedule(list)
         activateAlarmNextHours(today.reversed())
-        states.value = ListState(today.reversed())
+        states.value = AgendaState.ListState(today.reversed())
     }
 
     private fun getTodaySchedule(list: MutableList<ScheduleRenderModel>) =
-            list.filter { AgendaIndex.todayWeekIndex(Calendar.getInstance()) == it.time?.dayDisplay }
-                    .distinctBy { it.index }
+            list.asSequence()
+                    .filter { AgendaIndex.todayWeekIndex(Calendar.getInstance()) == it.time?.dayDisplay }
+                    .distinctBy { it.index }.toList()
 
 
     private fun activateAlarmNextHours(list: List<ScheduleRenderModel>) =
             list.forEachIndexed { index, scheduleRenderModel ->
                 if (scheduleRenderModel.isNow) {
-                    states.value = CurrentSchedule(scheduleRenderModel, index)
-                    states.value = Alarms(getAlarms(list, index))
+                    states.value = AgendaState.CurrentSchedule(scheduleRenderModel, index)
+                    states.value = AgendaState.Alarms(getAlarms(list, index))
                 }
             }
 
