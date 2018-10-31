@@ -2,7 +2,9 @@ package org.myspecialway.ui.shared
 
 import android.arch.lifecycle.MutableLiveData
 import android.view.View
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
 
 import org.myspecialway.common.AbstractViewModel
 import org.myspecialway.common.SchedulerProvider
@@ -17,25 +19,22 @@ import org.myspecialway.ui.agenda.ScheduleRenderModel
 import java.util.*
 
 // State
-sealed class AgendaData
+sealed class AgendaState
 
-data class ListData(val scheduleList: List<ViewType>) : AgendaData()
-data class Alarms(val list: List<ScheduleRenderModel>) : AgendaData()
-data class CurrentSchedule(val schedule: ScheduleRenderModel, val position: Int) : AgendaData()
+data class ListState(val scheduleList: List<ViewType>) : AgendaState()
+data class Alarms(val list: List<ScheduleRenderModel>) : AgendaState()
+data class CurrentSchedule(val schedule: ScheduleRenderModel, val position: Int) : AgendaState()
 
 
-class AgendaViewModel(private val repository: AgendaRepository,
-                      private val scheduler: SchedulerProvider) : AbstractViewModel() {
+class AgendaViewModel(val repository: AgendaRepository,
+                      val provider: SchedulerProvider) : AbstractViewModel() {
 
-    val agendaLive = MutableLiveData<AgendaData>()
+    val states = MutableLiveData<AgendaState>()
 
-    init {
-        getDailySchedule()
-    }
 
-    private fun getDailySchedule() = launch {
+    fun getDailySchedule() = launch {
         repository.getSchedule()
-                .with(scheduler)
+                .with(provider)
                 .doOnSubscribe { progress.value = View.VISIBLE }
                 .doFinally { progress.value = View.GONE }
                 .map { it.data.classById.schedule } // map the schedule list
@@ -52,7 +51,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
     private fun subscribe(list: MutableList<ScheduleRenderModel>) {
         val today = getTodaySchedule(list)
         activateAlarmNextHours(today.reversed())
-        agendaLive.value = ListData(today.reversed())
+        states.value = ListState(today.reversed())
     }
 
     private fun getTodaySchedule(list: MutableList<ScheduleRenderModel>) =
@@ -63,8 +62,8 @@ class AgendaViewModel(private val repository: AgendaRepository,
     private fun activateAlarmNextHours(list: List<ScheduleRenderModel>) =
             list.forEachIndexed { index, scheduleRenderModel ->
                 if (scheduleRenderModel.isNow) {
-                    agendaLive.value = CurrentSchedule(scheduleRenderModel, index)
-                    agendaLive.value = Alarms(getAlarms(list, index))
+                    states.value = CurrentSchedule(scheduleRenderModel, index)
+                    states.value = Alarms(getAlarms(list, index))
                 }
             }
 

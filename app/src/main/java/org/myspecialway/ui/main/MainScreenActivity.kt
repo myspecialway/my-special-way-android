@@ -3,7 +3,6 @@ package org.myspecialway.ui.main
 import android.arch.lifecycle.Observer
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main_screen.*
@@ -18,7 +17,7 @@ import org.myspecialway.ui.notifications.NotificationAlarmManager
 import org.myspecialway.ui.shared.AgendaViewModel
 import org.myspecialway.ui.shared.Alarms
 import org.myspecialway.ui.shared.CurrentSchedule
-import org.myspecialway.ui.shared.ListData
+import org.myspecialway.ui.shared.ListState
 
 
 class MainScreenActivity : BaseActivity() {
@@ -32,6 +31,7 @@ class MainScreenActivity : BaseActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_screen)
+        viewModel.getDailySchedule()
         clickListeners()
         render()
     }
@@ -51,14 +51,14 @@ class MainScreenActivity : BaseActivity() {
         viewModel.failure.observe(this, Observer { handleError() })
         viewModel.progress.observe(this, Observer { progress.visibility = it!! })
 
-        viewModel.agendaLive.observe(this, Observer { state->
+        viewModel.states.observe(this, Observer { state->
             when(state) {
                 is Alarms ->  notificationAlarmManager.setAlarms(state.list)
                 is CurrentSchedule -> {
                     schedule = state.schedule
                     scheduleName.text = state.schedule.title
                 }
-                is ListData -> scheduleName.visibility = View.VISIBLE
+                is ListState -> scheduleName.visibility = View.VISIBLE
             }
         })
     }

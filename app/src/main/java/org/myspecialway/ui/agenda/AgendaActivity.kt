@@ -13,7 +13,7 @@ import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.ViewType
 import org.myspecialway.ui.shared.AgendaViewModel
 import org.myspecialway.ui.shared.CurrentSchedule
-import org.myspecialway.ui.shared.ListData
+import org.myspecialway.ui.shared.ListState
 
 class AgendaActivity : BaseActivity() {
 
@@ -26,6 +26,7 @@ class AgendaActivity : BaseActivity() {
         setContentView(R.layout.agenda_activity)
         initToolbar()
         initList()
+        viewModel.getDailySchedule()
         render()
     }
 
@@ -46,15 +47,15 @@ class AgendaActivity : BaseActivity() {
     override fun render() {
         viewModel.progress.observe(this, Observer { progress.visibility = it ?: View.GONE })
         viewModel.failure.observe(this, Observer { handleError() })
-        viewModel.agendaLive.observe(this, Observer { state ->
+        viewModel.states.observe(this, Observer { state ->
             when (state) {
-                is ListData -> adapter.addData(addSingleImage(state))
+                is ListState -> adapter.addData(addSingleImage(state))
                 is CurrentSchedule -> agendaRecyclerView.scrollToPosition(state.position)
             }
         })
     }
 
-    private fun addSingleImage(state: ListData): List<ViewType> =
+    private fun addSingleImage(state: ListState): List<ViewType> =
             state.scheduleList
                     .toMutableList()
                     .apply { add(state.scheduleList.size, SingleImageRes(R.drawable.gohome)) }
