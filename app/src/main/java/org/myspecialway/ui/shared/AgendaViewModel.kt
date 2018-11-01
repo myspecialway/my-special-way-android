@@ -3,16 +3,10 @@ package org.myspecialway.ui.shared
 import android.arch.lifecycle.MutableLiveData
 import android.view.View
 import io.reactivex.rxkotlin.subscribeBy
-
 import org.myspecialway.common.AbstractViewModel
 import org.myspecialway.common.SchedulerProvider
 import org.myspecialway.common.with
-
-import org.myspecialway.common.*
-import org.myspecialway.ui.agenda.AgendaIndex
-import org.myspecialway.ui.agenda.Schedule
-import org.myspecialway.ui.agenda.ScheduleRenderModel
-
+import org.myspecialway.ui.agenda.*
 import java.util.*
 
 
@@ -41,8 +35,8 @@ class AgendaViewModel(val repository: AgendaRepository,
     private fun subscribe(list: MutableList<ScheduleRenderModel>) {
         val today = getTodaySchedule(list)
         activateAlarmNextHours(today)
-        agendaLive.value = Alarms(getAlarms(today))
-        agendaLive.value = ListData(today)
+        states.value = AgendaState.Alarms(getAlarms(today))
+        states.value = AgendaState.ListState(today)
     }
 
     private fun getTodaySchedule(list: MutableList<ScheduleRenderModel>) =
@@ -58,7 +52,7 @@ class AgendaViewModel(val repository: AgendaRepository,
     private fun activateAlarmNextHours(list: List<ScheduleRenderModel>) =
             list.forEachIndexed { index, scheduleRenderModel ->
                 if (scheduleRenderModel.isNow) {
-                    agendaLive.value = CurrentSchedule(scheduleRenderModel, index)
+                    states.value = AgendaState.CurrentSchedule(scheduleRenderModel, index)
                 }
             }
 
