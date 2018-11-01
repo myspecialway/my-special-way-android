@@ -4,7 +4,6 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_login_layout.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.myspecialway.R
@@ -29,25 +28,20 @@ class LoginActivity : BaseActivity() {
         observeInputFields()
     }
 
-    override fun render() {
-        // Observe data flow
-        viewModel.loginData.observe(this, Observer { state ->
-            when (state) {
-                is LoginSuccess -> Navigation.toMainActivity(this)
-            }
-        })
+    override fun render() =
+            viewModel.loginState.observe(this, Observer { state ->
+                when (state) {
+                    is LoginStates.Success -> Navigation.toMainActivity(this)
+                    is LoginStates.Failure -> handleError(state.throwable)
+                    is LoginStates.Progress -> if (state.view == View.VISIBLE) {
+                        loadingDialog.show()
+                    } else {
+                        loadingDialog.hide()
+                    }
 
-        // Observe failure
-        viewModel.failure.observe(this, Observer { error ->
-            handleError(error ?: Throwable())
-        })
 
-        // Observe progress
-        viewModel.progress.observe(this, Observer { progress ->
-            if (progress == View.VISIBLE) loadingDialog.show()
-            else loadingDialog.hide()
-        })
-    }
+                }
+            })
 
     private fun handleError(throwable: Throwable) = when (throwable) {
         is HttpException -> showLoginError { closeIconClickListener { dialog?.dismiss() } }
@@ -65,9 +59,11 @@ class LoginActivity : BaseActivity() {
 
     private fun observeInputFields() {
         disposable = RxView.clicks(loginButton)
-                .filter { handleInputError(
-                        passwordTextFiled.text.toString(),
-                        usernameTextFiled.text.toString()) }
+                .filter {
+                    handleInputError(
+                            passwordTextFiled.text.toString(),
+                            usernameTextFiled.text.toString())
+                }
                 .subscribe {
                     hideKeyboard()
                     viewModel.login(LoginAuthData().apply {

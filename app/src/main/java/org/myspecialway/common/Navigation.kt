@@ -7,6 +7,8 @@ import android.content.Intent
 import org.myspecialway.ui.agenda.AgendaActivity
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 import org.myspecialway.ui.main.MainScreenActivity
+import org.myspecialway.ui.navigation.NavigationDestinationsActivity
+import org.myspecialway.ui.navigation.NavigationPasswordActivity
 import org.myspecialway.ui.notifications.NotificationActivity
 import org.myspecialway.ui.settings.SettingsActivity
 
@@ -40,6 +42,13 @@ object Navigation {
         }
     }
 
+    fun toNavigationPassword(context: Context) {
+        context.startActivity(Intent(context, NavigationPasswordActivity::class.java))
+    }
+
+    fun toNavigationDestinationsActivity(context: Context) {
+        context.startActivity(Intent(context, NavigationDestinationsActivity::class.java))
+    }
 
     fun toMainActivity(activity: Activity) {
         val intent = Intent(activity, MainScreenActivity::class.java)

@@ -32,7 +32,7 @@ class UserModelTest{
 
     @Test
     fun `getUser userExists returnsFullObject`() {
-        var user = UserModel().apply {  firstName = "Msw"
+        val user = UserModel().apply {  firstName = "Msw"
             lastName = "Student"
             id = "5b90f6b48314238c344ad06c"
             username = "null"
@@ -45,14 +45,14 @@ class UserModelTest{
         Mockito.`when`(sp.contains(any())).doReturn(true)
         Mockito.`when`(sp.getString(USER_MODEL, "")).doReturn(userJson)
 
-        var userModel = UserModel().getUser(sp)
+        val userModel = UserModel().getUser(sp)
 
         assertThat(userModel).isEqualTo(user)
     }
 
     @Test
     fun `fullName returnsFullName`() {
-        var user = UserModel().apply {  firstName = "Msw"
+        val user = UserModel().apply {  firstName = "Msw"
             lastName = "Student"
             id = "5b90f6b48314238c344ad06c"
             username = "null"
