@@ -1,10 +1,12 @@
 package org.myspecialway
 
 import android.app.Application
+import com.evernote.android.job.JobManager
 import org.koin.android.ext.android.startKoin
 import org.myspecialway.di.mySpecialWay
 import com.squareup.picasso.Picasso
 import com.jakewharton.picasso.OkHttp3Downloader
+import org.myspecialway.ui.notifications.androidjob.JobCreator
 
 class App : Application() {
 
@@ -13,6 +15,7 @@ class App : Application() {
         startKoin(this, mySpecialWay)
         instance = this
         configurePicassoOffline()
+        JobManager.create(this).addJobCreator(JobCreator())
     }
 
     private fun configurePicassoOffline() {

@@ -3,6 +3,7 @@ package org.myspecialway.ui.main
 import android.arch.lifecycle.Observer
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main_screen.*
@@ -35,7 +36,7 @@ class MainScreenActivity : BaseActivity() {
 
     private fun clickListeners() {
         scheduleButton.setOnClickListener { Navigation.toScheduleActivity(this) }
-        navButton.setOnClickListener { Navigation.toNavigationPassword(this) }
+        navButton.setOnClickListener { showNavigationDialog(this) }
         settings.setOnClickListener { Navigation.toSettingsActivity(this) }
 
     }

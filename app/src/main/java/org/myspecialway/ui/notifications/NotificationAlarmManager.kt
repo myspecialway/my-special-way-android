@@ -9,12 +9,14 @@ import org.myspecialway.common.Navigation
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 
 class NotificationAlarmManager(private val context: Context) {
-    var alarmManager: AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    private var alarmManager: AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-    var alarmsQueue = mutableListOf<PendingIntent>()
+    private val alarmsQueue = mutableListOf<PendingIntent>()
 
     fun setAlarms(alarms: List<ScheduleRenderModel>) {
         alarmsQueue.cancelAll(alarmManager)
+
+
         alarms.forEach { alarm ->
             val intent = Intent(context, AlarmReceiver::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
