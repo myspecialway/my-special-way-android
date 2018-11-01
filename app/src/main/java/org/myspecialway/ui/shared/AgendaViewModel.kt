@@ -12,32 +12,21 @@ import org.myspecialway.common.*
 import org.myspecialway.ui.agenda.AgendaIndex
 import org.myspecialway.ui.agenda.Schedule
 import org.myspecialway.ui.agenda.ScheduleRenderModel
-import org.myspecialway.ui.agenda.createHour
 
 import java.util.*
 
-// State
-sealed class AgendaData
 
-data class ListData(val scheduleList: List<ViewType>) : AgendaData()
-data class Alarms(val list: List<ScheduleRenderModel>) : AgendaData()
-data class CurrentSchedule(val schedule: ScheduleRenderModel, val position: Int) : AgendaData()
+class AgendaViewModel(val repository: AgendaRepository,
+                      val provider: SchedulerProvider) : AbstractViewModel() {
+
+    val states = MutableLiveData<AgendaState>()
 
 
-class AgendaViewModel(private val repository: AgendaRepository,
-                      private val scheduler: SchedulerProvider) : AbstractViewModel() {
-
-    val agendaLive = MutableLiveData<AgendaData>()
-
-    init {
-        getDailySchedule()
-    }
-
-    private fun getDailySchedule() = launch {
+    fun getDailySchedule() = launch {
         repository.getSchedule()
-                .with(scheduler)
-                .doOnSubscribe { progress.value = View.VISIBLE }
-                .doFinally { progress.value = View.GONE }
+                .with(provider)
+                .doOnSubscribe { states.value = AgendaState.Progress(View.VISIBLE) }
+                .doFinally { states.value = AgendaState.Progress(View.GONE) }
                 .map { it.data.classById.schedule } // map the schedule list
                 .flatMapIterable { it } // iterate on each element
                 .map { mapScheduleRenderModel(it) } // map to render model
@@ -45,7 +34,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 .toFlowable()
                 .subscribeBy(
                         onNext = { subscribe(it) },
-                        onError = { failure(it) }
+                        onError = { states.value = AgendaState.Failure(it) }
                 )
     }
 

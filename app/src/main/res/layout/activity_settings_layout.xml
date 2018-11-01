@@ -32,23 +32,25 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginRight="5dp"
+                android:layout_marginStart="5dp"
+                android:contentDescription="@string/back_button_description"
                 android:gravity="right"
-                android:src="@drawable/back"
-                android:onClick="onBackClick"/>
+                android:onClick="onBackClick"
+                android:src="@drawable/back" />
         </FrameLayout>
     </android.support.v7.widget.Toolbar>
 
     <TextView
         android:id="@+id/logout"
-        android:onClick="onLogoutClick"
-        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
         android:layout_marginTop="5dp"
-        android:layout_marginRight="7dp"
+        android:clickable="true"
+        android:focusable="true"
         android:gravity="right"
-        android:textSize="17sp"
         android:lineSpacingExtra="4dp"
-        android:text="@string/settings_logout_title" />
+        android:onClick="onLogoutClick"
+        android:text="@string/settings_logout_title"
+        android:textSize="17sp" />
 </LinearLayout>

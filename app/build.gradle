@@ -61,7 +61,8 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
             '**/*App$*.*',
             '**/*Database.*',
             '**/*AgendaModel.*',
-            '**/*AgendaModel$*.*'
+            '**/*AgendaModel$*.*',
+            '**/*Impl.*'
 
     ]
     // generated classes
