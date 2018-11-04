@@ -18,28 +18,28 @@ class NotificationAlarmManager(private val context: Context) {
 
 
         alarms.forEach { alarm ->
-            val intent = Intent(context, AlarmReceiver::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            intent.putExtra(NotificationActivity.NOTIFICATION_TITLE, alarm.title)
-            val id = System.currentTimeMillis().toInt()
-            val pendingIntent = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_ONE_SHOT)
-            alarmsQueue.add(pendingIntent)
-            val triggerAtMillis = alarm.time!!.date.time - System.currentTimeMillis()
-            alarmManager.set(
-                    AlarmManager.RTC_WAKEUP,
-                    System.currentTimeMillis() + triggerAtMillis,
-                    pendingIntent
-            )
+//            val intent = Intent(context, AlarmReceiver::class.java)
+//            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+//            intent.putExtra(NotificationActivity.NOTIFICATION_TITLE, alarm.title)
+//            val id = System.currentTimeMillis().toInt()
+//            val pendingIntent = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_ONE_SHOT)
+//            alarmsQueue.add(pendingIntent)
+//            val triggerAtMillis = alarm.time!!.date.time - System.currentTimeMillis()
+//            alarmManager.set(
+//                    AlarmManager.RTC_WAKEUP,
+//                    System.currentTimeMillis() + triggerAtMillis,
+//                    pendingIntent
+//            )
         }
 
     }
 
-    class AlarmReceiver : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val scheduleTitle = intent.getStringExtra(NotificationActivity.NOTIFICATION_TITLE)
-            Navigation.toNotificationActivity(context, ScheduleRenderModel(title = scheduleTitle))
-        }
-    }
+//    class AlarmReceiver : BroadcastReceiver() {
+//        override fun onReceive(context: Context, intent: Intent) {
+//            val scheduleTitle = intent.getStringExtra(NotificationActivity.NOTIFICATION_TITLE)
+//            Navigation.toNotificationActivity(context, ScheduleRenderModel(title = scheduleTitle))
+//        }
+//    }
 }
 
 fun MutableList<PendingIntent>.cancelAll(alarmManager: AlarmManager) {

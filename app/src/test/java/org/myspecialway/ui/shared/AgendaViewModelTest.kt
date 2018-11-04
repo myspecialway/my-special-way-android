@@ -53,18 +53,17 @@ class AgendaViewModelTest {
 
         val arg = argumentCaptor<AgendaState>()
 
-        verify(view, times(5)).onChanged(arg.capture())
+        verify(view, times(4)).onChanged(arg.capture())
 
         val values = arg.allValues
 
         // Expecting [Progress(VISIBLE), CurrentSchedule, Alarms, ListOfDailySchedule, Progress(GONE) ]
         assertThat(values[0], instanceOf(AgendaState.Progress::class.java))
         assertEquals((values[0] as AgendaState.Progress).progress, View.VISIBLE)
-        assertThat(values[1], instanceOf(AgendaState.CurrentSchedule::class.java))
-        assertThat(values[2], instanceOf(AgendaState.Alarms::class.java))
-        assertThat(values[3], instanceOf(AgendaState.ListState::class.java))
-        assertThat(values[4], instanceOf(AgendaState.Progress::class.java))
-        assertEquals((values[4] as AgendaState.Progress).progress, View.GONE)
+        assertThat(values[1], instanceOf(AgendaState.Alarms::class.java))
+        assertThat(values[2], instanceOf(AgendaState.ListState::class.java))
+        assertThat(values[3], instanceOf(AgendaState.Progress::class.java))
+        assertEquals((values[3] as AgendaState.Progress).progress, View.GONE)
     }
 
     @Test
