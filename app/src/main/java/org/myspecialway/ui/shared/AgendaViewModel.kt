@@ -5,6 +5,7 @@ import android.view.View
 import io.reactivex.rxkotlin.subscribeBy
 import org.myspecialway.common.AbstractViewModel
 import org.myspecialway.common.SchedulerProvider
+import org.myspecialway.common.filterTodayList
 import org.myspecialway.common.with
 import org.myspecialway.ui.agenda.*
 import java.util.*
@@ -25,7 +26,7 @@ class AgendaViewModel(val repository: AgendaRepository,
                 .flatMapIterable { it } // iterate on each element
                 .map { mapScheduleRenderModel(it) } // map to render model
                 .toList()
-                .map { filterTodayList(it) }
+                .map { it.filterTodayList() }
                 .toFlowable()
                 .subscribeBy(
                         onNext = { subscribe(it.toMutableList()) },
@@ -38,15 +39,6 @@ class AgendaViewModel(val repository: AgendaRepository,
         states.value = AgendaState.Alarms(getAlarms(today))
         states.value = AgendaState.ListState(today)
     }
-
-    private fun filterTodayList(list: MutableList<ScheduleRenderModel>) =
-            list.asSequence()
-                    .filter { AgendaIndex.todayWeekIndex(Calendar.getInstance()) == it.time?.dayDisplay }
-                    .sortedBy {
-                        it.index?.substringBefore("_")?.toInt()
-                    }
-                    .distinctBy { it.index }
-                    .toList()
 
 
     private fun selectCurrentSchedule(list: List<ScheduleRenderModel>) =
@@ -73,13 +65,13 @@ class AgendaViewModel(val repository: AgendaRepository,
             }
 
     private fun min(h: String): Int = h.substringAfter("-")
-                .trim()
-                .split(":")[1]
-                .toInt()
+            .trim()
+            .split(":")[1]
+            .toInt()
 
 
     private fun hour(h: String): Int = h.substringAfter("-")
-                .trim()
-                .split(":")[0]
-                .toInt()
+            .trim()
+            .split(":")[0]
+            .toInt()
 }
