@@ -28,14 +28,13 @@ class AgendaViewModel(val repository: AgendaRepository,
                 .map { filterTodayList(it) }
                 .toFlowable()
                 .subscribeBy(
-                        onNext = { subscribe(it) },
+                        onNext = { subscribe(it.toMutableList()) },
                         onError = { states.value = AgendaState.Failure(it) }
                 )
     }
 
-    private fun subscribe(list: MutableList<ScheduleRenderModel>) {
-        val today = getTodaySchedule(list)
-        activateAlarmNextHours(today)
+    private fun subscribe(today: MutableList<ScheduleRenderModel>) {
+        selectCurrentSchedule(today)
         states.value = AgendaState.Alarms(getAlarms(today))
         states.value = AgendaState.ListState(today)
     }

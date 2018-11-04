@@ -14,14 +14,15 @@ import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.Navigation
 import org.myspecialway.ui.agenda.*
 import org.myspecialway.ui.login.UserModel
-import org.myspecialway.ui.notifications.NotificationAlarmManager
+import org.myspecialway.ui.notifications.androidjob.AlarmJob
+//import org.myspecialway.ui.notifications.NotificationAlarmManager
 import org.myspecialway.ui.shared.*
 
 
 class MainScreenActivity : BaseActivity() {
 
     private val viewModel: AgendaViewModel by viewModel()
-    private val notificationAlarmManager: NotificationAlarmManager by inject()
+//    private val notificationAlarmManager: NotificationAlarmManager by inject()
     private val sp: SharedPreferences by inject()
 
     private var schedule: ScheduleRenderModel? = null
@@ -48,7 +49,7 @@ class MainScreenActivity : BaseActivity() {
 
         viewModel.states.observe(this, Observer { state ->
             when (state) {
-                is AgendaState.Alarms -> notificationAlarmManager.setAlarms(state.list)
+                is AgendaState.Alarms -> AlarmJob.scheduleJobs(state.list)
                 is AgendaState.CurrentSchedule -> {
                     schedule = state.schedule
                     scheduleName.text = state.schedule.title

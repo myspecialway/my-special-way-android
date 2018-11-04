@@ -26,6 +26,7 @@ class LoginActivity : BaseActivity() {
         render()
         observeKeyboard()
         observeInputFields()
+
     }
 
     override fun render() =
