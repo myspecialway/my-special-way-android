@@ -6,7 +6,7 @@ import org.koin.android.ext.android.startKoin
 import org.myspecialway.di.mySpecialWay
 import com.squareup.picasso.Picasso
 import com.jakewharton.picasso.OkHttp3Downloader
-import org.myspecialway.ui.notifications.androidjob.JobCreator
+import org.myspecialway.ui.alarms.JobCreator
 
 class App : Application() {
 

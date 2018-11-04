@@ -1,9 +1,9 @@
 package org.myspecialway.ui.main
 
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main_screen.*
@@ -13,8 +13,8 @@ import org.myspecialway.R
 import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.Navigation
 import org.myspecialway.ui.agenda.*
+import org.myspecialway.ui.alarms.AlarmService
 import org.myspecialway.ui.login.UserModel
-import org.myspecialway.ui.notifications.androidjob.AlarmJob
 //import org.myspecialway.ui.notifications.NotificationAlarmManager
 import org.myspecialway.ui.shared.*
 
@@ -22,17 +22,17 @@ import org.myspecialway.ui.shared.*
 class MainScreenActivity : BaseActivity() {
 
     private val viewModel: AgendaViewModel by viewModel()
-//    private val notificationAlarmManager: NotificationAlarmManager by inject()
     private val sp: SharedPreferences by inject()
-
     private var schedule: ScheduleRenderModel? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_screen)
+        startService(Intent(this, AlarmService::class.java))
         viewModel.getDailySchedule()
         clickListeners()
         render()
+
     }
 
     private fun clickListeners() {
@@ -49,7 +49,6 @@ class MainScreenActivity : BaseActivity() {
 
         viewModel.states.observe(this, Observer { state ->
             when (state) {
-                is AgendaState.Alarms -> AlarmJob.scheduleJobs(state.list)
                 is AgendaState.CurrentSchedule -> {
                     schedule = state.schedule
                     scheduleName.text = state.schedule.title

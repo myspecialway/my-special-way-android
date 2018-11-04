@@ -65,7 +65,9 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".ui.alarms.AlarmService" />
+        <service android:name=".ui.alarms.AlarmService"
+            android:enabled="true"
+            />
 
 
         <receiver android:name=".ui.alarms.RestartReceiver">

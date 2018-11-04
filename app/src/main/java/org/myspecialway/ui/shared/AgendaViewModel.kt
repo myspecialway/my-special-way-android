@@ -36,10 +36,8 @@ class AgendaViewModel(val repository: AgendaRepository,
 
     private fun subscribe(today: MutableList<ScheduleRenderModel>) {
         selectCurrentSchedule(today)
-        states.value = AgendaState.Alarms(getAlarms(today))
         states.value = AgendaState.ListState(today)
     }
-
 
     private fun selectCurrentSchedule(list: List<ScheduleRenderModel>) =
             list.forEachIndexed { index, scheduleRenderModel ->
@@ -48,30 +46,5 @@ class AgendaViewModel(val repository: AgendaRepository,
                 }
             }
 
-    private fun getAlarms(list: List<ScheduleRenderModel>) =
-            list.filter { System.currentTimeMillis() < it.time!!.date.time }
 
-    private fun mapScheduleRenderModel(schedule: Schedule) = ScheduleRenderModel()
-            .apply {
-                val display = schedule.hours ?: "7:30 - 08:00"
-                val currentTime = Calendar.getInstance(TimeZone.getDefault()).time
-                index = schedule.index
-                title = schedule.lesson.title
-                this.hours = schedule.hours
-                unityDest = schedule.location?.locationId ?: "C1"
-                image = schedule.lesson.icon
-                time = schedule.index.let { AgendaIndex.convertTimeFromIndex(it, display) }
-                isNow = currentTime.after(time?.date) && currentTime.before(createHour(hour(display), min(display)))
-            }
-
-    private fun min(h: String): Int = h.substringAfter("-")
-            .trim()
-            .split(":")[1]
-            .toInt()
-
-
-    private fun hour(h: String): Int = h.substringAfter("-")
-            .trim()
-            .split(":")[0]
-            .toInt()
 }
