@@ -20,11 +20,11 @@ class NotificationAlarmManager(private val context: Context) {
         alarms.forEach { alarm ->
 //            val intent = Intent(context, AlarmReceiver::class.java)
 //            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-//            intent.putExtra(NotificationActivity.NOTIFICATION_TITLE, alarm.title)
+//            intent.putExtra(NotificationActivity.NOTIFICATION_TITLE, scheduleAlarmsDaily.title)
 //            val id = System.currentTimeMillis().toInt()
 //            val pendingIntent = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_ONE_SHOT)
 //            alarmsQueue.add(pendingIntent)
-//            val triggerAtMillis = alarm.time!!.date.time - System.currentTimeMillis()
+//            val triggerAtMillis = scheduleAlarmsDaily.time!!.date.time - System.currentTimeMillis()
 //            alarmManager.set(
 //                    AlarmManager.RTC_WAKEUP,
 //                    System.currentTimeMillis() + triggerAtMillis,

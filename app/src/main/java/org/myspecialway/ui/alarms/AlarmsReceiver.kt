@@ -11,12 +11,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.myspecialway.common.getRemainingAlarmsForToday
 import org.myspecialway.data.local.Database
-import org.myspecialway.di.LocalProperties
 import org.myspecialway.ui.agenda.ScheduleModel
 import org.myspecialway.ui.agenda.mapScheduleRenderModel
+import java.util.*
 
 
-class RestartReceiver : BroadcastReceiver() {
+class AlarmsReceiver : BroadcastReceiver() {
     @SuppressLint("CheckResult")
     override fun onReceive(context: Context?, intent: Intent?) {
 
@@ -39,8 +39,18 @@ class RestartReceiver : BroadcastReceiver() {
     }
 
     private fun getLocalSchedule(context: Context?): Single<ScheduleModel> =
-            Room.databaseBuilder(context!!, Database::class.java, LocalProperties.DATABASE_NAME)
+            Room.databaseBuilder(context!!, Database::class.java, "database")
                     .build()
                     .localDataSourceDAO()
                     .loadSchedule()
+
+    companion object {
+        fun getHourOfDay(hour: Int): Date {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = System.currentTimeMillis()
+            calendar.set(Calendar.HOUR_OF_DAY, hour)
+            calendar.set(Calendar.MINUTE, 0)
+            return calendar.time
+        }
+    }
 }

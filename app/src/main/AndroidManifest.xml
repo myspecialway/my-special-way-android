@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Used by glide for downloading restart -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:name=".App"
         android:allowBackup="false"
@@ -45,14 +46,14 @@
             android:name=".ui.notifications.NotificationActivity"
             android:label="@string/notifiaction_activity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Transparent" /><activity
-            android:screenOrientation="portrait"
-            android:name="org.myspecialway.ui.navigation.NavigationPasswordActivity"/>
+            />
+
+        <activity android:name="org.myspecialway.ui.navigation.NavigationPasswordActivity" />
 
         <activity
-            android:screenOrientation="portrait"
             android:name="org.myspecialway.ui.navigation.NavigationDestinationsActivity"
-            android:label="@string/navigation_destinations_title"/>
+            android:label="@string/navigation_destinations_title"
+            android:screenOrientation="portrait" />
 
         <!-- Firebase Messaging -->
         <service android:name=".fcm.FCMInstanceIdService">
@@ -65,14 +66,11 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".ui.alarms.AlarmService"
-            android:enabled="true"
-            />
 
 
-        <receiver android:name=".ui.alarms.RestartReceiver">
+        <receiver android:name=".ui.alarms.AlarmsReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 

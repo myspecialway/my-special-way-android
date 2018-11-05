@@ -1,13 +1,12 @@
 package org.myspecialway.di
 
 import android.arch.persistence.room.Room
-import android.content.Context
 import android.preference.PreferenceManager
-import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
-import org.koin.dsl.module.applicationContext
 import org.koin.dsl.module.module
 import org.myspecialway.data.local.Database
+
+
 
 val localDataSourceModule = module {
 

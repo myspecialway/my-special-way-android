@@ -1,6 +1,6 @@
 package org.myspecialway.ui.alarms
-
 import com.evernote.android.job.Job
+import com.evernote.android.job.JobManager
 import com.evernote.android.job.JobRequest
 import com.evernote.android.job.util.support.PersistableBundleCompat
 import com.google.gson.Gson
@@ -23,10 +23,10 @@ class AlarmJob : Job() {
         const val ALARM_CURRENT = "alarm_current"
         const val ALARM_PREVIOUS = "alarm_previous"
 
-
         fun scheduleJobs(alarms: List<ScheduleRenderModel>) {
             var previous = ScheduleRenderModel()
             val last = alarms.last()
+            JobManager.instance().cancelAll()
             alarms.forEachIndexed { index, current ->
                 current.isLast = last == current
 
