@@ -11,10 +11,9 @@ import org.myspecialway.ui.agenda.*
     Class::class,
     Schedule::class,
     Lesson::class,
-    Location::class,
-    Position::class
+    Location::class
 ], version = 1)
-@TypeConverters(ScheduleConverter::class)
+@TypeConverters(ScheduleConverter::class, LocationConverter::class)
 abstract class Database : RoomDatabase() {
     abstract fun localDataSourceDAO(): LocalDataSource
 }

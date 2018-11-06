@@ -11,6 +11,7 @@ import org.myspecialway.common.with
 
 import org.myspecialway.common.*
 import org.myspecialway.ui.agenda.AgendaIndex
+import org.myspecialway.ui.agenda.Location
 import org.myspecialway.ui.agenda.Schedule
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 
@@ -22,6 +23,7 @@ sealed class AgendaData
 data class ListData(val scheduleList: List<ViewType>) : AgendaData()
 data class Alarms(val list: List<ScheduleRenderModel>) : AgendaData()
 data class CurrentSchedule(val schedule: ScheduleRenderModel, val position: Int) : AgendaData()
+data class LocationData(val list: List<Location>) : AgendaData()
 
 
 class AgendaViewModel(private val repository: AgendaRepository,
@@ -38,6 +40,7 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 .with(scheduler)
                 .doOnSubscribe { progress.value = View.VISIBLE }
                 .doFinally { progress.value = View.GONE }
+                .doOnNext { agendaLive.value = LocationData(it.data.locations) }
                 .map { it.data.classById.schedule } // map the schedule list
                 .flatMapIterable { it } // iterate on each element
                 .map { mapScheduleRenderModel(it) } // map to render model

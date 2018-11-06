@@ -15,6 +15,7 @@ data class ScheduleModel(
 @Entity()
 data class Data(
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "data_id") @NonNull val id: Int,
+        @SerializedName("locations") val locations: List<Location>,
         @SerializedName("student") @Embedded val classById: Class)
 
 
@@ -36,17 +37,11 @@ data class Schedule(
         @Embedded val location: Location)
 
 @Entity
-data class Location(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "location_id") @NonNull val id: Int,
+data class Location(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "loc_id") @NonNull val id: Int,
+                    @SerializedName("location_id") val locationId: String,
                     val name: String? = null,
-                    val disabled: Boolean? = null,
-                    @Embedded val position: Position? = null
+                    val disabled: Boolean? = null
 )
-
-@Entity
-data class Position(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "position_id") @NonNull val id: Int,
-                    val latitude: Double? = null,
-                    val longitude: Double? = null,
-                    val floor: Int? = null)
 
 @Entity()
 data class Lesson(
@@ -57,7 +52,7 @@ data class Lesson(
 // UI Models
 @Parcelize
 data class ScheduleRenderModel(var index: String? = null,
-        var title: String? = null,
+                               var title: String? = null,
                                var image: String? = null,
                                var time: Time? = null,
                                var isNow: Boolean = false) : Parcelable, ViewType {
