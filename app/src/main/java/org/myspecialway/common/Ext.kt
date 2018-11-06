@@ -101,9 +101,7 @@ fun MutableList<ScheduleRenderModel>.filterTodayList() =
 fun MutableList<ScheduleRenderModel>.getRemainingAlarmsForToday() =
         asSequence()
                 .filter { AgendaIndex.todayWeekIndex(Calendar.getInstance()) == it.time?.dayDisplay }
-                .sortedBy {
-                    it.index?.substringBefore("_")?.toInt()
-                }
+                .sortedBy {  it.index?.substringBefore("_")?.toInt() }
                 .distinctBy { it.index }
                 .toList()
                 .filter { System.currentTimeMillis() < it.time!!.date.time  }

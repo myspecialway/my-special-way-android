@@ -5,7 +5,6 @@ import android.arch.persistence.room.Room
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.github.ajalt.timberkt.d
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -35,7 +34,7 @@ class AlarmsReceiver : BroadcastReceiver() {
                             .getRemainingAlarmsForToday()
 
                     AlarmJob.scheduleJobs(remainingAlarms)
-                }, { d { "can't get the schedule list" } })
+                }, {  })
     }
 
     private fun getLocalSchedule(context: Context?): Single<ScheduleModel> =
