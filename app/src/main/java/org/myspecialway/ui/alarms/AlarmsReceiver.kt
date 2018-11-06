@@ -14,7 +14,6 @@ import org.myspecialway.ui.agenda.ScheduleModel
 import org.myspecialway.ui.agenda.mapScheduleRenderModel
 import java.util.*
 
-
 class AlarmsReceiver : BroadcastReceiver() {
     @SuppressLint("CheckResult")
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -34,7 +33,9 @@ class AlarmsReceiver : BroadcastReceiver() {
                             .getRemainingAlarmsForToday()
 
                     AlarmJob.scheduleJobs(remainingAlarms)
-                }, {  })
+                }, {
+
+                })
     }
 
     private fun getLocalSchedule(context: Context?): Single<ScheduleModel> =
