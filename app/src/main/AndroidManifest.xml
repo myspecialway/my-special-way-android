@@ -45,6 +45,7 @@
         <activity
             android:name=".ui.notifications.NotificationActivity"
             android:label="@string/notifiaction_activity"
+            android:theme="@style/Theme.Transparent"
             android:screenOrientation="portrait"
             />
 

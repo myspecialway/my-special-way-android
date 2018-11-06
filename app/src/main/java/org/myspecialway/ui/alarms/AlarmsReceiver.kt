@@ -33,9 +33,7 @@ class AlarmsReceiver : BroadcastReceiver() {
                             .getRemainingAlarmsForToday()
 
                     AlarmJob.scheduleJobs(remainingAlarms)
-                }, {
-
-                })
+                }, { })
     }
 
     private fun getLocalSchedule(context: Context?): Single<ScheduleModel> =

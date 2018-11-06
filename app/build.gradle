@@ -10,7 +10,7 @@ ext {
     okhttp_version = '3.8.1'
     retrofit_version = '2.2.0'
     rxjava_version = '2.1.7'
-    koin_version = '1.0.0-RC-1'
+    koin_version = '1.0.1'
 
     coverageSourceDirs = 'src/test/java'
 }
