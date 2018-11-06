@@ -4,3 +4,4 @@ fun query(token: String) = "query{student(id:\"$token\"){schedule{index hours le
 var USER_MODEL = "user_model"
 var TOKEN_MODEL = "token_model"
 const val EMPTY_TEXT = ""
+const val FIRST_TIME = "first_time_launch"

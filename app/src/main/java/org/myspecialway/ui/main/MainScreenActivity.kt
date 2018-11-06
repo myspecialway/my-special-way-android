@@ -1,9 +1,13 @@
 package org.myspecialway.ui.main
 
+//import org.myspecialway.ui.notifications.NotificationAlarmManager
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.arch.lifecycle.Observer
+import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main_screen.*
@@ -12,19 +16,19 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import org.myspecialway.R
 import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.Navigation
-import org.myspecialway.ui.agenda.*
+import org.myspecialway.ui.agenda.AgendaState
+import org.myspecialway.ui.agenda.FIRST_TIME
+import org.myspecialway.ui.agenda.ScheduleRenderModel
+import org.myspecialway.ui.alarms.AlarmsReceiver
 import org.myspecialway.ui.login.UserModel
-import org.myspecialway.ui.notifications.androidjob.AlarmJob
-//import org.myspecialway.ui.notifications.NotificationAlarmManager
-import org.myspecialway.ui.shared.*
+import org.myspecialway.ui.shared.AgendaViewModel
+import java.util.*
 
 
 class MainScreenActivity : BaseActivity() {
 
     private val viewModel: AgendaViewModel by viewModel()
-//    private val notificationAlarmManager: NotificationAlarmManager by inject()
     private val sp: SharedPreferences by inject()
-
     private var schedule: ScheduleRenderModel? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,34 +39,60 @@ class MainScreenActivity : BaseActivity() {
         render()
     }
 
+    /**
+     * this is a daily alarm [AlarmsReceiver] that will get called every day at 6 O'clock.
+     * this alarm contain the logic of triggering al the daily alarms.
+     */
+    private fun activateAlarmOfAlarms(context: Context?) {
+        val am: AlarmManager = getSystemService(android.content.Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, AlarmsReceiver::class.java)
+        val alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
+
+        // launch alarms NOW for the first time.
+        val now = Calendar.getInstance().time
+        am.set(AlarmManager.RTC_WAKEUP, now.time, alarmIntent)
+
+        // set repeating alarms for every day
+        am.setRepeating(AlarmManager.RTC_WAKEUP, AlarmsReceiver.getHourOfDay(6).time,
+                AlarmManager.INTERVAL_DAY, alarmIntent)
+    }
+
     private fun clickListeners() {
         scheduleButton.setOnClickListener { Navigation.toScheduleActivity(this) }
-        navButton.setOnClickListener { showNavigationDialog(this) }
+//        navButton.setOnClickListener { showNavigationDialog(this) }
         settings.setOnClickListener { Navigation.toSettingsActivity(this) }
 
     }
-
-    data class DialogModel(val name: String, val id: String)
 
     override fun render() {
         userDisplayName.text = UserModel().getUser(sp).fullName()
 
         viewModel.states.observe(this, Observer { state ->
             when (state) {
-                is AgendaState.Alarms -> AlarmJob.scheduleJobs(state.list)
                 is AgendaState.CurrentSchedule -> {
                     schedule = state.schedule
                     scheduleName.text = state.schedule.title
                 }
-                is AgendaState.ListState -> scheduleName.visibility = View.VISIBLE
+                is AgendaState.ListState -> {
+                    activateAlarmsIfNeeded()
+                    scheduleName.visibility = View.VISIBLE
+                }
                 is AgendaState.Progress -> progress.visibility = state.progress
                 is AgendaState.Failure -> handleError()
             }
         })
     }
 
+    private fun activateAlarmsIfNeeded() {
+        if (sp.getBoolean(FIRST_TIME, true)) {
+            activateAlarmOfAlarms(this)
+            sp.edit().putBoolean(FIRST_TIME, false).apply()
+        }
+    }
+
     private fun handleError() {
         scheduleName.visibility = View.VISIBLE
         Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
     }
+
 }

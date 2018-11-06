@@ -10,7 +10,7 @@ ext {
     okhttp_version = '3.8.1'
     retrofit_version = '2.2.0'
     rxjava_version = '2.1.7'
-    koin_version = '1.0.0-RC-1'
+    koin_version = '1.0.1'
 
     coverageSourceDirs = 'src/test/java'
 }
@@ -140,11 +140,14 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // Firebase Messaging
-    implementation 'com.google.firebase:firebase-core:16.0.4'
-    implementation 'com.google.firebase:firebase-messaging:17.3.3'
+    implementation 'com.google.firebase:firebase-core:16.0.5'
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
 
     // Android support libraries
+    //noinspection GradleCompatible
     implementation "com.android.support:appcompat-v7:$support_package_version"
+
+    implementation "com.android.support:support-media-compat:$support_package_version"
     implementation "com.android.support:cardview-v7:$support_package_version"
     implementation "com.android.support:appcompat-v7:$support_package_version"
     implementation "com.android.support:design:$support_package_version"
@@ -176,7 +179,7 @@ dependencies {
 
     // Rx
     implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
 
@@ -207,6 +210,7 @@ dependencies {
     testImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     testImplementation 'com.android.support.test:rules:1.0.2'
     implementation 'com.evernote:android-job:1.3.0-alpha07'
+
 
 
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2', {
