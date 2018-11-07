@@ -3,7 +3,10 @@ package org.myspecialway.common
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.PowerManager
 import android.preference.PreferenceManager
+import android.provider.Settings
 import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
@@ -12,14 +15,19 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ImageView
+import com.evernote.android.job.DailyJob
+import com.evernote.android.job.JobManager
+import com.evernote.android.job.JobRequest
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import io.reactivex.Flowable
 import org.myspecialway.R
 import org.myspecialway.ui.agenda.AgendaIndex
 import org.myspecialway.ui.agenda.ScheduleRenderModel
+import org.myspecialway.ui.alarms.JobCreator
 import org.myspecialway.ui.login.LoginActivity
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 // use this to avoid layout inflater boilerplate
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
@@ -101,7 +109,18 @@ fun MutableList<ScheduleRenderModel>.filterTodayList() =
 fun MutableList<ScheduleRenderModel>.getRemainingAlarmsForToday() =
         asSequence()
                 .filter { AgendaIndex.todayWeekIndex(Calendar.getInstance()) == it.time?.dayDisplay }
-                .sortedBy {  it.index?.substringBefore("_")?.toInt() }
+                .sortedBy { it.index?.substringBefore("_")?.toInt() }
                 .distinctBy { it.index }
                 .toList()
-                .filter { System.currentTimeMillis() < it.time!!.date.time  }
+                .filter { System.currentTimeMillis() < it.time!!.date.time }
+
+fun Context.handleBatteryManagement() {
+    val intent = Intent()
+    val packageName = packageName
+    val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+    if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+        intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+        intent.data = Uri.parse("package:$packageName")
+        startActivity(intent)
+    }
+}

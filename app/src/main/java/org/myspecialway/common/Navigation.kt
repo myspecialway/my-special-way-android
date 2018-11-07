@@ -9,7 +9,7 @@ import org.myspecialway.ui.agenda.ScheduleRenderModel
 import org.myspecialway.ui.main.MainScreenActivity
 import org.myspecialway.ui.navigation.NavigationDestinationsActivity
 import org.myspecialway.ui.navigation.NavigationPasswordActivity
-import org.myspecialway.ui.notifications.NotificationActivity
+import org.myspecialway.ui.alarms.AlarmActivity
 import org.myspecialway.ui.settings.SettingsActivity
 
 object Navigation {
@@ -57,10 +57,10 @@ object Navigation {
     }
 
     fun toNotificationActivity(context: Context, current: ScheduleRenderModel, previous: ScheduleRenderModel) {
-        val intent = Intent(context, NotificationActivity::class.java)
-        intent.putExtra(NotificationActivity.NOTIFICATION_TITLE, "זמן לשיעור ${current.title}")
-        intent.putExtra(NotificationActivity.SCHEDULE_CURRENT_KEY, current)
-        intent.putExtra(NotificationActivity.SCHEDULE_PREVIOUS_KEY, previous)
+        val intent = Intent(context, AlarmActivity::class.java)
+        intent.putExtra(AlarmActivity.NOTIFICATION_TITLE, "זמן לשיעור ${current.title}")
+        intent.putExtra(AlarmActivity.SCHEDULE_CURRENT_KEY, current)
+        intent.putExtra(AlarmActivity.SCHEDULE_PREVIOUS_KEY, previous)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(intent)
     }

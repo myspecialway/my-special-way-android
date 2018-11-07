@@ -43,7 +43,7 @@
             android:label="@string/settings_title"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.notifications.NotificationActivity"
+            android:name=".ui.alarms.AlarmActivity"
             android:label="@string/notifiaction_activity"
             android:theme="@style/Theme.Transparent"
             android:screenOrientation="portrait"
@@ -69,7 +69,7 @@
         </service>
 
 
-        <receiver android:name=".ui.alarms.AlarmsReceiver"
+        <receiver android:name=".ui.alarms.RestartReceiver"
             android:process=":remote"
             android:enabled="true" android:exported="true">
             <intent-filter>

@@ -1,4 +1,4 @@
-package org.myspecialway.ui.notifications
+package org.myspecialway.ui.alarms
 
 import android.app.Activity
 import android.content.Intent
@@ -11,7 +11,7 @@ import org.myspecialway.R
 import org.myspecialway.common.Navigation
 import org.myspecialway.common.load
 import org.myspecialway.ui.agenda.ScheduleRenderModel
-class NotificationActivity : Activity() {
+class AlarmActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
