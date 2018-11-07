@@ -11,7 +11,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import org.myspecialway.R
 import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.Navigation
-import org.myspecialway.common.handleBatteryManagement
+import org.myspecialway.common.askIgnoreBatteryManagement
 import org.myspecialway.ui.agenda.AgendaState
 import org.myspecialway.ui.agenda.FIRST_TIME
 import org.myspecialway.ui.agenda.ScheduleRenderModel
@@ -29,7 +29,7 @@ class MainScreenActivity : BaseActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_screen)
-        handleBatteryManagement()
+        askIgnoreBatteryManagement()
 
         viewModel.getDailySchedule()
 

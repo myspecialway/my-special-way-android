@@ -114,7 +114,7 @@ fun MutableList<ScheduleRenderModel>.getRemainingAlarmsForToday() =
                 .toList()
                 .filter { System.currentTimeMillis() < it.time!!.date.time }
 
-fun Context.handleBatteryManagement() {
+fun Context.askIgnoreBatteryManagement() {
     val intent = Intent()
     val packageName = packageName
     val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
