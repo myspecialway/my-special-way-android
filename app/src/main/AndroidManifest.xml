@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Used by glide for downloading restart -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
     <application
         android:name=".App"
         android:allowBackup="false"
@@ -69,9 +69,15 @@
         </service>
 
 
-        <receiver android:name=".ui.alarms.AlarmsReceiver">
+        <receiver android:name=".ui.alarms.AlarmsReceiver"
+            android:process=":remote"
+            android:enabled="true" android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+                <!--For HTC devices-->
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
             </intent-filter>
         </receiver>
 

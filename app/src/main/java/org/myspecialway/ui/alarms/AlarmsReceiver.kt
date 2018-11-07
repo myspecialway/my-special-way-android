@@ -5,6 +5,8 @@ import android.arch.persistence.room.Room
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
+import android.widget.Toast
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -18,6 +20,7 @@ class AlarmsReceiver : BroadcastReceiver() {
     @SuppressLint("CheckResult")
     override fun onReceive(context: Context?, intent: Intent?) {
 
+        Toast.makeText(context!!, "asdasd", Toast.LENGTH_LONG).show()
         val list = getLocalSchedule(context)
 
         // get the list of schedule
@@ -33,7 +36,9 @@ class AlarmsReceiver : BroadcastReceiver() {
                             .getRemainingAlarmsForToday()
 
                     AlarmJob.scheduleJobs(remainingAlarms)
-                }, { })
+                }, {
+
+                })
     }
 
     private fun getLocalSchedule(context: Context?): Single<ScheduleModel> =
@@ -43,12 +48,13 @@ class AlarmsReceiver : BroadcastReceiver() {
                     .loadSchedule()
 
     companion object {
-        fun getHourOfDay(hour: Int): Date {
+        fun getHourOfDay(hour: Int): Calendar {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = System.currentTimeMillis()
             calendar.set(Calendar.HOUR_OF_DAY, hour)
             calendar.set(Calendar.MINUTE, 0)
-            return calendar.time
+            calendar.set(Calendar.SECOND, 0)
+            return calendar
         }
     }
 }

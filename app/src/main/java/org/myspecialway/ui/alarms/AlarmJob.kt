@@ -1,4 +1,6 @@
 package org.myspecialway.ui.alarms
+import android.app.job.JobScheduler
+import com.evernote.android.job.DailyJob
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobManager
 import com.evernote.android.job.JobRequest
@@ -7,6 +9,7 @@ import com.google.gson.Gson
 import org.myspecialway.common.Navigation
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 import org.myspecialway.ui.alarms.JobCreator.Companion.ALARM_JOB_TAG
+import java.util.concurrent.TimeUnit
 
 class AlarmJob : Job() {
 
@@ -24,9 +27,13 @@ class AlarmJob : Job() {
         const val ALARM_PREVIOUS = "alarm_previous"
 
         fun scheduleJobs(alarms: List<ScheduleRenderModel>) {
+
+            // cancel all previous jobs
+            JobManager.instance().cancelAll()
+
             var previous = ScheduleRenderModel()
             val last = alarms.last()
-            JobManager.instance().cancelAll()
+
             alarms.forEachIndexed { index, current ->
                 current.isLast = last == current
 
@@ -37,7 +44,10 @@ class AlarmJob : Job() {
                 extras.putString(ALARM_CURRENT, Gson().toJson(current))
                 extras.putString(ALARM_PREVIOUS, Gson().toJson(previous))
                 val timeTarget = current.time!!.date.time - System.currentTimeMillis()
+
                 JobRequest.Builder(ALARM_JOB_TAG)
+                        .setRequiresDeviceIdle(false)
+                        .setRequiresCharging(false)
                         .addExtras(extras)
                         .setExact(timeTarget)
                         .build()
