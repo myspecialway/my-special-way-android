@@ -43,16 +43,23 @@ class MainScreenActivity : BaseActivity() {
 
         // listen to location events, if any then enable the navigation button and set the payload
         // on the click
-        disposable = locationsSubject.subscribe({ navLocations ->
+//        disposable = locationsSubject.subscribe({ navLocations ->
             navButton.enable(true)
             navButton.alpha = 1.0f
-            navButton.setOnClickListener { Navigation.navigateLocationActivity(this, navLocations) }
-        }, {
-            // set default nav params?
-        })
+        val navLocations = arrayListOf<Location>().apply {
+            add(Location(1, "locationId1", "Room3", false))
+            add(Location(2, "locationId2", "Room2", false))
+            add(Location(3, "locationId3", "Room1", false))
+            add(Location(4, "locationId4", "Room4", false))
+            add(Location(5, "locationId5", "Room6", false))
+            add(Location(6, "locationId6", "Room5", false))
+            add(Location(7, "locationId7", "Room7", false))
+        }
+            navButton.setOnClickListener { Navigation.toNavigationPassword(this, navLocations) }
+//        }, {
+//            // set default nav params?
+//        })
     }
-
-    override fun render() {
 
     override fun render() {
         userDisplayName.text = UserModel().getUser(sp).fullName()

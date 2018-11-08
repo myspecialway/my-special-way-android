@@ -61,7 +61,7 @@
 
         <activity
             android:screenOrientation="portrait"
-            android:name="org.myspecialway.ui.navigation.NavigationDestinationsActivity"
+            android:name="org.myspecialway.ui.navigation.NavigationLocationsActivity"
             android:label="@string/navigation_destinations_title"/>
 
         <!-- Firebase Messaging -->

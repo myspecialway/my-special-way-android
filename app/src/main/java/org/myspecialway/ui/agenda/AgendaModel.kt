@@ -40,7 +40,8 @@ data class Schedule(
 data class Location(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "loc_id") @NonNull val id: Int,
                     @SerializedName("location_id") val locationId: String,
                     val name: String? = null,
-                    val disabled: Boolean? = null
+                    val disabled: Boolean? = null,
+                    var pinned: Boolean = false
 )
 
 @Entity()
