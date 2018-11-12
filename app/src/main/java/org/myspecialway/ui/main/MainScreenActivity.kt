@@ -47,13 +47,17 @@ class MainScreenActivity : BaseActivity() {
             navButton.enable(true)
             navButton.alpha = 1.0f
         val navLocations = arrayListOf<Location>().apply {
-            add(Location(1, "locationId1", "Room3", false))
-            add(Location(2, "locationId2", "Room2", false))
-            add(Location(3, "locationId3", "Room1", false))
-            add(Location(4, "locationId4", "Room4", false))
-            add(Location(5, "locationId5", "Room6", false))
-            add(Location(6, "locationId6", "Room5", false))
-            add(Location(7, "locationId7", "Room7", false))
+            add(Location(1, "locationId1", "חדר 101", false))
+            add(Location(2, "locationId2", "חדר 102", false))
+            add(Location(3, "locationId3", "חדר 103", false))
+            add(Location(4, "locationId4", "חדר 104", false))
+            add(Location(5, "locationId5", "חדר 105", false))
+            add(Location(6, "locationId6", "חדר 106", false))
+            add(Location(7, "locationId7", "חדר 107", false))
+            add(Location(7, "locationId7", "חדר 108", false))
+            add(Location(7, "locationId7", "חדר 109", false))
+            add(Location(7, "locationId7", "חדר 110", false))
+
         }
             navButton.setOnClickListener { Navigation.toNavigationPassword(this, navLocations) }
 //        }, {

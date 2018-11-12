@@ -31,7 +31,7 @@ class LocationAdapter(val locations: List<Location>, val selectedLocations: List
 class LocationViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(location: Location, selectedLocations: List<Location>, clickListener: (Location) -> Unit, longClickListener: (Location) -> Boolean) {
         itemView.location_text.text = location.name
-        //itemView.location_image.setImageDrawable(location.image);
+        itemView.location_image.setImageResource(R.drawable.gohome)//(location.image);
         itemView.setOnClickListener { clickListener(location) }
         itemView.setOnLongClickListener { longClickListener(location) }
 
