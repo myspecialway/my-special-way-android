@@ -28,6 +28,9 @@ class AlarmJob : Job() {
 
         fun scheduleJobs(alarms: List<ScheduleRenderModel>) {
 
+            if (alarms.isEmpty()){
+                return
+            }
             // cancel all previous jobs
             JobManager.instance().cancelAll()
 

@@ -5,8 +5,6 @@ import android.arch.persistence.room.Room
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
-import android.widget.Toast
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -20,7 +18,6 @@ class AlarmsReceiver : BroadcastReceiver() {
     @SuppressLint("CheckResult")
     override fun onReceive(context: Context?, intent: Intent?) {
 
-        Toast.makeText(context!!, "asdasd", Toast.LENGTH_LONG).show()
         val list = getLocalSchedule(context)
 
         // get the list of schedule
