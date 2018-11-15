@@ -1,6 +1,4 @@
 package org.myspecialway.ui.alarms
-import android.app.job.JobScheduler
-import com.evernote.android.job.DailyJob
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobManager
 import com.evernote.android.job.JobRequest
@@ -9,7 +7,6 @@ import com.google.gson.Gson
 import org.myspecialway.common.Navigation
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 import org.myspecialway.ui.alarms.JobCreator.Companion.ALARM_JOB_TAG
-import java.util.concurrent.TimeUnit
 
 class AlarmJob : Job() {
 

@@ -100,12 +100,9 @@ class MainScreenActivity : BaseActivity() {
     }
 
     private fun activateAlarmsIfNeeded() {
-//        if (sp.getBoolean(FIRST_TIME, true)) {
         activateAlarmOfAlarms(this)
-//            sp.edit().putBoolean(FIRST_TIME, false).apply()
 
-//        }
-    }
+   }
 
     private fun handleError() {
         scheduleName.visibility = View.VISIBLE
