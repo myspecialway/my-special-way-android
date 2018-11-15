@@ -7,7 +7,10 @@ import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
+import android.os.PowerManager
+import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main_screen.*
@@ -17,7 +20,6 @@ import org.myspecialway.R
 import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.Navigation
 import org.myspecialway.ui.agenda.AgendaState
-import org.myspecialway.ui.agenda.FIRST_TIME
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 import org.myspecialway.ui.alarms.AlarmsReceiver
 import org.myspecialway.ui.login.UserModel
@@ -34,7 +36,21 @@ class MainScreenActivity : BaseActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_screen)
+
+
+        val intent = Intent()
+        val packageName = packageName
+        val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+        if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+            intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+            intent.data = Uri.parse("package:$packageName")
+            startActivity(intent)
+        }
+
+
+
         viewModel.getDailySchedule()
+        activateAlarmsIfNeeded()
         clickListeners()
         render()
     }
@@ -53,7 +69,7 @@ class MainScreenActivity : BaseActivity() {
         am.set(AlarmManager.RTC_WAKEUP, now.time, alarmIntent)
 
         // set repeating alarms for every day
-        am.setRepeating(AlarmManager.RTC_WAKEUP, AlarmsReceiver.getHourOfDay(6).time,
+        am.setRepeating(AlarmManager.RTC_WAKEUP, AlarmsReceiver.getHourOfDay(6).timeInMillis,
                 AlarmManager.INTERVAL_DAY, alarmIntent)
     }
 
@@ -84,11 +100,9 @@ class MainScreenActivity : BaseActivity() {
     }
 
     private fun activateAlarmsIfNeeded() {
-        if (sp.getBoolean(FIRST_TIME, true)) {
-            activateAlarmOfAlarms(this)
-            sp.edit().putBoolean(FIRST_TIME, false).apply()
-        }
-    }
+        activateAlarmOfAlarms(this)
+
+   }
 
     private fun handleError() {
         scheduleName.visibility = View.VISIBLE

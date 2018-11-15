@@ -43,12 +43,13 @@ class AlarmsReceiver : BroadcastReceiver() {
                     .loadSchedule()
 
     companion object {
-        fun getHourOfDay(hour: Int): Date {
+        fun getHourOfDay(hour: Int): Calendar {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = System.currentTimeMillis()
             calendar.set(Calendar.HOUR_OF_DAY, hour)
             calendar.set(Calendar.MINUTE, 0)
-            return calendar.time
+            calendar.set(Calendar.SECOND, 0)
+            return calendar
         }
     }
 }

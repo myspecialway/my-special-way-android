@@ -24,9 +24,16 @@ class AlarmJob : Job() {
         const val ALARM_PREVIOUS = "alarm_previous"
 
         fun scheduleJobs(alarms: List<ScheduleRenderModel>) {
+
+            if (alarms.isEmpty()){
+                return
+            }
+            // cancel all previous jobs
+            JobManager.instance().cancelAll()
+
             var previous = ScheduleRenderModel()
             val last = alarms.last()
-            JobManager.instance().cancelAll()
+
             alarms.forEachIndexed { index, current ->
                 current.isLast = last == current
 
@@ -37,7 +44,10 @@ class AlarmJob : Job() {
                 extras.putString(ALARM_CURRENT, Gson().toJson(current))
                 extras.putString(ALARM_PREVIOUS, Gson().toJson(previous))
                 val timeTarget = current.time!!.date.time - System.currentTimeMillis()
+
                 JobRequest.Builder(ALARM_JOB_TAG)
+                        .setRequiresDeviceIdle(false)
+                        .setRequiresCharging(false)
                         .addExtras(extras)
                         .setExact(timeTarget)
                         .build()
