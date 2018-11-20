@@ -1,8 +1,12 @@
 package org.myspecialway.ui.shared
 
 import android.arch.lifecycle.MutableLiveData
+import android.os.Handler
 import android.view.View
+import io.reactivex.Flowable
+import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
 
 import org.myspecialway.common.AbstractViewModel
 import org.myspecialway.common.SchedulerProvider
@@ -10,10 +14,7 @@ import org.myspecialway.common.addHour
 import org.myspecialway.common.with
 
 import org.myspecialway.common.*
-import org.myspecialway.ui.agenda.AgendaIndex
-import org.myspecialway.ui.agenda.Location
-import org.myspecialway.ui.agenda.Schedule
-import org.myspecialway.ui.agenda.ScheduleRenderModel
+import org.myspecialway.ui.agenda.*
 
 import java.util.*
 
@@ -23,7 +24,7 @@ sealed class AgendaData
 data class ListData(val scheduleList: List<ViewType>) : AgendaData()
 data class Alarms(val list: List<ScheduleRenderModel>) : AgendaData()
 data class CurrentSchedule(val schedule: ScheduleRenderModel, val position: Int) : AgendaData()
-data class LocationData(val list: List<Location>) : AgendaData()
+data class LocationDataState(val list: List<Location>) : AgendaData()
 
 
 class AgendaViewModel(private val repository: AgendaRepository,
@@ -33,14 +34,17 @@ class AgendaViewModel(private val repository: AgendaRepository,
 
     init {
         getDailySchedule()
+        getLocations()
     }
 
     private fun getDailySchedule() = launch {
         repository.getSchedule()
                 .with(scheduler)
-                .doOnSubscribe { progress.value = View.VISIBLE }
-                .doFinally { progress.value = View.GONE }
-                .doOnNext { agendaLive.value = LocationData(it.data.locations) }
+                .doOnSubscribe {
+                    progress.value = View.VISIBLE
+                }.doFinally {
+                    progress.value = View.GONE
+                }
                 .map { it.data.classById.schedule } // map the schedule list
                 .flatMapIterable { it } // iterate on each element
                 .map { mapScheduleRenderModel(it) } // map to render model
@@ -84,4 +88,17 @@ class AgendaViewModel(private val repository: AgendaRepository,
                 isNow = currentTime.after(time?.date) && currentTime.before(time!!.date.addHour(1))
 
             }
+
+    private fun getLocations() = launch {
+        repository.getLocations()
+                .with(scheduler)
+                .doOnSubscribe {
+                    progress.value = View.VISIBLE
+                 }.doFinally {  progress.value = View.GONE }
+                .map { it.data.locations }
+                .subscribeBy(
+                        onNext = { agendaLive.value = LocationDataState(it) },
+                        onError = { failure(it) }
+                )
+    }
 }

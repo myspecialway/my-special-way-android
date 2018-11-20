@@ -15,9 +15,7 @@ data class ScheduleModel(
 @Entity()
 data class Data(
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "data_id") @NonNull val id: Int,
-        @SerializedName("locations") val locations: List<Location>,
         @SerializedName("student") @Embedded val classById: Class)
-
 
 @Entity()
 data class Class(
@@ -34,7 +32,7 @@ data class Schedule(
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "schedule_id") @NonNull val id: Int,
         val index: String,
         @Embedded val lesson: Lesson,
-        @Embedded val location: Location)
+        @Embedded val location: Location? = null)
 
 @Entity
 data class Location(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "loc_id") @NonNull val id: Int,
@@ -65,6 +63,14 @@ data class SingleImageRes(val image: Int) : ViewType {
     override fun getViewType(): Int = AgendaTypes.SINGLE_IMAGE
 }
 
+@Entity()
+data class LocationData(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "loc_data_id") @NonNull val id: Int,
+        @SerializedName("locations") val locations: List<Location>)
+
+@Entity
+data class LocationModel(
+        @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "loc_model_id") @NonNull val id: Int,
+        val data: LocationData)
 
 object AgendaTypes {
     const val ITEM_TYPE = 0

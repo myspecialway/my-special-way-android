@@ -43,26 +43,13 @@ class MainScreenActivity : BaseActivity() {
 
         // listen to location events, if any then enable the navigation button and set the payload
         // on the click
-//        disposable = locationsSubject.subscribe({ navLocations ->
+        disposable = locationsSubject.subscribe({ navLocations ->
             navButton.enable(true)
             navButton.alpha = 1.0f
-        val navLocations = arrayListOf<Location>().apply {
-            add(Location(1, "locationId1", "חדר 101", false))
-            add(Location(2, "locationId2", "חדר 102", false))
-            add(Location(3, "locationId3", "חדר 103", false))
-            add(Location(4, "locationId4", "חדר 104", false))
-            add(Location(5, "locationId5", "חדר 105", false))
-            add(Location(6, "locationId6", "חדר 106", false))
-            add(Location(7, "locationId7", "חדר 107", false))
-            add(Location(7, "locationId7", "חדר 108", false))
-            add(Location(7, "locationId7", "חדר 109", false))
-            add(Location(7, "locationId7", "חדר 110", false))
-
-        }
             navButton.setOnClickListener { Navigation.toNavigationPassword(this, navLocations) }
-//        }, {
-//            // set default nav params?
-//        })
+        }, {
+            // set default nav params?
+        })
     }
 
     override fun render() {
@@ -73,7 +60,7 @@ class MainScreenActivity : BaseActivity() {
 
         viewModel.agendaLive.observe(this, Observer { state ->
             when (state) {
-                is LocationData -> locationsSubject.onNext(state.list)
+                is LocationDataState -> locationsSubject.onNext(state.list)
                 is Alarms -> notificationAlarmManager.setAlarms(state.list)
                 is CurrentSchedule -> {
                     schedule = state.schedule
