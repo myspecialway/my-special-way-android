@@ -13,7 +13,7 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.myspecialway.R;
-import org.myspecialway.ui.mainScreen.MainScreenActivity;
+import org.myspecialway.ui.main.MainScreenActivity;
 import org.myspecialway.ui.utils.AgendaDataFrame;
 import org.myspecialway.ui.utils.BaseClazz;
 import org.myspecialway.ui.utils.RecyclerViewItemCountAssertion;

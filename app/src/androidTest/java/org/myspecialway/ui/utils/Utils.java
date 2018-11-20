@@ -10,7 +10,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.myspecialway.R;
 import org.myspecialway.ui.login.LoginActivity;
-import org.myspecialway.ui.mainScreen.MainScreenActivity;
+import org.myspecialway.ui.main.MainScreenActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

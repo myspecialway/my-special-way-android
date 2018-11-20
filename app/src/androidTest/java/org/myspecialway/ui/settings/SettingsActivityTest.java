@@ -8,7 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.myspecialway.R;
-import org.myspecialway.ui.mainScreen.MainScreenActivity;
+import org.myspecialway.ui.main.MainScreenActivity;
 import org.myspecialway.ui.utils.BaseClazz;
 
 import java.util.LinkedList;
