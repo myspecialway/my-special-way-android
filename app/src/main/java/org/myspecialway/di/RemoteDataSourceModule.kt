@@ -35,7 +35,7 @@ fun createOkHttpClient(tokenInterceptor: TokenInterceptor): OkHttpClient = OkHtt
 
 fun addOkHttpLog(): HttpLoggingInterceptor {
     val interceptor = HttpLoggingInterceptor()
-    interceptor.level = HttpLoggingInterceptor.Level.BASIC
+    interceptor.level = HttpLoggingInterceptor.Level.BODY
     return interceptor
 }
 

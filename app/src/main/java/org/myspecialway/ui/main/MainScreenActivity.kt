@@ -46,7 +46,6 @@ class MainScreenActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_screen)
 
-
         val intent = Intent()
         val packageName = packageName
         val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
@@ -56,9 +55,8 @@ class MainScreenActivity : BaseActivity() {
             startActivity(intent)
         }
 
-
-
         viewModel.getDailySchedule()
+        viewModel.getLocations()
         activateAlarmsIfNeeded()
         clickListeners()
         render()
@@ -110,7 +108,7 @@ class MainScreenActivity : BaseActivity() {
                     activateAlarmsIfNeeded()
                     scheduleName.visibility = View.VISIBLE
                 }
-                is LocationDataState -> locationsSubject.onNext(state.list)
+                is AgendaState.LocationDataState -> locationsSubject.onNext(state.list)
                 is AgendaState.Progress -> progress.visibility = state.progress
                 is AgendaState.Failure -> handleError()
             }

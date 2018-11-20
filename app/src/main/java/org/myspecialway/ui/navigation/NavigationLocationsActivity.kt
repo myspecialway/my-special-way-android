@@ -113,7 +113,7 @@ class NavigationLocationsActivity : AppCompatActivity() {
     fun onClick(location: Location) {
         when (state) {
             State.BASIC -> {
-                Navigation.toUnityNavigation(this, location.locationId)
+                Navigation.toUnityNavigation(this, location.locationId!!)
             }
 
             State.PINNING, State.UNPINNING -> {

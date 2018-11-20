@@ -55,16 +55,17 @@ class AgendaViewModel(val repository: AgendaRepository,
                 }
             }
 
-private fun getLocations() = launch {
-repository.getLocations()
-.with(scheduler)
-.doOnSubscribe {
-progress.value = View.VISIBLE
-}.doFinally {  progress.value = View.GONE }
-.map { it.data.locations }
-.subscribeBy(
-onNext = { agendaLive.value = LocationDataState(it) },
-onError = { failure(it) }
-)
-}
+    fun getLocations() = launch {
+        repository.getLocations()
+                .with(provider)
+                .doOnSubscribe {
+                    states.value = AgendaState.Progress(View.VISIBLE)
+                }.doFinally {
+                    states.value = AgendaState.Progress(View.GONE)
+                }.map { it.data.locations }
+                .subscribeBy(
+                        onNext = { states.value = AgendaState.LocationDataState(it) },
+                        onError = { states.value = AgendaState.Failure(it) }
+                )
+    }
 }
