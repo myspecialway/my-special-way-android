@@ -4,16 +4,13 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.agenda_activity.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.myspecialway.R
 import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.ViewType
-import org.myspecialway.ui.shared.AgendaViewModel
-import org.myspecialway.ui.shared.CurrentSchedule
-import org.myspecialway.ui.shared.ListData
+import org.myspecialway.ui.shared.*
 
 class AgendaActivity : BaseActivity() {
 
@@ -26,6 +23,7 @@ class AgendaActivity : BaseActivity() {
         setContentView(R.layout.agenda_activity)
         initToolbar()
         initList()
+        viewModel.getDailySchedule()
         render()
     }
 
@@ -43,18 +41,17 @@ class AgendaActivity : BaseActivity() {
         supportActionBar.setHomeAsUpIndicator(R.drawable.back)
     }
 
-    override fun render() {
-        viewModel.progress.observe(this, Observer { progress.visibility = it ?: View.GONE })
-        viewModel.failure.observe(this, Observer { handleError() })
-        viewModel.agendaLive.observe(this, Observer { state ->
-            when (state) {
-                is ListData -> adapter.addData(addSingleImage(state))
-                is CurrentSchedule -> agendaRecyclerView.scrollToPosition(state.position)
-            }
-        })
-    }
+    override fun render() =
+            viewModel.states.observe(this, Observer { state ->
+                when (state) {
+                    is AgendaState.ListState -> adapter.addData(addSingleImage(state))
+                    is AgendaState.CurrentSchedule -> agendaRecyclerView.scrollToPosition(state.position)
+                    is AgendaState.Progress -> progress.visibility = state.progress
+                    is AgendaState.Failure -> handleError()
+                }
+            })
 
-    private fun addSingleImage(state: ListData): List<ViewType> =
+    private fun addSingleImage(state: AgendaState.ListState): List<ViewType> =
             state.scheduleList
                     .toMutableList()
                     .apply { add(state.scheduleList.size, SingleImageRes(R.drawable.gohome)) }

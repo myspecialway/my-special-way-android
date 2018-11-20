@@ -25,8 +25,8 @@ class LoginRepositoryImpl(private val remoteDataSource: RemoteDataSource,
     }
 }
 
-fun buildJson(authData: LoginAuthData): JsonObject =
-        JsonObject().apply {
-            addProperty("username", authData.username)
-            addProperty("password", authData.password)
-        }
+fun buildJson(authData: LoginAuthData) = JsonObject().apply {
+    addProperty("username", authData.username)
+    addProperty("password", authData.password)
+}
+

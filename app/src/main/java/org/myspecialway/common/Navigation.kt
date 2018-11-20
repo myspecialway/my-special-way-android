@@ -33,11 +33,11 @@ object Navigation {
         } catch (e: Exception) { }
     }
 
-    fun toUnityNavigation(context: Context, destination :String) {
+    fun toUnityNavigation(context: Context, unityDest :String) {
         try {
             val intent = Intent()
             intent.component = ComponentName("org.myspecialway.navigation", "com.unity3d.player.UnityPlayerActivity")
-            intent.putExtra("destination", destination)
+            intent.putExtra("destination", unityDest)
             context.startActivity(intent)
         } catch (e: Exception) {
 
@@ -57,10 +57,12 @@ object Navigation {
         activity.finish()
     }
 
-    fun toNotificationActivity(context: Context, schedule: ScheduleRenderModel) {
+    fun toNotificationActivity(context: Context, current: ScheduleRenderModel, previous: ScheduleRenderModel) {
         val intent = Intent(context, NotificationActivity::class.java)
-        intent.putExtra(NotificationActivity.NOTIFICATION_TITLE, "בוקר טוב זמן לשיעור ${schedule.title}")
-        intent.putExtra(NotificationActivity.SCHEDULE_KEY, schedule)
+        intent.putExtra(NotificationActivity.NOTIFICATION_TITLE, "זמן לשיעור ${current.title}")
+        intent.putExtra(NotificationActivity.SCHEDULE_CURRENT_KEY, current)
+        intent.putExtra(NotificationActivity.SCHEDULE_PREVIOUS_KEY, previous)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(intent)
     }
 

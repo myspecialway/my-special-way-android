@@ -3,18 +3,22 @@
 //import android.content.Context
 //import android.support.v7.app.AlertDialog
 //import org.myspecialway.common.Navigation
-//import org.myspecialway.ui.shared.LocationData
 //
-//fun showNavigationDialog(context: Context, locations: List<LocationData>) {
-//    val listItems = mutableListOf<MainScreenActivity.DialogModel>().apply {
-//        add(MainScreenActivity.DialogModel("כיתת פטל", "B1"))
-//        add(MainScreenActivity.DialogModel("כיתת סחלב", "B2"))
-//        add(MainScreenActivity.DialogModel("כיתת מוזיקה", "B10"))
-//        add(MainScreenActivity.DialogModel("כיתת ניצן", "B11"))
-//        add(MainScreenActivity.DialogModel("כיתת תמר", "B12"))
-//        add(MainScreenActivity.DialogModel("כיתת דקל", "C1"))
-//        add(MainScreenActivity.DialogModel("כיתת בעלי חיים", "C2"))
+//
+//data class DialogModel(val name: String, val id: String)
+//
+//fun showNavigationDialog(context: Context) {
+//    val listItems = mutableListOf<DialogModel>().apply {
+//        add(DialogModel("כיתת פטל", "B1"))
+//        add(DialogModel("כיתת סחלב", "B2"))
+//        add(DialogModel("כיתת מוזיקה", "B10"))
+//        add(DialogModel("כיתת ניצן", "B11"))
+//        add(DialogModel("כיתת תמר", "B12"))
+//        add(DialogModel("כיתת דקל", "C1"))
+//        add(DialogModel("כיתת בעלי חיים", "C2"))
 //    }
+//
+//
 //
 //    val builder = AlertDialog.Builder(context)
 //    builder.setTitle("נווט")

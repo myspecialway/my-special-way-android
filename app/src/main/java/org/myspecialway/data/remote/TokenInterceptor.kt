@@ -1,6 +1,7 @@
 package org.myspecialway.data.remote
 
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -40,6 +41,7 @@ class TokenInterceptor(private val token: Token,
         return response
     }
 
+    @SuppressLint("CheckResult")
     private fun refreshSilent(auth: LoginAuthData) {
         val okHttp = OkHttpClient.Builder()
                 .connectTimeout(60L, TimeUnit.SECONDS)

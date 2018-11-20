@@ -42,17 +42,17 @@ class TokenParserTest {
         Assert.assertEquals("Student", result.lastname)
     }
 
-//    @Test
-//    fun `token is valid check - not expired`() {
-//        val notExpiredToken = createFakeToken(false)
-//        Assert.assertTrue(notExpiredToken.isValid)
-//    }
-//
-//    @Test
-//    fun `token is valid check - expired`() {
-//        val notExpiredToken = createFakeToken(true)
-//        Assert.assertFalse(notExpiredToken.isValid)
-//    }
+    @Test
+    fun `token is valid check - not expired`() {
+        val notExpiredToken = createFakeToken(false)
+        Assert.assertTrue(notExpiredToken.isValid)
+    }
+
+    @Test
+    fun `token is valid check - expired`() {
+        val notExpiredToken = createFakeToken(true)
+        Assert.assertFalse(notExpiredToken.isValid)
+    }
 
     @Test
     fun `fail parse with bad token`() {

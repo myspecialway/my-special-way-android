@@ -6,6 +6,7 @@ import android.support.annotation.NonNull
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 import org.myspecialway.common.ViewType
+import java.util.*
 
 @Entity()
 data class ScheduleModel(
@@ -31,12 +32,13 @@ data class Class(
 data class Schedule(
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "schedule_id") @NonNull val id: Int,
         val index: String,
+        val hours: String? = null,
         @Embedded val lesson: Lesson,
         @Embedded val location: Location? = null)
 
 @Entity
-data class Location(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "loc_id") @NonNull val id: Int,
-                    @SerializedName("location_id") val locationId: String,
+data class Location(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "location_id") @NonNull val id: Int,
+                    @SerializedName("location_id") val locationId: String? = null,
                     val name: String? = null,
                     val disabled: Boolean? = null,
                     var pinned: Boolean = false
@@ -53,8 +55,11 @@ data class Lesson(
 data class ScheduleRenderModel(var index: String? = null,
                                var title: String? = null,
                                var image: String? = null,
+                               var hours: String? = null,
                                var time: Time? = null,
-                               var isNow: Boolean = false) : Parcelable, ViewType {
+                               var isNow: Boolean = false,
+                               var isLast: Boolean = false,
+                               var unityDest: String = "") : Parcelable, ViewType {
 
     override fun getViewType(): Int = AgendaTypes.ITEM_TYPE
 }
@@ -76,3 +81,27 @@ object AgendaTypes {
     const val ITEM_TYPE = 0
     const val SINGLE_IMAGE = 1
 }
+
+
+fun mapScheduleRenderModel(schedule: Schedule) = ScheduleRenderModel()
+        .apply {
+            val display = schedule.hours ?: "7:30 - 08:00"
+            val currentTime = Calendar.getInstance(TimeZone.getDefault()).time
+            index = schedule.index
+            title = schedule.lesson.title
+            this.hours = schedule.hours
+            unityDest = schedule.location?.locationId ?: "C1"
+            image = schedule.lesson.icon
+            time = schedule.index.let { AgendaIndex.convertTimeFromIndex(it, display) }
+            isNow = currentTime.after(time?.date) && currentTime.before(createHour(hour(display), min(display)))
+        }
+private fun min(h: String): Int = h.substringAfter("-")
+        .trim()
+        .split(":")[1]
+        .toInt()
+
+
+private fun hour(h: String): Int = h.substringAfter("-")
+        .trim()
+        .split(":")[0]
+        .toInt()
