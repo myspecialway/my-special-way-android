@@ -4,10 +4,12 @@ import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import com.google.gson.Gson
 import org.myspecialway.ui.agenda.AgendaActivity
+import org.myspecialway.ui.agenda.Location
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 import org.myspecialway.ui.main.MainScreenActivity
-import org.myspecialway.ui.navigation.NavigationDestinationsActivity
+import org.myspecialway.ui.navigation.NavigationLocationsActivity
 import org.myspecialway.ui.navigation.NavigationPasswordActivity
 import org.myspecialway.ui.notifications.NotificationActivity
 import org.myspecialway.ui.settings.SettingsActivity
@@ -42,12 +44,11 @@ object Navigation {
         }
     }
 
-    fun toNavigationPassword(context: Context) {
-        context.startActivity(Intent(context, NavigationPasswordActivity::class.java))
-    }
+    fun toNavigationPassword(context: Context, locations: List<Location>) {
+        val intent = Intent(context, NavigationPasswordActivity::class.java)
+        intent.putExtra(NavigationLocationsActivity.LOCATIONS_PAYLOAD_KEY, Gson().toJson(locations))
 
-    fun toNavigationDestinationsActivity(context: Context) {
-        context.startActivity(Intent(context, NavigationDestinationsActivity::class.java))
+        context.startActivity(intent)
     }
 
     fun toMainActivity(activity: Activity) {
@@ -62,6 +63,12 @@ object Navigation {
         intent.putExtra(NotificationActivity.SCHEDULE_CURRENT_KEY, current)
         intent.putExtra(NotificationActivity.SCHEDULE_PREVIOUS_KEY, previous)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        context.startActivity(intent)
+    }
+
+    fun toNavigationLocationsActivity(context: Context, locationsJson : String) {
+        val intent = Intent(context, NavigationLocationsActivity::class.java)
+        intent.putExtra(NavigationLocationsActivity.LOCATIONS_PAYLOAD_KEY, locationsJson)
         context.startActivity(intent)
     }
 }

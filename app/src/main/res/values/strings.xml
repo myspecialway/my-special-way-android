@@ -36,4 +36,5 @@
     <string name="password_title">סיסמה</string>
     <string name="navPasswordButtonText">שלח</string>
     <string name="navigation_destinations_title">לאן הולכים עכשיו?</string>
+    <string name="pin_action_description">pin action</string>
 </resources>

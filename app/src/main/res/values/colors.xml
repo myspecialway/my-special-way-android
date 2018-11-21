@@ -8,10 +8,11 @@
     <color name="cardLessonSubtitle">#79838b</color>
 
     <color name="navPassword">#0f3048</color>
-    <color name="navPasswordButtonLowerLayerBackgroun">#724593</color>
+    <color name="navPasswordButtonLowerLayerBg">#724593</color>
     <color name="purple">#8b66a7</color>
     <color name="background_purple">#ece7f0</color>
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
-
+    <color name="navLocationPinTitleBarBg">#856aa3</color>
+ז
 </resources>
