@@ -16,16 +16,17 @@ data class ScheduleModel(
 @Entity()
 data class Data(
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "data_id") @NonNull val id: Int,
-        @SerializedName("student") @Embedded val classById: Class)
+        @SerializedName("student") @Embedded val student: Student)
 
 
 @Entity()
-data class Class(
+data class Student(
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "class_id") @NonNull val id: Int,
         val name: String? = null,
         val number: Int? = null,
         val level: String? = null,
-        val schedule: List<Schedule>
+        val schedule: List<Schedule>,
+        @SerializedName("reminders") val reminder : List<Reminder>?
 
 )
 
@@ -57,6 +58,20 @@ data class Lesson(
         val title: String,
         val icon: String)
 
+@Entity()
+data class Reminder(
+        @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "reminder_id") @NonNull val id: Int,
+        val enabled: Boolean = false,
+        val type: String,
+        val schedule: List<ReminderTime>)
+
+@Entity()
+@Parcelize
+data class ReminderTime(
+        @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "reminder_time_id") @NonNull val id: Int,
+        val daysIndex: List<Int>,
+        val hours: List<String>) : Parcelable
+
 // UI Models
 @Parcelize
 data class ScheduleRenderModel(var index: String? = null,
@@ -71,10 +86,41 @@ data class ScheduleRenderModel(var index: String? = null,
     override fun getViewType(): Int = AgendaTypes.ITEM_TYPE
 }
 
+@Parcelize
+data class ReminderRenderModel(var enabled: Boolean = false,
+                               var type: ReminderType = ReminderType.REHAB, // TODO: consider default
+                               var reminderTime : List<ReminderTime> = listOf()) : Parcelable, ViewType {
+
+    override fun getViewType(): Int = AgendaTypes.ITEM_TYPE
+}
+
 data class SingleImageRes(val image: Int) : ViewType {
     override fun getViewType(): Int = AgendaTypes.SINGLE_IMAGE
 }
 
+enum class ReminderType(name: String) {
+    MEDICINE("MEDICINE"),
+    REHAB("REHAB"),
+    SCHEDULE("SCHEDULE"); // added to distinguish between alerts
+
+    companion object {
+        fun byName(name: String): ReminderType {
+//            return if (ReminderType.MEDICINE.name == name) ReminderType.MEDICINE else ReminderType.REHAB
+            return when (name) {
+                ReminderType.MEDICINE.name  -> ReminderType.MEDICINE
+                ReminderType.REHAB.name     -> ReminderType.REHAB
+                ReminderType.SCHEDULE.name     -> ReminderType.SCHEDULE
+                else -> ReminderType.REHAB // TODO
+            }
+
+
+
+
+
+//            if (ReminderType.MEDICINE.name == name) ReminderType.MEDICINE else ReminderType.REHAB
+        }
+    }
+}
 
 object AgendaTypes {
     const val ITEM_TYPE = 0
@@ -94,6 +140,14 @@ fun mapScheduleRenderModel(schedule: Schedule) = ScheduleRenderModel()
             time = schedule.index.let { AgendaIndex.convertTimeFromIndex(it, display) }
             isNow = currentTime.after(time?.date) && currentTime.before(createHour(hour(display), min(display)))
         }
+
+fun mapReminderRenderModel(reminder: Reminder) = ReminderRenderModel()
+        .apply {
+            enabled = reminder.enabled
+            type = ReminderType.byName(reminder.type)
+            reminderTime = reminder.schedule
+        }
+
 private fun min(h: String): Int = h.substringAfter("-")
         .trim()
         .split(":")[1]

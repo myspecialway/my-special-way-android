@@ -9,4 +9,5 @@ sealed class AgendaState {
     data class CurrentSchedule(val schedule: ScheduleRenderModel, val position: Int) : AgendaState()
     data class Failure(val throwable: Throwable) : AgendaState()
     data class Progress(val progress: Int) : AgendaState()
+    data class RemindersState(val reminders: List<Reminder>?) : AgendaState()
 }

@@ -8,7 +8,6 @@ import org.myspecialway.common.SchedulerProvider
 import org.myspecialway.common.filterTodayList
 import org.myspecialway.common.with
 import org.myspecialway.ui.agenda.*
-import java.util.*
 
 
 class AgendaViewModel(val repository: AgendaRepository,
@@ -22,7 +21,8 @@ class AgendaViewModel(val repository: AgendaRepository,
                 .with(provider)
                 .doOnSubscribe { states.value = AgendaState.Progress(View.VISIBLE) }
                 .doFinally { states.value = AgendaState.Progress(View.GONE) }
-                .map { it.data.classById.schedule } // map the schedule list
+//                .doOnNext { states.value = AgendaState.RemindersState(it.data.student.reminder) }
+                .map { it.data.student.schedule } // map the schedule list
                 .flatMapIterable { it } // iterate on each element
                 .map { mapScheduleRenderModel(it) } // map to render model
                 .toList()

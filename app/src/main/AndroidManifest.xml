@@ -44,6 +44,12 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.notifications.NotificationActivity"
+            android:launchMode="singleInstance"
+            android:label="@string/medicine_reminder_activity"
+            android:theme="@style/Theme.Transparent"
+            />
+        <activity
+            android:name=".ui.notifications.MedicineReminderActivity"
             android:label="@string/notifiaction_activity"
             android:theme="@style/Theme.Transparent"
             />

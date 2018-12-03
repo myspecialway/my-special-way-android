@@ -17,6 +17,8 @@ import com.squareup.picasso.Picasso
 import io.reactivex.Flowable
 import org.myspecialway.R
 import org.myspecialway.ui.agenda.AgendaIndex
+import org.myspecialway.ui.agenda.ReminderRenderModel
+import org.myspecialway.ui.agenda.ReminderType
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 import org.myspecialway.ui.login.LoginActivity
 import java.util.*
@@ -105,3 +107,43 @@ fun MutableList<ScheduleRenderModel>.getRemainingAlarmsForToday() =
                 .distinctBy { it.index }
                 .toList()
                 .filter { System.currentTimeMillis() < it.time!!.date.time  }
+
+fun MutableList<ReminderRenderModel>.getRemindersForToday(): MutableList<Pair<Long, ReminderType>> {
+    val reminders : MutableList<Pair<Long, ReminderType>> = mutableListOf()
+    val dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+    forEach {
+        if (it.enabled) {
+            val reminderType = it.type
+            it.reminderTime.forEach {
+                if (it.daysIndex.contains(dayOfWeek)) {
+                    it.hours.forEach {
+                        val millisToReminderTime = getMillisToReminderTime(it)
+                        if (millisToReminderTime >= 0) reminders.add(Pair(millisToReminderTime, reminderType))
+                    }
+                }
+            }
+        }
+    }
+    return reminders
+}
+
+/**
+ * @param reminderHourStr  string of reminder time in format "08:30"
+ * @return milliseconds till that time, or -1 if invalid.
+ */
+private fun getMillisToReminderTime(reminderHourStr: String): Long {
+    val hour = reminderHourStr.substringBefore(':', reminderHourStr)
+    val minutes = reminderHourStr.substringAfter(':', "00")
+    try {
+        if (!hour.isEmpty()) {
+            val cal = Calendar.getInstance()
+            cal.set(Calendar.HOUR_OF_DAY, hour.toInt())
+            cal.set(Calendar.MINUTE, minutes.toInt())
+
+            return cal.timeInMillis - System.currentTimeMillis()
+        }
+    } catch (e: Exception) {
+        return -1
+    }
+    return -1
+}

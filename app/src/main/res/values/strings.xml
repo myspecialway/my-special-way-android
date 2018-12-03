@@ -5,6 +5,7 @@
     <string name="channel_description">Used for MSW notifications</string>
     <string name="example_notification">set alarm for notificaiton</string>
     <string name="notifiaction_activity">Notification alarm</string>
+    <string name="medicine_reminder_activity">Medicine reminder</string>
 
     <string name="username">שם משתמש</string>
     <string name="password">סיסמה</string>
@@ -36,4 +37,7 @@
     <string name="password_title">סיסמה</string>
     <string name="navPasswordButtonText">שלח</string>
     <string name="navigation_destinations_title">לאן הולכים עכשיו?</string>
+    <string name="time_for_medicine">הגיע הזמן לקחת תרופה</string>
+    <string name="time_for_rehab">הגיע הזמן ללכת לשירותים</string>
+    <string name="time_for_lesson">זמן לשיעור %1$s</string>
 </resources>
