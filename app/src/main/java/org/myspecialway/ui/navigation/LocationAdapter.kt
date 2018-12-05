@@ -3,8 +3,6 @@ package org.myspecialway.ui.navigation
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.activity_navigation_locations.view.*
-import kotlinx.android.synthetic.main.agenda_item.view.*
 import kotlinx.android.synthetic.main.location_item.view.*
 import org.myspecialway.R
 import org.myspecialway.common.inflate

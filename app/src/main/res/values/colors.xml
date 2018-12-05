@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#8b66a7</color>
+    <color name="toolbarBackground">#8249d1</color>
+    <color name="colorPrimary">#8249d1</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#8b66a7</color>
     <color name="colorToolbarText">#8b66a7</color>
@@ -8,7 +9,7 @@
     <color name="cardLessonSubtitle">#79838b</color>
 
     <color name="navPassword">#0f3048</color>
-    <color name="navPasswordButtonLowerLayerBg">#724593</color>
+    <color name="navPasswordButtonLowerLayerBg">#58269c</color>
     <color name="purple">#8b66a7</color>
     <color name="background_purple">#ece7f0</color>
     <color name="black">#000000</color>

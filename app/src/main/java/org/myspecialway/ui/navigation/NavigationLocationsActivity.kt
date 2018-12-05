@@ -41,15 +41,15 @@ class NavigationLocationsActivity : AppCompatActivity() {
     private fun changeToolbar() {
         when (state) {
             State.BASIC -> {
-                locationsTitle.text = getString(R.string.navigation_destinations_title)
+                locationsTitle.setTextColor(ContextCompat.getColor(this, R.color.toolbarBackground))
                 toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
                 backImage.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.back))
                 pinImage.visibility = View.INVISIBLE
             }
 
             State.PINNING -> {
-                locationsTitle.text = ""
-                toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.navLocationPinTitleBarBg))
+                locationsTitle.setTextColor(Color.WHITE)
+                toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.toolbarBackground))
                 backImage.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.back_white))
                 pinImage.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.pin_white))
                 pinImage.visibility = View.VISIBLE
@@ -67,8 +67,8 @@ class NavigationLocationsActivity : AppCompatActivity() {
             }
 
             State.UNPINNING -> {
-                locationsTitle.text = ""
-                toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.navLocationPinTitleBarBg))
+                locationsTitle.setTextColor(Color.WHITE)
+                toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.toolbarBackground))
                 backImage.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.back_white))
                 pinImage.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.unpin))
                 pinImage.visibility = View.VISIBLE
