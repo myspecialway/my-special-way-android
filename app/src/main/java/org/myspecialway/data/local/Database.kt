@@ -13,9 +13,11 @@ import org.myspecialway.ui.agenda.*
     Reminder::class,
     Lesson::class,
     Location::class,
-    Position::class
+    LocationData::class,
+    LocationModel::class
 ], version = 2)
-@TypeConverters(ScheduleConverter::class,ReminderConverter::class,ReminderTimeConverter::class)
+@TypeConverters(ScheduleConverter::class,ReminderConverter::class,ReminderTimeConverter::class, LocationDataConverter::class, LocationConverter::class)
+
 abstract class Database : RoomDatabase() {
     abstract fun localDataSourceDAO(): LocalDataSource
 }

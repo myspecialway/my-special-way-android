@@ -5,11 +5,13 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import org.myspecialway.R
+import com.google.gson.Gson
 import org.myspecialway.ui.agenda.AgendaActivity
 import org.myspecialway.ui.agenda.ReminderType
+import org.myspecialway.ui.agenda.Location
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 import org.myspecialway.ui.main.MainScreenActivity
-import org.myspecialway.ui.navigation.NavigationDestinationsActivity
+import org.myspecialway.ui.navigation.NavigationLocationsActivity
 import org.myspecialway.ui.navigation.NavigationPasswordActivity
 import org.myspecialway.ui.notifications.MedicineReminderActivity
 import org.myspecialway.ui.notifications.NotificationActivity
@@ -45,15 +47,20 @@ object Navigation {
         }
     }
 
+    fun toNavigationPassword(context: Context, locations: List<Location>) {
+        val intent = Intent(context, NavigationPasswordActivity::class.java)
+        intent.putExtra(NavigationLocationsActivity.LOCATIONS_PAYLOAD_KEY, Gson().toJson(locations))
+        context.startActivity(intent)
+
+
+    }
+
     fun toNavigationPassword(context: Context, unityDest: String = "") {
         val intent = Intent(context, NavigationPasswordActivity::class.java)
         intent.putExtra(NavigationPasswordActivity.UNITY_DEST_KEY, unityDest)
         context.startActivity(intent)
     }
 
-    fun toNavigationDestinationsActivity(context: Context) {
-        context.startActivity(Intent(context, NavigationDestinationsActivity::class.java))
-    }
 
     fun toMainActivity(activity: Activity) {
         val intent = Intent(activity, MainScreenActivity::class.java)
@@ -84,6 +91,12 @@ object Navigation {
         intent.putExtra(MedicineReminderActivity.NOTIFICATION_TITLE, scheduleTitle)
         intent.putExtra(MedicineReminderActivity.REMINDER_TYPE_KEY, ReminderType.MEDICINE.name)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        context.startActivity(intent)
+    }
+
+    fun toNavigationLocationsActivity(context: Context, locationsJson : String) {
+        val intent = Intent(context, NavigationLocationsActivity::class.java)
+        intent.putExtra(NavigationLocationsActivity.LOCATIONS_PAYLOAD_KEY, locationsJson)
         context.startActivity(intent)
     }
 }

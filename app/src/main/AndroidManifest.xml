@@ -57,7 +57,7 @@
         <activity android:name="org.myspecialway.ui.navigation.NavigationPasswordActivity" />
 
         <activity
-            android:name="org.myspecialway.ui.navigation.NavigationDestinationsActivity"
+            android:name="org.myspecialway.ui.navigation.NavigationLocationsActivity"
             android:label="@string/navigation_destinations_title"
             android:screenOrientation="portrait" />
 

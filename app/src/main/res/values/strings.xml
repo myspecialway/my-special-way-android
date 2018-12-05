@@ -37,6 +37,7 @@
     <string name="password_title">סיסמה</string>
     <string name="navPasswordButtonText">שלח</string>
     <string name="navigation_destinations_title">לאן הולכים עכשיו?</string>
+    <string name="pin_action_description">pin action</string>
     <string name="time_for_medicine">הגיע הזמן לקחת תרופה</string>
     <string name="time_for_rehab">הגיע הזמן ללכת לשירותים</string>
     <string name="time_for_lesson">זמן לשיעור %1$s</string>

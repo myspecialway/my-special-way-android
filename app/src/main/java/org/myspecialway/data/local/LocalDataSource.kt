@@ -7,6 +7,8 @@ import android.arch.persistence.room.Query
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
+import org.myspecialway.ui.agenda.Location
+import org.myspecialway.ui.agenda.LocationModel
 
 import org.myspecialway.ui.agenda.ScheduleModel
 
@@ -18,4 +20,13 @@ interface LocalDataSource {
 
     @Query("SELECT * FROM schedulemodel")
     fun loadSchedule() : Single<ScheduleModel>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveLocations(locations: LocationModel)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveLocations(locations: List<Location>)
+
+    @Query("SELECT * FROM locationmodel")
+    fun loadLocations() : Single<LocationModel>
 }

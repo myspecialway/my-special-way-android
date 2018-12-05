@@ -24,10 +24,12 @@ class NavigationPasswordActivity : AppCompatActivity() {
         finish()
     }
 
-    fun onSendButtonPressed(view: View) {
+    fun onSendButtonClick(view: View) {
         if (nav_password_edit_text.text.toString().equals("1234")) {
             if (unityDest.isEmpty()) {
-                Navigation.toNavigationDestinationsActivity(this)
+                Navigation.toNavigationLocationsActivity(this, intent.getStringExtra(NavigationLocationsActivity.LOCATIONS_PAYLOAD_KEY))
+
+            	finish()
             } else {
                 Navigation.toUnityNavigation(this, unityDest )
             }
