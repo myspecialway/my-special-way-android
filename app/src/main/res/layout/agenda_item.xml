@@ -2,9 +2,10 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="15dp"
     android:textDirection="rtl"
     android:layoutDirection="rtl"
+    android:paddingEnd="10dp"
+    android:paddingStart="10dp"
     xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.v7.widget.CardView
@@ -12,11 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_gravity="center"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-
-        card_view:cardCornerRadius="6dp"
-        card_view:cardElevation="0dp">
+        android:background="@drawable/border_white"
+        card_view:cardElevation="1dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -74,6 +72,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 card_view:layout_constraintGuide_percent=".93" />
+
+            <View
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                android:background="#d2d2d2"
+                android:layout_height="1dp" />
 
         </android.support.constraint.ConstraintLayout>
 

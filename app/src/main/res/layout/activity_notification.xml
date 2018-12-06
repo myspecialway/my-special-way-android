@@ -1,26 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white">
-
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/dialog_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:background="@android:color/white"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="20dp"
+        android:layout_gravity="center"
         android:visibility="visible">
-
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@android:color/transparent"
-            android:src="@drawable/notification_img" />
 
         <TextView
             android:id="@+id/notificationText"
@@ -28,16 +19,46 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
-            android:textColor="#000000"
-            android:textSize="20sp" />
+            android:textColor="#0f3048"
+            tools:text="@string/app_name"
+            android:layout_marginTop="33dp"
+            android:textSize="24sp" />
 
-        <ImageButton
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="132dp"
+            android:layout_marginTop="32dp"
+            android:layout_height="112dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/notification_img" />
+
+        <FrameLayout
             android:id="@+id/navigationButton"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_margin="5dp"
-            android:padding="5dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/temp_notification_button" />
+            android:layout_width="240dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="45dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="36dp">
+
+            <View
+                android:layout_marginTop="4dp"
+                android:layout_height="60dp"
+                android:layout_width="match_parent"
+                android:background="@drawable/nav_login_button_lower_layer"/>
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:radius="10dp"
+                android:background="@drawable/nav_login_button_upper_layer" />
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="43dp"
+                android:layout_gravity="center"
+                android:contentDescription="notificationButton"
+                android:src="@drawable/notification_button_person"/>
+
+        </FrameLayout>
+
     </LinearLayout>
-</RelativeLayout>
