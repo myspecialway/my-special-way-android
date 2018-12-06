@@ -27,8 +27,7 @@ import org.myspecialway.ui.agenda.AgendaState
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 import org.myspecialway.ui.alarms.AlarmsReceiver
 import org.myspecialway.ui.login.UserModel
-import org.myspecialway.ui.notifications.NotificationAlarmManager
-import org.myspecialway.ui.shared.*
+import org.myspecialway.ui.notifications.NotificationActivity
 import org.myspecialway.ui.shared.AgendaViewModel
 import java.util.*
 

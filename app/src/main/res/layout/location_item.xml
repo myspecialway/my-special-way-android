@@ -70,6 +70,14 @@
                 android:orientation="vertical"
                 card_view:layout_constraintGuide_percent=".93" />
 
+
+            <View
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                android:background="#d2d2d2"
+                android:layout_height="1dp" />
+
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>

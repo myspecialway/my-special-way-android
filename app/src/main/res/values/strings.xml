@@ -37,4 +37,5 @@
     <string name="navPasswordButtonText">שלח</string>
     <string name="navigation_destinations_title">לאן הולכים עכשיו?</string>
     <string name="pin_action_description">pin action</string>
+    <string name="scheduleErrorToast">לא מתאפשר להציג כרגע את מערכת השעות</string>
 </resources>
