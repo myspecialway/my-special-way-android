@@ -38,4 +38,8 @@
     <string name="navigation_destinations_title">לאן הולכים עכשיו?</string>
     <string name="pin_action_description">pin action</string>
     <string name="scheduleErrorToast">לא מתאפשר להציג כרגע את מערכת השעות</string>
+    <string name="app_logo">App logo</string>
+    <string name="userPassword_label">סיסמה</string>
+    <string name="loginButton_text">כניסה למערכת</string>
+    <string name="userName_label">שם משתמש</string>
 </resources>
