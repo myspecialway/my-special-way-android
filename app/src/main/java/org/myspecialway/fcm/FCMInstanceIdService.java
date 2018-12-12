@@ -1,9 +1,9 @@
 package org.myspecialway.fcm;
 
-import android.util.Log;
-
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+
+import org.myspecialway.utils.Logger;
 
 public class FCMInstanceIdService extends FirebaseInstanceIdService {
 
@@ -13,7 +13,7 @@ public class FCMInstanceIdService extends FirebaseInstanceIdService {
     public void onTokenRefresh() {
         // Get updated InstanceID token.
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        Log.d(TAG, "Refreshed token: " + refreshedToken);
+        Logger.Companion.d(TAG, "Refreshed token: " + refreshedToken);
 
         if(refreshedToken == null){
             //TODO - Handle

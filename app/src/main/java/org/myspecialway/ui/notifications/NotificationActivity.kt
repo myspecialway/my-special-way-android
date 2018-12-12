@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_notification.*
 import org.myspecialway.R
 import org.myspecialway.common.Navigation
 import org.myspecialway.common.load
+import org.myspecialway.sounds.SoundNotifications
 import org.myspecialway.ui.agenda.ReminderType
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 
@@ -49,11 +50,26 @@ class NotificationActivity : Activity() {
         }
 
         notificationText.text = notificationTitle
+        var soundRes : Int = 0
         when (reminderType) {
-            ReminderType.MEDICINE -> image.setImageResource(R.drawable.medicine)
-            ReminderType.REHAB -> image.setImageResource(R.drawable.toilet)
-            ReminderType.SCHEDULE -> image.load(current?.image ?: "")
+            ReminderType.MEDICINE -> {
+                image.setImageResource(R.drawable.medicine)
+                soundRes = R.raw.time_to_take_medicine
+                window.setTitle(getString(R.string.medicine_reminder_activity_title))
+            }
+            ReminderType.REHAB -> {
+                image.setImageResource(R.drawable.toilet)
+                soundRes = R.raw.time_to_go_to_toilet
+                window.setTitle(getString(R.string.rehab_reminder_activity_title))
+            }
+            ReminderType.SCHEDULE -> {
+                image.load(current?.image ?: "")
+                window.setTitle(getString(R.string.notifiaction_activity_title))
+            }
         }
+
+        val launchedFromHistory = intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY != 0
+        if (soundRes != 0 && !launchedFromHistory) SoundNotifications.playSoundNotification(  this, soundRes)
 
 
         navigationButton.setOnClickListener {
@@ -91,6 +107,7 @@ class NotificationActivity : Activity() {
         handler.removeCallbacksAndMessages(null)
     }
     private fun setMaxAlarmExpDate() {
+        handler.removeCallbacksAndMessages(null)
         handler.postDelayed({
             finish()
         }, FIFTEEN_MINUTE)

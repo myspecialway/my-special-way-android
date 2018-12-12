@@ -15,6 +15,7 @@ import org.myspecialway.data.local.Database
 import org.myspecialway.ui.agenda.ScheduleModel
 import org.myspecialway.ui.agenda.mapReminderRenderModel
 import org.myspecialway.ui.agenda.mapScheduleRenderModel
+import org.myspecialway.utils.Logger
 import java.util.*
 
 private const val TAG = "AlarmReceiver"
@@ -22,7 +23,7 @@ class AlarmsReceiver : BroadcastReceiver() {
     @SuppressLint("CheckResult")
     override fun onReceive(context: Context?, intent: Intent?) {
 
-        Log.d(TAG, "onReceive, schecduling alarms for schedules and reminders")
+        Logger.d(TAG, "onReceive, scheduling alarms for schedules and reminders")
         val list = getLocalSchedule(context)
 
         // get the list of schedule

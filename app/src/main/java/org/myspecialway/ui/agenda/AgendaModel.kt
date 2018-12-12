@@ -62,7 +62,7 @@ data class Reminder(
 @Parcelize
 data class ReminderTime(
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "reminder_time_id") @NonNull val id: Int,
-        val daysIndex: List<Int>,
+        @SerializedName("daysindex") val daysindex: List<Int>,
         val hours: List<String>) : Parcelable
 
         

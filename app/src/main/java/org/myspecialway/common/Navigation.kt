@@ -18,6 +18,7 @@ import org.myspecialway.ui.notifications.NotificationActivity
 import org.myspecialway.ui.settings.SettingsActivity
 
 object Navigation {
+    var navLocations: List<Location> = listOf()
 
     fun toScheduleActivity(context: Context) {
         context.startActivity(Intent(context, AgendaActivity::class.java))
@@ -47,15 +48,15 @@ object Navigation {
         }
     }
 
-    fun toNavigationPassword(context: Context, locations: List<Location>) {
+    fun toNavigationPassword(context: Context) {
         val intent = Intent(context, NavigationPasswordActivity::class.java)
-        intent.putExtra(NavigationLocationsActivity.LOCATIONS_PAYLOAD_KEY, Gson().toJson(locations))
+        intent.putExtra(NavigationLocationsActivity.LOCATIONS_PAYLOAD_KEY, Gson().toJson(navLocations))
         context.startActivity(intent)
 
 
     }
 
-    fun toNavigationPassword(context: Context, unityDest: String = "") {
+    fun toNavigationPassword(context: Context, unityDest: String ) {
         val intent = Intent(context, NavigationPasswordActivity::class.java)
         intent.putExtra(NavigationPasswordActivity.UNITY_DEST_KEY, unityDest)
         context.startActivity(intent)

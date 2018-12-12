@@ -23,6 +23,8 @@ import org.myspecialway.ui.agenda.ScheduleRenderModel
 import org.myspecialway.ui.login.LoginActivity
 import java.util.*
 
+const val SUN_TILL_THU = 6
+
 // use this to avoid layout inflater boilerplate
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
         LayoutInflater.from(context).inflate(layoutRes, this, false)
@@ -110,12 +112,14 @@ fun MutableList<ScheduleRenderModel>.getRemainingAlarmsForToday() =
 
 fun MutableList<ReminderRenderModel>.getRemindersForToday(): MutableList<Pair<Long, ReminderType>> {
     val reminders : MutableList<Pair<Long, ReminderType>> = mutableListOf()
-    val dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+    // days index coming from server are zero based, and 6 is sun-Thu
+    val dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) -1
     forEach {
         if (it.enabled) {
             val reminderType = it.type
             it.reminderTime.forEach {
-                if (it.daysIndex.contains(dayOfWeek)) {
+
+                if (it.daysindex.contains(dayOfWeek) || (it.daysindex.contains(SUN_TILL_THU) && dayOfWeek < 5)) {
                     it.hours.forEach {
                         val millisToReminderTime = getMillisToReminderTime(it)
                         if (millisToReminderTime >= 0) reminders.add(Pair(millisToReminderTime, reminderType))

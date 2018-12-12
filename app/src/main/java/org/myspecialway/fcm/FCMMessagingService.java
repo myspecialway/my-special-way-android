@@ -1,9 +1,9 @@
 package org.myspecialway.fcm;
 
-import android.util.Log;
-
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import org.myspecialway.utils.Logger;
 
 public class FCMMessagingService extends FirebaseMessagingService {
     private final String TAG = FCMMessagingService.this.getClass().getSimpleName();
@@ -16,11 +16,11 @@ public class FCMMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // TODO: Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
+        Logger.Companion.d(TAG, "From: " + remoteMessage.getFrom());
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
-            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+            Logger.Companion.d(TAG, "Message data payload: " + remoteMessage.getData());
 
             /* Check if data needs to be processed by long running job */
             // For long-running tasks (10 seconds or more) use Firebase Job Dispatcher.
@@ -30,7 +30,7 @@ public class FCMMessagingService extends FirebaseMessagingService {
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            Logger.Companion.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
 
         // TODO - pass msg to notification service
