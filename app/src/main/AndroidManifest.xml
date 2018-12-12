@@ -43,6 +43,10 @@
             android:label="@string/settings_title"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".ui.inactive.InactiveScreenActivity"
+            android:label="@string/inactive_screen"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".ui.notifications.NotificationActivity"
             android:label="@string/notifiaction_activity"
             android:theme="@style/Theme.AppCompat.Dialog.Alert"

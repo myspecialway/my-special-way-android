@@ -23,7 +23,7 @@ class NavigationPasswordActivity : AppCompatActivity() {
     fun onSendButtonClick(view: View) {
         var editText = findViewById<EditText>(R.id.nav_password_edit_text)
         if (editText.text.toString().equals("1234")) {
-            Navigation.toNavigationLocationsActivity(this, intent.getStringExtra(NavigationLocationsActivity.LOCATIONS_PAYLOAD_KEY))
+            Navigation.toSettingsActivity(this, intent.getStringExtra(NavigationLocationsActivity.LOCATIONS_PAYLOAD_KEY))
             finish()
         } else {
             val alertDialog = AlertDialog.Builder(this).create()

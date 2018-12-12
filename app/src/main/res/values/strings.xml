@@ -20,6 +20,7 @@
     <string name="back_button_description">Back button</string>
     <string name="day_schedule_title">סדר היום שלי</string>
     <string name="settings_title">הגדרות</string>
+    <string name="inactive_screen">מחוץ לזמני הפעילות</string>
     <string name="lesson_image">Lesson Image</string>
     <string name="user_error">נא להזין שם משתמש</string>
     <string name="pass_error">נא להזין סיסמא</string>
@@ -42,4 +43,11 @@
     <string name="userPassword_label">סיסמה</string>
     <string name="loginButton_text">כניסה למערכת</string>
     <string name="userName_label">שם משתמש</string>
+    <string name="wc_text">שירותים</string>
+    <string name="schedule">סדר היום שלי</string>
+    <string name="user_prefix_text">שלום</string>
+    <string name="settings_navigation">ניווט יזום</string>
+    <string name="settings_alerts">התראות</string>
+    <string name="settings_sounds">סאונד</string>
+    <string name="settings_logout">יציאה מהמערכת</string>
 </resources>
