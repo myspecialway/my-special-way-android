@@ -2,6 +2,8 @@ package org.myspecialway.ui.notifications
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -24,6 +26,7 @@ class NotificationActivity : Activity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_notification)
+        getWindow().setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
 
         window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         window.setDimAmount(0.7F)

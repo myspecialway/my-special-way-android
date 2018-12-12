@@ -61,8 +61,7 @@ class MainScreenActivity : BaseActivity() {
         viewModel.getDailySchedule()
         viewModel.getLocations()
         clickListeners()
-        activateAlarmOfAlarms(this)
-    }
+        }
 
     /**
      * this is a daily alarm [AlarmsReceiver] that will get called every day at 6 O'clock.

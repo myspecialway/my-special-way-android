@@ -46,13 +46,13 @@
             android:name=".ui.notifications.NotificationActivity"
             android:launchMode="singleInstance"
             android:label="@string/notifiaction_activity_title"
-            android:theme="@style/Theme.Transparent"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert"
             />
         <activity
             android:name=".ui.notifications.MedicineReminderActivity"
             android:launchMode="singleInstance"
             android:label="@string/medicine_reminder_activity_title"
-            android:theme="@style/Theme.Transparent"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert"
             />
 
         <activity android:name="org.myspecialway.ui.navigation.NavigationPasswordActivity" />

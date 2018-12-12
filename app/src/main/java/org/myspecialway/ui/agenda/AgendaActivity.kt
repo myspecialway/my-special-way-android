@@ -35,10 +35,7 @@ class AgendaActivity : BaseActivity() {
 
     private fun initToolbar() {
         setSupportActionBar(toolbar)
-        val supportActionBar = supportActionBar
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar.setDisplayShowHomeEnabled(true)
-        supportActionBar.setHomeAsUpIndicator(R.drawable.back)
+        backImage.setOnClickListener{finish()}
     }
 
     override fun render() =
@@ -58,14 +55,7 @@ class AgendaActivity : BaseActivity() {
                     .toList()
 
     private fun handleError() {
-        Toast.makeText(this@AgendaActivity, "לא מתאפשר להציג כרגע את מערכת השעות", Toast.LENGTH_LONG).show()
+        Toast.makeText(this@AgendaActivity, getString(org.myspecialway.R.string.scheduleErrorToast), Toast.LENGTH_LONG).show()
         finish()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            android.R.id.home -> finish()
-        }
-        return true
     }
 }

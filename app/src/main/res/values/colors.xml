@@ -15,5 +15,6 @@
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="navLocationPinTitleBarBg">#856aa3</color>
-ז
+    <color name="loginScreen_textColor">#666666</color>
+    <color name="loginLabelError_textColor">#fd4158</color>
 </resources>

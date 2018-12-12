@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_purple"
+    android:background="@android:color/white"
     android:layoutDirection="rtl"
     tools:layout_editor_absoluteY="81dp">
 
@@ -33,29 +33,51 @@
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="@color/colorToolbarText">
 
-        <TextView
-            android:id="@+id/dayScheduleTitle"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:gravity="center"
-            android:text="@string/day_schedule_title"
-            style="@style/ABTitleTextStyle"/>
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/backImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/back_button_description"
+                android:onClick="onBackClick"
+                android:src="@drawable/back" />
+
+            <TextView
+                android:id="@+id/dayScheduleTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:gravity="center"
+                android:text="@string/day_schedule_title"
+                style="@style/ABTitleTextStyle"/>
+
+        </RelativeLayout>
+
+
 
     </android.support.v7.widget.Toolbar>
 
+    <View android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@drawable/toolbar_shadow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/agendaRecyclerView"
-        android:paddingTop="8dp"
         android:clipToPadding="false"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-     >
-
-    </android.support.v7.widget.RecyclerView>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
 
 </android.support.constraint.ConstraintLayout>
