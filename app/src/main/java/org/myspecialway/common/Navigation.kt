@@ -10,6 +10,7 @@ import org.myspecialway.ui.agenda.AgendaActivity
 import org.myspecialway.ui.agenda.ReminderType
 import org.myspecialway.ui.agenda.Location
 import org.myspecialway.ui.agenda.ScheduleRenderModel
+import org.myspecialway.ui.inactive.InactiveScreenActivity
 import org.myspecialway.ui.main.MainScreenActivity
 import org.myspecialway.ui.navigation.NavigationLocationsActivity
 import org.myspecialway.ui.navigation.NavigationPasswordActivity
@@ -24,8 +25,11 @@ object Navigation {
         context.startActivity(Intent(context, AgendaActivity::class.java))
     }
 
-    fun toSettingsActivity(context: Context) {
-        context.startActivity(Intent(context, SettingsActivity::class.java))
+    fun toSettingsActivity(context: Context, locations : String) {
+        val intent = Intent(context, SettingsActivity::class.java)
+        intent.putExtra(NavigationLocationsActivity.LOCATIONS_PAYLOAD_KEY, locations)
+
+        context.startActivity(intent)
     }
 
     fun toUnityNavigation(context: Context, schedule :ScheduleRenderModel) {
@@ -65,6 +69,12 @@ object Navigation {
 
     fun toMainActivity(activity: Activity) {
         val intent = Intent(activity, MainScreenActivity::class.java)
+        activity.startActivity(intent)
+        activity.finish()
+    }
+
+    fun toInActivity(activity: Activity) {
+        val intent = Intent(activity, InactiveScreenActivity::class.java)
         activity.startActivity(intent)
         activity.finish()
     }

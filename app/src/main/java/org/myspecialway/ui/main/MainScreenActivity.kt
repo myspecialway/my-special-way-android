@@ -21,6 +21,8 @@ import org.myspecialway.R
 import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.Navigation
 import org.myspecialway.common.enable
+import org.myspecialway.common.load
+import org.myspecialway.di.RemoteProperties
 import org.myspecialway.ui.agenda.AgendaState
 import org.myspecialway.ui.agenda.Location
 import org.myspecialway.ui.agenda.Reminder
@@ -93,13 +95,12 @@ class MainScreenActivity : BaseActivity() {
 //        scheduleButton.setOnClickListener { Navigation.toMedicineReminderActivity(this) }
         // for testing toilet reminder screen
 //        scheduleButton.setOnClickListener {Navigation.toNotificationActivity(this, null, null, ReminderType.REHAB)}
-        settings.setOnClickListener { Navigation.toSettingsActivity(this) }
 
         // listen to location events, if any then enable the navigation button and set the payload
         // on the click
         disposable = locationsSubject.subscribe({ navLocations ->
-            navButton.enable(true)
-            navButton.alpha = 1.0f
+            settings.setOnClickListener { Navigation.toNavigationPassword(this, navLocations) }
+
             Navigation.navLocations = navLocations
             navButton.setOnClickListener { Navigation.toNavigationPassword(this) }
         }, {
@@ -108,20 +109,32 @@ class MainScreenActivity : BaseActivity() {
     }
 
     override fun render() {
-        userDisplayName.text = UserModel().getUser(sp).fullName()
+
+        val userDisplayNamePrefix = resources.getString(R.string.user_prefix_text)
+        val userDisplayNameString =  UserModel().getUser(sp).fullName()
+        userDisplayName.text =  "$userDisplayNamePrefix $userDisplayNameString"
 
         viewModel.states.observe(this, Observer { state ->
             when (state) {
                 is AgendaState.CurrentSchedule -> {
                     schedule = state.schedule
                     scheduleName.text = state.schedule.title
+                    val schedualImage = "${RemoteProperties.BASE_URL}lessons-icons/${state.schedule.image}.png"
+
+                    if(schedualImage !=null) {
+                        location_image.load(schedualImage)
+                    }
+                    
                 }
                 is AgendaState.ListState -> {
                     activateAlarmOfAlarms(this)
                     scheduleName.visibility = View.VISIBLE
                 }
+                is AgendaState.InActiveState -> {
+                    Navigation.toInActivity(this)
+                }
                 is AgendaState.LocationDataState -> locationsSubject.onNext(state.list)
-                is AgendaState.Progress -> progress.visibility = state.progress
+//                is AgendaState.Progress -> progress.visibility = state.progress
                 is AgendaState.Failure -> handleError(state.throwable)
 //                is AgendaState.RemindersState -> handleReminders(state?.reminders)
             }
