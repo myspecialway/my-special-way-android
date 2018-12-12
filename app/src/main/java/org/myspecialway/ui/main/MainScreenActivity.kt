@@ -95,7 +95,10 @@ class MainScreenActivity : BaseActivity() {
     }
 
     override fun render() {
-        userDisplayName.text = UserModel().getUser(sp).fullName()
+
+        val userDisplayNamePrefix = resources.getString(R.string.user_prefix_text)
+        val userDisplayNameString =  UserModel().getUser(sp).fullName()
+        userDisplayName.text =  "$userDisplayNamePrefix $userDisplayNameString"
 
         viewModel.states.observe(this, Observer { state ->
             when (state) {
@@ -108,7 +111,7 @@ class MainScreenActivity : BaseActivity() {
                     scheduleName.visibility = View.VISIBLE
                 }
                 is AgendaState.LocationDataState -> locationsSubject.onNext(state.list)
-                is AgendaState.Progress -> progress.visibility = state.progress
+//                is AgendaState.Progress -> progress.visibility = state.progress
                 is AgendaState.Failure -> handleError()
             }
         })

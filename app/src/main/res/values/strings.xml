@@ -42,4 +42,9 @@
     <string name="userPassword_label">סיסמה</string>
     <string name="loginButton_text">כניסה למערכת</string>
     <string name="userName_label">שם משתמש</string>
+    <string name="wc_text">שירותים</string>
+    <string name="schedule">סדר היום שלי</string>
+    <string name="user_prefix_text">שלום</string>
+
+
 </resources>
