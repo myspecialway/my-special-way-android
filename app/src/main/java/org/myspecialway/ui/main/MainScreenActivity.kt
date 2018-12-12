@@ -22,6 +22,8 @@ import org.myspecialway.R
 import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.Navigation
 import org.myspecialway.common.enable
+import org.myspecialway.common.load
+import org.myspecialway.di.RemoteProperties
 import org.myspecialway.ui.agenda.*
 import org.myspecialway.ui.agenda.AgendaState
 import org.myspecialway.ui.agenda.ScheduleRenderModel
@@ -81,14 +83,12 @@ class MainScreenActivity : BaseActivity() {
 
     private fun clickListeners() {
         scheduleButton.setOnClickListener { Navigation.toScheduleActivity(this) }
-        settings.setOnClickListener { Navigation.toSettingsActivity(this) }
 
         // listen to location events, if any then enable the navigation button and set the payload
         // on the click
         disposable = locationsSubject.subscribe({ navLocations ->
-            navButton.enable(true)
-            navButton.alpha = 1.0f
-            navButton.setOnClickListener { Navigation.toNavigationPassword(this, navLocations) }
+            settings.setOnClickListener { Navigation.toNavigationPassword(this, navLocations) }
+
         }, {
             // set default nav params?
         })
@@ -105,10 +105,19 @@ class MainScreenActivity : BaseActivity() {
                 is AgendaState.CurrentSchedule -> {
                     schedule = state.schedule
                     scheduleName.text = state.schedule.title
+                    val schedualImage = "${RemoteProperties.BASE_URL}lessons-icons/${state.schedule.image}.png"
+
+                    if(schedualImage !=null) {
+                        location_image.load(schedualImage)
+                    }
+                    
                 }
                 is AgendaState.ListState -> {
                     activateAlarmsIfNeeded()
                     scheduleName.visibility = View.VISIBLE
+                }
+                is AgendaState.InActiveState -> {
+                    Navigation.toInActivity(this)
                 }
                 is AgendaState.LocationDataState -> locationsSubject.onNext(state.list)
 //                is AgendaState.Progress -> progress.visibility = state.progress
@@ -120,7 +129,7 @@ class MainScreenActivity : BaseActivity() {
     private fun activateAlarmsIfNeeded() {
         activateAlarmOfAlarms(this)
 
-   }
+    }
 
     private fun handleError() {
         scheduleName.visibility = View.VISIBLE

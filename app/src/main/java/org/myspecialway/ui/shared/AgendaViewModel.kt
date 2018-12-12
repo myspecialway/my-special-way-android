@@ -25,7 +25,6 @@ class AgendaViewModel(val repository: AgendaRepository,
 
     val states = MutableLiveData<AgendaState>()
 
-
     fun getDailySchedule() = launch {
         repository.getSchedule()
                 .with(provider)
@@ -45,6 +44,12 @@ class AgendaViewModel(val repository: AgendaRepository,
 
     private fun subscribe(today: MutableList<ScheduleRenderModel>) {
         selectCurrentSchedule(today)
+
+        if(isAppInActive(today.get(0).time, today.get(today.size-1).time)){
+            states.value = AgendaState.InActiveState("of time")
+            return
+        }
+
         states.value = AgendaState.ListState(today)
     }
 
@@ -67,5 +72,15 @@ class AgendaViewModel(val repository: AgendaRepository,
                         onNext = { states.value = AgendaState.LocationDataState(it) },
                         onError = { states.value = AgendaState.Failure(it) }
                 )
+    }
+
+    fun isAppInActive(agendaStartTime:Time?, agendaEndTime:Time?) : Boolean{
+        val currentTime = Date(System.currentTimeMillis())
+
+        if(agendaStartTime == null || agendaEndTime == null){
+            return true;
+        }
+
+        return agendaStartTime.date.after(currentTime) || agendaEndTime.date.before(currentTime)
     }
 }
