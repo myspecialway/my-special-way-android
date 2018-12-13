@@ -63,7 +63,7 @@ class MainScreenActivity : BaseActivity() {
         viewModel.getDailySchedule()
         viewModel.getLocations()
         clickListeners()
-        }
+    }
 
     /**
      * this is a daily alarm [AlarmsReceiver] that will get called every day at 6 O'clock.
@@ -99,7 +99,7 @@ class MainScreenActivity : BaseActivity() {
         // listen to location events, if any then enable the navigation button and set the payload
         // on the click
         disposable = locationsSubject.subscribe({ navLocations ->
-            settings.setOnClickListener { Navigation.toNavigationPassword(this, navLocations) }
+            settings.setOnClickListener { Navigation.toNavigationPassword(this) }
 
             Navigation.navLocations = navLocations
             navButton.setOnClickListener { Navigation.toNavigationPassword(this) }
@@ -111,8 +111,8 @@ class MainScreenActivity : BaseActivity() {
     override fun render() {
 
         val userDisplayNamePrefix = resources.getString(R.string.user_prefix_text)
-        val userDisplayNameString =  UserModel().getUser(sp).fullName()
-        userDisplayName.text =  "$userDisplayNamePrefix $userDisplayNameString"
+        val userDisplayNameString = UserModel().getUser(sp).fullName()
+        userDisplayName.text = "$userDisplayNamePrefix $userDisplayNameString"
 
         viewModel.states.observe(this, Observer { state ->
             when (state) {
@@ -120,11 +120,8 @@ class MainScreenActivity : BaseActivity() {
                     schedule = state.schedule
                     scheduleName.text = state.schedule.title
                     val schedualImage = "${RemoteProperties.BASE_URL}lessons-icons/${state.schedule.image}.png"
+                    location_image.load(schedualImage)
 
-                    if(schedualImage !=null) {
-                        location_image.load(schedualImage)
-                    }
-                    
                 }
                 is AgendaState.ListState -> {
                     activateAlarmOfAlarms(this)
@@ -149,8 +146,8 @@ class MainScreenActivity : BaseActivity() {
 
     private fun handleError(throwable: Throwable) {
         scheduleName.visibility = View.VISIBLE
-        Logger.e(TAG, "Error getting schedules and reminders" , throwable)
-        Toast.makeText(this, "Error " + throwable.message , Toast.LENGTH_SHORT).show()
+        Logger.e(TAG, "Error getting schedules and reminders", throwable)
+        Toast.makeText(this, "Error " + throwable.message, Toast.LENGTH_SHORT).show()
     }
 
 }

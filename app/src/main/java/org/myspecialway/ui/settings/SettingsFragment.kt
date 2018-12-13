@@ -49,7 +49,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val navLocations = args!!.getString(NavigationLocationsActivity.LOCATIONS_PAYLOAD_KEY, "")
 
         if(navLocations.isEmpty()){
-            navigationCategory.setVisible(false)
+            navigationCategory.isVisible = false
         }
 
         navigation.setOnPreferenceClickListener {
