@@ -119,7 +119,7 @@ class MainScreenActivity : BaseActivity() {
                 is AgendaState.CurrentSchedule -> {
                     schedule = state.schedule
                     scheduleName.text = state.schedule.title
-                    val schedualImage = "${RemoteProperties.BASE_URL}lessons-icons/${state.schedule.image}.png"
+                    val schedualImage =  "${RemoteProperties.BASE_URL_IMAGES}${state.schedule.image}.png"
                     location_image.load(schedualImage)
 
                 }

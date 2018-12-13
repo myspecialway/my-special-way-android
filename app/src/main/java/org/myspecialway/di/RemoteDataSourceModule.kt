@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit
 
 object RemoteProperties {
     const val BASE_URL = "https://msw-westus-app-k8s.att.io:3000/"
+    const val BASE_URL_IMAGES = "https://msw-westus-app-k8s.att.io/assets/MSW%20Symbols/" //https://msw-westus-app-k8s.att.io/assets/MSW%20Symbols/00036.png
 }
 
 val remoteDataSourceModel = module {
