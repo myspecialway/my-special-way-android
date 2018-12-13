@@ -159,7 +159,6 @@ dependencies {
     // Android architecture components
     implementation "android.arch.lifecycle:extensions:$arch_version"
     implementation "android.arch.lifecycle:viewmodel:$arch_version"
-    testImplementation "android.arch.core:core-testing:$arch_version"
 
     // Database
     implementation "android.arch.persistence.room:rxjava2:1.1.1"

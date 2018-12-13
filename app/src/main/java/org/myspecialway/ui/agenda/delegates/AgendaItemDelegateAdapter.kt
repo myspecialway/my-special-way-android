@@ -22,7 +22,7 @@ class AgendaItemDelegateAdapter(val onClick: (ScheduleRenderModel) -> Unit) : Vi
         fun bind(schedule: ScheduleRenderModel) {
             // set's the title
             itemView.agenda_text.text = schedule.title
-            itemView.agenda_icon.load("${RemoteProperties.BASE_URL}lessons-icons/${schedule.image}.png")
+            itemView.agenda_icon.load("${RemoteProperties.BASE_URL_IMAGES}${schedule.image}.png")
             itemView.time.text = schedule.time?.timeDisplay
 
             drawBorderIfNeeded(schedule)
