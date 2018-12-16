@@ -4,7 +4,9 @@
     <string name="channel_name">MSW</string>
     <string name="channel_description">Used for MSW notifications</string>
     <string name="example_notification">set alarm for notificaiton</string>
-    <string name="notifiaction_activity">Notification alarm</string>
+    <string name="notifiaction_activity_title">תזכורת</string>
+    <string name="rehab_reminder_activity_title">תזכורת שירותים</string>
+    <string name="medicine_reminder_activity_title">תזכורת תרופה</string>
 
     <string name="username">שם משתמש</string>
     <string name="password">סיסמה</string>
@@ -38,6 +40,9 @@
     <string name="navPasswordButtonText">שלח</string>
     <string name="navigation_destinations_title">לאן הולכים עכשיו?</string>
     <string name="pin_action_description">pin action</string>
+    <string name="time_for_medicine">הגיע הזמן לקחת תרופה</string>
+    <string name="time_for_rehab">הגיע הזמן ללכת לשירותים</string>
+    <string name="time_for_lesson">זמן לשיעור %1$s</string>
     <string name="scheduleErrorToast">לא מתאפשר להציג כרגע את מערכת השעות</string>
     <string name="app_logo">App logo</string>
     <string name="userPassword_label">סיסמה</string>

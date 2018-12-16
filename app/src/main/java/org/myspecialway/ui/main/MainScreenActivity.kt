@@ -9,7 +9,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.os.PowerManager
 import android.provider.Settings
 import android.view.View
@@ -24,15 +23,17 @@ import org.myspecialway.common.Navigation
 import org.myspecialway.common.enable
 import org.myspecialway.common.load
 import org.myspecialway.di.RemoteProperties
-import org.myspecialway.ui.agenda.*
 import org.myspecialway.ui.agenda.AgendaState
+import org.myspecialway.ui.agenda.Location
+import org.myspecialway.ui.agenda.Reminder
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 import org.myspecialway.ui.alarms.AlarmsReceiver
 import org.myspecialway.ui.login.UserModel
-import org.myspecialway.ui.notifications.NotificationActivity
 import org.myspecialway.ui.shared.AgendaViewModel
+import org.myspecialway.utils.Logger
 import java.util.*
 
+private const val TAG = "MainScreenActivity"
 
 class MainScreenActivity : BaseActivity() {
 
@@ -47,6 +48,9 @@ class MainScreenActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_screen)
 
+        Logger.d(TAG, "MainScreen onCreate")
+        render()
+
         val intent = Intent()
         val packageName = packageName
         val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
@@ -58,37 +62,47 @@ class MainScreenActivity : BaseActivity() {
 
         viewModel.getDailySchedule()
         viewModel.getLocations()
-        activateAlarmsIfNeeded()
         clickListeners()
-        render()
     }
 
     /**
      * this is a daily alarm [AlarmsReceiver] that will get called every day at 6 O'clock.
-     * this alarm contain the logic of triggering al the daily alarms.
+     * this alarm contain the logic of triggering all the daily alarms.
      */
     private fun activateAlarmOfAlarms(context: Context?) {
         val am: AlarmManager = getSystemService(android.content.Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AlarmsReceiver::class.java)
         val alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
 
-        // launch alarms NOW for the first time.
+        val sixAmTimeInMillis = AlarmsReceiver.getHourOfDay(6).timeInMillis
+
+        // launch alarms NOW for the first time only if 6AM has  not arrived yet.
+        // Otherwise, setRepeating will trigger the alarm now anyhow.
         val now = Calendar.getInstance().time
         am.set(AlarmManager.RTC_WAKEUP, now.time, alarmIntent)
+//        if (sixAmTimeInMillis > now.time){
+//            am.set(AlarmManager.RTC_WAKEUP, now.time , alarmIntent)
+//        }
 
         // set repeating alarms for every day
-        am.setRepeating(AlarmManager.RTC_WAKEUP, AlarmsReceiver.getHourOfDay(6).timeInMillis,
+        am.setRepeating(AlarmManager.RTC_WAKEUP, sixAmTimeInMillis,
                 AlarmManager.INTERVAL_DAY, alarmIntent)
     }
 
     private fun clickListeners() {
         scheduleButton.setOnClickListener { Navigation.toScheduleActivity(this) }
+        // for testing medicine reminder screen
+//        scheduleButton.setOnClickListener { Navigation.toMedicineReminderActivity(this) }
+        // for testing toilet reminder screen
+//        scheduleButton.setOnClickListener {Navigation.toNotificationActivity(this, null, null, ReminderType.REHAB)}
 
         // listen to location events, if any then enable the navigation button and set the payload
         // on the click
         disposable = locationsSubject.subscribe({ navLocations ->
-            settings.setOnClickListener { Navigation.toNavigationPassword(this, navLocations) }
+            settings.setOnClickListener { Navigation.toNavigationPassword(this) }
 
+            Navigation.navLocations = navLocations
+            navButton.setOnClickListener { Navigation.toNavigationPassword(this) }
         }, {
             // set default nav params?
         })
@@ -97,8 +111,8 @@ class MainScreenActivity : BaseActivity() {
     override fun render() {
 
         val userDisplayNamePrefix = resources.getString(R.string.user_prefix_text)
-        val userDisplayNameString =  UserModel().getUser(sp).fullName()
-        userDisplayName.text =  "$userDisplayNamePrefix $userDisplayNameString"
+        val userDisplayNameString = UserModel().getUser(sp).fullName()
+        userDisplayName.text = "$userDisplayNamePrefix $userDisplayNameString"
 
         viewModel.states.observe(this, Observer { state ->
             when (state) {
@@ -106,14 +120,11 @@ class MainScreenActivity : BaseActivity() {
                     schedule = state.schedule
                     scheduleName.text = state.schedule.title
                     val schedualImage =  "${RemoteProperties.BASE_URL_IMAGES}${state.schedule.image}.png"
+                    location_image.load(schedualImage)
 
-                    if(schedualImage !=null) {
-                        location_image.load(schedualImage)
-                    }
-                    
                 }
                 is AgendaState.ListState -> {
-                    activateAlarmsIfNeeded()
+                    activateAlarmOfAlarms(this)
                     scheduleName.visibility = View.VISIBLE
                 }
                 is AgendaState.InActiveState -> {
@@ -121,19 +132,22 @@ class MainScreenActivity : BaseActivity() {
                 }
                 is AgendaState.LocationDataState -> locationsSubject.onNext(state.list)
 //                is AgendaState.Progress -> progress.visibility = state.progress
-                is AgendaState.Failure -> handleError()
+                is AgendaState.Failure -> handleError(state.throwable)
+//                is AgendaState.RemindersState -> handleReminders(state?.reminders)
             }
         })
     }
 
-    private fun activateAlarmsIfNeeded() {
-        activateAlarmOfAlarms(this)
+    private fun handleReminders(reminders: List<Reminder>?) {
+        Logger.d(TAG, "Handling reminders " + reminders)
 
+        // nothing to do here as reminder are handled together with schedules
     }
 
-    private fun handleError() {
+    private fun handleError(throwable: Throwable) {
         scheduleName.visibility = View.VISIBLE
-        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+        Logger.e(TAG, "Error getting schedules and reminders", throwable)
+        Toast.makeText(this, "Error " + throwable.message, Toast.LENGTH_SHORT).show()
     }
 
 }

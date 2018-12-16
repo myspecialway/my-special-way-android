@@ -11,4 +11,5 @@ sealed class AgendaState {
     data class LocationDataState(val list: List<Location>) : AgendaState()
     data class Failure(val throwable: Throwable) : AgendaState()
     data class Progress(val progress: Int) : AgendaState()
+    data class RemindersState(val reminders: List<Reminder>?) : AgendaState()
 }

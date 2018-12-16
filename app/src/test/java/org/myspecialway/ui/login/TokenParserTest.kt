@@ -43,7 +43,7 @@ class TokenParserTest {
     }
 
     @Test
-    fun `token is valid check - not expired`() {
+    fun `token is valid check - not expired test`() {
         val notExpiredToken = createFakeToken(false)
         Assert.assertTrue(notExpiredToken.isValid)
     }

@@ -32,33 +32,16 @@
             android:layout_gravity="center_horizontal"
             android:src="@drawable/notification_img" />
 
-        <FrameLayout
+
+        <ImageButton
             android:id="@+id/navigationButton"
             android:layout_width="240dp"
-            android:layout_height="64dp"
+            android:layout_height="60dp"
             android:layout_marginTop="45dp"
             android:layout_marginStart="36dp"
-            android:layout_marginEnd="36dp">
+            android:layout_marginEnd="36dp"
+            android:background="@drawable/button_bg"
+            android:src="@drawable/man_walking"/>
 
-            <View
-                android:layout_marginTop="4dp"
-                android:layout_height="60dp"
-                android:layout_width="match_parent"
-                android:background="@drawable/nav_login_button_lower_layer"/>
-
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:radius="10dp"
-                android:background="@drawable/nav_login_button_upper_layer" />
-
-            <ImageView
-                android:layout_width="26dp"
-                android:layout_height="43dp"
-                android:layout_gravity="center"
-                android:contentDescription="notificationButton"
-                android:src="@drawable/notification_button_person"/>
-
-        </FrameLayout>
 
     </LinearLayout>
