@@ -5,7 +5,6 @@ import android.arch.persistence.room.Room
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -19,9 +18,20 @@ import org.myspecialway.utils.Logger
 import java.util.*
 
 private const val TAG = "AlarmReceiver"
+
+private const val BOOT_COMPLETED_ACTION="android.intent.action.BOOT_COMPLETED"
+private const val QUICKBOOT_POWERON_ACTION="android.intent.action.QUICKBOOT_POWERON"
+private const val TIME_SET_ACTION="android.intent.action.TIME_SET"
+private const val TIMEZONE_CHANGED_ACTION="android.intent.action.TIMEZONE_CHANGED"
+private const val HTC_QUICKBOOT_POWERON_ACTION="com.htc.intent.action.QUICKBOOT_POWERON"
+private val allowedActions = listOf(BOOT_COMPLETED_ACTION, QUICKBOOT_POWERON_ACTION, TIME_SET_ACTION, TIMEZONE_CHANGED_ACTION, HTC_QUICKBOOT_POWERON_ACTION, AlarmsReceiver.INTERNAL_ALARM_ACTION)
+
 class AlarmsReceiver : BroadcastReceiver() {
     @SuppressLint("CheckResult")
     override fun onReceive(context: Context?, intent: Intent?) {
+        if (!allowedActions.contains(intent?.action ?: "")){
+            return
+        }
 
         Logger.d(TAG, "onReceive, scheduling alarms for schedules and reminders")
         val list = getLocalSchedule(context)
@@ -63,6 +73,8 @@ class AlarmsReceiver : BroadcastReceiver() {
                     .loadSchedule()
 
     companion object {
+        const val INTERNAL_ALARM_ACTION="org.myspecialway.INTERNAL_ALARM"
+
         fun getHourOfDay(hour: Int): Calendar {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = System.currentTimeMillis()

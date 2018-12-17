@@ -85,8 +85,8 @@ class AlarmJob : Job() {
                 val extras = PersistableBundleCompat()
                 extras.putString(REMINDER_TYPE, it.second.name)
 
-                val timeTarget = it.first
-                Logger.d(TAG, "scheduling reminder of " + it.second + ", to " + Date(System.currentTimeMillis() + timeTarget))
+                val timeTarget = it.first - System.currentTimeMillis()
+                Logger.d(TAG, "scheduling reminder of " + it.second + ", to " + Date(it.first))
                 JobRequest.Builder(ALARM_REMINDER_JOB_TAG)
                         .setRequiresDeviceIdle(false)
                         .setRequiresCharging(false)

@@ -105,15 +105,15 @@ fun MutableList<ScheduleRenderModel>.filterTodayList() =
 fun MutableList<ScheduleRenderModel>.getRemainingAlarmsForToday() =
         asSequence()
                 .filter { AgendaIndex.todayWeekIndex(Calendar.getInstance()) == it.time?.dayDisplay }
-                .sortedBy {  it.index?.substringBefore("_")?.toInt() }
+                .sortedBy { it.index?.substringBefore("_")?.toInt() }
                 .distinctBy { it.index }
                 .toList()
-                .filter { System.currentTimeMillis() < it.time!!.date.time  }
+                .filter { System.currentTimeMillis() < it.time!!.date.time }
 
 fun MutableList<ReminderRenderModel>.getRemindersForToday(): MutableList<Pair<Long, ReminderType>> {
-    val reminders : MutableList<Pair<Long, ReminderType>> = mutableListOf()
+    val reminders: MutableList<Pair<Long, ReminderType>> = mutableListOf()
     // days index coming from server are zero based, and 6 is sun-Thu
-    val dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) -1
+    val dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1
     forEach {
         if (it.enabled) {
             val reminderType = it.type
@@ -121,21 +121,23 @@ fun MutableList<ReminderRenderModel>.getRemindersForToday(): MutableList<Pair<Lo
 
                 if (it.daysindex.contains(dayOfWeek) || (it.daysindex.contains(SUN_TILL_THU) && dayOfWeek < 5)) {
                     it.hours.forEach {
-                        val millisToReminderTime = getMillisToReminderTime(it)
-                        if (millisToReminderTime >= 0) reminders.add(Pair(millisToReminderTime, reminderType))
+                        val reminderTime = getReminderTime(it)
+                        if (reminderTime > 0 && reminderTime - System.currentTimeMillis() >= 0) reminders.add(Pair(reminderTime, reminderType))
                     }
                 }
             }
         }
     }
+
+    reminders.distinct()
     return reminders
 }
 
 /**
  * @param reminderHourStr  string of reminder time in format "08:30"
- * @return milliseconds till that time, or -1 if invalid.
+ * @return reminder time, or -1 if invalid.
  */
-private fun getMillisToReminderTime(reminderHourStr: String): Long {
+private fun getReminderTime(reminderHourStr: String): Long {
     val hour = reminderHourStr.substringBefore(':', reminderHourStr)
     val minutes = reminderHourStr.substringAfter(':', "00")
     try {
@@ -144,7 +146,7 @@ private fun getMillisToReminderTime(reminderHourStr: String): Long {
             cal.set(Calendar.HOUR_OF_DAY, hour.toInt())
             cal.set(Calendar.MINUTE, minutes.toInt())
 
-            return cal.timeInMillis - System.currentTimeMillis()
+            return cal.timeInMillis
         }
     } catch (e: Exception) {
         return -1
