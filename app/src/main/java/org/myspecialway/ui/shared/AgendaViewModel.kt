@@ -27,6 +27,7 @@ class AgendaViewModel(val repository: AgendaRepository,
 //                .doOnNext { states.value = AgendaState.RemindersState(it.data.student.reminder) }
                 .map { it.data.student.schedule } // map the schedule list
                 .flatMapIterable { it } // iterate on each element
+                .filter {!it.hours.isNullOrEmpty()}
                 .map { mapScheduleRenderModel(it) } // map to render model
                 .toList()
                 .map { it.filterTodayList() }
@@ -72,10 +73,6 @@ class AgendaViewModel(val repository: AgendaRepository,
     fun isAppInActive(agendaStartTime:Time?, agendaEndTime:Time?) : Boolean{
         val currentTime = Date(System.currentTimeMillis())
 
-        if(agendaStartTime == null || agendaEndTime == null){
-            return true;
-        }
-
-        return agendaStartTime.date.after(currentTime) || agendaEndTime.date.before(currentTime)
+        return agendaStartTime?.date?.after(currentTime) ?: false || agendaEndTime?.date?.before(currentTime) ?: false
     }
 }

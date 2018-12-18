@@ -1,6 +1,7 @@
 package org.myspecialway.ui.main
 
 //import org.myspecialway.ui.notifications.NotificationAlarmManager
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.arch.lifecycle.Observer
@@ -44,6 +45,7 @@ class MainScreenActivity : BaseActivity() {
 
     private var schedule: ScheduleRenderModel? = null
 
+    @SuppressLint("BatteryLife")
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_screen)
@@ -71,7 +73,7 @@ class MainScreenActivity : BaseActivity() {
      */
     private fun activateAlarmOfAlarms(context: Context?) {
         val am: AlarmManager = getSystemService(android.content.Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(context, AlarmsReceiver::class.java)
+        val intent = Intent(AlarmsReceiver.INTERNAL_ALARM_ACTION, null, context, AlarmsReceiver::class.java)
         val alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
 
         val sixAmTimeInMillis = AlarmsReceiver.getHourOfDay(6).timeInMillis
@@ -80,9 +82,7 @@ class MainScreenActivity : BaseActivity() {
         // Otherwise, setRepeating will trigger the alarm now anyhow.
         val now = Calendar.getInstance().time
         am.set(AlarmManager.RTC_WAKEUP, now.time, alarmIntent)
-//        if (sixAmTimeInMillis > now.time){
-//            am.set(AlarmManager.RTC_WAKEUP, now.time , alarmIntent)
-//        }
+
 
         // set repeating alarms for every day
         am.setRepeating(AlarmManager.RTC_WAKEUP, sixAmTimeInMillis,
