@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_notification.*
 import org.myspecialway.R
 import org.myspecialway.common.Navigation
 import org.myspecialway.common.load
+import org.myspecialway.di.RemoteProperties
 import org.myspecialway.sounds.SoundNotifications
 import org.myspecialway.ui.agenda.ReminderType
 import org.myspecialway.ui.agenda.ScheduleRenderModel
@@ -66,7 +67,9 @@ class NotificationActivity : Activity() {
                 window.setTitle(getString(R.string.rehab_reminder_activity_title))
             }
             ReminderType.SCHEDULE -> {
-                image.load(current?.image ?: "")
+                val imageName = current?.image ?: ""
+                val url = "${RemoteProperties.BASE_URL_IMAGES}${imageName}.png"
+                image.load(url)
                 window.setTitle(getString(R.string.notifiaction_activity_title))
             }
         }
