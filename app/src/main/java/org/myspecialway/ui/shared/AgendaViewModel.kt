@@ -41,7 +41,7 @@ class AgendaViewModel(val repository: AgendaRepository,
     private fun subscribe(today: MutableList<ScheduleRenderModel>) {
         selectCurrentSchedule(today)
 
-        if(isAppInActive(today.get(0).time, today.get(today.size-1).time)){
+        if(today.isEmpty() || isAppInActive(today.get(0).time, today.get(today.size-1).time)){
             states.value = AgendaState.InActiveState("of time")
             return
         }

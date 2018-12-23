@@ -80,8 +80,11 @@ class MainScreenActivity : BaseActivity() {
 
         // launch alarms NOW for the first time only if 6AM has  not arrived yet.
         // Otherwise, setRepeating will trigger the alarm now anyhow.
-        val now = Calendar.getInstance().time
-        am.set(AlarmManager.RTC_WAKEUP, now.time, alarmIntent)
+//        val now = Calendar.getInstance().time
+//        am.set(AlarmManager.RTC_WAKEUP, now.time, alarmIntent)
+
+        // send directly to the broadcast receiver, without alarm
+        sendBroadcast(intent)
 
 
         // set repeating alarms for every day

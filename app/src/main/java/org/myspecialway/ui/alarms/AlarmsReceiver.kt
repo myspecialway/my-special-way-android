@@ -11,9 +11,7 @@ import io.reactivex.schedulers.Schedulers
 import org.myspecialway.common.getRemainingAlarmsForToday
 import org.myspecialway.common.getRemindersForToday
 import org.myspecialway.data.local.Database
-import org.myspecialway.ui.agenda.ScheduleModel
-import org.myspecialway.ui.agenda.mapReminderRenderModel
-import org.myspecialway.ui.agenda.mapScheduleRenderModel
+import org.myspecialway.ui.agenda.*
 import org.myspecialway.utils.Logger
 import java.util.*
 
@@ -25,6 +23,8 @@ private const val TIME_SET_ACTION="android.intent.action.TIME_SET"
 private const val TIMEZONE_CHANGED_ACTION="android.intent.action.TIMEZONE_CHANGED"
 private const val HTC_QUICKBOOT_POWERON_ACTION="com.htc.intent.action.QUICKBOOT_POWERON"
 private val allowedActions = listOf(BOOT_COMPLETED_ACTION, QUICKBOOT_POWERON_ACTION, TIME_SET_ACTION, TIMEZONE_CHANGED_ACTION, HTC_QUICKBOOT_POWERON_ACTION, AlarmsReceiver.INTERNAL_ALARM_ACTION)
+
+private var nonActiveTimesRenderModel = listOf<NonActiveTimeRenderModel>()
 
 class AlarmsReceiver : BroadcastReceiver() {
     @SuppressLint("CheckResult")
@@ -39,6 +39,7 @@ class AlarmsReceiver : BroadcastReceiver() {
         // get the list of schedule
         list.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doAfterSuccess { dataList -> nonActiveTimesRenderModel = dataList.data.student.nonActiveTimes.map { mapNonActiveTimeRenderModel(it) } }
                 .map { it.data.student.schedule }
                 .subscribe({ scheduleList ->
 
@@ -46,13 +47,14 @@ class AlarmsReceiver : BroadcastReceiver() {
                             .map { mapScheduleRenderModel(it) }
 
                     val remainingAlarms = render.toMutableList()
-                            .getRemainingAlarmsForToday()
+                            .getRemainingAlarmsForToday(nonActiveTimesRenderModel)
 
                     AlarmJob.scheduleJobs(remainingAlarms)
                 }, { })
 
         list.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doAfterSuccess { dataList -> nonActiveTimesRenderModel = dataList.data.student.nonActiveTimes.map { mapNonActiveTimeRenderModel(it) } } // if observers are always called in the same order, this line can be omitted.
                 .map { it.data.student.reminder }
                 .subscribe({ reminderList ->
 
@@ -60,7 +62,7 @@ class AlarmsReceiver : BroadcastReceiver() {
                             ?.map { mapReminderRenderModel(it) }
 
                     val mutableList = render?.toMutableList()
-                    val remainingAlarms = mutableList?.getRemindersForToday()
+                    val remainingAlarms = mutableList?.getRemindersForToday(nonActiveTimesRenderModel)
 
                     AlarmJob.scheduleReminderJobs(remainingAlarms)
                 }, { })
