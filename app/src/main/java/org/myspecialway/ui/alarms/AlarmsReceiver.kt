@@ -17,11 +17,11 @@ import java.util.*
 
 private const val TAG = "AlarmReceiver"
 
-private const val BOOT_COMPLETED_ACTION="android.intent.action.BOOT_COMPLETED"
-private const val QUICKBOOT_POWERON_ACTION="android.intent.action.QUICKBOOT_POWERON"
-private const val TIME_SET_ACTION="android.intent.action.TIME_SET"
-private const val TIMEZONE_CHANGED_ACTION="android.intent.action.TIMEZONE_CHANGED"
-private const val HTC_QUICKBOOT_POWERON_ACTION="com.htc.intent.action.QUICKBOOT_POWERON"
+private const val BOOT_COMPLETED_ACTION = "android.intent.action.BOOT_COMPLETED"
+private const val QUICKBOOT_POWERON_ACTION = "android.intent.action.QUICKBOOT_POWERON"
+private const val TIME_SET_ACTION = "android.intent.action.TIME_SET"
+private const val TIMEZONE_CHANGED_ACTION = "android.intent.action.TIMEZONE_CHANGED"
+private const val HTC_QUICKBOOT_POWERON_ACTION = "com.htc.intent.action.QUICKBOOT_POWERON"
 private val allowedActions = listOf(BOOT_COMPLETED_ACTION, QUICKBOOT_POWERON_ACTION, TIME_SET_ACTION, TIMEZONE_CHANGED_ACTION, HTC_QUICKBOOT_POWERON_ACTION, AlarmsReceiver.INTERNAL_ALARM_ACTION)
 
 private var nonActiveTimesRenderModel = listOf<NonActiveTimeRenderModel>()
@@ -29,7 +29,7 @@ private var nonActiveTimesRenderModel = listOf<NonActiveTimeRenderModel>()
 class AlarmsReceiver : BroadcastReceiver() {
     @SuppressLint("CheckResult")
     override fun onReceive(context: Context?, intent: Intent?) {
-        if (!allowedActions.contains(intent?.action ?: "")){
+        if (!allowedActions.contains(intent?.action ?: "")) {
             return
         }
 
@@ -39,11 +39,12 @@ class AlarmsReceiver : BroadcastReceiver() {
         // get the list of schedule
         list.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doAfterSuccess { dataList -> nonActiveTimesRenderModel = dataList.data.student.nonActiveTimes.map { mapNonActiveTimeRenderModel(it) } }
+                .doAfterSuccess {dataList -> nonActiveTimesRenderModel = getValidNonActiveTimes(dataList)}
                 .map { it.data.student.schedule }
                 .subscribe({ scheduleList ->
 
                     val render = scheduleList
+                            .filter { !it.hours.isNullOrEmpty() }
                             .map { mapScheduleRenderModel(it) }
 
                     val remainingAlarms = render.toMutableList()
@@ -54,7 +55,7 @@ class AlarmsReceiver : BroadcastReceiver() {
 
         list.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doAfterSuccess { dataList -> nonActiveTimesRenderModel = dataList.data.student.nonActiveTimes.map { mapNonActiveTimeRenderModel(it) } } // if observers are always called in the same order, this line can be omitted.
+                .doAfterSuccess {dataList -> nonActiveTimesRenderModel = getValidNonActiveTimes(dataList)} // if observers are always called in the same order, this line can be omitted.
                 .map { it.data.student.reminder }
                 .subscribe({ reminderList ->
 
@@ -68,6 +69,13 @@ class AlarmsReceiver : BroadcastReceiver() {
                 }, { })
     }
 
+    private fun getValidNonActiveTimes(dataList: ScheduleModel): List<NonActiveTimeRenderModel> {
+        val currentTime = System.currentTimeMillis()
+        return dataList.data.student.nonActiveTimes
+                .map { mapNonActiveTimeRenderModel(it) }
+                .filter { it.startDateTime?.time ?: 0 > currentTime || it.endDateTime?.time ?: 0 > currentTime }
+    }
+
     private fun getLocalSchedule(context: Context?): Single<ScheduleModel> =
             Room.databaseBuilder(context!!, Database::class.java, "database")
                     .build()
@@ -75,7 +83,7 @@ class AlarmsReceiver : BroadcastReceiver() {
                     .loadSchedule()
 
     companion object {
-        const val INTERNAL_ALARM_ACTION="org.myspecialway.INTERNAL_ALARM"
+        const val INTERNAL_ALARM_ACTION = "org.myspecialway.INTERNAL_ALARM"
 
         fun getHourOfDay(hour: Int): Calendar {
             val calendar = Calendar.getInstance()

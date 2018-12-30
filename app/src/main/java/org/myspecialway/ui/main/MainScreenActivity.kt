@@ -131,7 +131,9 @@ class MainScreenActivity : BaseActivity() {
                     scheduleName.visibility = View.VISIBLE
                 }
                 is AgendaState.InActiveState -> {
+                    activateAlarmOfAlarms(this)
                     Navigation.toInActivity(this)
+                    // todo: timer to cancel inActive mode.
                 }
                 is AgendaState.LocationDataState -> locationsSubject.onNext(state.list)
 //                is AgendaState.Progress -> progress.visibility = state.progress
