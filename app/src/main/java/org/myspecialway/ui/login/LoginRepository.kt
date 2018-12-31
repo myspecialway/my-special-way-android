@@ -13,7 +13,7 @@ interface LoginRepository {
 class LoginRepositoryImpl(private val remoteDataSource: RemoteDataSource,
                           private val sp: SharedPreferences) : LoginRepository {
     override fun performLogin(auth: LoginAuthData): Flowable<LoginResponse> =
-            remoteDataSource.performLogin(buildJson(auth))
+            remoteDataSource.performLogin(buildJson(auth, sp))
                     .toFlowable()
                     .doOnNext { res ->
                         saveLoginResponse(UserModel().map(res, auth), Token().map(res.accessToken))
@@ -25,8 +25,9 @@ class LoginRepositoryImpl(private val remoteDataSource: RemoteDataSource,
     }
 }
 
-fun buildJson(authData: LoginAuthData) = JsonObject().apply {
+fun buildJson(authData: LoginAuthData, sp: SharedPreferences) = JsonObject().apply {
     addProperty("username", authData.username)
     addProperty("password", authData.password)
+    addProperty("pushToken", sp.getString("token", ""))
 }
 

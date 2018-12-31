@@ -55,7 +55,7 @@ class TokenInterceptor(private val token: Token,
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(RemoteDataSource::class.java)
-                .performLogin(buildJson(auth)).subscribe({ res ->
+                .performLogin(buildJson(auth, sp)).subscribe({ res ->
                     token.let {
                         it.storeAccessToken(sp, it.map(res.accessToken))
                     }
