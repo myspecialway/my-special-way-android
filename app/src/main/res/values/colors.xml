@@ -19,4 +19,5 @@
     <color name="loginLabelError_textColor">#fd4158</color>
     <color name="main_screen_grey">#f9f9fc</color>
     <color name="line_seperator">#9063cd</color>
+    <color name="main_screen_purple">#efe8f8</color>
 </resources>
