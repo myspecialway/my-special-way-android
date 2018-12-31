@@ -18,7 +18,6 @@ import io.reactivex.Flowable
 import org.myspecialway.ui.agenda.*
 import org.myspecialway.R
 import org.myspecialway.ui.login.LoginActivity
-import org.myspecialway.utils.Logger
 import java.util.*
 
 const val TAG = "Ext"
@@ -110,7 +109,7 @@ fun MutableList<ScheduleRenderModel>.getRemainingAlarmsForToday(nonActiveTimes: 
                 .filter { System.currentTimeMillis() < it.time!!.date.time && !nonActiveTimes.isEventInsideNonActiveTime(it.time!!.date.time) }
 
 fun MutableList<ReminderRenderModel>.getRemindersForToday(nonActiveTimes: List<NonActiveTimeRenderModel>): MutableList<Pair<Long, ReminderType>> {
-    val reminders: MutableList<Pair<Long, ReminderType>> = mutableListOf()
+    var reminders: MutableList<Pair<Long, ReminderType>> = mutableListOf()
     // days index coming from server are zero based, and 6 is sun-Thu
     val dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1
     forEach {
@@ -129,7 +128,7 @@ fun MutableList<ReminderRenderModel>.getRemindersForToday(nonActiveTimes: List<N
         }
     }
 
-    reminders.distinct()
+    reminders = reminders.distinct().toMutableList()
     return reminders
 }
 
@@ -137,7 +136,7 @@ fun List<NonActiveTimeRenderModel>.isEventInsideNonActiveTime(eventStartTime: Lo
     forEach {
         val eventDate = Date(eventStartTime)
         if (it.startDateTime?.before(eventDate) == true && it.endDateTime?.after(eventDate) == true) {
-            Logger.d(TAG, "time $eventDate overlaps in non active time '${it.title}'. (${it.startDateTime} -  ${it.endDateTime})")
+//            Logger.d(TAG, "time $eventDate overlaps in non active time '${it.title}'. (${it.startDateTime} -  ${it.endDateTime})")
             return true
         }
     }
