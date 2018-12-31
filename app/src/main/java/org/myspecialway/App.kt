@@ -10,6 +10,11 @@ import org.myspecialway.ui.alarms.JobCreator
 
 class App : Application() {
 
+    companion object {
+        var instance: App? = null
+            private set
+    }
+
     override fun onCreate() {
         super.onCreate()
         startKoin(this, mySpecialWay)
@@ -24,10 +29,5 @@ class App : Application() {
         val built = builder.build()
         built.isLoggingEnabled = true
         Picasso.setSingletonInstance(built)
-    }
-
-    companion object {
-        var instance: App? = null
-            private set
     }
 }
