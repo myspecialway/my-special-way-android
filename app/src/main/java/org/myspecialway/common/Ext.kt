@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso
 import io.reactivex.Flowable
 import org.myspecialway.ui.agenda.*
 import org.myspecialway.R
+import org.myspecialway.ui.alarms.AlarmJob
 import org.myspecialway.ui.login.LoginActivity
 import java.util.*
 
@@ -56,6 +57,8 @@ fun Date.addHour(hours: Int): Date {
 fun Context.logout() {
     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
     sharedPreferences.edit().clear().apply()
+    AlarmJob.cancelAllJobs() // to avoid more notifications.
+    //TODO: delete all from local storage
     // clear sp, navigate login page with clear top flag
     val intent = Intent(this, LoginActivity::class.java)
     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
