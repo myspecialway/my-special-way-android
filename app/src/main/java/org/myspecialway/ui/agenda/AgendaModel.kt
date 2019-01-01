@@ -6,7 +6,10 @@ import android.support.annotation.NonNull
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 import org.myspecialway.common.ViewType
+import java.text.SimpleDateFormat
 import java.util.*
+
+private val serverDateFormat = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z")
 
 @Entity()
 data class ScheduleModel(
@@ -25,7 +28,9 @@ data class Student(
         val number: Int? = null,
         val level: String? = null,
         val schedule: List<Schedule>,
-        @SerializedName("reminders") val reminder : List<Reminder>?
+        @SerializedName("reminders") val reminder: List<Reminder>?,
+        val nonActiveTimes: List<NonActiveTimes>
+
 
 )
 
@@ -65,17 +70,27 @@ data class ReminderTime(
         @SerializedName("daysindex") val daysindex: List<Int>,
         val hours: List<String>) : Parcelable
 
-        
 
 @Entity()
 data class LocationData(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "loc_data_id") @NonNull val id: Int,
-        @SerializedName("locations") val locations: List<Location>)
+                        @SerializedName("locations") val locations: List<Location>)
 
 @Entity
 data class LocationModel(
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "loc_model_id") @NonNull val id: Int,
         val data: LocationData)
-        
+
+
+@Entity()
+data class NonActiveTimes(
+        @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "nonActiveTime_id") @NonNull val id: Int,
+        val title: String = "",
+        val startDateTime: String,
+        val endDateTime: String,
+        val isAllDayEvent: Boolean = false,
+        val isAllClassesEvent: Boolean = false)
+
+
 // UI Models
 @Parcelize
 data class ScheduleRenderModel(var index: String? = null,
@@ -93,7 +108,18 @@ data class ScheduleRenderModel(var index: String? = null,
 @Parcelize
 data class ReminderRenderModel(var enabled: Boolean = false,
                                var type: ReminderType = ReminderType.REHAB, // TODO: consider default
-                               var reminderTime : List<ReminderTime> = listOf()) : Parcelable, ViewType {
+                               var reminderTime: List<ReminderTime> = listOf()) : Parcelable, ViewType {
+
+    override fun getViewType(): Int = AgendaTypes.ITEM_TYPE
+}
+
+@Parcelize
+data class NonActiveTimeRenderModel(
+        var title: String = "",
+        var startDateTime: Date? = null,
+        var endDateTime: Date? = null,
+        var isAllDayEvent: Boolean = false,
+        var isAllClassesEvent: Boolean = false) : Parcelable, ViewType {
 
     override fun getViewType(): Int = AgendaTypes.ITEM_TYPE
 }
@@ -109,19 +135,12 @@ enum class ReminderType(name: String) {
 
     companion object {
         fun byName(name: String): ReminderType {
-//            return if (ReminderType.MEDICINE.name == name) ReminderType.MEDICINE else ReminderType.REHAB
             return when (name) {
-                ReminderType.MEDICINE.name  -> ReminderType.MEDICINE
-                ReminderType.REHAB.name     -> ReminderType.REHAB
-                ReminderType.SCHEDULE.name     -> ReminderType.SCHEDULE
+                ReminderType.MEDICINE.name -> ReminderType.MEDICINE
+                ReminderType.REHAB.name -> ReminderType.REHAB
+                ReminderType.SCHEDULE.name -> ReminderType.SCHEDULE
                 else -> ReminderType.REHAB // TODO
             }
-
-
-
-
-
-//            if (ReminderType.MEDICINE.name == name) ReminderType.MEDICINE else ReminderType.REHAB
         }
     }
 }
@@ -151,6 +170,23 @@ fun mapReminderRenderModel(reminder: Reminder) = ReminderRenderModel()
             type = ReminderType.byName(reminder.type)
             reminderTime = reminder.schedule
         }
+
+fun mapNonActiveTimeRenderModel(nonActiveTime: NonActiveTimes) = NonActiveTimeRenderModel()
+        .apply {
+            title = nonActiveTime.title
+            isAllDayEvent = nonActiveTime.isAllDayEvent
+            startDateTime = parseDate(nonActiveTime.startDateTime)
+            endDateTime = parseDate(nonActiveTime.endDateTime)
+            isAllClassesEvent = nonActiveTime.isAllClassesEvent
+        }
+
+private fun parseDate(dateStr: String): Date? {
+    try {
+        return serverDateFormat.parse(dateStr)
+    } catch (e: Throwable) {
+        return null
+    }
+}
 
 private fun min(h: String): Int = h.substringAfter("-")
         .trim()

@@ -144,4 +144,7 @@ fabric.properties
 
 #test coverage output fo
 coverage
+
+/*/app/google-services.json
+
 # End of https://www.gitignore.io/api/androidstudio

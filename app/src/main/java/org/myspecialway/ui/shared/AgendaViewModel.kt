@@ -11,6 +11,7 @@ import org.myspecialway.ui.agenda.AgendaState
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 import org.myspecialway.ui.agenda.Time
 import org.myspecialway.ui.agenda.mapScheduleRenderModel
+import org.myspecialway.utils.Logger
 import java.util.*
 
 
@@ -41,7 +42,8 @@ class AgendaViewModel(val repository: AgendaRepository,
     private fun subscribe(today: MutableList<ScheduleRenderModel>) {
         selectCurrentSchedule(today)
 
-        if(isAppInActive(today.get(0).time, today.get(today.size-1).time)){
+        if(today.isEmpty() || isAppInActive(today.get(0).time, today.get(today.size-1).time)){
+            Logger.d("AppInActive",if (today.isEmpty()) "No schedules for today, Showing APP inActive screen" else "Current time is not inside school hours. Showing APP inActive screen")
             states.value = AgendaState.InActiveState("of time")
             return
         }

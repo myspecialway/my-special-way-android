@@ -15,14 +15,13 @@ import android.widget.ImageView
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import io.reactivex.Flowable
+import org.myspecialway.ui.agenda.*
 import org.myspecialway.R
-import org.myspecialway.ui.agenda.AgendaIndex
-import org.myspecialway.ui.agenda.ReminderRenderModel
-import org.myspecialway.ui.agenda.ReminderType
-import org.myspecialway.ui.agenda.ScheduleRenderModel
+import org.myspecialway.ui.alarms.AlarmJob
 import org.myspecialway.ui.login.LoginActivity
 import java.util.*
 
+const val TAG = "Ext"
 const val SUN_TILL_THU = 6
 
 // use this to avoid layout inflater boilerplate
@@ -58,6 +57,8 @@ fun Date.addHour(hours: Int): Date {
 fun Context.logout() {
     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
     sharedPreferences.edit().clear().apply()
+    AlarmJob.cancelAllJobs() // to avoid more notifications.
+    //TODO: delete all from local storage
     // clear sp, navigate login page with clear top flag
     val intent = Intent(this, LoginActivity::class.java)
     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -102,16 +103,16 @@ fun MutableList<ScheduleRenderModel>.filterTodayList() =
                 .toList()
 
 
-fun MutableList<ScheduleRenderModel>.getRemainingAlarmsForToday() =
+fun MutableList<ScheduleRenderModel>.getRemainingAlarmsForToday(nonActiveTimes: List<NonActiveTimeRenderModel>) =
         asSequence()
                 .filter { AgendaIndex.todayWeekIndex(Calendar.getInstance()) == it.time?.dayDisplay }
                 .sortedBy { it.index?.substringBefore("_")?.toInt() }
                 .distinctBy { it.index }
                 .toList()
-                .filter { System.currentTimeMillis() < it.time!!.date.time }
+                .filter { System.currentTimeMillis() < it.time!!.date.time && !nonActiveTimes.isEventInsideNonActiveTime(it.time!!.date.time) }
 
-fun MutableList<ReminderRenderModel>.getRemindersForToday(): MutableList<Pair<Long, ReminderType>> {
-    val reminders: MutableList<Pair<Long, ReminderType>> = mutableListOf()
+fun MutableList<ReminderRenderModel>.getRemindersForToday(nonActiveTimes: List<NonActiveTimeRenderModel>): MutableList<Pair<Long, ReminderType>> {
+    var reminders: MutableList<Pair<Long, ReminderType>> = mutableListOf()
     // days index coming from server are zero based, and 6 is sun-Thu
     val dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1
     forEach {
@@ -122,15 +123,28 @@ fun MutableList<ReminderRenderModel>.getRemindersForToday(): MutableList<Pair<Lo
                 if (it.daysindex.contains(dayOfWeek) || (it.daysindex.contains(SUN_TILL_THU) && dayOfWeek < 5)) {
                     it.hours.forEach {
                         val reminderTime = getReminderTime(it)
-                        if (reminderTime > 0 && reminderTime - System.currentTimeMillis() >= 0) reminders.add(Pair(reminderTime, reminderType))
+                        val reminderTimeHasNotPassed = reminderTime > 0 && reminderTime - System.currentTimeMillis() >= 0
+                        if (reminderTimeHasNotPassed && !nonActiveTimes.isEventInsideNonActiveTime(reminderTime)) reminders.add(Pair(reminderTime, reminderType))
                     }
                 }
             }
         }
     }
 
-    reminders.distinct()
+    reminders = reminders.distinct().toMutableList()
     return reminders
+}
+
+fun List<NonActiveTimeRenderModel>.isEventInsideNonActiveTime(eventStartTime: Long): Boolean {
+    forEach {
+        val eventDate = Date(eventStartTime)
+        if (it.startDateTime?.before(eventDate) == true && it.endDateTime?.after(eventDate) == true) {
+//            Logger.d(TAG, "time $eventDate overlaps in non active time '${it.title}'. (${it.startDateTime} -  ${it.endDateTime})")
+            return true
+        }
+    }
+
+    return false
 }
 
 /**
@@ -145,7 +159,8 @@ private fun getReminderTime(reminderHourStr: String): Long {
             val cal = Calendar.getInstance()
             cal.set(Calendar.HOUR_OF_DAY, hour.toInt())
             cal.set(Calendar.MINUTE, minutes.toInt())
-
+            cal.set(Calendar.SECOND, 0)
+            cal.set(Calendar.MILLISECOND, 0)
             return cal.timeInMillis
         }
     } catch (e: Exception) {

@@ -3,7 +3,6 @@ package org.myspecialway.ui.agenda
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.view.MenuItem
 import android.widget.Toast
 import kotlinx.android.synthetic.main.agenda_activity.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -11,7 +10,9 @@ import org.myspecialway.R
 import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.ViewType
 import org.myspecialway.ui.shared.*
+import org.myspecialway.utils.Logger
 
+private const val TAG = "AgendaActivity"
 class AgendaActivity : BaseActivity() {
 
     private val viewModel: AgendaViewModel by viewModel()
@@ -23,8 +24,8 @@ class AgendaActivity : BaseActivity() {
         setContentView(R.layout.agenda_activity)
         initToolbar()
         initList()
-        viewModel.getDailySchedule()
         render()
+        viewModel.getDailySchedule()
     }
 
     private fun initList() {
@@ -44,7 +45,7 @@ class AgendaActivity : BaseActivity() {
                     is AgendaState.ListState -> adapter.addData(addSingleImage(state))
                     is AgendaState.CurrentSchedule -> agendaRecyclerView.scrollToPosition(state.position)
                     is AgendaState.Progress -> progress.visibility = state.progress
-                    is AgendaState.Failure -> handleError()
+                    is AgendaState.Failure -> handleError(state.throwable)
                 }
             })
 
@@ -54,7 +55,8 @@ class AgendaActivity : BaseActivity() {
                     .apply { add(state.scheduleList.size, SingleImageRes(R.drawable.gohome)) }
                     .toList()
 
-    private fun handleError() {
+    private fun handleError(throwable: Throwable) {
+        Logger.e(TAG, "Error displaying schedules", throwable)
         Toast.makeText(this@AgendaActivity, getString(org.myspecialway.R.string.scheduleErrorToast), Toast.LENGTH_LONG).show()
         finish()
     }

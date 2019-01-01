@@ -59,7 +59,7 @@ class AlarmJob : Job() {
                 extras.putString(ALARM_PREVIOUS, Gson().toJson(previous))
                 extras.putString(REMINDER_TYPE, ReminderType.SCHEDULE.name)
                 val timeTarget = current.time!!.date.time - System.currentTimeMillis()
-                Logger.d(TAG, "scheduling notification of SCHEDULE, to " + current.time!!.date + ", name=" + current.title)
+                Logger.d(TAG, "Scheduling notification of SCHEDULE, to " + current.time!!.date + ", name=" + current.title)
 
                 JobRequest.Builder(ALARM_SCHEDULE_JOB_TAG)
                         .setRequiresDeviceIdle(false)
@@ -74,7 +74,7 @@ class AlarmJob : Job() {
         fun scheduleReminderJobs(alarms: MutableList<Pair<Long, ReminderType>>?) {
 
             if (alarms == null || alarms.isEmpty()) {
-                Logger.d(TAG, "no reminders to schedule")
+                Logger.d(TAG, "No reminders to schedule")
                 return
             }
             // cancel all previous jobs
@@ -86,7 +86,7 @@ class AlarmJob : Job() {
                 extras.putString(REMINDER_TYPE, it.second.name)
 
                 val timeTarget = it.first - System.currentTimeMillis()
-                Logger.d(TAG, "scheduling reminder of " + it.second + ", to " + Date(it.first))
+                Logger.d(TAG, "Scheduling reminder of " + it.second + ", to " + Date(it.first))
                 JobRequest.Builder(ALARM_REMINDER_JOB_TAG)
                         .setRequiresDeviceIdle(false)
                         .setRequiresCharging(false)
@@ -95,6 +95,14 @@ class AlarmJob : Job() {
                         .build()
                         .schedule()
             }
+        }
+
+        fun cancelAllJobs() {
+            Logger.d(TAG, "Canceling all jobs")
+            // cancel all schedule jobs
+            JobManager.instance().cancelAllForTag(ALARM_SCHEDULE_JOB_TAG)
+            // cancel all reminder jobs
+            JobManager.instance().cancelAllForTag(ALARM_REMINDER_JOB_TAG)
         }
 
         private fun getPrevious(index: Int, previous: ScheduleRenderModel,

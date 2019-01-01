@@ -8,9 +8,9 @@ import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.Flowable
 import org.hamcrest.Matchers.instanceOf
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertThat
+import org.junit.Assert.*
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
@@ -18,8 +18,13 @@ import org.mockito.Mockito.times
 import org.mockito.MockitoAnnotations
 import org.myspecialway.common.SchedulerProvider
 import org.myspecialway.common.TestSchedulerProvider
-import org.myspecialway.ui.agenda.AgendaState
+import org.myspecialway.common.addHour
+import org.myspecialway.common.getRemindersForToday
+import org.myspecialway.ui.agenda.*
 import org.myspecialway.ui.mock.mockRes
+import org.myspecialway.utils.Logger
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AgendaViewModelTest {
 
@@ -92,6 +97,58 @@ class AgendaViewModelTest {
     // add test for alarms
     @Test
     fun `check when no alarms alarms event is not getting triggered`() {
+
+    }
+
+    @Test
+    fun `check when reminders are in the past they are ignored`() {
+        val dateFormat = SimpleDateFormat("HH:mm")
+        val reminderTimeInThePast = dateFormat.format(Date(System.currentTimeMillis() - 3600000))
+        val reminders = listOf(Reminder(1, true, ReminderType.MEDICINE.name, listOf(ReminderTime(5, listOf(6,5), listOf(reminderTimeInThePast)))))
+        val reminderRenderModels = reminders.map { mapReminderRenderModel(it) }.toMutableList()
+        val remindersForToday = reminderRenderModels.getRemindersForToday(listOf())
+        assertTrue(remindersForToday.isEmpty())
+    }
+
+    @Test
+    fun `check that only reminders for today are returned`() {
+        val dateFormat = SimpleDateFormat("HH:mm")
+        val date = Date()
+        val dayIndexOfToday = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) -1
+        val dayIndexOfYesterday = (dayIndexOfToday + 4 )% 5
+        val dayIndexOfTomorrow = (dayIndexOfToday + 1 )% 5
+
+        val reminderTimeCurrent = dateFormat.format(date.addHour(1))
+        val reminders = listOf(Reminder(1, true, ReminderType.MEDICINE.name, listOf(ReminderTime(5, listOf(dayIndexOfYesterday, dayIndexOfToday, dayIndexOfTomorrow), listOf(reminderTimeCurrent)))))
+        val reminderRenderModels = reminders.map { mapReminderRenderModel(it) }.toMutableList()
+        val remindersForToday = reminderRenderModels.getRemindersForToday(listOf())
+        assertTrue(remindersForToday.size == 1)
+    }
+
+    @Test
+    fun `check that duplicate reminders are ignored`() {
+        val dateFormat = SimpleDateFormat("HH:mm")
+        val dayIndexOfToday = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) -1
+        val reminderTime = dateFormat.format(Date(System.currentTimeMillis() + 3600000))
+        val reminders = listOf(Reminder(1, true, ReminderType.MEDICINE.name, listOf(ReminderTime(5, listOf(6), listOf(reminderTime, reminderTime)))), Reminder(1, true, ReminderType.MEDICINE.name, listOf(ReminderTime(5, listOf(dayIndexOfToday), listOf(reminderTime, reminderTime)))))
+        val reminderRenderModels = reminders.map { mapReminderRenderModel(it) }.toMutableList()
+        val remindersForToday = reminderRenderModels.getRemindersForToday(listOf())
+        assertTrue(remindersForToday.size == 1)
+    }
+
+    @Test
+    fun `check when non active times are in the past they are ignored`() {
+        val nonActiveTimes = NonActiveTimeRenderModel("holiday", Date().addHour(-2), Date().addHour(3),false, false)
+        val dateFormat = SimpleDateFormat("HH:mm")
+        val date = Date()
+        val dayIndexOfToday = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) -1
+
+        val reminderTimeCurrent = dateFormat.format(date.addHour(1))
+        val reminders = listOf(Reminder(1, true, ReminderType.MEDICINE.name, listOf(ReminderTime(5, listOf( dayIndexOfToday), listOf(reminderTimeCurrent)))))
+        val reminderRenderModels = reminders.map { mapReminderRenderModel(it) }.toMutableList()
+        val remindersForToday = reminderRenderModels.getRemindersForToday(listOf(nonActiveTimes))
+        assertTrue(remindersForToday.size == 0)
+
 
     }
 

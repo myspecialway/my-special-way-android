@@ -105,5 +105,6 @@ val mockList = arrayListOf<Schedule>().apply {
 }
 
 val mockRes = ScheduleModel(1, Data(1, Student(1, "כיתת ציור", 1, "level", mockList,
-        listOf(Reminder(1, true, ReminderType.MEDICINE.name, listOf(ReminderTime(5, listOf(1,2,5), listOf("10:20","17:40"))))))))
+        listOf(Reminder(1, true, ReminderType.MEDICINE.name, listOf(ReminderTime(5, listOf(1,2,5), listOf("10:20","17:40"))))),
+        listOf(NonActiveTimes(1,"holiday", "Thu, 01 Aug 2019 05:00:00 GMT", "Sat, 31 Aug 2019 06:00:00 GMT", false, false)))))
 
