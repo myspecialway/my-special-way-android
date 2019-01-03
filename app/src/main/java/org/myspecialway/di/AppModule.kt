@@ -1,16 +1,16 @@
-package org.myspecialway.di
 
-import android.app.AlarmManager
-import android.content.Context
-import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 import org.myspecialway.common.ApplicationSchedulerProvider
 import org.myspecialway.common.SchedulerProvider
+import org.myspecialway.di.localDataSourceModule
+import org.myspecialway.di.remoteDataSourceModel
 import org.myspecialway.session.Token
 import org.myspecialway.ui.login.LoginRepository
 import org.myspecialway.ui.login.LoginRepositoryImpl
 import org.myspecialway.ui.login.LoginViewModel
+import org.myspecialway.ui.settings.SettingsRepository
+import org.myspecialway.ui.settings.SettingsRepositoryImpl
 //import org.myspecialway.ui.notifications.NotificationAlarmManager
 import org.myspecialway.ui.shared.AgendaRepository
 import org.myspecialway.ui.shared.AgendaRepositoryImpl
@@ -31,6 +31,10 @@ val agendaModule = module {
 //    module("alarms") { single { NotificationAlarmManager(get()) } }
 }
 
+val settingsModule = module {
+    single { SettingsRepositoryImpl(get()) as SettingsRepository }
+}
+
 val rxModule = module {
     single { ApplicationSchedulerProvider() as SchedulerProvider }
 }
@@ -40,5 +44,6 @@ val mySpecialWay = listOf(
         localDataSourceModule,
         rxModule,
         loginModule,
-        agendaModule
+        agendaModule,
+        settingsModule
 )

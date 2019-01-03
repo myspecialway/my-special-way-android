@@ -7,40 +7,47 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:background="@android:color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@android:color/white"
         android:gravity="center"
         android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/ic_error" />
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="4dp"
+            android:text="@string/login_error_title"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textDirection="rtl"/>
 
-    <TextView
-        android:id="@+id/content"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:gravity="center_horizontal"
-        android:lineSpacingExtra="4dp"
-        android:text="הסיסמא והשם משתמש לא תקינים"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        <FrameLayout
+            android:layout_width="150dp"
+            android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/closeButton"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/login_button"
-        android:text="אישור"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+            <Button
+                android:id="@+id/closeButton"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/login_button"
+                android:text="@string/button_okText"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/loginButtonShadow"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/nav_login_button_lower_layer" />
+        </FrameLayout>
 
     </LinearLayout>
 </FrameLayout>

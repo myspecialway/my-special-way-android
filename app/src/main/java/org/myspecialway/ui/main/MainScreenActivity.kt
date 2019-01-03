@@ -30,6 +30,7 @@ import org.myspecialway.ui.agenda.Reminder
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 import org.myspecialway.ui.alarms.AlarmsReceiver
 import org.myspecialway.ui.login.UserModel
+import org.myspecialway.ui.settings.SettingsRepository
 import org.myspecialway.ui.shared.AgendaViewModel
 import org.myspecialway.utils.Logger
 import java.util.*
@@ -40,6 +41,7 @@ class MainScreenActivity : BaseActivity() {
 
     private val viewModel: AgendaViewModel by viewModel()
     private val sp: SharedPreferences by inject()
+    private val settingsRepository: SettingsRepository by inject()
 
     private val locationsSubject = BehaviorSubject.create<List<Location>>()
 
@@ -64,6 +66,7 @@ class MainScreenActivity : BaseActivity() {
 
         viewModel.getDailySchedule()
         viewModel.getLocations()
+        settingsRepository.fetchSettings()
         clickListeners()
     }
 

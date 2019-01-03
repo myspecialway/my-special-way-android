@@ -13,6 +13,7 @@ import org.myspecialway.data.remote.RemoteDataSource
 import org.myspecialway.ui.agenda.locationQuery
 import org.myspecialway.ui.agenda.query
 import org.myspecialway.ui.login.UserModel
+import org.myspecialway.ui.settings.SettingsRepository
 import kotlin.properties.Delegates
 
 
@@ -21,6 +22,7 @@ class FCMMessagingService : FirebaseMessagingService() {
 
     private val remote by inject<RemoteDataSource>()
     private val local by inject<LocalDataSource>()
+    private val settingsRepository: SettingsRepository by inject()
 
     override fun onNewToken(token: String?) {
         Log.d(TAG, "Refreshed token: " + token!!)
@@ -40,8 +42,13 @@ class FCMMessagingService : FirebaseMessagingService() {
         if (remoteMessage.data != null) {
             updateLocations()
             updateSchedule()
+            updateSettings()
             Log.d(TAG, "Message Notification Body: " + remoteMessage.notification!!.body!!)
         }
+    }
+
+    private fun updateSettings() {
+        settingsRepository.fetchSettings()
     }
 
     private fun updateSchedule() {
