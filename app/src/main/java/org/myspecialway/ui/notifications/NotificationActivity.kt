@@ -1,9 +1,12 @@
 package org.myspecialway.ui.notifications
 
 import android.app.Activity
+import android.app.KeyguardManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -31,6 +34,15 @@ class NotificationActivity : Activity() {
 
         window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         window.setDimAmount(0.7F)
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            setShowWhenLocked(true)
+            setTurnScreenOn(true)
+        }
+
         initNotificationScreen()
     }
 
@@ -79,8 +91,12 @@ class NotificationActivity : Activity() {
 
 
         navigationButton.setOnClickListener {
+            val keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                keyguardManager?.requestDismissKeyguard(this, null)
+            }
 
-            if (reminderType != ReminderType.REHAB) {
+            if (reminderType == ReminderType.REHAB) {
                 navigateToNearestToilet(current)
             } else {
                 navigateToUnityDest(current)
