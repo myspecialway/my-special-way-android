@@ -14,8 +14,9 @@ class SoundNotifications {
 
         fun playSoundNotification(context: Context, soundResourceId: Int) {
             if (mp?.isPlaying ?: false){
-                playlist.add(Pair(context, soundResourceId))
-                return;
+                val pair = Pair(context, soundResourceId)
+                if (!playlist.contains(pair)) playlist.add(pair)
+                return
             }
             mp = MediaPlayer.create(context, soundResourceId)
             try {

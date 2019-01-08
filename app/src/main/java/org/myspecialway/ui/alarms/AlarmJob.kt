@@ -10,6 +10,7 @@ import org.myspecialway.ui.agenda.ReminderType
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 import org.myspecialway.ui.alarms.JobCreator.Companion.ALARM_REMINDER_JOB_TAG
 import org.myspecialway.ui.alarms.JobCreator.Companion.ALARM_SCHEDULE_JOB_TAG
+import org.myspecialway.ui.notifications.NotificationActivity
 import org.myspecialway.utils.Logger
 import java.util.*
 
@@ -21,6 +22,12 @@ class AlarmJob : Job() {
         val current = getBundle(params, ALARM_CURRENT)
         val previous = getBundle(params, ALARM_PREVIOUS)
         val reminderType = ReminderType.byName(params.extras.getString(REMINDER_TYPE, ReminderType.SCHEDULE.name))
+        val notificationTime = params.extras.getLong(NOTIFICATION_TIME, 0L)
+
+        if (System.currentTimeMillis() - notificationTime > NotificationActivity.FIFTEEN_MINUTE){
+            Logger.d(TAG, "too old notification. will not show to user. target time: " + Date(notificationTime) + ", " + reminderType)
+            return Result.SUCCESS
+        }
 
         if (reminderType == ReminderType.MEDICINE) {
             Navigation.toMedicineReminderActivity(context)
@@ -35,6 +42,7 @@ class AlarmJob : Job() {
         const val ALARM_CURRENT = "alarm_current"
         const val ALARM_PREVIOUS = "alarm_previous"
         const val REMINDER_TYPE = "reminder_type"
+        const val NOTIFICATION_TIME = "notification_time"
 
         fun scheduleJobs(alarms: List<ScheduleRenderModel>) {
 
@@ -53,12 +61,15 @@ class AlarmJob : Job() {
 
                 val currentIndex = alarms.indexOf(current)
                 previous = getPrevious(index, previous, alarms, currentIndex)
+                val notificationTime = current.time!!.date.time
+                val timeTarget = notificationTime - System.currentTimeMillis()
 
                 val extras = PersistableBundleCompat()
                 extras.putString(ALARM_CURRENT, Gson().toJson(current))
                 extras.putString(ALARM_PREVIOUS, Gson().toJson(previous))
                 extras.putString(REMINDER_TYPE, ReminderType.SCHEDULE.name)
-                val timeTarget = current.time!!.date.time - System.currentTimeMillis()
+                extras.putLong(NOTIFICATION_TIME, notificationTime)
+
                 Logger.d(TAG, "Scheduling notification of SCHEDULE, to " + current.time!!.date + ", name=" + current.title)
 
                 JobRequest.Builder(ALARM_SCHEDULE_JOB_TAG)
@@ -84,6 +95,7 @@ class AlarmJob : Job() {
 
                 val extras = PersistableBundleCompat()
                 extras.putString(REMINDER_TYPE, it.second.name)
+                extras.putLong(NOTIFICATION_TIME, it.first)
 
                 val timeTarget = it.first - System.currentTimeMillis()
                 Logger.d(TAG, "Scheduling reminder of " + it.second + ", to " + Date(it.first))
