@@ -1,6 +1,5 @@
 package org.myspecialway.fcm
 
-import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -13,8 +12,6 @@ import org.myspecialway.data.remote.RemoteDataSource
 import org.myspecialway.ui.agenda.locationQuery
 import org.myspecialway.ui.agenda.query
 import org.myspecialway.ui.login.UserModel
-import org.myspecialway.ui.settings.SettingsRepository
-import kotlin.properties.Delegates
 
 
 class FCMMessagingService : FirebaseMessagingService() {
@@ -22,11 +19,11 @@ class FCMMessagingService : FirebaseMessagingService() {
 
     private val remote by inject<RemoteDataSource>()
     private val local by inject<LocalDataSource>()
-    private val settingsRepository: SettingsRepository by inject()
 
     override fun onNewToken(token: String?) {
         Log.d(TAG, "Refreshed token: " + token!!)
-        val sharedPref : SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val editor = sharedPref.edit()
         editor.putString("token", token)
         editor.apply()
@@ -42,25 +39,29 @@ class FCMMessagingService : FirebaseMessagingService() {
         if (remoteMessage.data != null) {
             updateLocations()
             updateSchedule()
-            updateSettings()
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.notification!!.body!!)
         }
-    }
-
-    private fun updateSettings() {
-        settingsRepository.fetchSettings()
     }
 
     private fun updateSchedule() {
         remote.fetchSchedule(getSchedulePayLoad())
                 .subscribeOn(Schedulers.io())
-                .subscribe({ local.saveAllSchedule(it) }, { })
+                .subscribe(
+                        {
+                            local.deleteAllSchedule()
+                            local.saveAllSchedule(it)
+                        },
+                        { })
     }
 
     private fun updateLocations() {
         remote.fetchLocations(getLocationsPayLoad())
                 .subscribeOn(Schedulers.io())
-                .subscribe({ local.saveLocations(it) }, { })
+                .subscribe(
+                        {
+                            local.deleteAllLocations()
+                            local.saveLocations(it)
+                        },
+                        { })
     }
 
     private fun getLocationsPayLoad(): JsonObject {
@@ -71,8 +72,8 @@ class FCMMessagingService : FirebaseMessagingService() {
     }
 
     private fun getSchedulePayLoad(): JsonObject {
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val json = JsonObject()
-        val sharedPref : SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         json.addProperty("query", query(UserModel().getUser(sharedPref).id ?: ""))
         json.addProperty("value", "")
         return json
