@@ -34,3 +34,18 @@ class LocationDataConverter {
         return Gson().fromJson<LocationData>(value, listType)
     }
 }
+
+class BlockedSectionConverter {
+    @TypeConverter
+    fun fromBlockedSectionConverterDataModel(blockedSectionsData: BlockedSectionsData): String? {
+        return blockedSectionsData.toJson()
+    }
+
+    @TypeConverter
+    fun fromString(value: String): BlockedSectionsData {
+        val listType = object: TypeToken<BlockedSectionsData>() {
+
+        }.type
+        return Gson().fromJson<BlockedSectionsData>(value, listType)
+    }
+}

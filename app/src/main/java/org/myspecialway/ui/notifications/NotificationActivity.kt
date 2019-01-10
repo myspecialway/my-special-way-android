@@ -12,6 +12,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.WindowManager
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_notification.*
 
 import org.myspecialway.R
@@ -19,6 +20,7 @@ import org.myspecialway.common.Navigation
 import org.myspecialway.common.load
 import org.myspecialway.di.RemoteProperties
 import org.myspecialway.sounds.SoundNotifications
+import org.myspecialway.ui.agenda.DestinationType
 import org.myspecialway.ui.agenda.ReminderType
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 
@@ -50,6 +52,7 @@ class NotificationActivity : Activity() {
         super.onNewIntent(intent)
         initNotificationScreen()
     }
+
     private fun initNotificationScreen() {
         val notificationTitle = intent.getStringExtra(NOTIFICATION_TITLE)
         val current = intent.getParcelableExtra<ScheduleRenderModel?>(SCHEDULE_CURRENT_KEY)
@@ -66,7 +69,7 @@ class NotificationActivity : Activity() {
         }
 
         notificationText.text = notificationTitle
-        var soundRes : Int = 0
+        var soundRes: Int = 0
         when (reminderType) {
             ReminderType.MEDICINE -> {
                 image.setImageResource(R.drawable.medicine)
@@ -87,7 +90,7 @@ class NotificationActivity : Activity() {
         }
 
         val launchedFromHistory = intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY != 0
-        if (soundRes != 0 && !launchedFromHistory) SoundNotifications.playSoundNotification(  this, soundRes)
+        if (soundRes != 0 && !launchedFromHistory) SoundNotifications.playSoundNotification(this, soundRes)
 
 
         navigationButton.setOnClickListener {
@@ -96,22 +99,31 @@ class NotificationActivity : Activity() {
                 keyguardManager?.requestDismissKeyguard(this, null)
             }
 
-            if (reminderType == ReminderType.REHAB) {
-                navigateToNearestToilet(current)
-            } else {
-                navigateToUnityDest(current)
+            when (reminderType) {
+                ReminderType.MEDICINE -> {
+                    navigateToUnityDest(current, DestinationType.MEDICINE)
+                }
+                ReminderType.REHAB -> {
+                    navigateToNearestToilet()
+                }
+                ReminderType.SCHEDULE -> {
+                    navigateToUnityDest(current, DestinationType.REGULAR)
+                }
             }
+
             finish()
         }
     }
 
-    private fun navigateToUnityDest(current: ScheduleRenderModel?) {
-        Navigation.toUnityNavigation(this, current?.unityDest ?: "C_1")
+    private fun navigateToUnityDest(current: ScheduleRenderModel?, destinationType: DestinationType) {
+        Navigation.toUnityNavigation(this, Gson().toJson(current?.unityDest), current?.image, destinationType)
     }
 
-    private fun navigateToNearestToilet(current: ScheduleRenderModel?) {
+    private fun navigateToNearestToilet() {
         // todo: navigate to nearest toilet
-        Navigation.toUnityNavigation(this, current?.unityDest ?: "C_1")
+        val destination = getString(org.myspecialway.R.string.toilet)
+
+        Navigation.toUnityNavigation(this, destination, destination, DestinationType.TOILET)
     }
 
     private fun finishOldAlarmIfNeeded(currentAlarm: ScheduleRenderModel?) {
@@ -119,7 +131,7 @@ class NotificationActivity : Activity() {
         val fifteenAgo = System.currentTimeMillis() - FIFTEEN_MINUTE
 
         // if the alarm is before ten minutes ago destroy it
-        if((currentAlarm?.time?.date?.time) ?: Long.MAX_VALUE < fifteenAgo) {
+        if ((currentAlarm?.time?.date?.time) ?: Long.MAX_VALUE < fifteenAgo) {
             finish()
         }
     }
@@ -128,6 +140,7 @@ class NotificationActivity : Activity() {
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
     }
+
     private fun setMaxAlarmExpDate() {
         handler.removeCallbacksAndMessages(null)
         handler.postDelayed({

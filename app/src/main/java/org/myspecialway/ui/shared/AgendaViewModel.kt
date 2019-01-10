@@ -72,6 +72,16 @@ class AgendaViewModel(val repository: AgendaRepository,
                 )
     }
 
+    fun getBlockedSections() = launch {
+        repository.getBlockedSections()
+                .with(provider)
+                .map { it.data.blockedSections }
+                .subscribeBy(
+                        onNext = {  states.value = AgendaState.BlockedSectionsState(it)},
+                        onError = { states.value = AgendaState.Failure(it) }
+                )
+    }
+
     fun isAppInActive(agendaStartTime:Time?, agendaEndTime:Time?) : Boolean{
         val currentTime = Date(System.currentTimeMillis())
 

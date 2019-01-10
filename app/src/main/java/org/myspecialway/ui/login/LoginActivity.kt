@@ -1,7 +1,10 @@
 package org.myspecialway.ui.login
 
+import android.Manifest
 import android.arch.lifecycle.Observer
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
 import kotlinx.android.synthetic.main.activity_login_layout.*
@@ -19,14 +22,17 @@ class LoginActivity : BaseActivity() {
 
     private val loadingDialog by lazy { createLoadingDialog() }
 
+    private val STORAGE_PERMISSIONS = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_layout)
+        requestPermissionToWriteToExternalStorage()
+
         viewModel.checkIfLoggedIn()
         render()
         observeKeyboard()
         observeInputFields()
-
     }
 
     override fun render() =
@@ -95,4 +101,13 @@ class LoginActivity : BaseActivity() {
             appIcon.animateY(0f)
         }
     }
+
+    fun requestPermissionToWriteToExternalStorage() {
+        val permissionExternalMemory = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+        if (permissionExternalMemory != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, STORAGE_PERMISSIONS, 1)
+        }
+    }
+
 }

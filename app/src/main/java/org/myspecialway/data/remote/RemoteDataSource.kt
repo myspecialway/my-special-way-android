@@ -25,4 +25,8 @@ interface RemoteDataSource {
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST("graphql")
     fun fetchSettings(@Body body: JsonObject): Single<SettingsResponse>
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("graphql")
+    fun fetchBlockedSections(@Body body: JsonObject): Single<BlockedSectionsModel>
 }

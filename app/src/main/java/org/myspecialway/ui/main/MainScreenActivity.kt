@@ -14,6 +14,7 @@ import android.os.PowerManager
 import android.provider.Settings
 import android.view.View
 import android.widget.Toast
+import com.google.gson.Gson
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_main_screen.*
 import org.koin.android.ext.android.inject
@@ -21,13 +22,9 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import org.myspecialway.R
 import org.myspecialway.common.BaseActivity
 import org.myspecialway.common.Navigation
-import org.myspecialway.common.enable
 import org.myspecialway.common.load
 import org.myspecialway.di.RemoteProperties
-import org.myspecialway.ui.agenda.AgendaState
-import org.myspecialway.ui.agenda.Location
-import org.myspecialway.ui.agenda.Reminder
-import org.myspecialway.ui.agenda.ScheduleRenderModel
+import org.myspecialway.ui.agenda.*
 import org.myspecialway.ui.alarms.AlarmsReceiver
 import org.myspecialway.ui.login.UserModel
 import org.myspecialway.ui.settings.SettingsRepository
@@ -44,6 +41,7 @@ class MainScreenActivity : BaseActivity() {
     private val settingsRepository: SettingsRepository by inject()
 
     private val locationsSubject = BehaviorSubject.create<List<Location>>()
+    private val blockedSectionsSubject = BehaviorSubject.create<List<BlockedSection>>()
 
     private var schedule: ScheduleRenderModel? = null
 
@@ -67,6 +65,7 @@ class MainScreenActivity : BaseActivity() {
         viewModel.getDailySchedule()
         viewModel.getLocations()
         settingsRepository.fetchSettings()
+        viewModel.getBlockedSections()
         clickListeners()
     }
 
@@ -97,21 +96,24 @@ class MainScreenActivity : BaseActivity() {
 
     private fun clickListeners() {
         scheduleButton.setOnClickListener { Navigation.toScheduleActivity(this) }
-        // for testing medicine reminder screen
-//        scheduleButton.setOnClickListener { Navigation.toMedicineReminderActivity(this) }
-        // for testing toilet reminder screen
-//        scheduleButton.setOnClickListener {Navigation.toNotificationActivity(this, null, null, ReminderType.REHAB)}
+
+        val destination = getString(org.myspecialway.R.string.toilet);
+
+        wc_nav_button.setOnClickListener { Navigation.toUnityNavigation(this, destination, destination, DestinationType.TOILET) }
 
         // listen to location events, if any then enable the navigation button and set the payload
         // on the click
         disposable = locationsSubject.subscribe({ navLocations ->
             settings.setOnClickListener { Navigation.toNavigationPassword(this) }
-
             Navigation.navLocations = navLocations
-            navButton.setOnClickListener { Navigation.toNavigationPassword(this) }
+            navButton.setOnClickListener { Navigation.toUnityNavigation(this, Gson().toJson(schedule?.unityDest), schedule?.image, DestinationType.REGULAR) }
         }, {
             // set default nav params?
         })
+
+        disposable = blockedSectionsSubject.subscribe { blockedSections ->
+            Navigation.naBlockedEdges = blockedSections
+        }
     }
 
     override fun render() {
@@ -139,6 +141,8 @@ class MainScreenActivity : BaseActivity() {
                     // todo: timer to cancel inActive mode.
                 }
                 is AgendaState.LocationDataState -> locationsSubject.onNext(state.list)
+
+                is AgendaState.BlockedSectionsState -> blockedSectionsSubject.onNext(state.list)
 //                is AgendaState.Progress -> progress.visibility = state.progress
                 is AgendaState.Failure -> handleError(state.throwable)
 //                is AgendaState.RemindersState -> handleReminders(state?.reminders)

@@ -15,10 +15,11 @@ import org.myspecialway.ui.agenda.*
     Location::class,
     LocationData::class,
     LocationModel::class,
-    NonActiveTimes::class
-], version = 3)
-@TypeConverters(ScheduleConverter::class,ReminderConverter::class,ReminderTimeConverter::class,
-        LocationDataConverter::class, LocationConverter::class, NonActiveTimeConverter::class)
+    NonActiveTimes::class,
+    BlockedSectionsModel::class
+], version = 4)
+@TypeConverters(ScheduleConverter::class, ReminderConverter::class, ReminderTimeConverter::class,
+        LocationDataConverter::class, LocationConverter::class, NonActiveTimeConverter::class, BlockedSectionConverter::class)
 
 abstract class Database : RoomDatabase() {
     abstract fun localDataSourceDAO(): LocalDataSource

@@ -9,6 +9,7 @@ import io.reactivex.schedulers.Schedulers
 import org.koin.android.ext.android.inject
 import org.myspecialway.data.local.LocalDataSource
 import org.myspecialway.data.remote.RemoteDataSource
+import org.myspecialway.ui.agenda.blockedSectionsQuery
 import org.myspecialway.ui.agenda.locationQuery
 import org.myspecialway.ui.agenda.query
 import org.myspecialway.ui.login.UserModel
@@ -39,6 +40,8 @@ class FCMMessagingService : FirebaseMessagingService() {
         if (remoteMessage.data != null) {
             updateLocations()
             updateSchedule()
+            updateBlockedSections()
+            Log.d(TAG, "Message Notification Body: " + remoteMessage.notification!!.body!!)
         }
     }
 
@@ -64,6 +67,12 @@ class FCMMessagingService : FirebaseMessagingService() {
                         { })
     }
 
+    private fun updateBlockedSections() {
+        remote.fetchBlockedSections(getBlockedSectionsPayLoad())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ local.saveBlockedSections(it) }, { })
+    }
+
     private fun getLocationsPayLoad(): JsonObject {
         val json = JsonObject()
         json.addProperty("query", locationQuery())
@@ -75,6 +84,13 @@ class FCMMessagingService : FirebaseMessagingService() {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val json = JsonObject()
         json.addProperty("query", query(UserModel().getUser(sharedPref).id ?: ""))
+        json.addProperty("value", "")
+        return json
+    }
+
+    private fun getBlockedSectionsPayLoad(): JsonObject {
+        val json = JsonObject()
+        json.addProperty("query", blockedSectionsQuery())
         json.addProperty("value", "")
         return json
     }

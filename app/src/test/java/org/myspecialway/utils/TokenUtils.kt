@@ -20,6 +20,7 @@ fun createFakeToken(isExpired: Boolean) : Token {
             "role",
             "firstname",
             "lastname",
+            "gender",
             iat = if (isExpired) nowSec - TWO_HOURS_SEC else nowSec,
             exp = if (isExpired) nowSec else nowSec + TWO_HOURS_SEC)
     val token = tokenParser.createJWTToken(fakeTokenHeader, fakeTokenPayload)

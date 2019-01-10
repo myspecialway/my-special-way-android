@@ -43,12 +43,29 @@ data class Schedule(
         @Embedded val location: Location? = null)
 
 @Entity
+@Parcelize
 data class Location(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "location_id") @NonNull val id: Int,
                     @SerializedName("location_id") val locationId: String? = null,
                     val name: String? = null,
                     val disabled: Boolean? = null,
-                    var pinned: Boolean = false
+                    var pinned: Boolean = false,
+                    @Embedded var  position: Position? = null,
+                    @SerializedName("icon") var locationIcon: String? = null,
+                    var type: String? = null
+) : Parcelable
+
+
+@Entity
+data class BlockedSection(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "_id") @NonNull val id: Int,
+                          val reason: String? = null,
+                          val from: String? = null,
+                          val to: String? = null
 )
+
+@Entity()
+@Parcelize
+data class Position(
+        @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "floor") @NonNull val floor: Int)  : Parcelable
 
 @Entity()
 data class Lesson(
@@ -75,6 +92,10 @@ data class ReminderTime(
 data class LocationData(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "loc_data_id") @NonNull val id: Int,
                         @SerializedName("locations") val locations: List<Location>)
 
+@Entity()
+data class BlockedSectionsData(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "block_sec_model_id") @NonNull val id: Int,
+                        @SerializedName("blockedSections") val blockedSections: List<BlockedSection>)
+
 @Entity
 data class LocationModel(
         @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "loc_model_id") @NonNull val id: Int,
@@ -90,6 +111,10 @@ data class NonActiveTimes(
         val isAllDayEvent: Boolean = false,
         val isAllClassesEvent: Boolean = false)
 
+@Entity
+data class BlockedSectionsModel(
+        @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "block_sec_model_id") @NonNull val id: Int,
+        val data: BlockedSectionsData)
 
 // UI Models
 @Parcelize
@@ -100,7 +125,7 @@ data class ScheduleRenderModel(var index: String? = null,
                                var time: Time? = null,
                                var isNow: Boolean = false,
                                var isLast: Boolean = false,
-                               var unityDest: String = "") : Parcelable, ViewType {
+                               var unityDest: Location? =null) : Parcelable, ViewType {
 
     override fun getViewType(): Int = AgendaTypes.ITEM_TYPE
 }
@@ -150,6 +175,9 @@ object AgendaTypes {
     const val SINGLE_IMAGE = 1
 }
 
+enum class DestinationType {
+    MEDICINE, TOILET, REGULAR;
+}
 
 fun mapScheduleRenderModel(schedule: Schedule) = ScheduleRenderModel()
         .apply {
@@ -158,7 +186,7 @@ fun mapScheduleRenderModel(schedule: Schedule) = ScheduleRenderModel()
             index = schedule.index
             title = schedule.lesson.title
             this.hours = schedule.hours
-            unityDest = schedule.location?.locationId ?: "C1"
+            unityDest = schedule.location
             image = schedule.lesson.icon
             time = schedule.index.let { AgendaIndex.convertTimeFromIndex(it, display) }
             isNow = currentTime.after(time?.date) && currentTime.before(createHour(hour(display), min(display)))
