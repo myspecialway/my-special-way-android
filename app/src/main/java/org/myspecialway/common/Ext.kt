@@ -1,10 +1,17 @@
 package org.myspecialway.common
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.os.Environment
 import android.preference.PreferenceManager
 import android.support.annotation.LayoutRes
+import android.support.v4.app.ActivityCompat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,11 +21,15 @@ import android.widget.Button
 import android.widget.ImageView
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
+import com.squareup.picasso.Target
 import io.reactivex.Flowable
 import org.myspecialway.ui.agenda.*
 import org.myspecialway.R
 import org.myspecialway.ui.alarms.AlarmJob
 import org.myspecialway.ui.login.LoginActivity
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.util.*
 
 const val TAG = "Ext"
@@ -41,6 +52,16 @@ fun ImageView.load(url: String) =
                 .load(url)
                 .error(R.drawable.reading)
                 .into(this)
+
+fun Context.downloadImage(url: Int, imageName: String) =
+        Picasso.with(this.applicationContext)
+                .load(url)
+                .into(saveImageToFile(this.applicationContext, imageName))
+
+fun Context.downloadImage(url: String, imageName: String) =
+        Picasso.with(this.applicationContext)
+                .load(url)
+                .into(saveImageToFile(this.applicationContext, imageName))
 
 
 fun <T> Flowable<T>.filterAtError(): Flowable<T> = materialize()
@@ -167,4 +188,47 @@ private fun getReminderTime(reminderHourStr: String): Long {
         return -1
     }
     return -1
+}
+
+private fun saveImageToFile(context: Context, imageName: String): Target {
+
+    val target = object : Target {
+        override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+
+        }
+
+        override fun onBitmapFailed(errorDrawable: Drawable?) {
+            Log.d(TAG, "onBitmapFailed " + errorDrawable.toString());
+        }
+
+        override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+                Runnable {
+                    val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "mySpecialWay")
+
+                    if (!file.exists()) {
+                        file.mkdir();
+                    }
+                    val imageFile = File(file, imageName)
+
+                    try {
+
+                        if (!imageFile.exists()) {
+                            imageFile.createNewFile();
+                        }
+
+                        val ostream = FileOutputStream(imageFile);
+                        bitmap?.compress(Bitmap.CompressFormat.PNG, 80, ostream);
+                        ostream.flush();
+                        ostream.close();
+                    } catch (e: IOException) {
+                        Log.d(TAG, e.getLocalizedMessage());
+                    }
+                }.run()
+            }
+        }
+    }
+    return target
 }

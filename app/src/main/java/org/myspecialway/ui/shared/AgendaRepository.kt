@@ -12,6 +12,7 @@ import org.myspecialway.ui.login.UserModel
 interface AgendaRepository {
     fun getSchedule(): Flowable<ScheduleModel>
     fun getLocations(): Flowable<LocationModel>
+    fun getBlockedSections(): Flowable<BlockedSectionsModel>
     fun saveLocations(locations: List<Location>)
 }
 
@@ -48,6 +49,10 @@ class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
             .firstOrError()
             .toFlowable()
 
+    override fun getBlockedSections(): Flowable<BlockedSectionsModel> = Flowable.concatArrayEager(localBlockedSections(), remoteBlockedSections())
+            .firstOrError()
+            .toFlowable()
+
 
     private fun remoteLocations() =
             remoteDataSource
@@ -56,13 +61,31 @@ class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
             .filterAtError()
             .doOnNext { localDataSource.saveLocations(it) }
 
+    private fun remoteBlockedSections() =
+            remoteDataSource
+                    .fetchBlockedSections(getBlockedSectionsPayLoad())
+                    .toFlowable()
+                    .filterAtError()
+                    .doOnNext { localDataSource.saveBlockedSections(it) }
+
     private fun localLocations() = localDataSource.loadLocations()
+            .toFlowable()
+            .filterAtError()
+
+    private fun localBlockedSections() = localDataSource.loadBlockedSections()
             .toFlowable()
             .filterAtError()
 
     private fun getLocationsPayLoad(): JsonObject {
         val json = JsonObject()
         json.addProperty("query", locationQuery())
+        json.addProperty("value", "")
+        return json
+    }
+
+    private fun getBlockedSectionsPayLoad(): JsonObject {
+        val json = JsonObject()
+        json.addProperty("query", blockedSectionsQuery())
         json.addProperty("value", "")
         return json
     }

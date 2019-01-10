@@ -26,6 +26,7 @@ data class UserModel(
         var username: String? = null,
         var photo: String? = null,
         var role: String? = null,
+        var gender: String? = null,
         var authData: LoginAuthData? = null) {
 
     fun storeUserModel(sp: SharedPreferences, userModel: UserModel) =
@@ -52,6 +53,7 @@ data class UserModel(
         this.authData = authData
         this.firstName = parsed.firstname
         this.lastName = parsed.lastname
+        this.gender = parsed.gender
     }
 }
 

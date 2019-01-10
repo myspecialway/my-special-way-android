@@ -1,4 +1,4 @@
-<PreferenceScreen
+<android.support.v7.preference.PreferenceScreen
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
@@ -16,17 +16,17 @@
         app:title="">
 
         <SwitchPreferenceCompat
-            app:key="alerts"
-            app:title="@string/settings_alerts"/>
+            app:key="@string/settings_alerts_key"
+            app:title="@string/settings_alerts_title"/>
 
         <SwitchPreferenceCompat
-            app:key="sounds"
-            app:title="@string/settings_sounds"/>
+            app:key="@string/settings_sound_key"
+            app:title="@string/settings_sound_title"/>
 
         <Preference
-            app:key="logout"
-            app:title="@string/settings_logout"/>
+            app:key="@string/settings_logout_key"
+            app:title="@string/settings_logout_title"/>
 
     </PreferenceCategory>
 
-</PreferenceScreen>
+</android.support.v7.preference.PreferenceScreen>

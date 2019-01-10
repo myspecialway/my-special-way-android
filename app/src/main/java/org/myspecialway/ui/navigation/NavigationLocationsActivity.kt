@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.view.MenuItem
 import android.view.View
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_navigation_locations.*
-import kotlinx.android.synthetic.main.agenda_last_item.*
 import org.myspecialway.R
 import org.myspecialway.common.Navigation
+import org.myspecialway.ui.agenda.DestinationType
 import org.myspecialway.ui.agenda.Location
 import org.myspecialway.ui.agenda.LocationConverter
 
@@ -113,7 +113,7 @@ class NavigationLocationsActivity : AppCompatActivity() {
     fun onClick(location: Location) {
         when (state) {
             State.BASIC -> {
-                Navigation.toUnityNavigation(this, location.locationId!!)
+                Navigation.toUnityNavigation(this, Gson().toJson(location), location.locationIcon, DestinationType.REGULAR)
             }
 
             State.PINNING, State.UNPINNING -> {
