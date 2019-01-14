@@ -107,8 +107,8 @@
             android:background="@drawable/round_button_shape" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="center_vertical|start"
             android:src="@drawable/toilet"
             android:paddingStart="20dp" />
@@ -116,11 +116,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="@string/wc_text"
-            android:textColor="#0f3048"
-            android:textSize="18sp"
             android:textAlignment="center"
-            android:layout_gravity="center"/>
+            android:textColor="#0f3048"
+            android:textSize="18sp" />
 
     </FrameLayout>
 
@@ -148,8 +148,7 @@
             android:id="@+id/location_image"
             android:layout_width="55dp"
             android:layout_height="46dp"
-            tools:background="@drawable/reading"
-            android:background="@drawable/reading"/>
+            tools:background="@drawable/reading"/>
 
         <TextView
             android:id="@+id/scheduleName"

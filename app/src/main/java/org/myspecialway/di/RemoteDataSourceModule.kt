@@ -12,8 +12,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RemoteProperties {
-    const val BASE_URL = "http://mswppr.tel-aviv.gov.il"
-    const val BASE_URL_IMAGES = "http://mswppr.tel-aviv.gov.il/assets/MSW%20Symbols/"
+    const val BASE_URL = "https://mswppr.tel-aviv.gov.il/api/"
+    const val BASE_URL_IMAGES = "https://mswppr.tel-aviv.gov.il/assets/MSW_Symbols/"
 }
 
 val remoteDataSourceModel = module {

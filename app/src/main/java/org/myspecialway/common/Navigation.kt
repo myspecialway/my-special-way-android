@@ -63,7 +63,7 @@ object Navigation {
             val defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
             val intent = Intent()
-            intent.component = ComponentName("org.mtspecialway.navigation", "com.unity3d.player.UnityPlayerActivity")
+            intent.component = ComponentName("org.myspecialway.navigation", "com.unity3d.player.UnityPlayerActivity")
 
             val locations = Gson().toJson(navLocations)
             val blocked = Gson().toJson(naBlockedEdges)
