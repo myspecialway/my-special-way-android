@@ -22,12 +22,9 @@ class LoginActivity : BaseActivity() {
 
     private val loadingDialog by lazy { createLoadingDialog() }
 
-    private val STORAGE_PERMISSIONS = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_layout)
-        requestPermissionToWriteToExternalStorage()
 
         viewModel.checkIfLoggedIn()
         render()
@@ -102,12 +99,8 @@ class LoginActivity : BaseActivity() {
         }
     }
 
-    fun requestPermissionToWriteToExternalStorage() {
-        val permissionExternalMemory = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-
-        if (permissionExternalMemory != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, STORAGE_PERMISSIONS, 1)
-        }
+    override fun onStop() {
+        super.onStop()
+        viewModel.loginState.removeObservers(this)
     }
-
 }

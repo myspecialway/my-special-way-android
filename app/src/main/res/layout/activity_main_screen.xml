@@ -107,10 +107,10 @@
             android:background="@drawable/round_button_shape" />
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_gravity="center_vertical|start"
-            android:src="@drawable/toilet"
+            android:src="@drawable/toilet_main"
             android:paddingStart="20dp" />
 
         <TextView

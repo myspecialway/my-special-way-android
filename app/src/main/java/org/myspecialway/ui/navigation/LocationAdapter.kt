@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.location_item.view.*
 import org.myspecialway.R
 import org.myspecialway.common.inflate
+import org.myspecialway.common.load
+import org.myspecialway.di.RemoteProperties
 import org.myspecialway.ui.agenda.Location
 
 class LocationAdapter(val locations: List<Location>, val selectedLocations: List<Location>, val clickListener: (Location) -> Unit, val longClickListener: (Location) -> Boolean) :
@@ -29,7 +31,8 @@ class LocationAdapter(val locations: List<Location>, val selectedLocations: List
 class LocationViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(location: Location, selectedLocations: List<Location>, clickListener: (Location) -> Unit, longClickListener: (Location) -> Boolean) {
         itemView.location_text.text = location.name
-        itemView.location_image.setImageResource(R.drawable.gohome)//(location.image);
+
+        itemView.location_image.load("${RemoteProperties.BASE_URL_IMAGES}${location.locationIcon}", R.drawable.gohome)
         itemView.setOnClickListener { clickListener(location) }
         itemView.setOnLongClickListener { longClickListener(location) }
 

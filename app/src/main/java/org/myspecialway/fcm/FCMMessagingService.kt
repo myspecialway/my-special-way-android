@@ -41,7 +41,7 @@ class FCMMessagingService : FirebaseMessagingService() {
             updateLocations()
             updateSchedule()
             updateBlockedSections()
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.notification!!.body!!)
+            Log.d(TAG, "Message Notification Body: " + remoteMessage.notification?.body!!)
         }
     }
 

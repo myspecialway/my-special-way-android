@@ -36,26 +36,24 @@ object Navigation {
     fun toUnityNavigation(context: Context, dest: String, imageName : String?, destination: DestinationType) {
 
         var destinationType = ""
-        var iconName = ""
-
-        iconName = imageName?.trim()?.replace("\\s+", "_") + ".png"
-
+        var imageUrl : String? = null
 
         when(destination){
             DestinationType.REGULAR->{
                 destinationType = "regular"
-                val url = "${RemoteProperties.BASE_URL_IMAGES}${imageName}"
-                context.downloadImage(url, iconName)
+
+                if(!imageName.isNullOrEmpty()){
+                    val iconName = imageName?.replace(".png","")
+                    imageUrl = "${RemoteProperties.BASE_URL_IMAGES}${iconName}.png"
+                }
             }
 
             DestinationType.TOILET->{
                 destinationType = "special"
-                context.downloadImage(R.drawable.toilet, iconName)
             }
 
             DestinationType.MEDICINE->{
                 destinationType = "special"
-                context.downloadImage(R.drawable.medicine, iconName)
             }
         }
 
@@ -75,8 +73,8 @@ object Navigation {
             intent.putExtra("allNodes", locations)
             intent.putExtra("blockedEdges", blocked)
             intent.putExtra("sound", sound)
-            intent.putExtra("gender", gender)
-            intent.putExtra("iconName", iconName)
+            intent.putExtra("gender", gender?.toUpperCase())
+            intent.putExtra("iconUrl", imageUrl)
 
             context.startActivity(intent)
         } catch (e: Exception) {
