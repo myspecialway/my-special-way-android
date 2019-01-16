@@ -1,5 +1,7 @@
 package org.myspecialway.ui.alarms
 
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobManager
 import com.evernote.android.job.JobRequest
@@ -16,23 +18,35 @@ import java.util.*
 
 private const val TAG = "AlarmJob"
 
-class AlarmJob : Job() {
+class AlarmJob() : Job() {
+
+
+    private val ALERTS_KEY = "alerts"
+    private val SOUND_KEY = "sound"
 
     override fun onRunJob(params: Params): Result {
         val current = getBundle(params, ALARM_CURRENT)
         val previous = getBundle(params, ALARM_PREVIOUS)
         val reminderType = ReminderType.byName(params.extras.getString(REMINDER_TYPE, ReminderType.SCHEDULE.name))
         val notificationTime = params.extras.getLong(NOTIFICATION_TIME, 0L)
+        val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val alerts = sp.getBoolean(ALERTS_KEY, true)
+        val sounds = sp.getBoolean(SOUND_KEY, true)
 
         if (System.currentTimeMillis() - notificationTime > NotificationActivity.FIFTEEN_MINUTE){
             Logger.d(TAG, "too old notification. will not show to user. target time: " + Date(notificationTime) + ", " + reminderType)
             return Result.SUCCESS
         }
 
+        if (!alerts) {
+            Logger.d(TAG, "settings.alerts is turned off. do not show notification of type " + reminderType)
+            return Result.SUCCESS
+        }
+
         if (reminderType == ReminderType.MEDICINE) {
-            Navigation.toMedicineReminderActivity(context)
+            Navigation.toMedicineReminderActivity(context, sounds)
         } else {
-            Navigation.toNotificationActivity(context, current, previous, reminderType)
+            Navigation.toNotificationActivity(context, current, previous, reminderType, sounds)
         }
 
         return Result.SUCCESS

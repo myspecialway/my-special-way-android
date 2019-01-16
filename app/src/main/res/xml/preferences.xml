@@ -17,11 +17,13 @@
 
         <SwitchPreferenceCompat
             app:key="@string/settings_alerts_key"
-            app:title="@string/settings_alerts_title"/>
+            app:title="@string/settings_alerts_title"
+            app:defaultValue="true"/>
 
         <SwitchPreferenceCompat
             app:key="@string/settings_sound_key"
-            app:title="@string/settings_sound_title"/>
+            app:title="@string/settings_sound_title"
+            app:defaultValue="true"/>
 
         <Preference
             app:key="@string/settings_logout_key"

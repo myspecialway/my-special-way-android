@@ -102,7 +102,7 @@ object Navigation {
         activity.finish()
     }
 
-    fun toNotificationActivity(context: Context, current: ScheduleRenderModel?, previous: ScheduleRenderModel?, reminderType: ReminderType) {
+    fun toNotificationActivity(context: Context, current: ScheduleRenderModel?, previous: ScheduleRenderModel?, reminderType: ReminderType, soundNotifications: Boolean) {
         val intent = Intent(context, NotificationActivity::class.java)
         val scheduleTitle = when (reminderType) {
             ReminderType.MEDICINE -> context.getString(R.string.time_for_medicine)
@@ -114,16 +114,18 @@ object Navigation {
         intent.putExtra(NotificationActivity.SCHEDULE_CURRENT_KEY, current)
         intent.putExtra(NotificationActivity.SCHEDULE_PREVIOUS_KEY, previous)
         intent.putExtra(NotificationActivity.REMINDER_TYPE_KEY, reminderType.name)
+        intent.putExtra(NotificationActivity.SOUND_NOTIFICATIONS, soundNotifications)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(intent)
     }
 
-    fun toMedicineReminderActivity(context: Context) {
+    fun toMedicineReminderActivity(context: Context, soundNotifications: Boolean) {
         val intent = Intent(context, MedicineReminderActivity::class.java)
         val scheduleTitle = context.getString(R.string.time_for_medicine)
 
         intent.putExtra(MedicineReminderActivity.NOTIFICATION_TITLE, scheduleTitle)
         intent.putExtra(MedicineReminderActivity.REMINDER_TYPE_KEY, ReminderType.MEDICINE.name)
+        intent.putExtra(MedicineReminderActivity.SOUND_NOTIFICATIONS, soundNotifications)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(intent)
     }

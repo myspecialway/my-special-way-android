@@ -33,7 +33,7 @@
     <string name="settings_sound_key">sound</string>
     <string name="settings_logout_key">logout</string>
     <string name="settings_alerts_title">התראות</string>
-    <string name="settings_sound_title">סאונד</string>
+    <string name="settings_sound_title">הנחיות קוליות</string>
     <string name="settings_logout_title">יציאה מהמערכת</string>
     <string name="settings_alerts_summary">הדלק או כבה את ההתראות</string>
     <string name="settings_sound_summary">הדלק או כבה את הניווט הקולי</string>

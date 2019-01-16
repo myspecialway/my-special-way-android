@@ -58,6 +58,8 @@ class NotificationActivity : Activity() {
         val current = intent.getParcelableExtra<ScheduleRenderModel?>(SCHEDULE_CURRENT_KEY)
         val previous = intent.getParcelableExtra<ScheduleRenderModel?>(SCHEDULE_PREVIOUS_KEY)
         val reminderType = ReminderType.byName(intent.getStringExtra(REMINDER_TYPE_KEY))
+        val playSoundNotifications =  intent.getBooleanExtra(SOUND_NOTIFICATIONS, false)
+
 
         setMaxAlarmExpDate()
         finishOldAlarmIfNeeded(current)
@@ -90,7 +92,7 @@ class NotificationActivity : Activity() {
         }
 
         val launchedFromHistory = intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY != 0
-        if (soundRes != 0 && !launchedFromHistory) SoundNotifications.playSoundNotification(this, soundRes)
+        if (playSoundNotifications && soundRes != 0 && !launchedFromHistory) SoundNotifications.playSoundNotification(this, soundRes)
 
 
         navigationButton.setOnClickListener {
@@ -154,5 +156,6 @@ class NotificationActivity : Activity() {
         const val SCHEDULE_PREVIOUS_KEY = "schedule_previous_key"
         const val REMINDER_TYPE_KEY = "reminder_type_key"
         const val NOTIFICATION_TITLE = "notification_title"
+        const val SOUND_NOTIFICATIONS = "sound_notifications"
     }
 }

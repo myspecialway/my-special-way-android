@@ -58,6 +58,7 @@ class MedicineReminderActivity : Activity() {
     private fun initReminderNotification() {
         val notificationTitle = intent.getStringExtra(NOTIFICATION_TITLE)
         val reminderType = ReminderType.byName(intent.getStringExtra(REMINDER_TYPE_KEY))
+        val playSoundNotifications =  intent.getBooleanExtra(SOUND_NOTIFICATIONS, false)
 
         var soundRes: Int = 0
         when (reminderType) {
@@ -70,7 +71,7 @@ class MedicineReminderActivity : Activity() {
         }
 
         val launchedFromHistory = intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY != 0
-        if (soundRes != 0 && !launchedFromHistory) SoundNotifications.playSoundNotification(  this, soundRes)
+        if (playSoundNotifications && soundRes != 0 && !launchedFromHistory) SoundNotifications.playSoundNotification(  this, soundRes)
 
 
         setMaxAlarmExpDate()
@@ -88,5 +89,6 @@ class MedicineReminderActivity : Activity() {
         const val FIFTEEN_MINUTE: Long = 60000 * 15 // 15 min
         const val REMINDER_TYPE_KEY = "reminder_type_key"
         const val NOTIFICATION_TITLE = "notification_title"
+        const val SOUND_NOTIFICATIONS = "sound_notifications"
     }
 }
