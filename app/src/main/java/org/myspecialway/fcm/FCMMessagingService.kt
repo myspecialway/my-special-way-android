@@ -1,5 +1,6 @@
 package org.myspecialway.fcm
 
+import android.content.Intent
 import android.preference.PreferenceManager
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -12,6 +13,7 @@ import org.myspecialway.data.remote.RemoteDataSource
 import org.myspecialway.ui.agenda.blockedSectionsQuery
 import org.myspecialway.ui.agenda.locationQuery
 import org.myspecialway.ui.agenda.query
+import org.myspecialway.ui.alarms.AlarmsReceiver
 import org.myspecialway.ui.login.UserModel
 
 
@@ -41,8 +43,13 @@ class FCMMessagingService : FirebaseMessagingService() {
             updateLocations()
             updateSchedule()
             updateBlockedSections()
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.notification?.body!!)
+            resetAlarm()
         }
+    }
+
+    private fun resetAlarm() {
+        val intent = Intent(AlarmsReceiver.INTERNAL_ALARM_ACTION, null, applicationContext, AlarmsReceiver::class.java)
+        sendBroadcast(intent)
     }
 
     private fun updateSchedule() {
