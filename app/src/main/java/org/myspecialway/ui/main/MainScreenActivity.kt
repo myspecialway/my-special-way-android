@@ -80,11 +80,7 @@ class MainScreenActivity : BaseActivity() {
 
         val sixAmTimeInMillis = AlarmsReceiver.getHourOfDay(6).timeInMillis
 
-        // launch alarms NOW for the first time only if 6AM has  not arrived yet.
-        // Otherwise, setRepeating will trigger the alarm now anyhow.
-//        val now = Calendar.getInstance().time
-//        am.set(AlarmManager.RTC_WAKEUP, now.time, alarmIntent)
-
+        // launch alarms NOW for the first time
         // send directly to the broadcast receiver, without alarm
         sendBroadcast(intent)
 
@@ -145,15 +141,8 @@ class MainScreenActivity : BaseActivity() {
                 is AgendaState.BlockedSectionsState -> blockedSectionsSubject.onNext(state.list)
 //                is AgendaState.Progress -> progress.visibility = state.progress
                 is AgendaState.Failure -> handleError(state.throwable)
-//                is AgendaState.RemindersState -> handleReminders(state?.reminders)
             }
         })
-    }
-
-    private fun handleReminders(reminders: List<Reminder>?) {
-        Logger.d(TAG, "Handling reminders " + reminders)
-
-        // nothing to do here as reminder are handled together with schedules
     }
 
     private fun handleError(throwable: Throwable) {

@@ -1,17 +1,11 @@
 package org.myspecialway.common
 
-import android.Manifest
 import android.app.Activity
+import android.arch.persistence.room.Room
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
-import android.os.Environment
 import android.preference.PreferenceManager
 import android.support.annotation.LayoutRes
-import android.support.v4.app.ActivityCompat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,15 +15,14 @@ import android.widget.Button
 import android.widget.ImageView
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
 import io.reactivex.Flowable
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.myspecialway.ui.agenda.*
 import org.myspecialway.R
+import org.myspecialway.data.local.Database
 import org.myspecialway.ui.alarms.AlarmJob
 import org.myspecialway.ui.login.LoginActivity
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 import java.util.*
 
 const val TAG = "Ext"
@@ -75,11 +68,21 @@ fun Context.logout() {
     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
     sharedPreferences.edit().clear().apply()
     AlarmJob.cancelAllJobs() // to avoid more notifications.
-    //TODO: delete all from local storage
+
+    clearAllTables()
+
     // clear sp, navigate login page with clear top flag
     val intent = Intent(this, LoginActivity::class.java)
     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
     this.startActivity(intent)
+}
+
+private fun Context.clearAllTables() {
+    //do it not on the main thread (use launch of Coroutine)
+    GlobalScope.launch{
+        val database = Room.databaseBuilder(applicationContext, Database::class.java, "database").build()
+        database.clearAllTables()
+    }
 }
 
 fun Int.dpToPixels(context: Context) = (this * context.resources.displayMetrics.density + 0.5f).toInt()
