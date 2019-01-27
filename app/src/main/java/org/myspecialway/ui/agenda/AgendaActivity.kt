@@ -25,7 +25,7 @@ class AgendaActivity : BaseActivity() {
         initToolbar()
         initList()
         render()
-        viewModel.getDailySchedule()
+
     }
 
     private fun initList() {
@@ -37,6 +37,11 @@ class AgendaActivity : BaseActivity() {
     private fun initToolbar() {
         setSupportActionBar(toolbar)
         backImage.setOnClickListener{finish()}
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getDailySchedule()
     }
 
     override fun render() =

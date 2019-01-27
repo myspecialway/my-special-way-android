@@ -44,10 +44,12 @@
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/settings_title"
+            android:theme="@style/FullScreen"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.inactive.InactiveScreenActivity"
             android:label="@string/inactive_screen"
+            android:theme="@style/FullScreen"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.notifications.NotificationActivity"
@@ -62,7 +64,8 @@
             android:theme="@style/Theme.AppCompat.Dialog.Alert"
             />
 
-        <activity android:name="org.myspecialway.ui.navigation.NavigationPasswordActivity" />
+        <activity android:name="org.myspecialway.ui.navigation.NavigationPasswordActivity"
+            android:theme="@style/FullScreen"/>
 
         <activity
             android:name="org.myspecialway.ui.navigation.NavigationLocationsActivity"

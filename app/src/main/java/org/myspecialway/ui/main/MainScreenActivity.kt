@@ -62,11 +62,16 @@ class MainScreenActivity : BaseActivity() {
             startActivity(intent)
         }
 
-        viewModel.getDailySchedule()
+
         viewModel.getLocations()
         settingsRepository.fetchSettings()
         viewModel.getBlockedSections()
         clickListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getDailySchedule()
     }
 
     /**
