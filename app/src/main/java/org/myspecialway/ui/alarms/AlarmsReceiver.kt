@@ -12,6 +12,7 @@ import org.myspecialway.common.getRemainingAlarmsForToday
 import org.myspecialway.common.getRemindersForToday
 import org.myspecialway.data.local.Database
 import org.myspecialway.ui.agenda.*
+import org.myspecialway.ui.shared.ImagesUtils
 import org.myspecialway.utils.Logger
 import java.util.*
 
@@ -46,6 +47,8 @@ class AlarmsReceiver : BroadcastReceiver() {
                     val render = scheduleList
                             .filter { !it.hours.isNullOrEmpty() }
                             .map { mapScheduleRenderModel(it) }
+
+                    ImagesUtils.prefetchImages(render)
 
                     val remainingAlarms = render.toMutableList()
                             .getRemainingAlarmsForToday(nonActiveTimesRenderModel)

@@ -8,8 +8,10 @@ import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito.mock
+import org.mockito.ArgumentMatchers
+import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
+import org.mockito.internal.verification.Times
 
 class NotificationAlarmManagerTest {
 
@@ -43,6 +45,7 @@ class NotificationAlarmManagerTest {
 
         // Assert
         assertThat(alarmsQueue, IsEmptyCollection.empty())
+        verify<AlarmManager?>(alarmManager, Times(4))?.cancel(ArgumentMatchers.eq(pendingIntent))
     }
 
 

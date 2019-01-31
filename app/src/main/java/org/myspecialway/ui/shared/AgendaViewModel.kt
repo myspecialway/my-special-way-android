@@ -11,6 +11,7 @@ import org.myspecialway.ui.agenda.AgendaState
 import org.myspecialway.ui.agenda.ScheduleRenderModel
 import org.myspecialway.ui.agenda.Time
 import org.myspecialway.ui.agenda.mapScheduleRenderModel
+import org.myspecialway.ui.shared.ImagesUtils.Companion.prefetchImages
 import org.myspecialway.utils.Logger
 import java.util.*
 
@@ -28,10 +29,11 @@ class AgendaViewModel(val repository: AgendaRepository,
 //                .doOnNext { states.value = AgendaState.RemindersState(it.data.student.reminder) }
                 .map { it.data.student.schedule } // map the schedule list
                 .flatMapIterable { it } // iterate on each element
-                .filter {!it.hours.isNullOrEmpty()}
+                .filter { !it.hours.isNullOrEmpty() }
                 .map { mapScheduleRenderModel(it) } // map to render model
                 .toList()
                 .map { it.filterTodayList() }
+                .doAfterSuccess { list -> prefetchImages(list) }
                 .toFlowable()
                 .subscribeBy(
                         onNext = { subscribe(it.toMutableList()) },
@@ -42,8 +44,8 @@ class AgendaViewModel(val repository: AgendaRepository,
     private fun subscribe(today: MutableList<ScheduleRenderModel>) {
         selectCurrentSchedule(today)
 
-        if(today.isEmpty() || isAppInActive(today.get(0).time, today.get(today.size-1).time)){
-            Logger.d("AppInActive",if (today.isEmpty()) "No schedules for today, Showing APP inActive screen" else "Current time is not inside school hours. Showing APP inActive screen")
+        if (today.isEmpty() || isAppInActive(today.get(0).time, today.get(today.size - 1).time)) {
+            Logger.d("AppInActive", if (today.isEmpty()) "No schedules for today, Showing APP inActive screen" else "Current time is not inside school hours. Showing APP inActive screen")
             states.value = AgendaState.InActiveState("of time")
             return
         }
@@ -77,12 +79,12 @@ class AgendaViewModel(val repository: AgendaRepository,
                 .with(provider)
                 .map { it.data.blockedSections }
                 .subscribeBy(
-                        onNext = {  states.value = AgendaState.BlockedSectionsState(it)},
+                        onNext = { states.value = AgendaState.BlockedSectionsState(it) },
                         onError = { states.value = AgendaState.Failure(it) }
                 )
     }
 
-    fun isAppInActive(agendaStartTime:Time?, agendaEndTime:Time?) : Boolean{
+    fun isAppInActive(agendaStartTime: Time?, agendaEndTime: Time?): Boolean {
         val currentTime = Date(System.currentTimeMillis())
 
         return agendaStartTime?.date?.after(currentTime) ?: false || agendaEndTime?.date?.before(currentTime) ?: false
