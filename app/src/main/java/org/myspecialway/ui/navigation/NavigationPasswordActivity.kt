@@ -2,14 +2,14 @@ package org.myspecialway.ui.navigation
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import kotlinx.android.synthetic.main.activity_navigation_password_layout.*
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import kotlinx.android.synthetic.main.activity_navigation_password_layout.*
 import org.koin.android.ext.android.inject
 import org.myspecialway.R
 import org.myspecialway.common.Navigation
+import org.myspecialway.ui.login.showGeneralErrorDialog
 import org.myspecialway.ui.settings.SettingsRepository
 
 
@@ -30,14 +30,12 @@ class NavigationPasswordActivity : AppCompatActivity() {
             Navigation.toSettingsActivity(this, intent.getStringExtra(NavigationLocationsActivity.LOCATIONS_PAYLOAD_KEY))
             finish()
         } else {
-            val alertDialog = AlertDialog.Builder(this).create()
-            alertDialog.setMessage(".קוד שגוי. אנא נסה שנית")
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, resources.getString(R.string.button_okText)) { dialog, which ->
-                dialog.dismiss()
-                nav_password_edit_text.setText("")
+            showGeneralErrorDialog {
+                closeButtonClickListener {
+                    dialog?.dismiss()
+                    nav_password_edit_text.setText("")
+                }
             }
-            alertDialog.show()
-
         }
     }
 
@@ -45,8 +43,8 @@ class NavigationPasswordActivity : AppCompatActivity() {
         super.onResume()
         nav_password_edit_text.requestFocus()
         nav_password_edit_text.postDelayed({
-            val imm =  getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager;
-            imm.showSoftInput(nav_password_edit_text, InputMethodManager.SHOW_IMPLICIT);
+            val imm =  getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(nav_password_edit_text, InputMethodManager.SHOW_IMPLICIT)
         },100L)
     }
 }
