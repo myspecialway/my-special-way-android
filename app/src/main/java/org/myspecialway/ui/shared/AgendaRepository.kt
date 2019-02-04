@@ -11,6 +11,7 @@ import org.myspecialway.ui.login.UserModel
 
 interface AgendaRepository {
     fun getSchedule(): Flowable<ScheduleModel>
+    fun getScheduleFromRemote(): Flowable<ScheduleModel>?
     fun getLocations(): Flowable<LocationModel>
     fun getBlockedSections(): Flowable<BlockedSectionsModel>
     fun saveLocations(locations: List<Location>)
@@ -20,13 +21,13 @@ class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
                            private val localDataSource: LocalDataSource,
                            private val sp: SharedPreferences) : AgendaRepository {
     override fun getSchedule(): Flowable<ScheduleModel> =
-            Flowable.concatArrayEager(local(), remote())
+            Flowable.concatArrayEager(local(), getScheduleFromRemote())
                     .firstOrError()
                     .toFlowable()
 
     override fun saveLocations(locations: List<Location>) = localDataSource.saveLocations(locations)
 
-    private fun remote() = remoteDataSource.fetchSchedule(getSchedulePayLoad())
+    override fun getScheduleFromRemote() = remoteDataSource.fetchSchedule(getSchedulePayLoad())
             .toFlowable()
             .filterAtError()
             .doOnNext { localDataSource.saveAllSchedule(it) }
