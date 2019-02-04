@@ -80,14 +80,15 @@ class MainScreenActivity : BaseActivity() {
      */
     private fun activateAlarmOfAlarms(context: Context?) {
         val am: AlarmManager = getSystemService(android.content.Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(AlarmsReceiver.INTERNAL_ALARM_ACTION, null, context, AlarmsReceiver::class.java)
+        val intent = Intent(AlarmsReceiver.INTERNAL_DAILY_ALARM_ACTION, null, context, AlarmsReceiver::class.java)
         val alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
 
         val sixAmTimeInMillis = AlarmsReceiver.getHourOfDay(6).timeInMillis
 
         // launch alarms NOW for the first time
         // send directly to the broadcast receiver, without alarm
-        sendBroadcast(intent)
+        val oneTimeintent = Intent(AlarmsReceiver.INTERNAL_ALARM_ACTION, null, context, AlarmsReceiver::class.java)
+        sendBroadcast(oneTimeintent)
 
 
         // set repeating alarms for every day
