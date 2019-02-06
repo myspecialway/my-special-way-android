@@ -15,13 +15,15 @@ interface AgendaRepository {
     fun getLocations(): Flowable<LocationModel>
     fun getBlockedSections(): Flowable<BlockedSectionsModel>
     fun saveLocations(locations: List<Location>)
+    fun getRemoteLocations(): Flowable<LocationModel>?
+    fun getRemoteBlockedSections(): Flowable<BlockedSectionsModel>?
 }
 
 class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
                            private val localDataSource: LocalDataSource,
                            private val sp: SharedPreferences) : AgendaRepository {
     override fun getSchedule(): Flowable<ScheduleModel> =
-            Flowable.concatArrayEager(local(), getScheduleFromRemote())
+            Flowable.concatArrayEager(getScheduleLocally(), getScheduleFromRemote())
                     .firstOrError()
                     .toFlowable()
 
@@ -32,7 +34,7 @@ class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
             .filterAtError()
             .doOnNext { localDataSource.saveAllSchedule(it) }
 
-    private fun local() = localDataSource.loadSchedule()
+    private fun getScheduleLocally() = localDataSource.loadSchedule()
             .toFlowable()
             .filterAtError()
 
@@ -46,23 +48,23 @@ class AgendaRepositoryImpl(private val remoteDataSource: RemoteDataSource,
         return json
     }
 
-    override fun getLocations(): Flowable<LocationModel> = Flowable.concatArrayEager(localLocations(), remoteLocations())
+    override fun getLocations(): Flowable<LocationModel> = Flowable.concatArrayEager(localLocations(), getRemoteLocations())
             .firstOrError()
             .toFlowable()
 
-    override fun getBlockedSections(): Flowable<BlockedSectionsModel> = Flowable.concatArrayEager(localBlockedSections(), remoteBlockedSections())
+    override fun getBlockedSections(): Flowable<BlockedSectionsModel> = Flowable.concatArrayEager(localBlockedSections(), getRemoteBlockedSections())
             .firstOrError()
             .toFlowable()
 
 
-    private fun remoteLocations() =
+    override fun getRemoteLocations() =
             remoteDataSource
             .fetchLocations(getLocationsPayLoad())
             .toFlowable()
             .filterAtError()
             .doOnNext { localDataSource.saveLocations(it) }
 
-    private fun remoteBlockedSections() =
+    override fun getRemoteBlockedSections() =
             remoteDataSource
                     .fetchBlockedSections(getBlockedSectionsPayLoad())
                     .toFlowable()

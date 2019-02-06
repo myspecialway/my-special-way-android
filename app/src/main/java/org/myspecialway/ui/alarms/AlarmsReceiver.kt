@@ -14,6 +14,7 @@ import org.myspecialway.common.getRemainingAlarmsForToday
 import org.myspecialway.common.getRemindersForToday
 import org.myspecialway.data.local.Database
 import org.myspecialway.ui.agenda.*
+import org.myspecialway.ui.settings.SettingsRepository
 import org.myspecialway.ui.shared.AgendaRepository
 import org.myspecialway.ui.shared.ImagesUtils
 import org.myspecialway.utils.Logger
@@ -42,27 +43,50 @@ class AlarmsReceiver : BroadcastReceiver() {
         if (AlarmsReceiver.INTERNAL_DAILY_ALARM_ACTION == intent?.action?: "") {
 
             // on the daily alarm first fetch data from server, so temporary changes that are not pushed to client are updated.
-            Logger.d(TAG, "onReceive, fetch schedules from server before scheduling alarms")
-            fetchSchedulesFromServerBeforeschedulingLocally(context)
+            Logger.d(TAG, "onReceive, fetch schedules etc. from server before scheduling alarms")
+            fetchFromServerBeforeSchedulingLocally(context)
         } else {
             scheduleAlarmsForSchedulesAndReminders(context)
         }
     }
 
-    private fun fetchSchedulesFromServerBeforeschedulingLocally(context: Context?) {
+    @SuppressLint("CheckResult")
+    private fun fetchFromServerBeforeSchedulingLocally(context: Context?) {
         //instead of by inject, that is not possible in BroadcastReceiver
-        val repository = (StandAloneContext.koinContext as KoinContext).get<AgendaRepository>()
+        val agendaRepository = (StandAloneContext.koinContext as KoinContext).get<AgendaRepository>()
 
-        repository.getScheduleFromRemote()?.subscribeOn(Schedulers.io())
+        agendaRepository.getScheduleFromRemote()?.subscribeOn(Schedulers.io())
                 ?.observeOn(AndroidSchedulers.mainThread())?.subscribe({
+                    Logger.d(TAG, "fetchFromServerBeforeSchedulingLocally, fetched schedules from server.")
                     scheduleAlarmsForSchedulesAndReminders(context)
                 }, {
-                    Logger.d(TAG, "fetchSchedulesFromServerBeforeschedulingLocally, failed to fetch schedules from server. will use local copy. error: " + it)
+                    Logger.d(TAG, "fetchFromServerBeforeSchedulingLocally, failed to fetch schedules from server. will use local copy. error: " + it)
                     // error means we didn't get the schedules from server, anyhow we want to schedule alarms from local.
                     scheduleAlarmsForSchedulesAndReminders(context)
                 })
+
+        agendaRepository.getRemoteLocations()?.subscribeOn(Schedulers.io())?.subscribe({
+            Logger.d(TAG, "fetchFromServerBeforeSchedulingLocally, fetched locations from server.")
+        }, {
+            Logger.d(TAG, "fetchFromServerBeforeSchedulingLocally, failed to fetch locations from server. will use local copy. error: " + it)
+
+        })
+
+        agendaRepository.getRemoteBlockedSections()?.subscribeOn(Schedulers.io())?.subscribe({
+            Logger.d(TAG, "fetchFromServerBeforeSchedulingLocally, fetched blocked sections from server.")
+        }, {
+            Logger.d(TAG, "fetchFromServerBeforeSchedulingLocally, failed to fetch blocked sections from server. will use local copy. error: " + it)
+
+        })
+
+        //instead of by inject, that is not possible in BroadcastReceiver
+        val settingsRepository = (StandAloneContext.koinContext as KoinContext).get<SettingsRepository>()
+
+        settingsRepository.fetchSettings()
+
     }
 
+    @SuppressLint("CheckResult")
     private fun scheduleAlarmsForSchedulesAndReminders(context: Context?) {
         Logger.d(TAG, "scheduleAlarmsForSchedulesAndReminders, scheduling alarms for schedules and reminders")
         val list = getLocalSchedule(context)

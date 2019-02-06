@@ -4,6 +4,7 @@ import com.google.gson.JsonObject
 import io.reactivex.schedulers.Schedulers
 import org.myspecialway.data.remote.RemoteDataSource
 import org.myspecialway.ui.agenda.settingsQuery
+import org.myspecialway.utils.Logger
 
 
 interface SettingsRepository {
@@ -29,7 +30,7 @@ class SettingsRepositoryImpl(private val remoteDataSource: RemoteDataSource) : S
                         }
                         ,
                         {
-                            //TODO error handling it.message
+                            Logger.e("SettingsRepositoryImpl", "error fetching settings from server." , it)
                         })
 
 
