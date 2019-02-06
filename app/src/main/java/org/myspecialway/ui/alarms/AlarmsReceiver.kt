@@ -14,7 +14,10 @@ import org.myspecialway.common.getRemainingAlarmsForToday
 import org.myspecialway.common.getRemindersForToday
 import org.myspecialway.data.local.Database
 import org.myspecialway.ui.agenda.*
+<<<<<<< HEAD
 import org.myspecialway.ui.settings.SettingsRepository
+=======
+>>>>>>> master
 import org.myspecialway.ui.shared.AgendaRepository
 import org.myspecialway.ui.shared.ImagesUtils
 import org.myspecialway.utils.Logger
@@ -43,13 +46,19 @@ class AlarmsReceiver : BroadcastReceiver() {
         if (AlarmsReceiver.INTERNAL_DAILY_ALARM_ACTION == intent?.action?: "") {
 
             // on the daily alarm first fetch data from server, so temporary changes that are not pushed to client are updated.
+<<<<<<< HEAD
             Logger.d(TAG, "onReceive, fetch schedules etc. from server before scheduling alarms")
             fetchFromServerBeforeSchedulingLocally(context)
+=======
+            Logger.d(TAG, "onReceive, fetch schedules from server before scheduling alarms")
+            fetchSchedulesFromServerBeforeschedulingLocally(context)
+>>>>>>> master
         } else {
             scheduleAlarmsForSchedulesAndReminders(context)
         }
     }
 
+<<<<<<< HEAD
     @SuppressLint("CheckResult")
     private fun fetchFromServerBeforeSchedulingLocally(context: Context?) {
         //instead of by inject, that is not possible in BroadcastReceiver
@@ -87,6 +96,22 @@ class AlarmsReceiver : BroadcastReceiver() {
     }
 
     @SuppressLint("CheckResult")
+=======
+    private fun fetchSchedulesFromServerBeforeschedulingLocally(context: Context?) {
+        //instead of by inject, that is not possible in BroadcastReceiver
+        val repository = (StandAloneContext.koinContext as KoinContext).get<AgendaRepository>()
+
+        repository.getScheduleFromRemote()?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())?.subscribe({
+                    scheduleAlarmsForSchedulesAndReminders(context)
+                }, {
+                    Logger.d(TAG, "fetchSchedulesFromServerBeforeschedulingLocally, failed to fetch schedules from server. will use local copy. error: " + it)
+                    // error means we didn't get the schedules from server, anyhow we want to schedule alarms from local.
+                    scheduleAlarmsForSchedulesAndReminders(context)
+                })
+    }
+
+>>>>>>> master
     private fun scheduleAlarmsForSchedulesAndReminders(context: Context?) {
         Logger.d(TAG, "scheduleAlarmsForSchedulesAndReminders, scheduling alarms for schedules and reminders")
         val list = getLocalSchedule(context)

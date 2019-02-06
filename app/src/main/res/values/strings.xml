@@ -58,6 +58,9 @@
     <string name="schedule">סדר היום שלי</string>
     <string name="user_prefix_text">שלום</string>
     <string name="settings_navigation">ניווט יזום</string>
+    <string name="generalErrorDialog_cancelText">סגירה</string>
+    <string name="generalErrorDialog_text">אופס, ארעה תקלה</string>
     <string name="toilet">Toilet</string>
     <string name="medicine">medicine</string>
+    <string name="avatar">avatar</string>
 </resources>
