@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.KeyguardManager
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -23,9 +24,11 @@ import org.myspecialway.sounds.SoundNotifications
 import org.myspecialway.ui.agenda.DestinationType
 import org.myspecialway.ui.agenda.ReminderType
 import org.myspecialway.ui.agenda.ScheduleRenderModel
+import org.myspecialway.utils.Logger
+
+private const val TAG = "NotificationActivity"
 
 class NotificationActivity : Activity() {
-
     private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -136,6 +139,11 @@ class NotificationActivity : Activity() {
         if ((currentAlarm?.time?.date?.time) ?: Long.MAX_VALUE < fifteenAgo) {
             finish()
         }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        Logger.d(TAG, "onconfigurationChanged(" + newConfig)
     }
 
     override fun onDestroy() {

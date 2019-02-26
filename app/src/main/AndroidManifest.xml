@@ -56,16 +56,19 @@
             android:launchMode="singleInstance"
             android:label="@string/notifiaction_activity_title"
             android:theme="@style/Theme.AppCompat.Dialog.Alert"
+            android:configChanges="orientation"
             />
         <activity
             android:name=".ui.notifications.MedicineReminderActivity"
             android:launchMode="singleInstance"
             android:label="@string/medicine_reminder_activity_title"
             android:theme="@style/Theme.AppCompat.Dialog.Alert"
+            android:configChanges="orientation"
             />
 
         <activity android:name="org.myspecialway.ui.navigation.NavigationPasswordActivity"
-            android:theme="@style/FullScreen"/>
+            android:theme="@style/FullScreen"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name="org.myspecialway.ui.navigation.NavigationLocationsActivity"

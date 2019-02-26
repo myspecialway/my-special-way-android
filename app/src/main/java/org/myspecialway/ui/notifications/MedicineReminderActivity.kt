@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.KeyguardManager
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -13,6 +14,9 @@ import org.myspecialway.R
 import org.myspecialway.common.Navigation
 import org.myspecialway.sounds.SoundNotifications
 import org.myspecialway.ui.agenda.ReminderType
+import org.myspecialway.utils.Logger
+
+private const val TAG = "MedicineReminderActivity"
 
 class MedicineReminderActivity : Activity() {
 
@@ -84,6 +88,12 @@ class MedicineReminderActivity : Activity() {
             finish()
         }, FIFTEEN_MINUTE)
     }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        Logger.d(TAG, "onconfigurationChanged(" + newConfig)
+    }
+
 
     companion object {
         const val FIFTEEN_MINUTE: Long = 60000 * 15 // 15 min
